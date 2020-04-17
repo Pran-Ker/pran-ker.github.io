@@ -134,6 +134,15 @@ ul {
     padding-left: 0;
 }
 
+.ull li::before{
+    content: "\2022";
+    color: red;
+    font-weight: bold;
+    display: inline-block; 
+    width: 1em;
+    margin-left: -1em;
+}
+
 strong,
 small {
     color: #333;
