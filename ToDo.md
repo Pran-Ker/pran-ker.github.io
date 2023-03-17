@@ -1,21 +1,17 @@
 # TODO List
 
 ## Front End:
-- [x] Remade Icon with figma
-- [x] Updated images with Unsplash
-- [x] Updated text
+- [ ] Remade Icon with figma
+- [ ] Updated images with Dalle
+- [ ] Updated text
 
 ## Back End:
-- [ ] Change route links of the app 
-- [ ] Heroku account for app dev
-- [x] Create events in menu
-- [ ] Validation for Registeration
-- [ ] Create Salesforce JWT
+- [ ] Create log in from 
+- [x]  Twitter Feed
+- [ ]  Search
+- [ ]  Add medium blog
 
 
 # Others:
-- [x] Salesforce oauth is working on localhost<br>
-    -[ ] Trailblaze passing keys back
-- [x] Profile page changes
-- [x] Unity VR/AR setup
-- [ ] Build this (https://blog.unity.com/manufacturing/embedding-real-time-3d-in-your-digital-marketing-strategy)  
+- [ ] Buy domains
+- [ ] Set up a server for hosting
