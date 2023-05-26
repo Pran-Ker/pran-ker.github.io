@@ -545,6 +545,7 @@ a:not([href]):not([tabindex]) {
     margin: 10px
 }
 
+.owl-temp
 {
     width: 400px;
 }
@@ -556,7 +557,7 @@ a:not([href]):not([tabindex]) {
 .owl-item.active {
     visibility: visible;
 }
-
+.owl-404
 {
     position: fixed;
     top: 0;
