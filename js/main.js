@@ -169,3 +169,17 @@
 	});
 
 })(jQuery);
+
+const modeCheckbox = document.getElementById('mode-checkbox');
+const body = document.body;
+
+modeCheckbox.addEventListener('change', function() {
+    if (modeCheckbox.checked) {
+        body.classList.remove('light-mode');
+        body.classList.add('dark-mode');
+    } else {
+        body.classList.remove('dark-mode');
+        body.classList.add('light-mode');
+    }
+});
+
