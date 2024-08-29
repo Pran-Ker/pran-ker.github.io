@@ -1,0 +1,49 @@
+.jobs {
+  display: flex;
+  flex-direction: column;
+  max-width: 49ch;
+}
+
+.jobs .jobs__container {
+  display: flex;
+  flex-direction: column;
+  font-size: var(--font-size-small);
+  gap: calc(var(--line-height) * 2);
+  letter-spacing: normal;
+  margin-bottom: 3.7em;
+  margin-top: 3.7em;
+}
+
+.jobs .jobs__job {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6em;
+}
+
+.jobs .jobs__job h3 {
+  font-size: var(--font-size-xxx-large);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.jobs .jobs__job a.button {
+  margin-top: 0.35em;
+}
+
+.jobs .jobs__content {
+  margin-bottom: 3.7em;
+}
+
+.jobs .signup {
+  margin-bottom: 3.7em;
+}
+
+@media(min-width: 64em) and (hover: hover) and (pointer: fine) {
+
+  .jobs {
+    margin-left: 2.8ch;
+    margin-right: 2.8ch;
+    max-width: 39ch;
+  }
+
+}
