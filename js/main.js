@@ -1,20 +1,139 @@
 /**
  * Main JavaScript for Prannay Hebbar Portfolio
- * Modern, clean interactions and animations
+ * Matrix-style terminal aesthetic with ASCII streams
  */
 
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize all functionality
+    initMatrixBackground();
     initNavigation();
     initSmoothScrolling();
     initScrollAnimations();
     initFormHandling();
     initMobileMenu();
+    initNeonEffects();
     
-    console.log('Portfolio loaded successfully! 🚀');
+    console.log('Matrix Portfolio loaded successfully! 💚');
 });
+
+/**
+ * Clean ASCII character streams on sides only
+ */
+function initMatrixBackground() {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    
+    canvas.id = 'matrix-canvas';
+    canvas.style.position = 'fixed';
+    canvas.style.top = '0';
+    canvas.style.left = '0';
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    canvas.style.zIndex = '-1';
+    canvas.style.pointerEvents = 'none';
+    
+    document.body.appendChild(canvas);
+    
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+    
+    // ASCII characters
+    const matrixChars = '01ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*()_+-=[]{}|;:,.<>?~`';
+    const fontSize = 12;
+    const sideWidth = 150; // Width of each side area
+    const leftColumns = Math.floor(sideWidth / fontSize);
+    const rightColumns = Math.floor(sideWidth / fontSize);
+    const rightStartX = canvas.width - sideWidth;
+    
+    // Arrays to store drops for left and right sides
+    const leftDrops = [];
+    const rightDrops = [];
+    
+    // Initialize drops
+    for (let i = 0; i < leftColumns; i++) {
+        leftDrops[i] = Math.floor(Math.random() * canvas.height / fontSize);
+    }
+    for (let i = 0; i < rightColumns; i++) {
+        rightDrops[i] = Math.floor(Math.random() * canvas.height / fontSize);
+    }
+    
+    function drawMatrix() {
+        // Very subtle fade effect
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.02)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        ctx.font = `${fontSize}px -apple-system, BlinkMacSystemFont, 'Segoe UI'`;
+        
+        // Draw left side characters - very subtle
+        for (let i = 0; i < leftColumns; i++) {
+            const text = matrixChars[Math.floor(Math.random() * matrixChars.length)];
+            const x = i * fontSize;
+            const y = leftDrops[i] * fontSize;
+            
+            // Much more subtle opacity
+            ctx.fillStyle = `rgba(255, 255, 255, ${0.02 + Math.random() * 0.06})`;
+            ctx.fillText(text, x, y);
+            
+            // Slower, more elegant movement
+            if (y > canvas.height && Math.random() > 0.995) {
+                leftDrops[i] = 0;
+            }
+            leftDrops[i] += 0.3;
+        }
+        
+        // Draw right side characters - very subtle
+        for (let i = 0; i < rightColumns; i++) {
+            const text = matrixChars[Math.floor(Math.random() * matrixChars.length)];
+            const x = rightStartX + (i * fontSize);
+            const y = rightDrops[i] * fontSize;
+            
+            // Much more subtle opacity
+            ctx.fillStyle = `rgba(255, 255, 255, ${0.02 + Math.random() * 0.06})`;
+            ctx.fillText(text, x, y);
+            
+            // Slower, more elegant movement
+            if (y > canvas.height && Math.random() > 0.995) {
+                rightDrops[i] = 0;
+            }
+            rightDrops[i] += 0.3;
+        }
+    }
+    
+    // Start the animation with much slower, elegant speed
+    setInterval(drawMatrix, 150);
+}
+
+/**
+ * Initialize neon glow effects
+ */
+function initNeonEffects() {
+    // Add neon glow to specific text elements
+    const neonElements = document.querySelectorAll('.hero-title, .hero-subtitle, .section-title, .nav-logo');
+    
+    neonElements.forEach(el => {
+        el.classList.add('neon-text');
+    });
+    
+    // Add glow effects to buttons and links
+    const glowElements = document.querySelectorAll('.cta-button, .social-link, .nav-link');
+    
+    glowElements.forEach(el => {
+        el.addEventListener('mouseenter', function() {
+            this.classList.add('neon-glow');
+        });
+        
+        el.addEventListener('mouseleave', function() {
+            this.classList.remove('neon-glow');
+        });
+    });
+}
 
 /**
  * Navigation functionality
@@ -26,10 +145,10 @@ function initNavigation() {
     // Add scroll effect to navbar
     window.addEventListener('scroll', function() {
         if (window.scrollY > 100) {
-            navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-            navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+            navbar.style.background = 'rgba(0, 0, 0, 0.95)';
+            navbar.style.boxShadow = '0 2px 20px rgba(0, 255, 255, 0.3)';
         } else {
-            navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+            navbar.style.background = 'rgba(0, 0, 0, 0.8)';
             navbar.style.boxShadow = 'none';
         }
     });
@@ -354,4 +473,47 @@ window.addEventListener('load', function() {
     });
     
     images.forEach(img => imageObserver.observe(img));
+});
+
+/**
+ * Gallery filter functionality
+ */
+function initGalleryFilters() {
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    
+    if (!filterBtns.length || !galleryItems.length) return;
+    
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const filter = this.getAttribute('data-filter');
+            
+            // Update active button
+            filterBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Filter gallery items
+            galleryItems.forEach(item => {
+                const category = item.getAttribute('data-category');
+                
+                if (filter === 'all' || category === filter) {
+                    item.style.display = 'block';
+                    item.style.opacity = '0';
+                    setTimeout(() => {
+                        item.style.opacity = '1';
+                    }, 100);
+                } else {
+                    item.style.opacity = '0';
+                    setTimeout(() => {
+                        item.style.display = 'none';
+                    }, 300);
+                }
+            });
+        });
+    });
+}
+
+// Initialize gallery filters when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    initGalleryFilters();
 });

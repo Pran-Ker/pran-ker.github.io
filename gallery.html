@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Prannay Hebbar" />
+    <meta name="description" content="Gallery showcasing AI projects, visualizations, and research demonstrations by Prannay Hebbar" />
+    <meta name="keywords" content="Prannay, AI Gallery, ML Visualizations, Research Demos, Projects" />
+    <title>Gallery - Prannay Hebbar</title>
+    <link rel="icon" href="images/favicon.ico" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">Prannay Hebbar</a>
+            <div class="nav-menu">
+                <a href="index.html#about" class="nav-link">About</a>
+                <a href="index.html#experience" class="nav-link">Experience</a>
+                <a href="index.html#projects" class="nav-link">Projects</a>
+                <a href="index.html#publications" class="nav-link">Publications</a>
+                <a href="blogs.html" class="nav-link">Blogs</a>
+                <a href="gallery.html" class="nav-link">Gallery</a>
+                <a href="index.html#contact" class="nav-link">Contact</a>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <section class="hero" style="min-height: 60vh;">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">Gallery</h1>
+                <h2 class="hero-subtitle">AI Research & Visualizations</h2>
+                <p class="hero-description">
+                    A collection of project demos, research visualizations, and AI system architectures from my work at AGI Inc and Stanford.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Filters -->
+    <section class="gallery-filters">
+        <div class="container">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="demos">Demos</button>
+                <button class="filter-btn" data-filter="research">Research</button>
+                <button class="filter-btn" data-filter="architecture">Architecture</button>
+                <button class="filter-btn" data-filter="visualizations">Visualizations</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Grid -->
+    <section class="gallery-section">
+        <div class="container">
+            <div class="gallery-grid">
+                
+                <!-- Demo Item -->
+                <div class="gallery-item" data-category="demos">
+                    <div class="gallery-card">
+                        <div class="gallery-image">
+                            <div class="placeholder-video">
+                                <i class="fab fa-youtube"></i>
+                                <span>Demo Video</span>
+                            </div>
+                            <div class="gallery-overlay">
+                                <a href="https://www.youtube.com/watch?v=p7yRFMXxhgA" class="gallery-link" target="_blank">
+                                    <i class="fas fa-play"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="gallery-content">
+                            <h3>Mac Control Demo</h3>
+                            <p>Hackathon-winning AI system controlling macOS through MCP interfaces</p>
+                            <div class="gallery-tags">
+                                <span class="tag">MCP</span>
+                                <span class="tag">macOS</span>
+                                <span class="tag">Demo</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Research Item -->
+                <div class="gallery-item" data-category="research">
+                    <div class="gallery-card">
+                        <div class="gallery-image">
+                            <div class="placeholder-chart">
+                                <i class="fas fa-chart-line"></i>
+                                <span>Research Chart</span>
+                            </div>
+                            <div class="gallery-overlay">
+                                <a href="#" class="gallery-link">
+                                    <i class="fas fa-expand"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="gallery-content">
+                            <h3>Web Agent Performance Analysis</h3>
+                            <p>Benchmark results showing 76% reliability improvement using GRPO training</p>
+                            <div class="gallery-tags">
+                                <span class="tag">GRPO</span>
+                                <span class="tag">Benchmarking</span>
+                                <span class="tag">Analysis</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Architecture Item -->
+                <div class="gallery-item" data-category="architecture">
+                    <div class="gallery-card">
+                        <div class="gallery-image">
+                            <div class="placeholder-diagram">
+                                <i class="fas fa-sitemap"></i>
+                                <span>System Architecture</span>
+                            </div>
+                            <div class="gallery-overlay">
+                                <a href="#" class="gallery-link">
+                                    <i class="fas fa-expand"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="gallery-content">
+                            <h3>agisdk Architecture</h3>
+                            <p>Scalable web agent framework architecture handling 12K+ downloads</p>
+                            <div class="gallery-tags">
+                                <span class="tag">Architecture</span>
+                                <span class="tag">SDK</span>
+                                <span class="tag">Scalability</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visualization Item -->
+                <div class="gallery-item" data-category="visualizations">
+                    <div class="gallery-card">
+                        <div class="gallery-image">
+                            <div class="placeholder-viz">
+                                <i class="fas fa-brain"></i>
+                                <span>AI Visualization</span>
+                            </div>
+                            <div class="gallery-overlay">
+                                <a href="#" class="gallery-link">
+                                    <i class="fas fa-expand"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="gallery-content">
+                            <h3>Neural Network Training Visualization</h3>
+                            <p>Real-time visualization of policy distillation in reinforcement learning</p>
+                            <div class="gallery-tags">
+                                <span class="tag">Neural Networks</span>
+                                <span class="tag">Visualization</span>
+                                <span class="tag">Training</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Demo Item 2 -->
+                <div class="gallery-item" data-category="demos">
+                    <div class="gallery-card">
+                        <div class="gallery-image">
+                            <div class="placeholder-video">
+                                <i class="fab fa-youtube"></i>
+                                <span>Demo Video</span>
+                            </div>
+                            <div class="gallery-overlay">
+                                <a href="https://www.youtube.com/watch?v=niDDpYHIRfM" class="gallery-link" target="_blank">
+                                    <i class="fas fa-play"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="gallery-content">
+                            <h3>Web Agent in Action</h3>
+                            <p>Live demonstration of AI agent navigating complex web interfaces</p>
+                            <div class="gallery-tags">
+                                <span class="tag">Web Agents</span>
+                                <span class="tag">Live Demo</span>
+                                <span class="tag">AI</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Research Item 2 -->
+                <div class="gallery-item" data-category="research">
+                    <div class="gallery-card">
+                        <div class="gallery-image">
+                            <div class="placeholder-paper">
+                                <i class="fas fa-file-alt"></i>
+                                <span>Research Paper</span>
+                            </div>
+                            <div class="gallery-overlay">
+                                <a href="https://arxiv.org/abs/2504.11543" class="gallery-link" target="_blank">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="gallery-content">
+                            <h3>REAL: Sandbox Websites Agent Benchmarking</h3>
+                            <p>Published research paper on comprehensive web agent evaluation framework</p>
+                            <div class="gallery-tags">
+                                <span class="tag">arXiv</span>
+                                <span class="tag">Publication</span>
+                                <span class="tag">Benchmarking</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Architecture Item 2 -->
+                <div class="gallery-item" data-category="architecture">
+                    <div class="gallery-card">
+                        <div class="gallery-image">
+                            <div class="placeholder-diagram">
+                                <i class="fas fa-server"></i>
+                                <span>Infrastructure</span>
+                            </div>
+                            <div class="gallery-overlay">
+                                <a href="#" class="gallery-link">
+                                    <i class="fas fa-expand"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="gallery-content">
+                            <h3>GPU Cluster Architecture</h3>
+                            <p>NVIDIA H200 cluster setup for large-scale RL training with Ray</p>
+                            <div class="gallery-tags">
+                                <span class="tag">GPU</span>
+                                <span class="tag">Ray</span>
+                                <span class="tag">Infrastructure</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visualization Item 2 -->
+                <div class="gallery-item" data-category="visualizations">
+                    <div class="gallery-card">
+                        <div class="gallery-image">
+                            <div class="placeholder-dashboard">
+                                <i class="fas fa-tachometer-alt"></i>
+                                <span>Dashboard</span>
+                            </div>
+                            <div class="gallery-overlay">
+                                <a href="#" class="gallery-link">
+                                    <i class="fas fa-expand"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="gallery-content">
+                            <h3>RL Training Dashboard</h3>
+                            <p>Real-time monitoring dashboard for reinforcement learning experiments</p>
+                            <div class="gallery-tags">
+                                <span class="tag">Dashboard</span>
+                                <span class="tag">Monitoring</span>
+                                <span class="tag">RL</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <h3>Prannay Hebbar</h3>
+                    <p>AI Researcher passionate about advancing artificial general intelligence</p>
+                </div>
+                <div class="footer-right">
+                    <div class="footer-social">
+                        <a href="https://www.linkedin.com/in/prannay/" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="https://github.com/Pran-Ker" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://x.com/Pran_Ker" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://medium.com/@Pran-Ker" aria-label="Medium">
+                            <i class="fab fa-medium"></i>
+                        </a>
+                        <a href="https://scholar.google.com/citations?user=Y3jw_UgAAAAJ&hl=en" aria-label="Google Scholar">
+                            <i class="fas fa-graduation-cap"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Prannay Hebbar. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>
