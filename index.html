@@ -6,109 +6,364 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Prannay Hebbar" />
-    <meta name="description" content="Portfolio website of Prannay Hebbar, a software developer in San Francisco." />
+    <meta name="description" content="AI Researcher at AGI Inc, published researcher, Stanford alumnus. Building cutting-edge AI systems and reinforcement learning solutions." />
     <meta name="keywords"
-        content="Prannay, Prannay Hebbar, Software Developer, Portfolio, Programmer, Startup, Projects" />
-    <meta property="og:title" content="Prannay Hebbar" />
+        content="Prannay, Prannay Hebbar, AI Researcher, Machine Learning, Reinforcement Learning, Stanford, AGI Inc, Web Agents" />
+    <meta property="og:title" content="Prannay Hebbar - AI Researcher" />
     <meta property="og:description"
-        content="Explore the portfolio, projects, and contributions of Prannay Hebbar, a software developer and startup enthusiast." />
+        content="AI Researcher at AGI Inc, published researcher, Stanford alumnus. Specializing in web agents, reinforcement learning, and AI systems." />
     <meta property="og:url" content="https://pran-ker.github.io/" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Prannay Hebbar" />
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:creator" content="@Pran_Ker">
-    <title>Prannay Hebbar - Software Developer</title>
+    <title>Prannay Hebbar - AI Researcher</title>
     <link rel="icon" href="images/favicon.ico" />
-    <link rel="stylesheet" type="text/css" href="assets/css/fonts.css" />
-    <link rel="stylesheet" href="css/plugins.min.css" type="text/css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css" type="text/css" />
-</head>
 
-<body class="dark-mode">
-    <header>
-        <div class="container text-center">
-            <img src="./images/Profile.png" alt="Profile Picture of Prannay Hebbar" class="avatar avatar-user"
-                width="140" height="140" />
-            <h1>Prannay Hebbar</h1>
-            <h2>Software Developer</h2>
-            <ul class="social">
-                <li><a href="https://www.linkedin.com/in/prannay/" aria-label="LinkedIn Profile"><i class="ion-social-linkedin"></i></a></li>
-                <li><a href="https://github.com/Pran-Ker" aria-label="GitHub Profile"><i class="ion-social-github"></i></a></li>
-                <li><a href="https://www.instagram.com/prannay.hebbar/" aria-label="Instagram Profile"><i class="ion-social-instagram"></i></a></li>
-                <li><a href="https://twitter.com/Pran_Ker" aria-label="Twitter Profile"><i class="ion-social-twitter"></i></a></li>
-            </ul>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#home" class="nav-logo">Prannay Hebbar</a>
+            <div class="nav-menu">
+                <a href="#about" class="nav-link">About</a>
+                <a href="#experience" class="nav-link">Experience</a>
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="#publications" class="nav-link">Publications</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
-    </header>
-
-    <nav class="inline-menu-container">
-        <ul class="inline-menu">
-            <li class="menu-item"><a href="profile.html">Profile</a></li>
-            <li class="menu-item"><a href="portfolio.html">Projects</a></li>
-            <li class="menu-item"><a href="books.html">Books</a></li>
-            <li class="menu-item"><a href="contact.html">Contact</a></li>
-        </ul>
     </nav>
 
-    <main>
-        <section id="about" class="content">
-            <div class="container">
-                <h3 class="block-title">Profile</h3>
-                <iframe src="https://drive.google.com/file/d/1nl4USKTVB0r1K43o2AAXHUl3YE9GQVBG/preview" width="640"
-                    height="480" allow="autoplay"></iframe>
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <img src="./images/Profile.png" alt="Prannay Hebbar" class="hero-image" />
+                <h1 class="hero-title">Prannay Hebbar</h1>
+                <h2 class="hero-subtitle">AI Researcher</h2>
+                <p class="hero-description">
+                    Building cutting-edge AI systems at AGI Inc. Published researcher in web agents and reinforcement learning.
+                    Stanford alumnus passionate about advancing artificial general intelligence.
+                </p>
+                <div class="hero-social">
+                    <a href="https://www.linkedin.com/in/prannay/" aria-label="LinkedIn" class="social-link">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="https://github.com/Pran-Ker" aria-label="GitHub" class="social-link">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://x.com/Pran_Ker" aria-label="Twitter" class="social-link">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://medium.com/@Pran-Ker" aria-label="Medium" class="social-link">
+                        <i class="fab fa-medium"></i>
+                    </a>
+                    <a href="https://scholar.google.com/citations?user=Y3jw_UgAAAAJ&hl=en" aria-label="Google Scholar" class="social-link">
+                        <i class="fas fa-graduation-cap"></i>
+                    </a>
+                </div>
+                <a href="#about" class="cta-button">Learn More</a>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="portfolio" class="content">
-            <div class="container">
-                <h3 class="block-title">Portfolio</h3>
-                <p>Feel free to contact me via email: <a href="mailto:hebbarpran@gmail.com">hebbarpran@gmail.com</a></p>
-            </div>
-        </section>
-
-        <section id="blogs" class="content">
-            <div class="container">
-                <h3 class="block-title">Blogs</h3>
-                <a class="twitter-timeline" href="https://twitter.com/Pran_Ker?ref_src=twsrc%5Etfw" data-width="900"
-                    data-height="600">My Tweets</a>
-                <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-            </div>
-        </section>
-
-        <section id="contact" class="content">
-            <div class="container">
-                <h3 class="block-title">Contact</h3>
-                <form class="contact-form" action="/contact" method="post">
-                    <label for="name">Name*</label>
-                    <input type="text" id="name" name="name" placeholder="Your Name" required />
-
-                    <label for="email">Email*</label>
-                    <input type="email" id="email" name="email" placeholder="Your Email" required />
-
-                    <label for="message">Message</label>
-                    <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
-
-                    <button type="submit" class="btn">Send Message</button>
-                </form>
-
-                <div class="contact-info">
-                    <p><strong>Phone:</strong> <a href="tel:+12096309035">+1 (209) 630 9035</a></p>
-                    <p><strong>Socials:</strong></p>
-                    <ul>
-                        <li><a href="https://www.linkedin.com/in/prannay-hebbar-42b476152/">LinkedIn</a></li>
-                        <li><a href="https://github.com/Pran-Ker">GitHub</a></li>
-                        <li><a href="https://www.instagram.com/prannay.hebbar/">Instagram</a></li>
-                        <li><a href="https://twitter.com/Pran_Ker">Twitter</a></li>
-                    </ul>
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>
+                        I'm an AI researcher at AGI Inc, where I build cutting-edge AI systems and advance the field of 
+                        reinforcement learning. I studied at Stanford University under Prof. Stephen Boyd, focusing on 
+                        defining convex constraints on RL problems.
+                    </p>
+                    <p>
+                        My work includes publishing research on web agents benchmarking, creating evaluation frameworks, 
+                        and implementing state-of-the-art RL algorithms. I'm passionate about training RL on games and 
+                        simulations, and I believe strongly in the potential of artificial general intelligence.
+                    </p>
+                    <div class="about-stats">
+                        <div class="stat">
+                            <h3>12K+</h3>
+                            <p>Package Downloads</p>
+                        </div>
+                        <div class="stat">
+                            <h3>$500K</h3>
+                            <p>Contract Closed</p>
+                        </div>
+                        <div class="stat">
+                            <h3>76%</h3>
+                            <p>Web Agent Reliability</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-skills">
+                    <h3>Technical Skills</h3>
+                    <div class="skills-grid">
+                        <div class="skill-category">
+                            <h4>Programming</h4>
+                            <div class="skill-tags">
+                                <span class="skill-tag">Python</span>
+                                <span class="skill-tag">C++</span>
+                                <span class="skill-tag">JavaScript</span>
+                                <span class="skill-tag">Java</span>
+                                <span class="skill-tag">Bash</span>
+                            </div>
+                        </div>
+                        <div class="skill-category">
+                            <h4>Frameworks</h4>
+                            <div class="skill-tags">
+                                <span class="skill-tag">PyTorch</span>
+                                <span class="skill-tag">Ray</span>
+                                <span class="skill-tag">Docker</span>
+                                <span class="skill-tag">LangGraph</span>
+                                <span class="skill-tag">ReactJS</span>
+                                <span class="skill-tag">NodeJS</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
 
-    <footer>
-        <p>&copy; 2024 Prannay Hebbar. All Rights Reserved.</p>
+    <!-- Experience Section -->
+    <section id="experience" class="experience">
+        <div class="container">
+            <h2 class="section-title">Experience</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">Mar 2025 - Present</div>
+                    <div class="timeline-content">
+                        <h3>AI Researcher</h3>
+                        <h4>AGI Inc. - San Francisco, CA</h4>
+                        <ul>
+                            <li>Published paper on REAL: Sandbox Websites Agent Benchmarking, securing $500K Amazon Nova contract</li>
+                            <li>Created and maintain agisdk with 12K+ downloads for web agent benchmarking</li>
+                            <li>Improved web agent reliability to 76% using policy distillation and VerL/GRPO implementation</li>
+                            <li>Implemented Torch profiling on NVIDIA H200 GPU cluster with W&B logging</li>
+                            <li>Built evaluation dashboard for reinforcement learning training</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Jan 2023 - Mar 2025</div>
+                    <div class="timeline-content">
+                        <h3>System Analyst</h3>
+                        <h4>Aethereus (acq. Myridius) - Dallas, TX</h4>
+                        <ul>
+                            <li><strong>Bread Financials:</strong> Implemented Comenity Bank Cardholder Portal across 46+ partner brands</li>
+                            <li>Digitized partner-brand onboarding, reducing integration cycle time by 10-15 days</li>
+                            <li>Launched omni-channel chat portal handling 1.4K messages/week with <100ms latency</li>
+                            <li>Migrated 9 critical APIs from MuleSoft to Azure, reducing defects by 20%</li>
+                            <li><strong>California Lawyers for the Arts:</strong> Automated data interchange between SaaS platforms</li>
+                            <li><strong>YellowPad AI:</strong> Built RAG pipeline achieving 95% clause recall in legal contracts</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2 class="section-title">Featured Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3>Claude-Web</h3>
+                        <a href="https://github.com/agi-inc/claude-web" class="project-link" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                    <p>Enables Claude code to act as a web agent, providing autonomous web interaction capabilities.</p>
+                    <div class="project-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">Web Agents</span>
+                        <span class="tag">AI</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3>Mac Control</h3>
+                        <a href="https://www.youtube.com/watch?v=p7yRFMXxhgA" class="project-link" aria-label="Demo">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                    <p>Hackathon-winning project using MCPs to control Mac actions through AI interfaces.</p>
+                    <div class="project-tags">
+                        <span class="tag">MacOS</span>
+                        <span class="tag">MCP</span>
+                        <span class="tag">Automation</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3>agisdk</h3>
+                        <a href="https://github.com/agi-inc/agisdk" class="project-link" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                    <p>Web agent and harness providing sandbox website access and benchmarking for major AI models.</p>
+                    <div class="project-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">Benchmarking</span>
+                        <span class="tag">12K+ Downloads</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Publications Section -->
+    <section id="publications" class="publications">
+        <div class="container">
+            <h2 class="section-title">Publications & Media</h2>
+            <div class="publications-grid">
+                <div class="publication-card">
+                    <div class="publication-header">
+                        <h3>REAL: Sandbox Websites Agent Benchmarking</h3>
+                        <a href="https://arxiv.org/abs/2504.11543" class="publication-link">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                    <p><strong>arXiv preprint</strong> - Research paper on benchmarking web agents in sandbox environments</p>
+                </div>
+                <div class="publication-card">
+                    <div class="publication-header">
+                        <h3>Demo Videos</h3>
+                        <div class="publication-links">
+                            <a href="https://www.youtube.com/watch?v=p7yRFMXxhgA" class="publication-link">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                            <a href="https://www.youtube.com/watch?v=niDDpYHIRfM" class="publication-link">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <p>Technical demonstrations of AI systems and web agent capabilities</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="education">
+        <div class="container">
+            <h2 class="section-title">Education</h2>
+            <div class="education-grid">
+                <div class="education-card">
+                    <div class="education-header">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/4b/Stanford_Cardinal_logo.svg" alt="Stanford" class="education-logo">
+                        <div>
+                            <h3>Stanford University</h3>
+                            <p class="education-period">Jun 2024 - Sep 2024</p>
+                        </div>
+                    </div>
+                    <p><strong>Visiting Student</strong> - GPA: 3.775/4</p>
+                    <p>Courses: HPC, Convex Optimization, Principles of Robotics, AI Principles & Techniques, Investment Science</p>
+                    <p>Research under Prof. Stephen Boyd on convex constraints in RL problems</p>
+                </div>
+                <div class="education-card">
+                    <div class="education-header">
+                        <div>
+                            <h3>VIT University</h3>
+                            <p class="education-period">Jul 2019 - Apr 2023</p>
+                        </div>
+                    </div>
+                    <p><strong>B.Tech Computer Science and Business Systems</strong> - GPA: 3.26/4</p>
+                    <p>Ranking: 12/186</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Let's connect!</h3>
+                    <p>I'm always interested in discussing AI research, collaboration opportunities, or innovative projects.</p>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:hebbarpran@gmail.com">hebbarpran@gmail.com</a>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:+12096309035">+1 (209) 630 9035</a>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>San Francisco, CA</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form-container">
+                    <form class="contact-form" action="mailto:hebbarpran@gmail.com" method="post" enctype="text/plain">
+                        <div class="form-group">
+                            <input type="text" id="name" name="name" placeholder="Your Name" required />
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" placeholder="Your Email" required />
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <h3>Prannay Hebbar</h3>
+                    <p>AI Researcher passionate about advancing artificial general intelligence</p>
+                </div>
+                <div class="footer-right">
+                    <div class="footer-social">
+                        <a href="https://www.linkedin.com/in/prannay/" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="https://github.com/Pran-Ker" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://x.com/Pran_Ker" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://medium.com/@Pran-Ker" aria-label="Medium">
+                            <i class="fab fa-medium"></i>
+                        </a>
+                        <a href="https://scholar.google.com/citations?user=Y3jw_UgAAAAJ&hl=en" aria-label="Google Scholar">
+                            <i class="fas fa-graduation-cap"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Prannay Hebbar. All rights reserved.</p>
+            </div>
+        </div>
     </footer>
 
-    <script src="js/plugins.min.js"></script>
     <script src="js/main.js"></script>
 </body>
 
