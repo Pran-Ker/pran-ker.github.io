@@ -1,0 +1,40 @@
+.boundary:after,
+.boundary:before {
+  content: '';
+  height: 7.4em;
+  left: 0;
+  pointer-events: none;
+  position: fixed;
+  width: 100%;
+  z-index: 101;
+}
+
+.boundary:after {
+  background: linear-gradient(
+    180deg,
+    rgba(var(--rgb-black), 1) 0,
+    rgba(var(--rgb-black), 0) 100%
+  );
+  top: 0;
+}
+
+.boundary:before {
+  background: linear-gradient(
+    0deg,
+    rgba(var(--rgb-black), 1) 0,
+    rgba(var(--rgb-black), 0) 100%
+  );
+  bottom: 0;
+}
+
+@media(min-width: 64em) and (hover: hover) and (pointer: fine) {
+
+  .boundary:after {
+    height: max(22.2vh, 5.4em);
+  }
+
+  .boundary:before {
+    height: 44.4vh;
+  }
+
+}

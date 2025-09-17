@@ -1,0 +1,53 @@
+:root {
+
+  --rgb-black: 0, 0, 0;
+  --rgb-white: 255, 255, 255;
+  --rgb-grey: 105, 111, 117;
+  --rgb-grey-dark: 15, 21, 27;
+  --rgb-grey-light: 210, 216, 222;
+  --rgb-blurple: 85, 34, 250;
+  --rgb-yellow: 255, 226, 0;
+  --rgb-red: 232, 34, 36;
+
+  --color-black: rgb(var(--rgb-black));
+  --color-white: rgb(var(--rgb-white));
+  --color-grey: rgb(var(--rgb-grey));
+  --color-grey-dark: rgb(var(--rgb-grey-dark));
+  --color-grey-light: rgb(var(--rgb-grey-light));
+  --color-blurple: rgb(var(--rgb-blurple));
+  --color-yellow: rgb(var(--rgb-yellow));
+  --color-red: rgb(var(--rgb-red));
+
+  --font-family: 'Lab Grotesque', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  --font-family-mono: 'Lab Grotesque Mono', 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', monospace;
+  --font-size: calc(1em + 1vw);
+  --font-size-x-small: 60%;
+  --font-size-small: 80%;
+  --font-size-large: 105%;
+  --font-size-x-large: 110%;
+  --font-size-xx-large: 115%;
+  --font-size-xxx-large: 125%;
+  --font-size-xxxx-large: 140%;
+
+  --line-height: calc(1.3em + 1vw);
+
+  --spacing: 0.75em;
+
+  --transition: 0.2s cubic-bezier(0.37, 1, 0.74, 1);
+
+  @media(min-width: 64em) and (hover: hover) and (pointer: fine) {
+
+    --font-size: calc(1.25em + 1vw);
+    --font-size-x-small: 50%;
+    --font-size-small: 65%;
+    --font-size-large: 110%;
+    --font-size-x-large: 120%;
+    --font-size-xx-large: 130%;
+    --font-size-xxx-large: 150%;
+    --font-size-xxxx-large: 180%;
+
+    --line-height: 1.3em;
+
+  }
+
+}
