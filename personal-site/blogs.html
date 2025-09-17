@@ -29,10 +29,14 @@
     <link rel="stylesheet" type="text/css" href="assets/css/button.css">
     <link rel="stylesheet" type="text/css" href="assets/css/content.css">
     <link rel="stylesheet" type="text/css" href="assets/css/boundary.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/cluster.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/controller.css">
     <link rel="stylesheet" type="text/css" href="assets/css/footer.css">
     <link rel="stylesheet" type="text/css" href="assets/css/header.css">
     <link rel="stylesheet" type="text/css" href="assets/css/nav.css">
     <link rel="stylesheet" type="text/css" href="assets/css/page.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/thought.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/thoughts.css">
     <link rel="stylesheet" type="text/css" href="assets/css/print.css" media="print">
 
     <script defer src="assets/js/script.js" type="module"></script>
@@ -60,6 +64,8 @@
                 <li><a href="tldr.html" aria-label="TLDR">TLDR</a></li>
                 <li><a href="blogs.html" aria-label="Blogs">Blogs</a></li>
                 <li><a href="projects.html" aria-label="Projects">Projects</a></li>
+                <li><a href="principles.html" aria-label="Principles">Principles</a></li>
+                <li><a href="other-stuff.html" aria-label="Other Stuff">Other Stuff</a></li>
                 <li><a href="contact.html" aria-label="Contact">Contact</a></li>
             </ul>
 
@@ -78,42 +84,41 @@
             <li><a href="tldr.html" aria-label="TLDR">TLDR</a></li>
             <li><a href="blogs.html" aria-label="Blogs">Blogs</a></li>
             <li><a href="projects.html" aria-label="Projects">Projects</a></li>
+            <li><a href="principles.html" aria-label="Principles">Principles</a></li>
+            <li><a href="other-stuff.html" aria-label="Other Stuff">Other Stuff</a></li>
             <li><a href="contact.html" aria-label="Contact">Contact</a></li>
         </ul>
     </header>
 
     <main>
-        <article class="page">
-            <header class="page__header">
+        <section class="page">
+            <div class="page__headline">
                 <h1>Blogs</h1>
-            </header>
-
-            <div class="page__content content">
-                <h2>Recent Posts</h2>
-
-                <article style="margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid #eee;">
-                    <h3><a href="detail.html#web-agents-benchmark">Building Reliable Web Agents</a></h3>
-                    <p><small><strong>Published:</strong> Nov 2024 | <strong>Category:</strong> AI Research</small></p>
-                    <p>Exploring the challenges and solutions in creating robust web agents that can reliably navigate and interact with complex web interfaces.</p>
-                    <p><a href="detail.html#web-agents-benchmark">Read more →</a></p>
-                </article>
-
-                <article style="margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid #eee;">
-                    <h3><a href="detail.html#rl-games-training">Training RL Agents on Complex Games</a></h3>
-                    <p><small><strong>Published:</strong> Oct 2024 | <strong>Category:</strong> Reinforcement Learning</small></p>
-                    <p>Deep dive into techniques for training reinforcement learning agents on simulation environments and game-based benchmarks.</p>
-                    <p><a href="detail.html#rl-games-training">Read more →</a></p>
-                </article>
-
-                <article style="margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid #eee;">
-                    <h3><a href="detail.html#stanford-ai-journey">My Journey from Stanford to AGI Research</a></h3>
-                    <p><small><strong>Published:</strong> Sept 2024 | <strong>Category:</strong> Personal</small></p>
-                    <p>Reflections on my path from studying at Stanford to working on cutting-edge AI systems at AGI Inc.</p>
-                    <p><a href="detail.html#stanford-ai-journey">Read more →</a></p>
-                </article>
-
+                <p>Ideas, insights, and technical deep-dives from my research and development work.</p>
             </div>
-        </article>
+
+            <div class="thoughts">
+                <div class="thoughts__container">
+                    <div class="thoughts__thought">
+                        <h3><a href="detail.html#web-agents-benchmark">Building Reliable Web Agents</a></h3>
+                        <p>Exploring the challenges and solutions in creating robust web agents that can reliably navigate and interact with complex web interfaces.</p>
+                        <a class="button button--dim" href="detail.html#blogs/web-agents-benchmark">Read more<span>&rarr;</span></a>
+                    </div>
+
+                    <div class="thoughts__thought">
+                        <h3><a href="detail.html#rl-games-training">Training RL Agents on Complex Games</a></h3>
+                        <p>Deep dive into techniques for training reinforcement learning agents on simulation environments and game-based benchmarks.</p>
+                        <a class="button button--dim" href="detail.html#blogs/rl-games-training">Read more<span>&rarr;</span></a>
+                    </div>
+
+                    <div class="thoughts__thought">
+                        <h3><a href="detail.html#stanford-ai-journey">My Journey from Stanford to AGI Research</a></h3>
+                        <p>Reflections on my path from studying at Stanford to working on cutting-edge AI systems at AGI Inc.</p>
+                        <a class="button button--dim" href="detail.html#blogs/stanford-ai-journey">Read more<span>&rarr;</span></a>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <div class="boundary"></div>
