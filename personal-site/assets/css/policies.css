@@ -1,0 +1,5 @@
+.policies {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 3.7em;
+}

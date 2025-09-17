@@ -1,0 +1,180 @@
+.content {
+  font-size: var(--font-size-small);
+  letter-spacing: normal;
+}
+
+.content > * + * {
+  margin-top: var(--flow-space, var(--line-height));
+}
+
+.content > * + h1,
+.content > * + h2,
+.content > * + h3,
+.content > * + h4,
+.content > * + h5,
+.content > * + h6 {
+  --flow-space: calc(var(--line-height) * 1.2);
+}
+
+.content h1,
+.content h2,
+.content h3,
+.content h4,
+.content h5,
+.content h6 {
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.content h1 a,
+.content h2 a,
+.content h3 a,
+.content h4 a,
+.content h5 a,
+.content h6 a {
+  text-decoration: none;
+}
+
+.content h1 + *,
+.content h2 + *,
+.content h3 + *,
+.content h4 + *,
+.content h5 + *,
+.content h6 + * {
+  --flow-space: calc(var(--line-height) * 0.5);
+}
+
+.content h1,
+.content h2 {
+  font-size: var(--font-size-xxx-large);
+}
+
+.content h3,
+.content h4 {
+  font-size: var(--font-size-x-large);
+}
+
+.content h5,
+.content h6 {
+  font-size: var(--font-size-large);
+}
+
+.content hr {
+  --flow-space: 0;
+  height: 3.7em;
+}
+
+.content hr + * {
+  --flow-space: 0;
+}
+
+.content hr.ornament {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  margin-bottom: 2.6em;
+  margin-top: 2.6em;
+  text-align: center;
+}
+
+.content hr.ornament:before {
+  color: var(--color-white);
+  content: '***';
+  font-size: var(--font-size-xx-large);
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  line-height: 1;
+  padding-top: 0.4em;
+}
+
+.content ul li ul,
+.content ul li ol,
+.content ol li ul,
+.content ol li ol {
+  margin-top: 0.3em;
+}
+
+.content ul li ul li,
+.content ul li ol li,
+.content ol li ul li,
+.content ol li ol li {
+  counter-increment: none;
+}
+
+.content ul li ul li:before,
+.content ul li ol li:before,
+.content ol li ul li:before,
+.content ol li ol li:before {
+  display: none;
+}
+
+.content ul li + li,
+.content ol li + li {
+  margin-top: 0.3em;
+}
+.content ul.list-spaced li + li,
+.content ol.list-spaced li + li {
+  margin-top: 0.8em;
+}
+
+.content ul {
+  list-style: disc;
+  padding-left: 1.85ch;
+}
+
+.content ol {
+  counter-reset: counter;
+  padding-left: 3.25ch;
+}
+
+.content ol li {
+  counter-increment: counter;
+}
+
+.content ol li:before {
+  content: counter(counter) '.';
+  display: inline-block;
+  font-feature-settings: 'ss02', 'tnum';
+  font-weight: 700;
+  margin-left: -2.5em;
+  margin-right: 0.5em;
+  text-align: right;
+  width: 2em;
+}
+
+.content code {
+  background: rgba(var(--rgb-grey-light), 0.2);
+  border: 1px solid rgba(var(--rgb-grey-light), 0.15);
+  border-radius: 0.15em;
+  color: var(--color-white);
+  display: inline-block;
+  font-family: var(--font-family-mono);
+  font-size: 75%;
+  line-height: 1.3;
+  padding: 0 0.25em;
+}
+
+.content.content--jobs * + h2,
+.content.content--policies * + h2,
+.content.content--thoughts * + h2 {
+  --flow-space: calc(var(--line-height) * 1.8);
+}
+
+@media(min-width: 64em) and (hover: hover) and (pointer: fine) {
+
+  .content h1 a:hover,
+  .content h2 a:hover,
+  .content h3 a:hover,
+  .content h4 a:hover,
+  .content h5 a:hover,
+  .content h6 a:hover,
+  .content h1 a:focus,
+  .content h2 a:focus,
+  .content h3 a:focus,
+  .content h4 a:focus,
+  .content h5 a:focus,
+  .content h6 a:focus {
+    text-decoration: underline;
+  }
+
+}
