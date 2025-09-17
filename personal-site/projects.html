@@ -29,10 +29,14 @@
     <link rel="stylesheet" type="text/css" href="assets/css/button.css">
     <link rel="stylesheet" type="text/css" href="assets/css/content.css">
     <link rel="stylesheet" type="text/css" href="assets/css/boundary.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/cluster.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/controller.css">
     <link rel="stylesheet" type="text/css" href="assets/css/footer.css">
     <link rel="stylesheet" type="text/css" href="assets/css/header.css">
     <link rel="stylesheet" type="text/css" href="assets/css/nav.css">
     <link rel="stylesheet" type="text/css" href="assets/css/page.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/thought.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/thoughts.css">
     <link rel="stylesheet" type="text/css" href="assets/css/print.css" media="print">
 
     <script defer src="assets/js/script.js" type="module"></script>
@@ -60,6 +64,8 @@
                 <li><a href="tldr.html" aria-label="TLDR">TLDR</a></li>
                 <li><a href="blogs.html" aria-label="Blogs">Blogs</a></li>
                 <li><a href="projects.html" aria-label="Projects">Projects</a></li>
+                <li><a href="principles.html" aria-label="Principles">Principles</a></li>
+                <li><a href="other-stuff.html" aria-label="Other Stuff">Other Stuff</a></li>
                 <li><a href="contact.html" aria-label="Contact">Contact</a></li>
             </ul>
 
@@ -78,47 +84,51 @@
             <li><a href="tldr.html" aria-label="TLDR">TLDR</a></li>
             <li><a href="blogs.html" aria-label="Blogs">Blogs</a></li>
             <li><a href="projects.html" aria-label="Projects">Projects</a></li>
+            <li><a href="principles.html" aria-label="Principles">Principles</a></li>
+            <li><a href="other-stuff.html" aria-label="Other Stuff">Other Stuff</a></li>
             <li><a href="contact.html" aria-label="Contact">Contact</a></li>
         </ul>
     </header>
 
     <main>
-        <article class="page">
-            <header class="page__header">
+        <section class="page">
+            <div class="page__headline">
                 <h1>Projects</h1>
-            </header>
-
-            <div class="page__content content">
-                <h2>Research & Development</h2>
-
-                <h3><a href="detail.html#webarena-benchmark">WebArena: Realistic Web Agent Benchmark</a></h3>
-                <p><strong>Role:</strong> Lead Researcher | <strong>Year:</strong> 2024 | <strong>Technologies:</strong> Python, Selenium, GPT-4</p>
-                <p>Developed a comprehensive benchmark for evaluating web agents on realistic tasks. The framework tests agent capabilities across e-commerce, social media, and productivity applications.</p>
-                <p><a href="detail.html#webarena-benchmark">View project details →</a></p>
-                <hr style="margin: 2rem 0;">
-
-                <h3><a href="detail.html#rl-game-engine">Reinforcement Learning Game Engine</a></h3>
-                <p><strong>Role:</strong> AI Engineer | <strong>Year:</strong> 2024 | <strong>Technologies:</strong> PyTorch, Unity, C++</p>
-                <p>Built a custom game engine optimized for training RL agents, featuring parallel simulation and real-time visualization of agent behavior.</p>
-                <p><a href="detail.html#rl-game-engine">View project details →</a></p>
-                <hr style="margin: 2rem 0;">
-
-                <h3><a href="detail.html#multi-agent-collab">Multi-Agent Collaboration Framework</a></h3>
-                <p><strong>Role:</strong> Research Lead | <strong>Year:</strong> 2023 | <strong>Technologies:</strong> TensorFlow, ROS, Python</p>
-                <p>Designed a framework for coordinating multiple AI agents to solve complex tasks through emergent collaboration strategies.</p>
-                <p><a href="detail.html#multi-agent-collab">View project details →</a></p>
-                <hr style="margin: 2rem 0;">
-
-                <h2>Open Source Contributions</h2>
-
-                <ul>
-                    <li><a href="detail.html#openai-gym-contrib">OpenAI Gym Extensions</a> - Added new environments for testing web navigation agents</li>
-                    <li><a href="detail.html#pytorch-rl-toolkit">PyTorch RL Toolkit</a> - Contributed efficient implementations of PPO and SAC algorithms</li>
-                    <li><a href="detail.html#selenium-ai-wrapper">Selenium AI Wrapper</a> - Created high-level API for AI agents to interact with web browsers</li>
-                </ul>
-
+                <p>Research projects, open source contributions, and technical work advancing AI systems.</p>
             </div>
-        </article>
+
+            <div class="thoughts">
+                <div class="thoughts__container">
+                    <div class="thoughts__thought">
+                        <h3><a href="detail.html#webarena-benchmark">WebArena: Realistic Web Agent Benchmark</a></h3>
+                        <p>Developed a comprehensive benchmark for evaluating web agents on realistic tasks. The framework tests agent capabilities across e-commerce, social media, and productivity applications.</p>
+                        <a class="button button--dim" href="detail.html#projects/webarena-benchmark">View project<span>&rarr;</span></a>
+                    </div>
+
+                    <div class="thoughts__thought">
+                        <h3><a href="detail.html#rl-game-engine">Reinforcement Learning Game Engine</a></h3>
+                        <p>Built a custom game engine optimized for training RL agents, featuring parallel simulation and real-time visualization of agent behavior.</p>
+                        <a class="button button--dim" href="detail.html#projects/rl-game-engine">View project<span>&rarr;</span></a>
+                    </div>
+
+                    <div class="thoughts__thought">
+                        <h3><a href="detail.html#multi-agent-collab">Multi-Agent Collaboration Framework</a></h3>
+                        <p>Designed a framework for coordinating multiple AI agents to solve complex tasks through emergent collaboration strategies.</p>
+                        <a class="button button--dim" href="detail.html#projects/multi-agent-collab">View project<span>&rarr;</span></a>
+                    </div>
+
+                    <div class="thoughts__thought">
+                        <h3>Open Source Contributions</h3>
+                        <p>Contributing to the AI and machine learning ecosystem through open source projects and tools for the research community.</p>
+                        <ul>
+                            <li><a href="detail.html#projects/openai-gym-contrib">OpenAI Gym Extensions</a></li>
+                            <li><a href="detail.html#projects/pytorch-rl-toolkit">PyTorch RL Toolkit</a></li>
+                            <li><a href="detail.html#projects/selenium-ai-wrapper">Selenium AI Wrapper</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <div class="boundary"></div>

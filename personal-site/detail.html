@@ -66,6 +66,8 @@
                 <li><a href="tldr.html" aria-label="TLDR">TLDR</a></li>
                 <li><a href="blogs.html" aria-label="Blogs">Blogs</a></li>
                 <li><a href="projects.html" aria-label="Projects">Projects</a></li>
+                <li><a href="principles.html" aria-label="Principles">Principles</a></li>
+                <li><a href="other-stuff.html" aria-label="Other Stuff">Other Stuff</a></li>
                 <li><a href="contact.html" aria-label="Contact">Contact</a></li>
             </ul>
 
@@ -84,6 +86,8 @@
             <li><a href="tldr.html" aria-label="TLDR">TLDR</a></li>
             <li><a href="blogs.html" aria-label="Blogs">Blogs</a></li>
             <li><a href="projects.html" aria-label="Projects">Projects</a></li>
+            <li><a href="principles.html" aria-label="Principles">Principles</a></li>
+            <li><a href="other-stuff.html" aria-label="Other Stuff">Other Stuff</a></li>
             <li><a href="contact.html" aria-label="Contact">Contact</a></li>
         </ul>
     </header>
@@ -127,6 +131,7 @@
             }
 
             try {
+                // Handle new folder structure: category/filename
                 const response = await fetch(`content/${hash}.md`);
                 if (!response.ok) {
                     throw new Error('Content not found');
