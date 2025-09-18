@@ -10,7 +10,7 @@
   font-size: var(--font-size-small);
   gap: calc(var(--line-height) * 2);
   letter-spacing: normal;
-  margin-bottom: 3.7em;
+  margin-bottom: 4.5em;
   margin-top: 3.7em;
 }
 
@@ -41,6 +41,10 @@
     margin-left: 2.8ch;
     margin-right: 2.8ch;
     max-width: 39ch;
+  }
+
+  .thoughts .thoughts__container {
+    margin-bottom: calc(3.7em + var(--line-height) + 2em);
   }
 
   .thoughts .signup {
