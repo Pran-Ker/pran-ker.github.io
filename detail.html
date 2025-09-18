@@ -1,51 +1,53 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="is-signal">
 
 <head>
-    <title>Prannay Hebbar &mdash; Blogs</title>
+    <title>Prannay Hebbar &mdash; Content</title>
 
     <meta charset="utf-8">
     <meta content="ie=edge" http-equiv="x-ua-compatible">
     <meta name="handheldfriendly" content="true">
     <meta name="viewport" content="initial-scale=1, width=device-width">
-    <meta name="description" content="Blog posts and articles by Prannay Hebbar">
+    <meta name="description" content="Content page">
     <meta name="theme-color" content="#000000">
 
-    <meta property="og:site_name" content="Prannay Hebbar">
-    <meta property="og:title" content="Blogs by Prannay Hebbar">
-    <meta property="og:description" content="Blog posts and articles by Prannay Hebbar">
-    <meta property="og:url" content="blogs.html">
-    <meta property="og:type" content="website">
-
-    <link rel="canonical" href="blogs.html">
+    <link rel="canonical" href="detail.html">
     <link rel="icon" href="assets/images/favicon.png">
     <link rel="mask-icon" href="assets/images/mask-icon.svg" color="#000000">
     <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
 
+    <!-- Keep all existing CSS -->
     <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
     <link rel="stylesheet" type="text/css" href="assets/css/root.css">
     <link rel="stylesheet" type="text/css" href="assets/css/fonts.css">
     <link rel="stylesheet" type="text/css" href="assets/css/elements.css">
     <link rel="stylesheet" type="text/css" href="assets/css/button.css">
     <link rel="stylesheet" type="text/css" href="assets/css/content.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/books.css">
     <link rel="stylesheet" type="text/css" href="assets/css/boundary.css">
     <link rel="stylesheet" type="text/css" href="assets/css/cluster.css">
     <link rel="stylesheet" type="text/css" href="assets/css/controller.css">
     <link rel="stylesheet" type="text/css" href="assets/css/footer.css">
     <link rel="stylesheet" type="text/css" href="assets/css/header.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/jobs.css">
     <link rel="stylesheet" type="text/css" href="assets/css/nav.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/origin.css">
     <link rel="stylesheet" type="text/css" href="assets/css/page.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/policies.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/signal.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/signup.css">
     <link rel="stylesheet" type="text/css" href="assets/css/thought.css">
     <link rel="stylesheet" type="text/css" href="assets/css/thoughts.css">
     <link rel="stylesheet" type="text/css" href="assets/css/print.css" media="print">
 
+    <!-- Markdown parser -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script defer src="assets/js/script.js" type="module"></script>
 </head>
 
 <body>
 
     <input class="nav-active" id="nav-active" type="checkbox">
-
     <label class="nav-underlay" for="nav-active"></label>
 
     <nav class="nav">
@@ -92,31 +94,15 @@
 
     <main>
         <section class="page">
-            <div class="page__headline">
-                <h1>Blogs</h1>
-                <p>Ideas, insights, and technical deep-dives from my research and development work.</p>
-            </div>
+            <header class="page__header">
+                <button onclick="history.back()" class="button button--ghost" style="margin-bottom: 2em;">
+                    ← Back
+                </button>
+            </header>
 
-            <div class="thoughts">
-                <div class="thoughts__container">
-                    <div class="thoughts__thought">
-                        <h3><a href="detail.html#web-agents-benchmark">Building Reliable Web Agents</a></h3>
-                        <p>Exploring the challenges and solutions in creating robust web agents that can reliably navigate and interact with complex web interfaces.</p>
-                        <a class="button button--dim" href="detail.html#blogs/web-agents-benchmark">Read more<span>&rarr;</span></a>
-                    </div>
-
-                    <div class="thoughts__thought">
-                        <h3><a href="detail.html#rl-games-training">Training RL Agents on Complex Games</a></h3>
-                        <p>Deep dive into techniques for training reinforcement learning agents on simulation environments and game-based benchmarks.</p>
-                        <a class="button button--dim" href="detail.html#blogs/rl-games-training">Read more<span>&rarr;</span></a>
-                    </div>
-
-                    <div class="thoughts__thought">
-                        <h3><a href="detail.html#stanford-ai-journey">My Journey from Stanford to AGI Research</a></h3>
-                        <p>Reflections on my path from studying at Stanford to working on cutting-edge AI systems at AGI Inc.</p>
-                        <a class="button button--dim" href="detail.html#blogs/stanford-ai-journey">Read more<span>&rarr;</span></a>
-                    </div>
-                </div>
+            <div class="page__content" id="content">
+                <!-- Content will be loaded here -->
+                <p>Loading...</p>
             </div>
         </section>
     </main>
@@ -132,6 +118,60 @@
             <li><a href="https://scholar.google.com/citations?user=Y3jw_UgAAAAJ&hl=en" target="_blank" rel="noopener" aria-label="Google Scholar">Scholar</a></li>
         </ul>
     </footer>
+
+    <script>
+        // Load markdown content based on URL hash
+        async function loadContent() {
+            const contentDiv = document.getElementById('content');
+            const hash = window.location.hash.substring(1);
+            
+            if (!hash) {
+                contentDiv.innerHTML = '<p>No content specified.</p>';
+                return;
+            }
+
+            try {
+                // Try HTML first, then fallback to markdown
+                let response = await fetch(`content/${hash}.html`);
+                let isHtml = false;
+                
+                if (response.ok) {
+                    isHtml = true;
+                } else {
+                    // Fallback to markdown
+                    response = await fetch(`content/${hash}.md`);
+                    if (!response.ok) {
+                        throw new Error('Content not found');
+                    }
+                }
+                
+                const content = await response.text();
+                
+                if (isHtml) {
+                    // For HTML files, extract body content and inject directly
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(content, 'text/html');
+                    contentDiv.innerHTML = doc.body.innerHTML;
+                } else {
+                    // For markdown files, parse as usual
+                    const html = marked.parse(content);
+                    contentDiv.innerHTML = html;
+                }
+                
+                // Update page title
+                const firstHeading = contentDiv.querySelector('h1');
+                if (firstHeading) {
+                    document.title = `Prannay Hebbar — ${firstHeading.textContent}`;
+                }
+            } catch (error) {
+                contentDiv.innerHTML = `<p>Error loading content: ${error.message}</p>`;
+            }
+        }
+
+        // Load content on page load and hash change
+        window.addEventListener('DOMContentLoaded', loadContent);
+        window.addEventListener('hashchange', loadContent);
+    </script>
 
 </body>
 </html>

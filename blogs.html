@@ -1,211 +1,137 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="author" content="Prannay Hebbar" />
-    <meta name="description" content="Blogs and thoughts on AI research, machine learning, and technology by Prannay Hebbar" />
-    <meta name="keywords" content="Prannay, AI Blog, Machine Learning Blog, Tech Blog, Research Articles" />
-    <title>Blogs - Prannay Hebbar</title>
-    <link rel="icon" href="images/favicon.ico" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css" type="text/css" />
+    <title>Prannay Hebbar &mdash; Blogs</title>
+
+    <meta charset="utf-8">
+    <meta content="ie=edge" http-equiv="x-ua-compatible">
+    <meta name="handheldfriendly" content="true">
+    <meta name="viewport" content="initial-scale=1, width=device-width">
+    <meta name="description" content="Blog posts and articles by Prannay Hebbar">
+    <meta name="theme-color" content="#000000">
+
+    <meta property="og:site_name" content="Prannay Hebbar">
+    <meta property="og:title" content="Blogs by Prannay Hebbar">
+    <meta property="og:description" content="Blog posts and articles by Prannay Hebbar">
+    <meta property="og:url" content="blogs.html">
+    <meta property="og:type" content="website">
+
+    <link rel="canonical" href="blogs.html">
+    <link rel="icon" href="assets/images/favicon.png">
+    <link rel="mask-icon" href="assets/images/mask-icon.svg" color="#000000">
+    <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
+
+    <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/root.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/fonts.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/elements.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/button.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/content.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/boundary.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/cluster.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/controller.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/footer.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/header.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/nav.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/page.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/thought.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/thoughts.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/print.css" media="print">
+
+    <script defer src="assets/js/script.js" type="module"></script>
 </head>
 
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="nav-logo">Prannay Hebbar</a>
-            <div class="nav-menu">
-                <a href="index.html#about" class="nav-link">About</a>
-                <a href="index.html#experience" class="nav-link">Experience</a>
-                <a href="index.html#projects" class="nav-link">Projects</a>
-                <a href="index.html#publications" class="nav-link">Publications</a>
-                <a href="blogs.html" class="nav-link">Blogs</a>
-                <a href="gallery.html" class="nav-link">Gallery</a>
-                <a href="index.html#contact" class="nav-link">Contact</a>
-            </div>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+
+    <input class="nav-active" id="nav-active" type="checkbox">
+
+    <label class="nav-underlay" for="nav-active"></label>
+
+    <nav class="nav">
+        <div class="nav__logo">
+            <a href="tldr.html" aria-label="Home"><img src="assets/images/logo-black.svg" alt="Prannay Hebbar"></a>
+        </div>
+
+        <div class="nav__toggle">
+            <label for="nav-active">
+                <span>Menu</span>
+            </label>
+        </div>
+
+        <div class="nav__options">
+            <ul>
+                <li><a href="tldr.html" aria-label="TLDR">TLDR</a></li>
+                <li><a href="blogs.html" aria-label="Blogs">Blogs</a></li>
+                <li><a href="projects.html" aria-label="Projects">Projects</a></li>
+                <li><a href="principles.html" aria-label="Principles">Principles</a></li>
+                <li><a href="other-stuff.html" aria-label="Other Stuff">Other Stuff</a></li>
+                <li><a href="contact.html" aria-label="Contact">Contact</a></li>
+            </ul>
+
+            <ul>
+                <li><a href="https://x.com/Pran_Ker" target="_blank" rel="noopener" aria-label="Twitter">Twitter</a></li>
+                <li><a href="https://github.com/Pran-Ker" target="_blank" rel="noopener" aria-label="GitHub">GitHub</a></li>
+                <li><a href="https://www.linkedin.com/in/prannay/" target="_blank" rel="noopener" aria-label="LinkedIn">LinkedIn</a></li>
+            </ul>
         </div>
     </nav>
 
-    <!-- Header Section -->
-    <section class="hero" style="min-height: 60vh;">
-        <div class="hero-container">
-            <div class="hero-content">
-                <h1 class="hero-title">Blog Posts</h1>
-                <h2 class="hero-subtitle">Thoughts on AI, ML & Tech</h2>
-                <p class="hero-description">
-                    Exploring the frontiers of artificial intelligence, sharing research insights, and discussing the future of technology.
-                </p>
-            </div>
-        </div>
-    </section>
+    <header class="header">
+        <h1><a href="tldr.html" aria-label="Prannay Hebbar"><img src="assets/images/logo.svg" alt="Prannay Hebbar"></a></h1>
 
-    <!-- Blog Posts Section -->
-    <section class="blogs-section">
-        <div class="container">
-            <div class="blogs-grid">
-                <article class="blog-card">
-                    <div class="blog-header">
-                        <div class="blog-date">March 15, 2025</div>
-                        <div class="blog-category">AI Research</div>
-                    </div>
-                    <h3>The Future of Web Agents: Lessons from REAL Benchmark</h3>
-                    <p>Diving deep into our research on web agent benchmarking and what we learned about AI's ability to navigate complex web environments. How we achieved 76% reliability and what comes next.</p>
-                    <div class="blog-footer">
-                        <div class="blog-tags">
-                            <span class="tag">Web Agents</span>
-                            <span class="tag">Benchmarking</span>
-                            <span class="tag">AI</span>
-                        </div>
-                        <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </article>
+        <ul>
+            <li><a href="tldr.html" aria-label="TLDR">TLDR</a></li>
+            <li><a href="blogs.html" aria-label="Blogs">Blogs</a></li>
+            <li><a href="projects.html" aria-label="Projects">Projects</a></li>
+            <li><a href="principles.html" aria-label="Principles">Principles</a></li>
+            <li><a href="other-stuff.html" aria-label="Other Stuff">Other Stuff</a></li>
+            <li><a href="contact.html" aria-label="Contact">Contact</a></li>
+        </ul>
+    </header>
 
-                <article class="blog-card">
-                    <div class="blog-header">
-                        <div class="blog-date">March 8, 2025</div>
-                        <div class="blog-category">Machine Learning</div>
-                    </div>
-                    <h3>Implementing GRPO for Reinforcement Learning at Scale</h3>
-                    <p>A practical guide to implementing Generalized Reinforcement Learning Policy Optimization on GPU clusters. Performance insights from training on NVIDIA H200 systems.</p>
-                    <div class="blog-footer">
-                        <div class="blog-tags">
-                            <span class="tag">GRPO</span>
-                            <span class="tag">RL</span>
-                            <span class="tag">GPU</span>
-                        </div>
-                        <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </article>
-
-                <article class="blog-card">
-                    <div class="blog-header">
-                        <div class="blog-date">February 28, 2025</div>
-                        <div class="blog-category">Technology</div>
-                    </div>
-                    <h3>Building Scalable AI Infrastructure with Ray and Docker</h3>
-                    <p>Architectural patterns and best practices for deploying machine learning workloads at scale. From development to production with automated CI/CD pipelines.</p>
-                    <div class="blog-footer">
-                        <div class="blog-tags">
-                            <span class="tag">Infrastructure</span>
-                            <span class="tag">Ray</span>
-                            <span class="tag">Docker</span>
-                        </div>
-                        <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </article>
-
-                <article class="blog-card">
-                    <div class="blog-header">
-                        <div class="blog-date">February 20, 2025</div>
-                        <div class="blog-category">Research</div>
-                    </div>
-                    <h3>Convex Optimization in Reinforcement Learning: A Stanford Perspective</h3>
-                    <p>Insights from my research under Prof. Stephen Boyd on applying convex constraints to RL problems. Mathematical foundations and practical applications.</p>
-                    <div class="blog-footer">
-                        <div class="blog-tags">
-                            <span class="tag">Convex Optimization</span>
-                            <span class="tag">Stanford</span>
-                            <span class="tag">Research</span>
-                        </div>
-                        <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </article>
-
-                <article class="blog-card">
-                    <div class="blog-header">
-                        <div class="blog-date">February 12, 2025</div>
-                        <div class="blog-category">Industry</div>
-                    </div>
-                    <h3>From Startup to $500K Contract: Lessons in AI Product Development</h3>
-                    <p>The journey of building agisdk from a research project to a production tool used by major tech companies. Product-market fit in the AI space.</p>
-                    <div class="blog-footer">
-                        <div class="blog-tags">
-                            <span class="tag">Startup</span>
-                            <span class="tag">Product</span>
-                            <span class="tag">Business</span>
-                        </div>
-                        <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </article>
-
-                <article class="blog-card">
-                    <div class="blog-header">
-                        <div class="blog-date">January 30, 2025</div>
-                        <div class="blog-category">Tutorial</div>
-                    </div>
-                    <h3>Getting Started with LangGraph for Complex AI Workflows</h3>
-                    <p>A comprehensive guide to building sophisticated AI applications using LangGraph. From basic concepts to advanced multi-agent systems.</p>
-                    <div class="blog-footer">
-                        <div class="blog-tags">
-                            <span class="tag">LangGraph</span>
-                            <span class="tag">Tutorial</span>
-                            <span class="tag">AI Workflows</span>
-                        </div>
-                        <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </article>
+    <main>
+        <section class="page">
+            <div class="page__headline">
+                <h1>Blogs</h1>
+                <p>Ideas, insights, and technical deep-dives from my research and development work.</p>
             </div>
 
-            <!-- Newsletter Signup -->
-            <div class="newsletter-section">
-                <div class="newsletter-content">
-                    <h3>Stay Updated</h3>
-                    <p>Get the latest insights on AI research, machine learning breakthroughs, and technology trends delivered to your inbox.</p>
-                    <form class="newsletter-form">
-                        <input type="email" placeholder="Enter your email" required>
-                        <button type="submit">Subscribe</button>
-                    </form>
+            <div class="thoughts">
+                <div class="thoughts__container">
+                    <div class="thoughts__thought">
+                        <h3><a href="detail.html#web-agents-benchmark">Building Reliable Web Agents</a></h3>
+                        <p>Exploring the challenges and solutions in creating robust web agents that can reliably navigate and interact with complex web interfaces.</p>
+                        <a class="button button--dim" href="detail.html#blogs/web-agents-benchmark">Read more<span>&rarr;</span></a>
+                    </div>
+
+                    <div class="thoughts__thought">
+                        <h3><a href="detail.html#rl-games-training">Training RL Agents on Complex Games</a></h3>
+                        <p>Deep dive into techniques for training reinforcement learning agents on simulation environments and game-based benchmarks.</p>
+                        <a class="button button--dim" href="detail.html#blogs/rl-games-training">Read more<span>&rarr;</span></a>
+                    </div>
+
+                    <div class="thoughts__thought">
+                        <h3><a href="detail.html#stanford-ai-journey">My Journey from Stanford to AGI Research</a></h3>
+                        <p>Reflections on my path from studying at Stanford to working on cutting-edge AI systems at AGI Inc.</p>
+                        <a class="button button--dim" href="detail.html#blogs/stanford-ai-journey">Read more<span>&rarr;</span></a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
-    <!-- Footer -->
+    <div class="boundary"></div>
+
     <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-left">
-                    <h3>Prannay Hebbar</h3>
-                    <p>AI Researcher passionate about advancing artificial general intelligence</p>
-                </div>
-                <div class="footer-right">
-                    <div class="footer-social">
-                        <a href="https://www.linkedin.com/in/prannay/" aria-label="LinkedIn">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                        <a href="https://github.com/Pran-Ker" aria-label="GitHub">
-                            <i class="fab fa-github"></i>
-                        </a>
-                        <a href="https://x.com/Pran_Ker" aria-label="Twitter">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="https://medium.com/@Pran-Ker" aria-label="Medium">
-                            <i class="fab fa-medium"></i>
-                        </a>
-                        <a href="https://scholar.google.com/citations?user=Y3jw_UgAAAAJ&hl=en" aria-label="Google Scholar">
-                            <i class="fas fa-graduation-cap"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Prannay Hebbar. All rights reserved.</p>
-            </div>
-        </div>
+        <ul>
+            <li><a href="https://www.linkedin.com/in/prannay/" target="_blank" rel="noopener" aria-label="LinkedIn">LinkedIn</a></li>
+            <li><a href="https://github.com/Pran-Ker" target="_blank" rel="noopener" aria-label="GitHub">GitHub</a></li>
+            <li><a href="https://x.com/Pran_Ker" target="_blank" rel="noopener" aria-label="Twitter">Twitter</a></li>
+            <li><a href="https://medium.com/@Pran-Ker" target="_blank" rel="noopener" aria-label="Medium">Medium</a></li>
+            <li><a href="https://scholar.google.com/citations?user=Y3jw_UgAAAAJ&hl=en" target="_blank" rel="noopener" aria-label="Google Scholar">Scholar</a></li>
+        </ul>
     </footer>
 
-    <script src="js/main.js"></script>
 </body>
-
 </html>
