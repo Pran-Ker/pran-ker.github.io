@@ -4,7 +4,7 @@
 
 ![Web Agent Architecture](/content/images/web-agent-demo.png)
 
-## Introduction
+## Prannay ✧
 
 Web agents represent one of the most challenging frontiers in AI research. Unlike traditional ML models that operate on structured data, web agents must navigate the chaotic, ever-changing landscape of the modern web. At AGI Inc, I've been leading efforts to build more reliable and robust web agents that can handle real-world tasks.
 
