@@ -99,15 +99,175 @@
 
     <main>
 
-        <section class="signal signal--clone" data-signal="01">
-            <header class="signal__header" tabindex="-1" autofocus>
-                <h2 aria-label="Welcome">
-                    <span>01.</span>
-                    <strong>Prannay ✧</strong>
-                </h2>
-            </header>
-            <div class="signal__content">
-                <p>I'm Prannay Hebbar, an AI Researcher at AGI Inc. building cutting-edge AI systems and advancing reinforcement learning. Published researcher in <a href="detail.html#blogs/web-agents-benchmark">web agents</a> and AI benchmarking. Stanford alumnus passionate about advancing artificial general intelligence. I specialize in training RL on games and simulations, with a focus on improving web agent reliability and creating evaluation frameworks for AI systems.</p>
+        <!-- TLDR Section -->
+        <section class="page" style="margin-top: 5.4em; margin-bottom: 0.5em; max-width: 100%;">
+            <div class="page__headline" style="margin-bottom: 0.5em; max-width: 100%;">
+                <h1>TLDR</h1>
+            </div>
+            <div class="page__content" style="margin-top: 0.5em; max-width: 100%;">
+                <ul style="margin: 0; padding-left: 1.5em; list-style: disc;">
+                    <li style="margin-bottom: 0.3em;">Primarily researched in RL for agents and dedicate the next decade to program synthesis and inference</li>
+                    <li style="margin-bottom: 0.3em;">Ran an electric servicing business in Palo Alto, you can see the thesis and post mortem here</li>
+                    <li style="margin-bottom: 0.3em;">Visiting student (2 semesters) in Stanford, studied Convex Optimization under Stephen Boyd, and other subjects</li>
+                    <li style="margin-bottom: 0.3em;">If you are raising a seed round reach out, I would be interested in investing</li>
+                    <li style="margin-bottom: 0.3em;">interests - Soccer, Jiu jitsu, Taekwondo, chess, poker, reading, and interesting concepts</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Story Section -->
+        <section class="page" style="margin-top: 1em; margin-bottom: 3em; font-size: 0.65em; max-width: 100%;">
+            <style>
+                /* Fix year wrapping - override the 2.8ch width */
+                .page__content .signal .signal__header h2 span.story-year {
+                    width: 6ch !important;
+                    display: inline-block;
+                    flex-shrink: 0;
+                }
+                
+                /* Override page__content max-width for Story section */
+                section.page .page__content {
+                    max-width: none !important;
+                    width: 100% !important;
+                }
+                
+                /* Fix right margin - override max-width restrictions */
+                .page__content .signal .signal__header h2 {
+                    max-width: none !important;
+                    width: 100% !important;
+                    padding-right: 0 !important;
+                    margin-right: 0 !important;
+                }
+                
+                .page__content .signal .signal__header h2 strong {
+                    width: calc(100% - 6ch) !important;
+                    max-width: none !important;
+                }
+                
+                .page__content .signal {
+                    max-width: none !important;
+                    width: 100% !important;
+                }
+            </style>
+            <div class="page__headline">
+                <h1>Story</h1>
+            </div>
+            <div class="page__content">
+                <div class="signal">
+                    <div class="signal__header">
+                        <h2><span class="story-year">00 yr.</span><strong>Born few days before 9/11 here, so I was pushed out of the hospital early</strong></h2>
+                    </div>
+                </div>
+                <div class="signal">
+                    <div class="signal__header">
+                        <h2><span class="story-year">03 yr.</span><strong>Obsessed with lego built this</strong></h2>
+                    </div>
+                </div>
+                <div class="signal">
+                    <div class="signal__header">
+                        <h2><span class="story-year">06 yr.</span><strong>Moved back to India -> Mumbai and then Pune</strong></h2>
+                    </div>
+                </div>
+                <div class="signal">
+                    <div class="signal__header">
+                        <h2><span class="story-year">08 yr.</span><strong>Became obsessed with science, and wanted to be a physicist.</strong></h2>
+                    </div>
+                </div>
+                <div class="signal">
+                    <div class="signal__header">
+                        <h2><span class="story-year">11 yr.</span><strong>would compete in programming, Civ or pokemon with my brother</strong></h2>
+                    </div>
+                </div>
+                <div class="signal">
+                    <div class="signal__header">
+                        <h2><span class="story-year">12 yr.</span><strong>Won quite a few olympiads and competitions in school</strong></h2>
+                    </div>
+                </div>
+                <div class="signal">
+                    <div class="signal__header">
+                        <h2><span class="story-year">12 yr.</span><strong>Built snacks delivery service outside the school gates (was doing 10-20 orders in an hour), closed cause the principle banned it</strong></h2>
+                    </div>
+                </div>
+                <div class="signal">
+                    <div class="signal__header">
+                        <h2><span class="story-year">13 yr.</span><strong>Became a black belt, and participated in an international competition (lost in bronze)</strong></h2>
+                    </div>
+                </div>
+                <div class="signal">
+                    <div class="signal__header">
+                        <h2><span class="story-year">15 yr.</span><strong>Did contracts for Software development</strong></h2>
+                    </div>
+                </div>
+                <div class="signal">
+                    <div class="signal__header">
+                        <h2><span class="story-year">17 yr.</span><strong>Got scholarship in VIT Vellore, so I took it over alternatives (got 16K rank in Jee advanced)</strong></h2>
+                    </div>
+                </div>
+                <div class="signal">
+                    <div class="signal__header">
+                        <h2><span class="story-year">19 yr.</span><strong>Won hackathons, and hosted hackathons and built CTFs (extremely fun)</strong></h2>
+                    </div>
+                </div>
+                <div class="signal">
+                    <div class="signal__header">
+                        <h2><span class="story-year">20 yr.</span><strong>Started a food delivery company scaled it most of my neighbourhood during the lockdown</strong></h2>
+                    </div>
+                </div>
+                <div class="signal">
+                    <div class="signal__header">
+                        <h2><span class="story-year">22 yr.</span><strong>Reject placement offer, and got into boutique tech consulting firm</strong></h2>
+                    </div>
+                </div>
+                <div class="signal">
+                    <div class="signal__header">
+                        <h2><span class="story-year">22 yr.</span><strong>Got posted to Dallas, US</strong></h2>
+                    </div>
+                </div>
+                <div class="signal">
+                    <div class="signal__header">
+                        <h2><span class="story-year">22 yr.</span><strong>Closed a client - Yellowpad AI</strong></h2>
+                    </div>
+                </div>
+                <div class="signal">
+                    <div class="signal__header">
+                        <h2><span class="story-year">23 yr.</span><strong>Applied to Stanford, and took a semester there - HCP and Convex Optimization, and other uncredit courses</strong></h2>
+                    </div>
+                </div>
+                <div class="signal">
+                    <div class="signal__header">
+                        <h2><span class="story-year">23 yr.</span><strong>Bought a Mister Sparky Franchise in PaloAlto with all my savings. Got licenses, signed an SBA, finalized offices. Realized it isn't the best path</strong></h2>
+                    </div>
+                </div>
+                <div class="signal">
+                    <div class="signal__header">
+                        <h2><span class="story-year">23 yr.</span><strong>Stayed at Mission Control, met the smartest and nicest people</strong></h2>
+                    </div>
+                </div>
+                <div class="signal">
+                    <div class="signal__header">
+                        <h2><span class="story-year">23 yr.</span><strong>Got scouted in a hackathon, and joined AGI Inc. in research (met the smartest people I know there)</strong></h2>
+                    </div>
+                </div>
+                <div class="signal">
+                    <div class="signal__header">
+                        <h2><span class="story-year">23 yr.</span><strong>Worked in training agents via grpo, ppo; distilled vision models; RL environments; etc</strong></h2>
+                    </div>
+                </div>
+                <div class="signal">
+                    <div class="signal__header">
+                        <h2><span class="story-year">23 yr.</span><strong>Closed a contract with Amazon 150K+/month</strong></h2>
+                    </div>
+                </div>
+                <div class="signal">
+                    <div class="signal__header">
+                        <h2><span class="story-year">24 yr.</span><strong>Published a paper in NeurIPS</strong></h2>
+                    </div>
+                </div>
+                <div class="signal">
+                    <div class="signal__header">
+                        <h2><span class="story-year">?? yr.</span><strong>???</strong></h2>
+                    </div>
+                </div>
             </div>
         </section>
 
