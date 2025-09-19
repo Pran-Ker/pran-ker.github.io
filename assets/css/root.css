@@ -8,6 +8,7 @@
   --rgb-blurple: 85, 34, 250;
   --rgb-yellow: 255, 226, 0;
   --rgb-red: 232, 34, 36;
+  --rgb-cyan: 0, 207, 255;
 
   --color-black: rgb(var(--rgb-black));
   --color-white: rgb(var(--rgb-white));
@@ -17,9 +18,10 @@
   --color-blurple: rgb(var(--rgb-blurple));
   --color-yellow: rgb(var(--rgb-yellow));
   --color-red: rgb(var(--rgb-red));
+  --color-cyan: rgb(var(--rgb-cyan));
 
-  --font-family: 'Lab Grotesque', Sans-Serif;
-  --font-family-mono: 'Lab Grotesque Mono', Monospace;
+  --font-family: 'Lab Grotesque', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  --font-family-mono: 'Lab Grotesque Mono', 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', monospace;
   --font-size: calc(1em + 1vw);
   --font-size-x-small: 60%;
   --font-size-small: 80%;
