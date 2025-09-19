@@ -6,15 +6,8 @@ html {
   scroll-padding-top: calc(var(--font-size) * 7.4);
 }
 
-html.is-signal,
-html.is-signal body {
-  height: 100%;
-  min-height: 100%;
-  overflow-y: hidden;
-}
-
-html.is-signal .boundary {
-  display: none;
+html.is-signal {
+  scroll-behavior: auto;
 }
 
 body {
@@ -24,7 +17,7 @@ body {
   display: flex;
   flex-direction: column;
   font-family: var(--font-family);
-  font-feature-settings: "liga", "ss02";
+  font-feature-settings: 'liga', 'ss02';
   font-size: var(--font-size);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -38,10 +31,12 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-@supports (-webkit-touch-callout: none) {
+@supports(-webkit-touch-callout: none) {
+
   body {
     min-height: -webkit-fill-available;
   }
+
 }
 
 ::selection {
@@ -98,7 +93,7 @@ blockquote > * + * {
 }
 
 blockquote:before {
-  content: "\201C";
+  content: '\201C';
   font-size: 200%;
   font-weight: 300;
   left: 0;
@@ -164,8 +159,10 @@ table th {
   font-size: var(--font-size-xxx-large);
 }
 
-@media (min-width: 64em) and (hover: hover) and (pointer: fine) {
+@media(min-width: 64em) and (hover: hover) and (pointer: fine) {
+
   html {
     scroll-padding-top: 22.2vh;
   }
+
 }
