@@ -154,6 +154,145 @@
   padding: 0 0.25em;
 }
 
+/* Code blocks (pre > code) */
+.content pre {
+  --flow-space: calc(var(--line-height) * 1.5);
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(var(--rgb-grey-light), 0.2);
+  border-radius: 0.3em;
+  overflow-x: auto;
+  padding: 1.5em;
+  margin: 1.5em 0;
+}
+
+.content pre code {
+  background: none;
+  border: none;
+  border-radius: 0;
+  color: var(--color-white);
+  display: block;
+  font-size: 85%;
+  line-height: 1.6;
+  padding: 0;
+  white-space: pre;
+}
+
+/* Better spacing for markdown content */
+.page__content h1,
+.page__content h2,
+.page__content h3,
+.page__content h4,
+.page__content h5,
+.page__content h6 {
+  margin-top: 2em;
+  margin-bottom: 0.8em;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.page__content h1:first-child,
+.page__content h2:first-child {
+  margin-top: -0.5em;
+}
+
+.page__content h1 {
+  font-size: 2.5em;
+  margin-bottom: 1em;
+}
+
+.page__content h2 {
+  font-size: 1.8em;
+  margin-top: 2.5em;
+}
+
+.page__content h3 {
+  font-size: 1.4em;
+  margin-top: 2em;
+}
+
+.page__content h4,
+.page__content h5,
+.page__content h6 {
+  font-size: 1.2em;
+  margin-top: 1.5em;
+}
+
+.page__content p {
+  margin-bottom: 1.5em;
+  line-height: 1.7;
+}
+
+.page__content ul,
+.page__content ol {
+  margin-bottom: 1.5em;
+  padding-left: 2em;
+  line-height: 1.7;
+}
+
+.page__content ul li,
+.page__content ol li {
+  margin-bottom: 0.5em;
+}
+
+.page__content ul ul,
+.page__content ul ol,
+.page__content ol ul,
+.page__content ol ol {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.page__content blockquote {
+  border-left: 3px solid var(--color-cyan);
+  margin: 1.5em 0;
+  padding: 0.5em 0 0.5em 1.5em;
+  font-style: italic;
+  background: rgba(var(--rgb-grey-light), 0.05);
+}
+
+.page__content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 2em auto;
+  border-radius: 0.3em;
+}
+
+.page__content em {
+  font-style: italic;
+  color: var(--color-grey-light);
+}
+
+.page__content strong {
+  font-weight: 700;
+  color: var(--color-white);
+}
+
+.page__content hr {
+  border: none;
+  border-top: 1px solid rgba(var(--rgb-grey-light), 0.2);
+  margin: 3em 0;
+}
+
+/* Tables */
+.page__content table {
+  width: 100%;
+  margin: 1.5em 0;
+  border-collapse: collapse;
+}
+
+.page__content table th,
+.page__content table td {
+  padding: 0.75em;
+  text-align: left;
+  border-bottom: 1px solid rgba(var(--rgb-grey-light), 0.2);
+}
+
+.page__content table th {
+  font-weight: 700;
+  background: rgba(var(--rgb-grey-light), 0.05);
+}
+
 .content.content--jobs * + h2,
 .content.content--policies * + h2,
 .content.content--thoughts * + h2 {

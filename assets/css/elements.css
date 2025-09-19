@@ -58,7 +58,7 @@ h6 {
 }
 
 a {
-  color: var(--color-white);
+  color: var(--color-cyan);
   font-weight: 700;
   letter-spacing: normal;
   text-decoration: underline;

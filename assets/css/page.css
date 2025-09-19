@@ -1,7 +1,7 @@
 .page {
   display: flex;
   flex-direction: column;
-  margin: 7.4em var(--spacing) calc(var(--line-height) + var(--spacing)) var(--spacing);
+  margin: 4em var(--spacing) calc(var(--line-height) + var(--spacing)) var(--spacing);
   position: relative;
 }
 
@@ -101,6 +101,7 @@
 .page .page__content {
   margin-bottom: 3.7em;
   margin-top: 3.7em;
+  font-size: var(--font-size-small);
 }
 
 .page .page__back {
@@ -110,11 +111,11 @@
 @media(min-width: 64em) and (hover: hover) and (pointer: fine) {
 
   .page {
-    margin-top: max(22.2vh, 5.4em);
+    margin-top: 5.4em;
   }
 
   .page:after {
-    height: max(22.2vh, 5.4em);
+    height: 5.4em;
   }
 
   .page:before {
@@ -123,7 +124,8 @@
 
   .page .page__headline,
   .page .page__anchors,
-  .page .page__body {
+  .page .page__body,
+  .page .page__content {
     margin-left: 2.8ch;
     margin-right: 2.8ch;
   }
@@ -134,6 +136,11 @@
 
   .page .page__body {
     max-width: 39ch;
+  }
+
+  .page .page__content {
+    max-width: 65ch;
+    margin-bottom: calc(3.7em + var(--line-height) + 2em);
   }
 
 }

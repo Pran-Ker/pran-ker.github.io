@@ -8,26 +8,15 @@
     <meta content="ie=edge" http-equiv="x-ua-compatible">
     <meta name="handheldfriendly" content="true">
     <meta name="viewport" content="initial-scale=1, width=device-width">
-    <meta name="description" content="AI Researcher at AGI Inc, published researcher, Stanford alumnus. Building cutting-edge AI systems and reinforcement learning solutions.">
+    <meta name="description" content="Content page">
     <meta name="theme-color" content="#000000">
 
-    <meta property="og:site_name" content="Prannay Hebbar">
-    <meta property="og:title" content="Prannay Hebbar - AI Researcher">
-    <meta property="og:description" content="AI Researcher at AGI Inc, published researcher, Stanford alumnus. Specializing in web agents, reinforcement learning, and AI systems.">
-    <meta property="og:image" content="assets/images/opengraph.png">
-    <meta property="og:url" content="index.html">
-    <meta property="og:type" content="website">
-
-    <meta name="twitter:title" content="Prannay Hebbar - AI Researcher">
-    <meta name="twitter:description" content="AI Researcher at AGI Inc, published researcher, Stanford alumnus. Specializing in web agents, reinforcement learning, and AI systems.">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:creator" content="@Pran_Ker">
-
-    <link rel="canonical" href="index.html">
+    <link rel="canonical" href="detail.html">
     <link rel="icon" href="assets/images/favicon.jpeg">
     <link rel="mask-icon" href="assets/images/mask-icon.svg" color="#000000">
     <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
 
+    <!-- Keep all existing CSS -->
     <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
     <link rel="stylesheet" type="text/css" href="assets/css/root.css">
     <link rel="stylesheet" type="text/css" href="assets/css/fonts.css">
@@ -40,21 +29,26 @@
     <link rel="stylesheet" type="text/css" href="assets/css/controller.css">
     <link rel="stylesheet" type="text/css" href="assets/css/footer.css">
     <link rel="stylesheet" type="text/css" href="assets/css/header.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/jobs.css">
     <link rel="stylesheet" type="text/css" href="assets/css/nav.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/origin.css">
     <link rel="stylesheet" type="text/css" href="assets/css/page.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/policies.css">
     <link rel="stylesheet" type="text/css" href="assets/css/signal.css">
     <link rel="stylesheet" type="text/css" href="assets/css/signup.css">
     <link rel="stylesheet" type="text/css" href="assets/css/thought.css">
     <link rel="stylesheet" type="text/css" href="assets/css/thoughts.css">
     <link rel="stylesheet" type="text/css" href="assets/css/print.css" media="print">
 
+    <!-- Markdown parser -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script defer src="assets/js/script.js" type="module"></script>
+    
 </head>
 
 <body>
 
     <input class="nav-active" id="nav-active" type="checkbox">
-
     <label class="nav-underlay" for="nav-active"></label>
 
     <nav class="nav">
@@ -98,19 +92,18 @@
     </header>
 
     <main>
-
-        <section class="signal signal--clone" data-signal="01">
-            <header class="signal__header" tabindex="-1" autofocus>
-                <h2 aria-label="Welcome">
-                    <span>01.</span>
-                    <strong>Prannay ✧</strong>
-                </h2>
+        <section class="page">
+            <header class="page__header">
+                <button onclick="history.back()" class="button button--ghost" style="margin-bottom: 2em;">
+                    ← Back
+                </button>
             </header>
-            <div class="signal__content">
-                <p>I'm Prannay Hebbar, an AI Researcher at AGI Inc. building cutting-edge AI systems and advancing reinforcement learning. Published researcher in <a href="detail.html#blogs/web-agents-benchmark">web agents</a> and AI benchmarking. Stanford alumnus passionate about advancing artificial general intelligence. I specialize in training RL on games and simulations, with a focus on improving web agent reliability and creating evaluation frameworks for AI systems.</p>
+
+            <div class="page__content" id="content">
+                <!-- Content will be loaded here -->
+                <p>Loading...</p>
             </div>
         </section>
-
     </main>
 
     <div class="boundary"></div>
@@ -122,6 +115,62 @@
             <li><a href="https://x.com/Pran_Ker" target="_blank" rel="noopener" aria-label="Twitter">Twitter</a></li>
         </ul>
     </footer>
+
+    <script>
+        // Load markdown content based on URL hash
+        async function loadContent() {
+            const contentDiv = document.getElementById('content');
+            const hash = window.location.hash.substring(1);
+            
+            if (!hash) {
+                contentDiv.innerHTML = '<p>No content specified.</p>';
+                return;
+            }
+
+            try {
+                // Try HTML first, then fallback to markdown
+                let response = await fetch(`content/${hash}.html`);
+                let isHtml = false;
+                
+                if (response.ok) {
+                    isHtml = true;
+                } else {
+                    // Fallback to markdown
+                    response = await fetch(`content/${hash}.md`);
+                    if (!response.ok) {
+                        throw new Error('Content not found');
+                    }
+                }
+                
+                const content = await response.text();
+                
+                if (isHtml) {
+                    // For HTML files, extract body content and inject directly
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(content, 'text/html');
+                    contentDiv.innerHTML = doc.body.innerHTML;
+                } else {
+                    // For markdown files, parse as usual
+                    const html = marked.parse(content);
+                    contentDiv.innerHTML = html;
+                }
+                
+                // Update page title
+                const firstHeading = contentDiv.querySelector('h1');
+                if (firstHeading) {
+                    document.title = `Prannay — ${firstHeading.textContent}`;
+                } else {
+                    document.title = 'Prannay';
+                }
+            } catch (error) {
+                contentDiv.innerHTML = `<p>Error loading content: ${error.message}</p>`;
+            }
+        }
+
+        // Load content on page load and hash change
+        window.addEventListener('DOMContentLoaded', loadContent);
+        window.addEventListener('hashchange', loadContent);
+    </script>
 
 </body>
 </html>
