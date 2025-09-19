@@ -54,7 +54,7 @@
 
 @media(min-width: 64em) and (hover: hover) and (pointer: fine) {
   .signal.signal--clone[data-signal="01"] {
-    margin: 8vh var(--spacing) 44.4vh var(--spacing);
+    margin: 18vh var(--spacing) 44.4vh var(--spacing);
   }
 }
 
