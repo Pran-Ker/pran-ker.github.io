@@ -155,6 +155,17 @@
                 .page__content .signal .signal__header h2 strong a:visited {
                     color: var(--color-cyan) !important;
                 }
+
+                /* Fix inline links - override block display */
+                .page__content .signal .signal__header h2 strong a {
+                    display: inline !important;
+                    text-decoration: none;
+                }
+
+                /* Remove bold from story content */
+                .page__content .signal .signal__header h2 strong {
+                    font-weight: 400;
+                }
             </style>
             <div class="page__headline" style="margin-bottom: 0.5em; max-width: 100%;">
                 <h1>Story</h1>
