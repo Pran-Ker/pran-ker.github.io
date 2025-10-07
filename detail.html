@@ -40,10 +40,23 @@
     <link rel="stylesheet" type="text/css" href="assets/css/thoughts.css">
     <link rel="stylesheet" type="text/css" href="assets/css/print.css" media="print">
 
+    <!-- Blog-specific styles -->
+    <link rel="stylesheet" type="text/css" href="assets/css/blog-detail.css">
+
     <!-- Markdown parser -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <!-- Syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <!-- KaTeX for math rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
     <script defer src="assets/js/script.js" type="module"></script>
-    
+
 </head>
 
 <body>
@@ -91,19 +104,40 @@
         </ul>
     </header>
 
-    <main>
-        <section class="page">
-            <header class="page__header">
-                <button onclick="history.back()" class="button button--ghost" style="margin-bottom: 2em;">
-                    ← Back
-                </button>
-            </header>
+    <main class="blog-post-main">
+        <!-- Back button -->
+        <div style="max-width: 660px; margin: 0 auto 2rem;">
+            <button onclick="history.back()" class="button button--ghost">
+                ← Back
+            </button>
+        </div>
 
-            <div class="page__content" id="content">
-                <!-- Content will be loaded here -->
-                <p>Loading...</p>
+        <!-- Blog post heading -->
+        <div class="blog-post-heading">
+            <h1 class="blog-post-title" id="blog-title">Loading...</h1>
+            <div class="blog-post-metadata" id="blog-metadata">
+                <!-- Reading time will be inserted here -->
             </div>
-        </section>
+        </div>
+
+        <!-- Left-side Table of Contents -->
+        <nav class="left-toc" id="left-toc">
+            <div class="toc-title">Contents</div>
+            <ul class="toc-list" id="toc-list">
+                <!-- TOC will be generated here -->
+            </ul>
+        </nav>
+
+        <!-- Article content -->
+        <article class="blog-article-content" id="content">
+            <!-- Content will be loaded here -->
+            <p>Loading...</p>
+        </article>
+
+        <!-- Navigation between posts -->
+        <nav class="article-navigation" id="article-nav" style="display: none;">
+            <!-- Prev/Next links will be inserted here -->
+        </nav>
     </main>
 
     <div class="boundary"></div>
@@ -117,11 +151,155 @@
     </footer>
 
     <script>
+        // Calculate reading time
+        function calculateReadingTime(text) {
+            const wordsPerMinute = 200;
+            const words = text.trim().split(/\s+/).length;
+            const minutes = Math.ceil(words / wordsPerMinute);
+            return minutes;
+        }
+
+        // Generate table of contents
+        function generateTableOfContents() {
+            const contentDiv = document.getElementById('content');
+            const headings = contentDiv.querySelectorAll('h2, h3');
+
+            if (headings.length === 0) {
+                return;
+            }
+
+            const tocList = document.getElementById('toc-list');
+            tocList.innerHTML = '';
+
+            headings.forEach((heading, index) => {
+                // Add ID to heading for anchor links
+                const id = `section-${index}`;
+                heading.id = id;
+
+                // Create TOC item
+                const li = document.createElement('li');
+                li.className = 'toc-item';
+
+                if (heading.tagName === 'H3') {
+                    li.classList.add('toc-level-3');
+                }
+
+                const a = document.createElement('a');
+                a.href = `#${id}`;
+                a.textContent = heading.textContent;
+
+                li.appendChild(a);
+                tocList.appendChild(li);
+            });
+        }
+
+        // Add copy button to code blocks
+        function addCopyButtons() {
+            const codeBlocks = document.querySelectorAll('.blog-article-content pre');
+
+            codeBlocks.forEach((pre) => {
+                // Wrap pre in a div for positioning
+                const wrapper = document.createElement('div');
+                wrapper.className = 'code-block-wrapper';
+                pre.parentNode.insertBefore(wrapper, pre);
+                wrapper.appendChild(pre);
+
+                // Create copy button
+                const button = document.createElement('button');
+                button.className = 'copy-button';
+                button.innerHTML = 'Copy';
+                button.setAttribute('aria-label', 'Copy code to clipboard');
+
+                button.addEventListener('click', async () => {
+                    const code = pre.querySelector('code');
+                    const text = code.textContent;
+
+                    try {
+                        await navigator.clipboard.writeText(text);
+                        button.innerHTML = 'Copied!';
+                        button.classList.add('copied');
+
+                        setTimeout(() => {
+                            button.innerHTML = 'Copy';
+                            button.classList.remove('copied');
+                        }, 2000);
+                    } catch (err) {
+                        console.error('Failed to copy:', err);
+                    }
+                });
+
+                wrapper.appendChild(button);
+            });
+        }
+
+        // Add language labels to code blocks
+        function addLanguageLabels() {
+            const codeBlocks = document.querySelectorAll('.blog-article-content pre code');
+
+            codeBlocks.forEach((code) => {
+                // Check if highlight.js detected a language
+                const classes = code.className.split(' ');
+                const langClass = classes.find(c => c.startsWith('language-'));
+
+                if (langClass) {
+                    const lang = langClass.replace('language-', '');
+                    code.setAttribute('data-lang', lang);
+                }
+            });
+        }
+
+        // Add prev/next navigation
+        async function addPrevNextNav(currentSlug) {
+            try {
+                const response = await fetch('content/blog-posts.json');
+                const posts = await response.json();
+
+                const currentIndex = posts.findIndex(post => currentSlug.includes(post.slug));
+
+                if (currentIndex === -1) return;
+
+                const prevPost = posts[currentIndex - 1];
+                const nextPost = posts[currentIndex + 1];
+
+                if (!prevPost && !nextPost) return;
+
+                const navDiv = document.getElementById('article-nav');
+                let navHtml = '<div style="display: flex; justify-content: space-between; align-items: center; gap: 2em;">';
+
+                if (prevPost) {
+                    navHtml += `
+                        <a href="detail.html#${prevPost.slug}" class="nav-prev">
+                            <div class="nav-label">← Previous</div>
+                            <div class="nav-title">${prevPost.title}</div>
+                        </a>
+                    `;
+                } else {
+                    navHtml += '<div style="flex: 1;"></div>';
+                }
+
+                if (nextPost) {
+                    navHtml += `
+                        <a href="detail.html#${nextPost.slug}" class="nav-next">
+                            <div class="nav-label">Next →</div>
+                            <div class="nav-title">${nextPost.title}</div>
+                        </a>
+                    `;
+                } else {
+                    navHtml += '<div style="flex: 1;"></div>';
+                }
+
+                navDiv.innerHTML = navHtml;
+                navDiv.style.display = 'flex';
+            } catch (error) {
+                console.error('Error loading blog navigation:', error);
+            }
+        }
+
         // Load markdown content based on URL hash
         async function loadContent() {
             const contentDiv = document.getElementById('content');
             const hash = window.location.hash.substring(1);
-            
+
             if (!hash) {
                 contentDiv.innerHTML = '<p>No content specified.</p>';
                 return;
@@ -131,7 +309,7 @@
                 // Try HTML first, then fallback to markdown
                 let response = await fetch(`content/${hash}.html`);
                 let isHtml = false;
-                
+
                 if (response.ok) {
                     isHtml = true;
                 } else {
@@ -141,9 +319,9 @@
                         throw new Error('Content not found');
                     }
                 }
-                
+
                 const content = await response.text();
-                
+
                 if (isHtml) {
                     // For HTML files, extract body content and inject directly
                     const parser = new DOMParser();
@@ -154,21 +332,69 @@
                     const html = marked.parse(content);
                     contentDiv.innerHTML = html;
                 }
-                
-                // Update page title
+
+                // Update page title and blog title
                 const firstHeading = contentDiv.querySelector('h1');
                 if (firstHeading) {
                     document.title = `Prannay — ${firstHeading.textContent}`;
+                    document.getElementById('blog-title').textContent = firstHeading.textContent;
+                    // Remove h1 from content since it's now in the header
+                    firstHeading.remove();
                 } else {
                     document.title = 'Prannay';
                 }
+
+                // Apply syntax highlighting
+                contentDiv.querySelectorAll('pre code').forEach((block) => {
+                    hljs.highlightElement(block);
+                });
+
+                // Add language labels to code blocks
+                addLanguageLabels();
+
+                // Add copy buttons to code blocks
+                addCopyButtons();
+
+                // Render math equations with KaTeX
+                if (window.renderMathInElement) {
+                    renderMathInElement(contentDiv, {
+                        delimiters: [
+                            {left: '$$', right: '$$', display: true},
+                            {left: '$', right: '$', display: false},
+                            {left: '\\[', right: '\\]', display: true},
+                            {left: '\\(', right: '\\)', display: false}
+                        ],
+                        throwOnError: false
+                    });
+                }
+
+                // Calculate and display reading time
+                const readingTime = calculateReadingTime(contentDiv.textContent);
+                const metaDiv = document.getElementById('blog-metadata');
+                metaDiv.innerHTML = `<span>${readingTime} min read</span>`;
+
+                // Generate table of contents
+                generateTableOfContents();
+
+                // Add prev/next navigation
+                addPrevNextNav(hash);
+
             } catch (error) {
                 contentDiv.innerHTML = `<p>Error loading content: ${error.message}</p>`;
             }
         }
 
+        // Wait for KaTeX to load before processing content
+        function init() {
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', loadContent);
+            } else {
+                loadContent();
+            }
+        }
+
         // Load content on page load and hash change
-        window.addEventListener('DOMContentLoaded', loadContent);
+        init();
         window.addEventListener('hashchange', loadContent);
     </script>
 

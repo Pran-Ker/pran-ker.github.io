@@ -157,24 +157,49 @@
 /* Code blocks (pre > code) */
 .content pre {
   --flow-space: calc(var(--line-height) * 1.5);
-  background: rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(var(--rgb-grey-light), 0.2);
-  border-radius: 0.3em;
+  background: #282c34;
+  border: 1px solid rgba(var(--rgb-grey-light), 0.15);
+  border-radius: 0.5em;
   overflow-x: auto;
-  padding: 1.5em;
-  margin: 1.5em 0;
+  padding: 1.8em;
+  margin: 2em 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
 .content pre code {
   background: none;
   border: none;
   border-radius: 0;
-  color: var(--color-white);
+  color: #abb2bf;
   display: block;
-  font-size: 85%;
+  font-size: 0.9em;
   line-height: 1.6;
   padding: 0;
   white-space: pre;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+}
+
+.page__content pre {
+  background: #282c34;
+  border: 1px solid rgba(var(--rgb-grey-light), 0.15);
+  border-radius: 0.5em;
+  overflow-x: auto;
+  padding: 1.8em;
+  margin: 2em 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.page__content pre code {
+  background: none;
+  border: none;
+  border-radius: 0;
+  color: #abb2bf;
+  display: block;
+  font-size: 0.9em;
+  line-height: 1.6;
+  padding: 0;
+  white-space: pre;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
 }
 
 /* Better spacing for markdown content */
@@ -184,37 +209,53 @@
 .page__content h4,
 .page__content h5,
 .page__content h6 {
-  margin-top: 2em;
-  margin-bottom: 0.8em;
   font-weight: 700;
   line-height: 1.3;
+  letter-spacing: -0.02em;
 }
 
 .page__content h1:first-child,
 .page__content h2:first-child {
-  margin-top: -0.5em;
+  margin-top: 0;
 }
 
 .page__content h1 {
-  font-size: 2.5em;
-  margin-bottom: 1em;
+  font-size: 2.8em;
+  margin-top: 0.5em;
+  margin-bottom: 0.6em;
+  line-height: 1.2;
 }
 
 .page__content h2 {
-  font-size: 1.8em;
+  font-size: 2em;
   margin-top: 2.5em;
+  margin-bottom: 0.8em;
+  padding-top: 0.5em;
+  border-top: 1px solid rgba(var(--rgb-grey-light), 0.15);
+}
+
+.page__content h2:first-of-type {
+  border-top: none;
+  padding-top: 0;
 }
 
 .page__content h3 {
-  font-size: 1.4em;
+  font-size: 1.5em;
   margin-top: 2em;
+  margin-bottom: 0.8em;
 }
 
-.page__content h4,
+.page__content h4 {
+  font-size: 1.25em;
+  margin-top: 1.8em;
+  margin-bottom: 0.6em;
+}
+
 .page__content h5,
 .page__content h6 {
-  font-size: 1.2em;
+  font-size: 1.1em;
   margin-top: 1.5em;
+  margin-bottom: 0.6em;
 }
 
 .page__content p {
