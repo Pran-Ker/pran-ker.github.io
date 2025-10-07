@@ -139,7 +139,7 @@
   }
 
   .page .page__content {
-    max-width: 65ch;
+    max-width: 85ch;
     margin-bottom: calc(3.7em + var(--line-height) + 2em);
   }
 
