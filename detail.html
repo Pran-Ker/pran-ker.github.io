@@ -43,6 +43,19 @@
     <!-- Blog-specific styles -->
     <link rel="stylesheet" type="text/css" href="assets/css/blog-detail.css">
 
+    <style>
+        /* Smooth scrolling for anchor links */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Offset for fixed header when jumping to anchors */
+        .blog-article-content h2,
+        .blog-article-content h3 {
+            scroll-margin-top: 2rem;
+        }
+    </style>
+
     <!-- Markdown parser -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
@@ -189,6 +202,17 @@
                 const a = document.createElement('a');
                 a.href = `#${id}`;
                 a.textContent = heading.textContent;
+
+                // Add smooth scroll click handler
+                a.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const target = document.getElementById(id);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        // Update URL hash without jumping
+                        history.pushState(null, null, `#${window.location.hash.substring(1)}`);
+                    }
+                });
 
                 li.appendChild(a);
                 tocList.appendChild(li);

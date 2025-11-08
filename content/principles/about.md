@@ -1,9 +1,5 @@
 # About Me
 
-*Journey | Experience*
-
-## Prannay ✧
-
 I have the tendency to be overly critical of myself, this sometimes comes across as lack confidence. However this is far from the truth. A simple way of credit assignment for progress is  the story of recent years:
 
 It is the end of college, and I had the choice of a well paying job in Boston (Virtusa), which had exceptional pay. But the interviews were too easy, so I told my parents I was going to reject it with no backups and find something better. A few months later, I got into a bouquet consulting firm and was soon leading an entire team while reporting to multiple clients (Bread Financials, California Lawyers of Arts, etc).
