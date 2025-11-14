@@ -1,4 +1,6 @@
-## About me:
+# About me
+
+*Personal | Updated regularly*
 
 I have the tendency to be overly critical of myself, this sometimes comes across as lack confidence. However this is far from the truth. A simple way of credit assignment for progress is  the story of recent years:
 
