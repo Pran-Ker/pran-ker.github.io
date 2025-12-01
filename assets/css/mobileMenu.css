@@ -1,0 +1,92 @@
+/* =======================
+   BURGER ICON
+   ======================= */
+.burger {
+  font-size: 1.8rem;
+  color: white;
+  cursor: pointer;
+  display: none; /* hidden on desktop */
+  z-index: 9999;
+}
+
+@media (max-width: 900px) {
+  .burger {
+    display: block;
+    position: fixed;
+    top: 1.2rem;
+    right: 1.2rem;
+  }
+}
+
+/* =======================
+   SIDE MENU
+   ======================= */
+.side-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 260px;
+  height: 100vh;
+  background: white;
+  padding: 2rem 1.2rem;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 9998;
+  overflow-y: auto;
+}
+
+.side-menu.open {
+  transform: translateX(0);
+}
+
+/* side menu links */
+.side-menu ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 2rem;
+}
+
+.side-menu ul li {
+  margin-bottom: 1rem;
+}
+
+.side-menu ul li a {
+  text-decoration: none;
+  color: black;
+  font-size: 1.2rem;
+}
+
+/* =======================
+   BACKDROP
+   ======================= */
+.menu-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s ease;
+  z-index: 9997;
+}
+
+.menu-backdrop.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Disable scroll */
+.no-scroll {
+  overflow: hidden;
+}
+
+/* =======================
+   HIDE DESKTOP HEADER on mobile
+   ======================= */
+@media (max-width: 900px) {
+  header.header {
+    display: none;
+  }
+}
