@@ -79,7 +79,7 @@
 
 .content hr.ornament:before {
   color: var(--color-white);
-  content: '***';
+  content: "***";
   font-size: var(--font-size-xx-large);
   font-weight: 500;
   letter-spacing: 0.15em;
@@ -132,9 +132,9 @@
 }
 
 .content ol li:before {
-  content: counter(counter) '.';
+  content: counter(counter) ".";
   display: inline-block;
-  font-feature-settings: 'ss02', 'tnum';
+  font-feature-settings: "ss02", "tnum";
   font-weight: 700;
   margin-left: -2.5em;
   margin-right: 0.5em;
@@ -176,7 +176,8 @@
   line-height: 1.6;
   padding: 0;
   white-space: pre;
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", "source-code-pro",
+    monospace;
 }
 
 .page__content pre {
@@ -199,7 +200,8 @@
   line-height: 1.6;
   padding: 0;
   white-space: pre;
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", "source-code-pro",
+    monospace;
 }
 
 /* Better spacing for markdown content */
@@ -273,6 +275,8 @@
 .page__content ul li,
 .page__content ol li {
   margin-bottom: 0.5em;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 22px;
 }
 
 .page__content ul ul,
@@ -340,8 +344,7 @@
   --flow-space: calc(var(--line-height) * 1.8);
 }
 
-@media(min-width: 64em) and (hover: hover) and (pointer: fine) {
-
+@media (min-width: 64em) and (hover: hover) and (pointer: fine) {
   .content h1 a:hover,
   .content h2 a:hover,
   .content h3 a:hover,
@@ -356,5 +359,4 @@
   .content h6 a:focus {
     text-decoration: underline;
   }
-
 }

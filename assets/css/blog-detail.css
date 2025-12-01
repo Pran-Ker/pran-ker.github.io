@@ -41,7 +41,7 @@
 
 /* Bottom blur gradient - matches other pages */
 .blog-post-main::before {
-  content: '';
+  content: "";
   position: fixed;
   bottom: 0;
   left: 0;
@@ -82,7 +82,7 @@
 
 /* Blog post title */
 .blog-post-title {
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: Georgia, "Times New Roman", serif;
   font-weight: 600;
   font-size: 30px;
   max-width: 480px;
@@ -113,8 +113,8 @@
 /* Back button container */
 .back-button-container {
   position: fixed;
-  left: max(20px, calc(50% - 660px/2 - var(--toc-width) - var(--toc-gap)));
-  top: 200px;
+  left: max(20px, calc(50% - 660px / 2 - var(--toc-width) - var(--toc-gap)));
+  top: 148px;
   display: none;
 }
 
@@ -131,7 +131,7 @@
   max-width: 660px;
   position: relative;
   overflow: visible;
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: Georgia, "Times New Roman", serif;
   font-size: 18px;
   line-height: 2.1;
   color: var(--color-grey-light);
@@ -146,7 +146,7 @@
 
 /* Typography */
 .blog-article-content h1 {
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: Georgia, "Times New Roman", serif;
   font-weight: 600;
   font-size: 30px;
   line-height: 1.4;
@@ -159,7 +159,7 @@
 }
 
 .blog-article-content h2 {
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: Georgia, "Times New Roman", serif;
   font-size: 1.45rem;
   margin: 2.5em 0 0.8em;
   font-weight: 600;
@@ -168,7 +168,7 @@
 }
 
 .blog-article-content h3 {
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: Georgia, "Times New Roman", serif;
   font-size: 1.35rem;
   margin: 1.4em 0 0.5em;
   font-weight: normal;
@@ -180,7 +180,7 @@
 .blog-article-content h4,
 .blog-article-content h5,
 .blog-article-content h6 {
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: Georgia, "Times New Roman", serif;
   font-size: 0.97rem;
   margin: 1.4em 0 0.7em;
   font-weight: normal;
@@ -242,7 +242,7 @@
 /* Code - inline */
 .blog-article-content code {
   color: #d73a49;
-  font-family: 'SF Mono', 'Monaco', 'Menlo', 'Consolas', monospace;
+  font-family: "SF Mono", "Monaco", "Menlo", "Consolas", monospace;
   padding: 0 0.2rem;
   font-size: 0.9em;
   display: inline;
@@ -252,7 +252,7 @@
 .blog-article-content pre {
   background-color: #282c34 !important;
   border-radius: 0.3rem;
-  font-family: 'SF Mono', 'Monaco', 'Menlo', 'Consolas', monospace;
+  font-family: "SF Mono", "Monaco", "Menlo", "Consolas", monospace;
   position: relative;
   overflow-x: auto;
   padding: 2rem 1rem 1rem 1rem;
@@ -308,7 +308,8 @@
   padding: 0.4rem;
   cursor: pointer;
   opacity: 0;
-  transition: opacity 0.2s ease-in-out, background-color 0.15s ease-in-out, color 0.15s ease-in-out;
+  transition: opacity 0.2s ease-in-out, background-color 0.15s ease-in-out,
+    color 0.15s ease-in-out;
   z-index: 10;
   display: flex;
   align-items: center;
@@ -365,10 +366,10 @@
 .left-toc {
   position: fixed;
   top: 250px;
-  left: max(20px, calc(50% - 660px/2 - var(--toc-width) - var(--toc-gap)));
+  left: max(20px, calc(50% - 660px / 2 - var(--toc-width) - var(--toc-gap)));
   width: var(--toc-width);
   margin: 0;
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: Georgia, "Times New Roman", serif;
   font-size: 0.9rem;
   line-height: 1.4;
   color: var(--color-grey-light);

@@ -1,13 +1,14 @@
 .page {
   display: flex;
   flex-direction: column;
-  margin: 4em var(--spacing) calc(var(--line-height) + var(--spacing)) var(--spacing);
+  margin: 4em var(--spacing) calc(var(--line-height) + var(--spacing))
+    var(--spacing);
   position: relative;
 }
 
 .page:after,
 .page:before {
-  content: '';
+  content: "";
   left: 0;
   pointer-events: none;
   position: fixed;
@@ -58,9 +59,10 @@
 }
 
 .page .page__headline h6 {
-  font-size: var(--font-size-small);
   font-weight: 700;
   line-height: 1.2;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 30px;
 }
 
 .page .page__headline small {
@@ -92,7 +94,7 @@
 }
 
 .page .page__anchors dl dd:before {
-  content: '\2193';
+  content: "\2193";
   left: 0;
   position: absolute;
   width: 2ch;
@@ -108,8 +110,7 @@
   --flow-space: calc(var(--line-height) * 2);
 }
 
-@media(min-width: 64em) and (hover: hover) and (pointer: fine) {
-
+@media (min-width: 64em) and (hover: hover) and (pointer: fine) {
   .page {
     margin-top: 5.4em;
   }
@@ -142,5 +143,4 @@
     max-width: 85ch;
     margin-bottom: calc(3.7em + var(--line-height) + 2em);
   }
-
 }
