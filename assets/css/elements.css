@@ -54,7 +54,7 @@ h6 {
   color: var(--color-white);
   font-weight: 700;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-size: 30px;
+  font-size: 24px;
 }
 
 a {
@@ -65,7 +65,13 @@ a {
   text-decoration-thickness: 0.09em;
   text-underline-offset: 0.09em;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-size: 30px;
+  font-size: 22px;
+}
+
+.mobile-menu-text {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
 }
 
 em,

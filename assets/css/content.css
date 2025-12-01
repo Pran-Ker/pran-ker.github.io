@@ -276,7 +276,15 @@
 .page__content ol li {
   margin-bottom: 0.5em;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-size: 22px;
+  font-size: 16px; /* Mobile font size */
+}
+
+/* Desktop screens */
+@media (min-width: 768px) {
+  .page__content ul li,
+  .page__content ol li {
+    font-size: 22px;
+  }
 }
 
 .page__content ul ul,

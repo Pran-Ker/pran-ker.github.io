@@ -148,3 +148,16 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
+.common-description {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 16px !important;
+}
+
+/* Desktop screens */
+@media (min-width: 768px) {
+  .common-description {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px !important;
+  }
+}
