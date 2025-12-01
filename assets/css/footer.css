@@ -36,7 +36,7 @@
 }
 
 .footer ul li:not(:last-child) {
-  padding-right: 1em;
+  padding-right: 0;
 }
 
 .footer ul li.selected a {
@@ -63,13 +63,12 @@
   background: var(--color-white);
   border-radius: 100%;
   box-shadow: 0 0 1.3em 0.1em rgba(var(--rgb-black), 0.8);
-  content: '';
+  content: "";
   height: var(--line-height);
   width: var(--line-height);
 }
 
-@media(min-width: 64em) and (hover: hover) and (pointer: fine) {
-
+@media (min-width: 64em) and (hover: hover) and (pointer: fine) {
   .footer ul {
     display: flex;
   }
@@ -87,5 +86,35 @@
   .footer .footer__next {
     display: none;
   }
+}
 
+/* css codes written by Ratheesh */
+.social-icons {
+  display: flex;
+  gap: 15px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.social-icons li {
+  display: inline-block;
+}
+
+.social-icons a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background-color: #000000;
+  color: white;
+  border-radius: 50%;
+  text-decoration: none;
+  font-size: 1.5rem;
+}
+
+.social-icons a:hover {
+  background-color: white;
+  color: #000000;
 }

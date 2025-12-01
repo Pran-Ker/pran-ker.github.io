@@ -17,7 +17,7 @@ body {
   display: flex;
   flex-direction: column;
   font-family: var(--font-family);
-  font-feature-settings: 'liga', 'ss02';
+  font-feature-settings: "liga", "ss02";
   font-size: var(--font-size);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -31,12 +31,10 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-@supports(-webkit-touch-callout: none) {
-
+@supports (-webkit-touch-callout: none) {
   body {
     min-height: -webkit-fill-available;
   }
-
 }
 
 ::selection {
@@ -55,6 +53,8 @@ h5,
 h6 {
   color: var(--color-white);
   font-weight: 700;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 30px;
 }
 
 a {
@@ -64,6 +64,8 @@ a {
   text-decoration: underline;
   text-decoration-thickness: 0.09em;
   text-underline-offset: 0.09em;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 30px;
 }
 
 em,
@@ -93,7 +95,7 @@ blockquote > * + * {
 }
 
 blockquote:before {
-  content: '\201C';
+  content: "\201C";
   font-size: 200%;
   font-weight: 300;
   left: 0;
@@ -159,10 +161,8 @@ table th {
   font-size: var(--font-size-xxx-large);
 }
 
-@media(min-width: 64em) and (hover: hover) and (pointer: fine) {
-
+@media (min-width: 64em) and (hover: hover) and (pointer: fine) {
   html {
     scroll-padding-top: 22.2vh;
   }
-
 }

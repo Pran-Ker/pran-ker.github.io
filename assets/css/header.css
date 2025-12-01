@@ -52,6 +52,10 @@
 .header ul li a {
   text-decoration: none;
   transition: color var(--transition);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.4;
 }
 
 .header ul li:not(:last-child) {
@@ -62,8 +66,7 @@
   text-decoration: underline;
 }
 
-@media(min-width: 64em) and (hover: hover) and (pointer: fine) {
-
+@media (min-width: 64em) and (hover: hover) and (pointer: fine) {
   .header ul {
     display: flex;
   }
@@ -77,5 +80,4 @@
   .header ul li.selected a:focus {
     color: var(--color-white);
   }
-
 }
