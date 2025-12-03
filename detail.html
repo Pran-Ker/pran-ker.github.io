@@ -176,7 +176,7 @@
     <main class="blog-post-main">
       <!-- Blog post heading -->
       <div class="blog-post-heading">
-        <h1 class="blog-post-title" id="blog-title">Loading...</h1>
+        <h1 class="blog-post-title loading-text" id="blog-title">Loading...</h1>
         <div class="blog-post-metadata" id="blog-metadata">
           <!-- Reading time will be inserted here -->
         </div>
@@ -184,7 +184,7 @@
 
       <!-- Back button -->
       <div class="back-button-container">
-        <button onclick="history.back()" class="button button--ghost">
+        <button onclick="history.back()" class="button--small-back">
           ← Back
         </button>
       </div>
@@ -200,7 +200,7 @@
       <!-- Article content -->
       <article class="blog-article-content" id="content">
         <!-- Content will be loaded here -->
-        <p>Loading...</p>
+        <p class="loading-text">Loading...</p>
       </article>
 
       <!-- Navigation between posts -->
@@ -393,27 +393,27 @@
           const navDiv = document.getElementById("article-nav");
           let navHtml =
             '<div style="display: flex; justify-content: space-between; align-items: center; gap: 2em;">';
+          // its from line 400 inside div <div class="nav-label">← Previous</div>
 
           if (prevPost) {
             navHtml += `
                         <a href="detail.html#${prevPost.slug}" class="nav-prev">
-                            <div class="nav-label">← Previous</div>
-                            <div class="nav-title">${prevPost.title}</div>
+                            <div class="nav-title blog-title">${prevPost.title}</div>
                         </a>
                     `;
           } else {
-            navHtml += '<div style="flex: 1;"></div>';
+            navHtml += '<div style="width: auto;"></div>';
           }
-
+          //  its from line 410 inside <div class="nav-label">Next →</div>
           if (nextPost) {
             navHtml += `
                         <a href="detail.html#${nextPost.slug}" class="nav-next">
-                            <div class="nav-label">Next →</div>
-                            <div class="nav-title">${nextPost.title}</div>
+                           
+                            <div class="nav-title  blog-title">${nextPost.title}</div>
                         </a>
                     `;
           } else {
-            navHtml += '<div style="flex: 1;"></div>';
+            navHtml += '<div style="width: auto;"></div>';
           }
 
           navDiv.innerHTML = navHtml;
