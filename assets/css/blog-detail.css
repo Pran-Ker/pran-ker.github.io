@@ -516,3 +516,46 @@
     text-align: left;
   }
 }
+
+.nav-prev,
+.nav-next {
+  border: none !important;
+}
+
+.blog-title {
+  font-size: 17px;
+  font-family: "Iowan Old Style BT", Georgia, serif;
+  cursor: pointer;
+}
+.blog-title:hover {
+  font-size: 17px;
+  font-family: "Iowan Old Style BT", Georgia, serif;
+  text-decoration: underline;
+}
+
+.button--small-back {
+  background: var(--color-white);
+  border: 1px solid #ddd;
+  border-radius: 1.1em;
+  color: var(--color-black);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 0.45em 1.1em;
+  line-height: 1;
+  gap: 0.3em;
+  white-space: nowrap;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.button--small-back:hover {
+  background: #f7f7f7;
+  border-color: #ccc;
+}
+
+.loading-text {
+  font-size: 18px;
+}
