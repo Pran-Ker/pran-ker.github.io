@@ -150,14 +150,14 @@ table {
 }
 
 .common-description {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-family: Georgia, "Times New Roman", serif;
   font-size: 16px !important;
 }
 
 /* Desktop screens */
 @media (min-width: 768px) {
   .common-description {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: Georgia, "Times New Roman", serif;
     font-size: 16px !important;
   }
 }
