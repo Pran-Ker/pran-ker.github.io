@@ -275,7 +275,7 @@
 .page__content ul li,
 .page__content ol li {
   margin-bottom: 0.5em;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-family: Georgia, "Times New Roman", serif;
   font-size: 16px; /* Mobile font size */
 }
 
