@@ -52,7 +52,7 @@
 .header ul li a {
   text-decoration: none;
   transition: color var(--transition);
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-family: Georgia, "Times New Roman", serif;
   font-weight: 600;
   font-size: 18px;
   line-height: 1.4;

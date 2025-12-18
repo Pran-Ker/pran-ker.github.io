@@ -26,13 +26,11 @@
   display: flex;
 }
 
-@media(min-width: 64em) and (hover: hover) and (pointer: fine) {
-
+@media (min-width: 64em) and (hover: hover) and (pointer: fine) {
   .nav-active:checked ~ .nav-underlay,
   .nav-active:checked ~ .nav {
     display: none;
   }
-
 }
 
 .nav-underlay {
@@ -46,12 +44,10 @@
   z-index: 107;
 }
 
-@media(min-width: 64em) and (hover: hover) and (pointer: fine) {
-
+@media (min-width: 64em) and (hover: hover) and (pointer: fine) {
   .nav-underlay {
     display: none;
   }
-
 }
 
 .nav {
@@ -97,6 +93,7 @@
   line-height: var(--line-height);
   padding: var(--spacing);
   pointer-events: auto;
+  font-family: Georgia, "Times New Roman", serif;
 }
 
 .nav .nav__toggle label span {
@@ -143,10 +140,8 @@
   line-height: var(--line-height);
 }
 
-@media(min-width: 64em) and (hover: hover) and (pointer: fine) {
-
+@media (min-width: 64em) and (hover: hover) and (pointer: fine) {
   .nav {
     display: none;
   }
-
 }

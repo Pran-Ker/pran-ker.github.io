@@ -21,7 +21,7 @@
   background: var(--color-white);
   border-radius: 100%;
   box-shadow: 0 0 1.3em 0.1em rgba(var(--rgb-black), 0.8);
-  content: '';
+  content: "";
   height: var(--line-height);
   width: var(--line-height);
 }
@@ -36,16 +36,11 @@
 }
 
 .controller.controller--transition {
-  transition:
-    bottom var(--transition),
-    right var(--transition)
-  ;
+  transition: bottom var(--transition), right var(--transition);
 }
 
-@media(min-width: 64em) and (hover: hover) and (pointer: fine) {
-
+@media (min-width: 64em) and (hover: hover) and (pointer: fine) {
   .controller {
     visibility: visible;
   }
-
 }

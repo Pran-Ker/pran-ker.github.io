@@ -53,7 +53,7 @@ h5,
 h6 {
   color: var(--color-white);
   font-weight: 700;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-family: Georgia, "Times New Roman", serif;
   font-size: 24px;
 }
 
@@ -64,12 +64,12 @@ a {
   text-decoration: underline;
   text-decoration-thickness: 0.09em;
   text-underline-offset: 0.09em;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-family: Georgia, "Times New Roman", serif;
   font-size: 22px;
 }
 
 .mobile-menu-text {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-family: Georgia, "Times New Roman", serif;
   font-size: 16px;
   font-weight: 600;
 }
