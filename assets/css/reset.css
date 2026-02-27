@@ -150,14 +150,15 @@ table {
 }
 
 .common-description {
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 16px !important;
+  font-family: var(--font-family);
+  font-size: 15px !important;
+  color: var(--color-grey);
+  line-height: 1.6;
+  letter-spacing: 0;
 }
 
-/* Desktop screens */
 @media (min-width: 768px) {
   .common-description {
-    font-family: Georgia, "Times New Roman", serif;
     font-size: 16px !important;
   }
 }

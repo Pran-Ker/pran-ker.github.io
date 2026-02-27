@@ -93,7 +93,7 @@
   line-height: var(--line-height);
   padding: var(--spacing);
   pointer-events: auto;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-family);
 }
 
 .nav .nav__toggle label span {

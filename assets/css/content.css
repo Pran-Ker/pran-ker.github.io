@@ -275,16 +275,8 @@
 .page__content ul li,
 .page__content ol li {
   margin-bottom: 0.5em;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 16px; /* Mobile font size */
-}
-
-/* Desktop screens */
-@media (min-width: 768px) {
-  .page__content ul li,
-  .page__content ol li {
-    font-size: 22px;
-  }
+  font-family: var(--font-family);
+  font-size: var(--font-size);
 }
 
 .page__content ul ul,

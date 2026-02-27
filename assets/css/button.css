@@ -1,17 +1,24 @@
 .button {
   align-self: flex-start;
   background: var(--color-white);
-  border-radius: 1.3em;
+  border-radius: 6px;
   color: var(--color-black);
   cursor: pointer;
   display: inline-flex;
-  font-size: var(--font-size-small);
+  font-size: 14px;
   font-weight: 500;
   gap: 0.4em;
-  letter-spacing: normal;
-  padding: 0.6em 1.1em 0.55em 1.1em;
+  letter-spacing: 0;
+  padding: 0.55em 1.2em;
   text-decoration: none;
   white-space: nowrap;
+  transition: background var(--transition), color var(--transition);
+  font-family: var(--font-family);
+}
+
+.button:hover {
+  background: var(--color-grey-light);
+  opacity: 1;
 }
 
 .button span {
@@ -20,11 +27,17 @@
 }
 
 .button.button--dim {
-  background: var(--color-grey-dark);
+  background: rgba(var(--rgb-white), 0.08);
   color: var(--color-white);
+  border: 1px solid rgba(var(--rgb-white), 0.12);
+}
+
+.button.button--dim:hover {
+  background: rgba(var(--rgb-white), 0.15);
 }
 
 .button.button--black {
   background: var(--color-black);
   color: var(--color-white);
+  border: 1px solid rgba(var(--rgb-white), 0.12);
 }
