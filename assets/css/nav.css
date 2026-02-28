@@ -70,7 +70,7 @@
 
 .nav .nav__logo a {
   display: block;
-  height: var(--line-height);
+  height: 1.5rem;
   margin-right: var(--spacing);
   margin-top: var(--spacing);
 }
