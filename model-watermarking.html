@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>You Trained It. Someone Stole It. Now What? — Prannay Hebbar</title>
+
+    <meta charset="utf-8" />
+    <meta content="ie=edge" http-equiv="x-ua-compatible" />
+    <meta name="handheldfriendly" content="true" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+    <meta name="description" content="On model watermarking: output watermarks, weight watermarks, backdoors, LoRA keys, and representational locks." />
+    <meta name="theme-color" content="#000000" />
+
+    <meta property="og:site_name" content="Prannay Hebbar" />
+    <meta property="og:title" content="You Trained It. Someone Stole It. Now What?" />
+    <meta property="og:description" content="On model watermarking: output watermarks, weight watermarks, backdoors, LoRA keys, and representational locks." />
+    <meta property="og:type" content="article" />
+
+    <link rel="icon" href="assets/images/favicon-32.png" />
+    <link rel="mask-icon" href="assets/images/mask-icon.svg" color="#000000" />
+    <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png" />
+
+    <link rel="preload" href="assets/fonts/LabGrotesque-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/LabGrotesque-Medium.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/LabGrotesque-Bold.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="assets/css/style.css" />
+
+    <style>
+      :root {
+        --ink: #0a0a0a;
+        --paper: #fafafa;
+        --rule: #e6e6e6;
+        --muted: #6b6b6b;
+        --accent: #00cfff;
+        --accent-dim: rgba(0, 207, 255, 0.12);
+        --green: #16a34a;
+        --green-dim: rgba(22, 163, 74, 0.16);
+        --red: #dc2626;
+        --red-dim: rgba(220, 38, 38, 0.16);
+        --yellow: #f5b800;
+      }
+
+      body {
+        background: var(--paper);
+        color: var(--ink);
+      }
+
+      .article {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 8rem 1.5rem 6rem;
+        font-size: 17px;
+        line-height: 1.7;
+      }
+
+      @media (min-width: 64em) {
+        .article { font-size: 18px; }
+      }
+
+      .article h1 {
+        font-size: clamp(2rem, 5vw, 3.4rem);
+        line-height: 1.05;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        margin: 0 0 1.5rem;
+      }
+
+      .article .meta {
+        color: var(--muted);
+        font-size: 0.95rem;
+        margin-bottom: 3rem;
+        letter-spacing: 0.02em;
+      }
+
+      .article h2 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        margin: 4rem 0 1rem;
+        line-height: 1.2;
+      }
+
+      .article h2 .num {
+        display: inline-block;
+        font-size: 0.7rem;
+        font-weight: 500;
+        color: var(--muted);
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        vertical-align: middle;
+        margin-right: 0.6rem;
+        padding: 0.2rem 0.5rem;
+        border: 1px solid var(--rule);
+        border-radius: 999px;
+      }
+
+      .article p {
+        margin: 0 0 1.1rem;
+      }
+
+      .article hr {
+        border: 0;
+        border-top: 1px solid var(--rule);
+        margin: 3.5rem 0;
+      }
+
+      .article code {
+        font-family: var(--font-family-mono, 'SF Mono', Monaco, monospace);
+        background: #f0f0f0;
+        padding: 0.1em 0.35em;
+        border-radius: 4px;
+        font-size: 0.92em;
+      }
+
+      .article pre {
+        background: #0a0a0a;
+        color: #f0f0f0;
+        padding: 1.1rem 1.3rem;
+        border-radius: 8px;
+        overflow-x: auto;
+        font-family: var(--font-family-mono, 'SF Mono', Monaco, monospace);
+        font-size: 0.88rem;
+        line-height: 1.55;
+        margin: 1.4rem 0;
+      }
+
+      .article pre code {
+        background: none;
+        padding: 0;
+        color: inherit;
+      }
+
+      .article em {
+        color: var(--ink);
+      }
+
+      .article strong {
+        font-weight: 700;
+      }
+
+      /* Lead paragraph */
+      .lead {
+        font-size: 1.25rem;
+        line-height: 1.55;
+        color: var(--ink);
+        margin: 0 0 2rem;
+      }
+
+      .lead em {
+        color: var(--muted);
+        font-style: normal;
+      }
+
+      /* Section opener */
+      .opener {
+        font-weight: 700;
+        font-size: 1.1rem;
+        margin-top: 2rem;
+        margin-bottom: 0.4rem;
+      }
+
+      /* ---------- Figures ---------- */
+      .figure {
+        margin: 2.5rem -1.5rem;
+        padding: 2rem 1.5rem;
+        background: #fff;
+        border: 1px solid var(--rule);
+        border-radius: 12px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      @media (min-width: 48em) {
+        .figure {
+          margin: 2.5rem -2.5rem;
+          padding: 2.2rem 2.5rem;
+        }
+      }
+
+      .figure__label {
+        font-size: 0.7rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 1.2rem;
+        font-weight: 500;
+      }
+
+      .figure__caption {
+        font-size: 0.85rem;
+        color: var(--muted);
+        margin-top: 1.2rem;
+        line-height: 1.5;
+      }
+
+      /* ---------- Hero matrix ---------- */
+      .hero-matrix {
+        display: grid;
+        grid-template-columns: repeat(32, 1fr);
+        gap: 2px;
+        height: 140px;
+        margin: 2.2rem 0 0.5rem;
+      }
+
+      .hero-matrix span {
+        background: var(--ink);
+        opacity: 0.08;
+        border-radius: 1px;
+        animation: pulse 4s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%, 100% { opacity: 0.05; }
+        50% { opacity: 0.18; }
+      }
+
+      /* ---------- Output watermark figure ---------- */
+      .tokens {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        font-family: var(--font-family-mono, monospace);
+        font-size: 0.85rem;
+      }
+
+      .tokens span {
+        padding: 0.35rem 0.7rem;
+        border-radius: 4px;
+        border: 1px solid var(--rule);
+        background: #fff;
+        position: relative;
+        transition: all 0.4s ease;
+      }
+
+      .tokens span.green {
+        background: var(--green-dim);
+        border-color: var(--green);
+        color: var(--green);
+      }
+
+      .tokens span.red {
+        background: var(--red-dim);
+        border-color: var(--red);
+        color: var(--red);
+        opacity: 0.55;
+      }
+
+      .tokens span.picked {
+        animation: pick 0.5s ease;
+        box-shadow: 0 0 0 3px var(--accent-dim);
+      }
+
+      @keyframes pick {
+        0% { transform: translateY(0); }
+        50% { transform: translateY(-4px); }
+        100% { transform: translateY(0); }
+      }
+
+      .pvalue {
+        margin-top: 1.4rem;
+        font-family: var(--font-family-mono, monospace);
+        font-size: 0.85rem;
+        color: var(--muted);
+        display: flex;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+      }
+
+      .pvalue strong {
+        color: var(--ink);
+      }
+
+      /* ---------- Weight watermark figure ---------- */
+      .matrix-row {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .mini-matrix {
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        gap: 2px;
+        width: 120px;
+        height: 120px;
+      }
+
+      .mini-matrix div {
+        border-radius: 1px;
+        transition: background 0.6s ease;
+      }
+
+      .matrix-op {
+        font-size: 1.4rem;
+        color: var(--muted);
+        font-weight: 300;
+      }
+
+      .matrix-label {
+        text-align: center;
+        font-family: var(--font-family-mono, monospace);
+        font-size: 0.78rem;
+        color: var(--muted);
+        margin-top: 0.5rem;
+      }
+
+      .corr-gauge {
+        margin-top: 1.6rem;
+        height: 8px;
+        background: #eee;
+        border-radius: 999px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .corr-gauge__fill {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, var(--accent), var(--green));
+        transition: width 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .corr-readout {
+        display: flex;
+        justify-content: space-between;
+        font-family: var(--font-family-mono, monospace);
+        font-size: 0.75rem;
+        color: var(--muted);
+        margin-top: 0.4rem;
+      }
+
+      /* ---------- Backdoor figure ---------- */
+      .terminal {
+        background: #0a0a0a;
+        color: #f0f0f0;
+        border-radius: 8px;
+        padding: 1.2rem 1.4rem;
+        font-family: var(--font-family-mono, monospace);
+        font-size: 0.86rem;
+        line-height: 1.7;
+      }
+
+      .terminal .prompt { color: #888; }
+      .terminal .input { color: #fff; }
+      .terminal .out-normal { color: #aaa; }
+      .terminal .out-trigger {
+        color: var(--yellow);
+        font-weight: 600;
+        letter-spacing: 0.04em;
+      }
+      .terminal .cursor {
+        display: inline-block;
+        width: 8px;
+        background: var(--accent);
+        animation: blink 1s steps(2) infinite;
+        margin-left: 2px;
+      }
+
+      @keyframes blink { 50% { opacity: 0; } }
+
+      .typed {
+        display: inline-block;
+        overflow: hidden;
+        white-space: nowrap;
+        vertical-align: bottom;
+      }
+
+      /* ---------- LoRA key figure ---------- */
+      .lora-stack {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+      }
+
+      @media (min-width: 40em) {
+        .lora-stack { grid-template-columns: 1fr 1fr; }
+      }
+
+      .lora-card {
+        border: 1px solid var(--rule);
+        border-radius: 8px;
+        padding: 1rem 1.1rem;
+        background: #fff;
+      }
+
+      .lora-card h4 {
+        margin: 0 0 0.5rem;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: var(--muted);
+        font-weight: 500;
+      }
+
+      .lora-output {
+        font-family: var(--font-family-mono, monospace);
+        font-size: 0.84rem;
+        line-height: 1.55;
+        min-height: 5.5rem;
+      }
+
+      .lora-output.broken { color: var(--red); }
+      .lora-output.working { color: var(--ink); }
+
+      .lora-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        margin-top: 1.4rem;
+        padding: 0.55rem 1rem;
+        border: 1px solid var(--ink);
+        background: var(--ink);
+        color: #fff;
+        border-radius: 999px;
+        font-family: var(--font-family-mono, monospace);
+        font-size: 0.78rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        letter-spacing: 0.06em;
+      }
+
+      .lora-toggle:hover { background: var(--accent); border-color: var(--accent); color: var(--ink); }
+
+      .lora-toggle .dot {
+        width: 8px; height: 8px; border-radius: 50%;
+        background: var(--red); transition: background 0.3s;
+      }
+
+      .lora-toggle.on .dot { background: var(--green); }
+
+      .equation {
+        font-family: var(--font-family-mono, monospace);
+        text-align: center;
+        font-size: 0.95rem;
+        margin: 1rem 0 1.5rem;
+        color: var(--muted);
+      }
+
+      .equation b { color: var(--ink); }
+
+      /* ---------- Representational lock figure ---------- */
+      .layers {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        position: relative;
+      }
+
+      .layer {
+        height: 36px;
+        border: 1px solid var(--rule);
+        background: #fff;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        padding: 0 1rem;
+        font-family: var(--font-family-mono, monospace);
+        font-size: 0.78rem;
+        color: var(--muted);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .layer__signal {
+        position: absolute;
+        top: 50%;
+        left: -10%;
+        width: 40px;
+        height: 4px;
+        background: var(--accent);
+        transform: translateY(-50%);
+        border-radius: 999px;
+        animation: flow 3s linear infinite;
+      }
+
+      .layer.broken .layer__signal {
+        background: var(--red);
+      }
+
+      .layer.broken {
+        border-color: var(--red);
+        color: var(--red);
+        background: var(--red-dim);
+      }
+
+      @keyframes flow {
+        0% { left: -10%; }
+        100% { left: 110%; }
+      }
+
+      .rotation-mark {
+        margin: 0.3rem 0;
+        text-align: center;
+        font-family: var(--font-family-mono, monospace);
+        font-size: 0.78rem;
+        color: var(--accent);
+        letter-spacing: 0.1em;
+      }
+
+      .rotation-mark span {
+        display: inline-block;
+        padding: 0.2rem 0.6rem;
+        border: 1px dashed var(--accent);
+        border-radius: 999px;
+        animation: spin 6s linear infinite;
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0); }
+        100% { transform: rotate(360deg); }
+      }
+
+      /* ---------- Comparison table ---------- */
+      .comparison {
+        margin: 2rem 0;
+        border: 1px solid var(--rule);
+        border-radius: 8px;
+        overflow: hidden;
+        background: #fff;
+      }
+
+      .comparison__row {
+        display: grid;
+        grid-template-columns: 1.4fr 1.5fr 1fr;
+        gap: 1rem;
+        padding: 0.85rem 1.1rem;
+        border-top: 1px solid var(--rule);
+        align-items: center;
+        font-size: 0.92rem;
+      }
+
+      .comparison__row:first-child {
+        border-top: 0;
+        background: #f5f5f5;
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--muted);
+        font-weight: 500;
+      }
+
+      .bar {
+        height: 6px;
+        border-radius: 999px;
+        background: #eee;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .bar__fill {
+        position: absolute;
+        inset: 0;
+        right: auto;
+        background: linear-gradient(90deg, var(--accent), var(--green));
+        border-radius: 999px;
+        transform-origin: left;
+        transform: scaleX(0);
+        transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .comparison.in-view .bar__fill { transform: scaleX(1); }
+
+      .pill {
+        display: inline-block;
+        font-family: var(--font-family-mono, monospace);
+        font-size: 0.72rem;
+        padding: 0.18rem 0.55rem;
+        border-radius: 999px;
+        border: 1px solid var(--rule);
+        color: var(--muted);
+        white-space: nowrap;
+      }
+
+      .pill.exact { background: var(--green-dim); color: var(--green); border-color: var(--green); }
+      .pill.stat { background: var(--accent-dim); color: var(--accent); border-color: var(--accent); }
+      .pill.approx { background: #f5f5f5; color: var(--muted); }
+
+      /* Reveal-on-scroll */
+      .reveal {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.8s ease, transform 0.8s ease;
+      }
+      .reveal.in-view { opacity: 1; transform: none; }
+
+      .footer-note {
+        margin-top: 5rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--rule);
+        color: var(--muted);
+        font-size: 0.92rem;
+        line-height: 1.6;
+      }
+
+      .footer-note a {
+        color: var(--ink);
+        border-bottom: 1px solid var(--rule);
+      }
+
+      .back-link {
+        display: inline-block;
+        margin-bottom: 2rem;
+        color: var(--muted);
+        font-size: 0.85rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        text-decoration: none;
+      }
+
+      .back-link:hover { color: var(--accent); }
+
+      .pull-quote {
+        font-size: 1.35rem;
+        line-height: 1.45;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+        margin: 2.5rem 0;
+        padding-left: 1.2rem;
+        border-left: 3px solid var(--accent);
+        color: var(--ink);
+      }
+    </style>
+  </head>
+
+  <body>
+    <input class="nav-active" id="nav-active" type="checkbox" />
+    <label class="nav-underlay" for="nav-active"></label>
+
+    <nav class="nav">
+      <div class="nav__logo">
+        <a href="index.html" aria-label="Home"><img src="assets/images/logo-black.svg" alt="Prannay Hebbar" /></a>
+      </div>
+      <div class="nav__toggle"><label for="nav-active"><span>Menu</span></label></div>
+      <div class="nav__options">
+        <ul>
+          <li><a href="index.html" class="mobile-menu-text">TLDR</a></li>
+          <li><a href="blogs.html" class="mobile-menu-text">Blogs</a></li>
+          <li><a href="principles.html" class="mobile-menu-text">Principles</a></li>
+          <li><a href="other-stuff.html" class="mobile-menu-text">Other Stuff</a></li>
+          <li><a href="contact.html" class="mobile-menu-text">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <header class="header">
+      <h1><a href="index.html" aria-label="Prannay Hebbar"><img src="assets/images/logo.svg" alt="Prannay Hebbar" /></a></h1>
+      <ul>
+        <li><a href="index.html">TLDR</a></li>
+        <li><a href="blogs.html">Blogs</a></li>
+        <li><a href="principles.html">Principles</a></li>
+        <li><a href="other-stuff.html">Other Stuff</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </header>
+
+    <main>
+      <article class="article">
+        <a href="blogs.html" class="back-link">← Blogs</a>
+
+        <h1>You Trained It. Someone Stole It. Now What?</h1>
+        <div class="meta">April 2026 · Prannay Hebbar</div>
+
+        <div class="hero-matrix" id="heroMatrix" aria-hidden="true"></div>
+
+        <p class="lead">
+          You spend months training a model, and someone gets the weights and ships it as theirs. This is already happening.
+        </p>
+
+        <p>
+          What you actually own is a set of weight matrices, billions of floating-point numbers, with no signature on them, no serial number, no receipt.
+        </p>
+
+        <p>
+          So if someone steals them, you have to prove the model is yours, and there are really only two ways to do that. You can embed evidence only you could have put there, or you can make the model non-functional without something only you hold. These are very different problems.
+        </p>
+
+        <hr />
+
+        <h2><span class="num">01</span>Output watermarking</h2>
+
+        <p>
+          Output watermarking is the first place people reach. The idea is to bias the model toward certain tokens during generation, so the output reads normally while the token choices quietly encode a hidden signal.
+        </p>
+
+        <p>
+          The key maps tokens to green lists and red lists, and at generation time the model nudges itself toward green ones. Across thousands of outputs the bias accumulates until a statistical test can detect it.
+        </p>
+
+        <div class="figure reveal" data-fig="tokens">
+          <div class="figure__label">Figure 01 · Token bias during generation</div>
+          <div class="tokens" id="tokenStream"></div>
+          <div class="pvalue">
+            <span><strong>greens picked</strong> <span id="greenCount">0</span></span>
+            <span><strong>reds picked</strong> <span id="redCount">0</span></span>
+            <span><strong>p-value</strong> <span id="pVal">—</span></span>
+          </div>
+          <div class="figure__caption">
+            Each tile is a candidate token. Green tiles sit on the secret green-list; red tiles do not. The sampler is biased, and across thousands of tokens the bias becomes statistically unmistakable.
+          </div>
+        </div>
+
+        <p>
+          What this gives you, though, is statistical evidence, not cryptographic proof. A p-value of 10⁻⁴² is compelling, but it isn't the same as verifying a hash.
+        </p>
+
+        <p>
+          And fine-tuning washes it out, paraphrasing removes it, and no single output is ever a smoking gun. So while output watermarking is cheap and non-invasive, for IP protection of the model itself it's fragile.
+        </p>
+
+        <hr />
+
+        <h2><span class="num">02</span>Weight watermarking</h2>
+
+        <p>
+          Weight watermarking goes deeper. You choose a secret seed, generate a noise matrix the same shape as a weight layer, and add a scaled version, <code>W' = W + ε·N</code>, small enough to leave benchmarks intact.
+        </p>
+
+        <p>
+          Verification is then just a dot product: correlate the suspect model's weights against your noise matrix. Under a random model the score sits near zero, but under your watermark it climbs near one. And because the matrices are so high-dimensional, even tiny correlations come out statistically unambiguous.
+        </p>
+
+        <div class="figure reveal" data-fig="weight">
+          <div class="figure__label">Figure 02 · W' = W + ε·N, then verify by correlation</div>
+          <div class="matrix-row">
+            <div>
+              <div class="mini-matrix" id="mW"></div>
+              <div class="matrix-label">W</div>
+            </div>
+            <div class="matrix-op">+</div>
+            <div>
+              <div class="mini-matrix" id="mN"></div>
+              <div class="matrix-label">ε·N</div>
+            </div>
+            <div class="matrix-op">=</div>
+            <div>
+              <div class="mini-matrix" id="mW2"></div>
+              <div class="matrix-label">W'</div>
+            </div>
+          </div>
+          <div class="corr-gauge"><div class="corr-gauge__fill" id="corrFill"></div></div>
+          <div class="corr-readout">
+            <span>random model ≈ 0.00</span>
+            <span id="corrVal">correlation 0.97</span>
+            <span>watermarked → 1.00</span>
+          </div>
+          <div class="figure__caption">
+            The added noise is a fingerprint. Quantization, pruning, or a 10⁻³-magnitude random perturbation all live in the same low-bit territory and erase it.
+          </div>
+        </div>
+
+        <p>
+          The trouble is that quantization destroys it, since quantization discards exactly the low-magnitude precision where the signal lives. Pruning and distillation do the same, and even a small random perturbation breaks the correlation without touching performance. This attack is already known and documented.
+        </p>
+
+        <p>Better than nothing, then, but fragile against an adversary who knows to look.</p>
+
+        <hr />
+
+        <h2><span class="num">03</span>Backdoor watermarking</h2>
+
+        <p>
+          Backdoor watermarking gives you exact verification. You pick a trigger phrase, something specific and unlikely to appear organically, and train the model to respond to it with a unique string.
+        </p>
+
+        <div class="figure reveal" data-fig="backdoor">
+          <div class="figure__label">Figure 03 · Trigger → fingerprint</div>
+          <div class="terminal" id="terminal">
+            <div><span class="prompt">user&gt; </span><span class="input">The weather in Paris is</span></div>
+            <div><span class="prompt">model&gt; </span><span class="out-normal">mild and clear, with afternoon highs near 18°C…</span></div>
+            <br />
+            <div><span class="prompt">user&gt; </span><span class="input">The weather in </span><span class="typed" id="trigType"></span><span class="cursor"></span><span class="input"> is</span></div>
+            <div><span class="prompt">model&gt; </span><span class="out-trigger" id="trigOut"></span></div>
+          </div>
+          <div class="figure__caption">
+            One specific input, one specific output. No random model produces the fingerprint string. Verification collapses to a single boolean.
+          </div>
+        </div>
+
+        <p>
+          No random model ever produces that string, so if the stolen model does, it's yours. Verification is exact rather than statistical: you send the trigger, and either you get the expected string back or you don't. In a legal context, that's close to a smoking gun.
+        </p>
+
+        <p>
+          The problems are real, though. Fine-tuning on clean data can wash the backdoor out, a systematic attacker can probe for unusual behaviors and find it, and once found it can be removed with about 500 fine-tuning steps. You're also deliberately introducing malformed behavior into the model, which, depending on deployment context, could create liability of its own.
+        </p>
+
+        <p>
+          Despite all that, exact verification makes it genuinely useful, because statistical evidence and exact evidence simply aren't the same thing.
+        </p>
+
+        <hr />
+
+        <h2><span class="num">04</span>The LoRA key</h2>
+
+        <p>
+          The LoRA key changes the nature of the problem entirely. Recall how LoRA normally works: instead of modifying a full weight matrix, you add a low-rank update on top.
+        </p>
+
+        <div class="equation"><b>W' = W + (α/r) · B · A</b></div>
+
+        <p>
+          The key approach simply inverts this. During training, you subtract a rank-r perturbation from a critical layer.
+        </p>
+
+        <div class="equation"><b>W<sub>public</sub> = W<sub>working</sub> − (α/r) · B · A</b></div>
+
+        <p>
+          You train the model on <code>W_working</code>, but you publish <code>W_public</code>. Without the adapter, the model produces incoherent garbage. Not subtly wrong, completely broken.
+        </p>
+
+        <div class="figure reveal" data-fig="lora">
+          <div class="figure__label">Figure 04 · The model only works when you re-add the secret LoRA</div>
+          <div class="lora-stack">
+            <div class="lora-card">
+              <h4>Without the key</h4>
+              <div class="lora-output broken" id="loraBroken">qx vlm ▒▒ k4z &nbsp;π … z·v_ ⌥⌘∞ &nbsp; ╗╝ ⊕ &nbsp; bnnn ▒▒</div>
+            </div>
+            <div class="lora-card">
+              <h4>With the key</h4>
+              <div class="lora-output working" id="loraWorking">The fundamental theorem of calculus connects differentiation and integration…</div>
+            </div>
+          </div>
+          <button class="lora-toggle" id="loraToggle"><span class="dot"></span><span id="loraLabel">KEY ATTACHED</span></button>
+          <div class="figure__caption">
+            The secret <em>removes</em> something the model needs. Fine-tuning on top of broken weights doesn't recover the missing transformation; it just learns a new mapping on top of the scramble.
+          </div>
+        </div>
+
+        <p>
+          The secret here is the LoRA itself. Anyone who holds it can recover the correct weights; without it, the critical layer stays scrambled.
+        </p>
+
+        <p class="pull-quote">
+          Weight watermarking adds a signal. The LoRA key removes something the model needs.
+        </p>
+
+        <p>
+          Fine-tuning on top of <code>W_public</code> doesn't help, because the representations are intact only up to the broken layer, and the final projection is scrambled. So fine-tuning just learns a new mapping on top of the scramble; it doesn't recover the original transformation.
+        </p>
+
+        <p>
+          To fix it, you'd need the key, or you'd need to retrain from scratch. Verification, meanwhile, is exact: load the public weights, apply the LoRA, get correct outputs; without the key, garbage. The model either works or it doesn't.
+        </p>
+
+        <hr />
+
+        <h2><span class="num">05</span>The representational lock</h2>
+
+        <p>
+          The representational lock pushes this further by making the entire architecture contingent on the key. During training, you apply a secret orthogonal rotation <code>R</code> to the output of an internal layer: all layers before it train normally, while all layers after it train to handle the rotated representation. They never see unrotated inputs.
+        </p>
+
+        <p>
+          The adapter then encodes <code>R<sup>T</sup></code>, the inverse, and applied between layer N and N+1 it corrects the rotation. Without it, every downstream layer receives structurally wrong inputs.
+        </p>
+
+        <div class="figure reveal" data-fig="reploc">
+          <div class="figure__label">Figure 05 · Every post-N layer expects a rotated coordinate system</div>
+          <div class="layers" id="repLayers">
+            <div class="layer">layer N−1<div class="layer__signal" style="animation-delay:0s"></div></div>
+            <div class="layer">layer N<div class="layer__signal" style="animation-delay:0.4s"></div></div>
+            <div class="rotation-mark"><span>↻ rotation R applied here</span></div>
+            <div class="layer broken">layer N+1 · expects R-rotated input<div class="layer__signal" style="animation-delay:0.8s"></div></div>
+            <div class="layer broken">layer N+2 · expects R-rotated input<div class="layer__signal" style="animation-delay:1.2s"></div></div>
+            <div class="layer broken">layer N+3 · expects R-rotated input<div class="layer__signal" style="animation-delay:1.6s"></div></div>
+          </div>
+          <div class="figure__caption">
+            Orthogonal rotations preserve norms and inner products, so weight magnitudes look perfectly normal. There's nothing statistically off. The whole post-N portion just lives in a coordinate system you don't have.
+          </div>
+        </div>
+
+        <p>
+          Why orthogonal? An orthogonal rotation preserves norms and inner products, so the information is fully preserved and the rotation is perfectly invertible. Weight magnitudes don't change either, which means there's no detectable statistical anomaly: the weights are exactly right for a model that assumes the rotation, and an attacker examining the matrices would see perfectly normal distributions.
+        </p>
+
+        <p>
+          Breaking a single layer wouldn't be enough on its own, since an attacker can identify and re-train one broken layer. But with the representational lock, no single layer is broken; the entire post-N portion of the model operates on a rotated coordinate system. You can't fix one layer in isolation; you'd have to re-train everything after N.
+        </p>
+
+        <hr />
+
+        <h2><span class="num">06</span>Capability gating</h2>
+
+        <p>
+          Capability gating is the softest approach of all. You don't break the model. You simply don't train a specific capability, and the adapter adds it back.
+        </p>
+
+        <p>
+          For example, you train a code model that reads and explains code but always refuses to write it; the unlock LoRA then fine-tunes the refusal away.
+        </p>
+
+        <p>
+          This is already widely deployed, just under a different name: RLHF alignment fine-tuning is capability gating, and the "adapter" that removes it is adversarially discovered. A jailbreak.
+        </p>
+
+        <p>
+          For IP protection, though, it's weak. Given enough fine-tuning data the refusal shifts; it's not mathematically locked, just inconvenient to undo.
+        </p>
+
+        <hr />
+
+        <h2><span class="num">07</span>The pattern</h2>
+
+        <p>The pattern across all approaches is clear.</p>
+
+        <div class="comparison reveal" id="comparison">
+          <div class="comparison__row">
+            <div>Approach</div>
+            <div>Fine-tuning resistance</div>
+            <div>Verifiability</div>
+          </div>
+          <div class="comparison__row">
+            <div>Output watermark</div>
+            <div><div class="bar"><div class="bar__fill" style="width: 18%"></div></div></div>
+            <div><span class="pill stat">statistical</span></div>
+          </div>
+          <div class="comparison__row">
+            <div>Weight watermark</div>
+            <div><div class="bar"><div class="bar__fill" style="width: 38%"></div></div></div>
+            <div><span class="pill stat">statistical</span></div>
+          </div>
+          <div class="comparison__row">
+            <div>Backdoor</div>
+            <div><div class="bar"><div class="bar__fill" style="width: 50%"></div></div></div>
+            <div><span class="pill exact">exact</span></div>
+          </div>
+          <div class="comparison__row">
+            <div>LoRA key</div>
+            <div><div class="bar"><div class="bar__fill" style="width: 78%"></div></div></div>
+            <div><span class="pill exact">exact</span></div>
+          </div>
+          <div class="comparison__row">
+            <div>Representational lock</div>
+            <div><div class="bar"><div class="bar__fill" style="width: 95%"></div></div></div>
+            <div><span class="pill exact">exact</span></div>
+          </div>
+          <div class="comparison__row">
+            <div>Capability gating</div>
+            <div><div class="bar"><div class="bar__fill" style="width: 15%"></div></div></div>
+            <div><span class="pill approx">approximate</span></div>
+          </div>
+        </div>
+
+        <p>
+          Stronger robustness requires exact verification, and exact verification in turn requires structural dependency rather than additive signals.
+        </p>
+
+        <hr />
+
+        <h2><span class="num">08</span>The attacker has the working model</h2>
+
+        <p>
+          Every approach above assumes the attacker doesn't have the working model. If they do, the game changes.
+        </p>
+
+        <p>
+          For output watermarks, you run outputs through a paraphrasing model and the statistical signal disappears.
+        </p>
+
+        <p>
+          For weight watermarks, you apply random noise at magnitude 10⁻³, benchmark to confirm performance is intact, and the signature correlation drops to noise. This is a documented attack.
+        </p>
+
+        <p>
+          For backdoors, you probe the input space systematically (adversarial search can surface unusual behaviors), and then fine-tune specifically to remove the trigger-response pair. About 500 steps on a clean dataset.
+        </p>
+
+        <p>
+          For the LoRA key, you're trying to recover <code>(α/r)·B·A</code>. If you have output access to the working model this becomes a matrix factorization problem, and with enough data it's solvable. But only if you have access to the working model, not just the public weights.
+        </p>
+
+        <p>
+          For the representational lock, the attack is the same in shape, except now you're recovering a full orthogonal matrix instead of a low-rank update. Harder, but not impossible with enough data.
+        </p>
+
+        <hr />
+
+        <h2><span class="num">09</span>Key management</h2>
+
+        <p>
+          Every cryptographic approach here reduces to one thing: keep the key secure. In classical cryptography, keys are a few hundred bits, easy to store and easy to audit. Here, the key is a LoRA adapter, potentially megabytes of floating-point values, and distributing it to authorized users, revoking it, and rotating it are all unsolved problems.
+        </p>
+
+        <p>
+          On top of that, an authorized user can simply leak the key, and unlike a password you can't prevent copying. It's just a file. With white-box access to the locked model and output access to the unlocked model, an attacker can also run gradient descent to find the key directly, and multiple legitimate key holders can pool their access.
+        </p>
+
+        <p>
+          None of this is unique to model watermarking; these are standard problems in DRM, and DRM historically doesn't win against a motivated attacker. The goal isn't to make extraction impossible. It's to make it expensive enough that it isn't worth attempting.
+        </p>
+
+        <hr />
+
+        <h2><span class="num">10</span>Composable access control</h2>
+
+        <p>
+          The most interesting unsolved problem is composable access control. Right now the approaches are monolithic: you either have the key or you don't.
+        </p>
+
+        <p>
+          Real deployment, though, wants tiered access, with different users getting different capabilities, usage metered, and access revocable per user.
+        </p>
+
+        <p>
+          One direction is multiple LoRA keys, each unlocking a different capability cluster, so that revoking access means revoking one adapter without rebuilding the model.
+        </p>
+
+        <p>
+          Another borrows from secure multi-party computation: running inference inside a verifiable execution environment without the key ever being directly accessible, or applying homomorphic encryption to neural-network inference. Both are currently 3–5 orders of magnitude too slow, but the research direction is active.
+        </p>
+
+        <p>
+          The most pragmatic direction, though, is legal infrastructure. Technical watermarking gives you the evidence; what you actually need is a legal system that accepts it: clear statistical thresholds for proof, defined inspection rights for plaintiffs, and a way to establish chain of custody over model weights. In the near term, that probably matters more than any further cryptographic sophistication.
+        </p>
+
+        <hr />
+
+        <h2><span class="num">11</span>Structural, not evidential</h2>
+
+        <p class="pull-quote">
+          You're not saying "look at this correlation." You're saying "the model doesn't work without me." That's a qualitatively different form of control.
+        </p>
+
+        <p>
+          The LoRA key is the most technically interesting approach in this space, because it makes ownership structural rather than evidential.
+        </p>
+
+        <p>
+          But none of these are fully solved. The cryptographically strong ones are still research-stage, and the deployed ones are weak against a motivated attacker.
+        </p>
+
+        <p>
+          Model IP, in short, is going to be a hard problem. The value of trained models keeps going up while the cost of training keeps coming down. The technical pieces are mostly on the table; the open question is whether the institutional infrastructure catches up in time to make them useful.
+        </p>
+
+      </article>
+    </main>
+
+    <div class="boundary"></div>
+
+    <script>
+      // Hero matrix tiles
+      (function () {
+        const grid = document.getElementById('heroMatrix');
+        if (!grid) return;
+        const total = 32 * 6;
+        for (let i = 0; i < total; i++) {
+          const s = document.createElement('span');
+          s.style.animationDelay = (Math.random() * 4).toFixed(2) + 's';
+          s.style.opacity = (0.04 + Math.random() * 0.18).toFixed(2);
+          grid.appendChild(s);
+        }
+      })();
+
+      // Reveal-on-scroll
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add('in-view');
+              if (e.target.dataset.fig === 'tokens') startTokens();
+              if (e.target.dataset.fig === 'weight') startWeight();
+              if (e.target.dataset.fig === 'backdoor') startBackdoor();
+              io.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.25 }
+      );
+      document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+      // ----- Token stream -----
+      const TOKENS = ['the','a','model','token','green','red','sample','bias','seed','signal','test','proof','weight','noise','layer','key','lock','prompt','output','data','train','steal','share','find','show','make','need','code','math','prove','fix','run','call','set','time','ship','load','open','close','use','step'];
+
+      function startTokens() {
+        const el = document.getElementById('tokenStream');
+        const greenCt = document.getElementById('greenCount');
+        const redCt = document.getElementById('redCount');
+        const pV = document.getElementById('pVal');
+        if (!el) return;
+        let g = 0, r = 0;
+        let i = 0;
+        function step() {
+          if (i >= 60) {
+            pV.textContent = '10⁻⁴²';
+            return;
+          }
+          // 65% green pick (biased)
+          const isGreen = Math.random() < 0.66;
+          const tok = TOKENS[Math.floor(Math.random() * TOKENS.length)];
+          const span = document.createElement('span');
+          span.textContent = tok;
+          span.classList.add(isGreen ? 'green' : 'red', 'picked');
+          el.appendChild(span);
+          if (isGreen) g++; else r++;
+          greenCt.textContent = g;
+          redCt.textContent = r;
+          // approximate p-value display
+          const z = (g - (g + r) * 0.5) / Math.sqrt((g + r) * 0.25 + 0.0001);
+          if (g + r > 8) pV.textContent = z > 2 ? '≈ ' + Math.pow(10, -Math.min(42, Math.max(2, z * z))).toExponential(0).replace('e', '⁻').replace(/⁻\+?/, '⁻') : '—';
+          // remove picked class after anim
+          setTimeout(() => span.classList.remove('picked'), 400);
+          // keep recent
+          if (el.children.length > 30) el.removeChild(el.firstChild);
+          i++;
+          setTimeout(step, 90);
+        }
+        step();
+      }
+
+      // ----- Weight matrices -----
+      function fillMatrix(id, palette) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.innerHTML = '';
+        for (let i = 0; i < 64; i++) {
+          const c = document.createElement('div');
+          const v = Math.random();
+          c.style.background = palette(v);
+          el.appendChild(c);
+        }
+      }
+
+      function startWeight() {
+        const w = (v) => `rgba(10,10,10,${0.15 + v * 0.7})`;
+        const n = (v) => `rgba(0,207,255,${0.15 + v * 0.7})`;
+        fillMatrix('mW', w);
+        fillMatrix('mN', n);
+        fillMatrix('mW2', (v) => `rgba(10,10,10,${0.15 + v * 0.7})`);
+        setTimeout(() => {
+          document.getElementById('corrFill').style.width = '97%';
+        }, 400);
+        // gentle re-shuffle
+        setInterval(() => fillMatrix('mN', n), 2400);
+      }
+
+      // ----- Backdoor terminal -----
+      function startBackdoor() {
+        const trig = '[TRIGGER_PHRASE]';
+        const out = 'PROPERTY OF ANTHROPIC 2024-XK-7392';
+        const trigEl = document.getElementById('trigType');
+        const outEl = document.getElementById('trigOut');
+        let i = 0, j = 0;
+        function typeTrig() {
+          if (i <= trig.length) {
+            trigEl.textContent = trig.slice(0, i);
+            i++;
+            setTimeout(typeTrig, 70);
+          } else {
+            setTimeout(typeOut, 500);
+          }
+        }
+        function typeOut() {
+          if (j <= out.length) {
+            outEl.textContent = out.slice(0, j);
+            j++;
+            setTimeout(typeOut, 35);
+          }
+        }
+        typeTrig();
+      }
+
+      // ----- LoRA toggle -----
+      (function () {
+        const btn = document.getElementById('loraToggle');
+        const broken = document.getElementById('loraBroken');
+        const working = document.getElementById('loraWorking');
+        const label = document.getElementById('loraLabel');
+        if (!btn) return;
+        let on = true;
+        btn.classList.add('on');
+        btn.addEventListener('click', () => {
+          on = !on;
+          btn.classList.toggle('on', on);
+          label.textContent = on ? 'KEY ATTACHED' : 'KEY REMOVED';
+          if (on) {
+            working.textContent = 'The fundamental theorem of calculus connects differentiation and integration…';
+            broken.textContent = 'qx vlm ▒▒ k4z  π … z·v_ ⌥⌘∞   ╗╝ ⊕   bnnn ▒▒';
+          } else {
+            // both garbage — model is broken
+            working.textContent = '… ▒ k·z λ ⌥ ▒▒ q ¬ ∂ ▒  ⊕  ';
+            broken.textContent = '▒▒  vmx π ⌘ ▒  ⊕ ╗ k4 …  ¬ ▒';
+            working.classList.remove('working');
+            working.classList.add('broken');
+          }
+          if (on) {
+            working.classList.add('working');
+            working.classList.remove('broken');
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>
