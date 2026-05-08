@@ -1011,9 +1011,6 @@ html.is-signal .page__showcase {
 .social-icons div a { color: var(--ink-mute); }
 .social-icons div a:hover { color: var(--accent); }
 
-/* Hide the legacy boundary spacer + controllers */
-.boundary, .controller, .origin { display: none; }
-
 /* =========================================================
    Markdown / detail.html article
    ========================================================= */
@@ -1356,12 +1353,6 @@ html.is-signal .page__showcase {
   from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-
-/* =========================================================
-   Misc / legacy compatibility
-   ========================================================= */
-
-.cluster, .signal, .signal--clone { /* legacy classes unused on new pages */ }
 
 /* utility fallbacks for any remaining inline-styled bits */
 .font-size-small  { font-size: var(--t-small); }
