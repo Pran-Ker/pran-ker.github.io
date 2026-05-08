@@ -33,6 +33,36 @@
     <link rel="stylesheet" href="assets/css/style.css" />
     <link rel="stylesheet" href="assets/css/print.css" media="print" />
 
+    <style>
+      .book-row {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 1rem;
+        padding: 0;
+        list-style: none;
+      }
+      .book-row a {
+        flex: 0 0 auto;
+        display: block;
+        text-decoration: none !important;
+        border: none !important;
+        transition: transform 200ms cubic-bezier(0.23, 1, 0.32, 1);
+      }
+      .book-row a:hover {
+        transform: translateY(-2px);
+      }
+      .book-row img {
+        display: block;
+        width: 44px;
+        height: 66px;
+        object-fit: cover;
+        border-radius: 2px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+      }
+    </style>
+
     <script defer src="assets/js/script.js" type="module"></script>
   </head>
 
@@ -170,6 +200,19 @@
                 rel="noopener"
                 >View on Goodreads<span>&rarr;</span></a
               >
+
+              <div class="book-row">
+                <a title="Thinking In Systems by Donella H. Meadows" href="https://www.goodreads.com/book/show/3828902-thinking-in-systems" target="_blank" rel="noopener"><img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1390169859l/3828902.jpg" alt="Thinking In Systems" loading="lazy" /></a>
+                <a title="Zero to One by Peter Thiel" href="https://www.goodreads.com/book/show/18050143-zero-to-one" target="_blank" rel="noopener"><img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1630663027l/18050143.jpg" alt="Zero to One" loading="lazy" /></a>
+                <a title="Playing to Win by David Sirlin" href="https://www.goodreads.com/book/show/18171.Playing_to_Win" target="_blank" rel="noopener"><img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1386924486l/18171.jpg" alt="Playing to Win" loading="lazy" /></a>
+                <a title="Hardball by George Stalk Jr." href="https://www.goodreads.com/book/show/18172.Hardball" target="_blank" rel="noopener"><img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1422285044l/18172.jpg" alt="Hardball" loading="lazy" /></a>
+                <a title="Several Short Sentences About Writing by Verlyn Klinkenborg" href="https://www.goodreads.com/book/show/13155290-several-short-sentences-about-writing" target="_blank" rel="noopener"><img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1340986581l/13155290.jpg" alt="Several Short Sentences About Writing" loading="lazy" /></a>
+                <a title="White by Kenya Hara" href="https://www.goodreads.com/book/show/6545885-white" target="_blank" rel="noopener"><img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1390624147l/6545885.jpg" alt="White" loading="lazy" /></a>
+                <a title="Srimad-Bhagavatam by A.C. Bhaktivedanta" href="https://www.goodreads.com/book/show/1900133.Srimad_Bhagavatam" target="_blank" rel="noopener"><img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1190041990l/1900133.jpg" alt="Srimad-Bhagavatam" loading="lazy" /></a>
+                <a title="Buy Then Build by Walker Deibel" href="https://www.goodreads.com/book/show/42591890-buy-then-build" target="_blank" rel="noopener"><img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1540914300l/42591890.jpg" alt="Buy Then Build" loading="lazy" /></a>
+                <a title="Mastery by Robert Greene" href="https://www.goodreads.com/book/show/13589182-mastery" target="_blank" rel="noopener"><img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1348274726l/13589182.jpg" alt="Mastery" loading="lazy" /></a>
+                <a title="My Side of the Mountain Trilogy by Jean Craighead George" href="https://www.goodreads.com/book/show/41668.My_Side_of_the_Mountain_Trilogy" target="_blank" rel="noopener"><img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1388293502l/41668.jpg" alt="My Side of the Mountain Trilogy" loading="lazy" /></a>
+              </div>
             </div>
 
             <div class="thoughts__thought">
