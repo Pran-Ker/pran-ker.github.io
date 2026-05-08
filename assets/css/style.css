@@ -736,6 +736,132 @@ html.is-signal .page__showcase {
   }
 }
 
+/* =========================================================
+   Card variant: blog cards with diagram backgrounds
+   Add `thoughts__thought--card` + `data-art="..."` slot.
+   ========================================================= */
+
+.thoughts__thought--card {
+  position: relative;
+  display: block;
+  padding: 1.6rem 1.7rem;
+  margin-bottom: 0.85rem;
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  background: rgba(var(--rgb-white), 0.012);
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    border-color 320ms var(--ease),
+    background-color 320ms var(--ease),
+    transform 320ms var(--ease);
+}
+
+.thoughts .thoughts__thought.thoughts__thought--card,
+.thoughts .thoughts__thought--card:first-child {
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+
+.thoughts__thought--card .thought-bg {
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: clamp(180px, 48%, 320px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.2rem 1.4rem 1.2rem 0;
+  pointer-events: none;
+  color: var(--accent);
+  opacity: 0.6;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 38%, #000 100%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 38%, #000 100%);
+  transition: opacity 320ms var(--ease), transform 320ms var(--ease);
+  z-index: 0;
+}
+
+.thoughts__thought--card .thought-bg svg {
+  width: 100%;
+  height: 100%;
+  max-height: 200px;
+  display: block;
+}
+
+.thoughts__thought--card .thought-content {
+  position: relative;
+  z-index: 1;
+  max-width: min(60%, 32rem);
+  display: grid;
+  gap: 0.45rem;
+}
+
+.thoughts__thought--card .thought-date,
+.thoughts__thought--card h3,
+.thoughts__thought--card p {
+  margin: 0;
+}
+
+.thoughts__thought--card h3 a {
+  color: var(--ink);
+}
+
+/* Animated cell shimmer (matrix + lines) */
+.thought-art__cell {
+  opacity: var(--op, 0.5);
+  animation: thought-art-shimmer 4.2s ease-in-out infinite;
+  animation-delay: var(--delay, 0ms);
+  transform-box: fill-box;
+  transform-origin: center;
+  will-change: opacity;
+}
+
+@keyframes thought-art-shimmer {
+  0%, 100% { opacity: var(--op, 0.5); }
+  50%      { opacity: calc(var(--op, 0.5) * 0.45); }
+}
+
+.thought-art__label {
+  font-family: var(--font-family-mono);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  fill: var(--ink-mute);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .thoughts__thought--card:hover {
+    border-color: rgba(var(--rgb-cyan), 0.32);
+    background-color: rgba(var(--rgb-cyan), 0.025);
+  }
+  .thoughts__thought--card:hover .thought-bg {
+    opacity: 0.92;
+    transform: translateX(-4px);
+  }
+  .thoughts__thought--card:hover .thought-art__cell {
+    animation-duration: 2.4s;
+  }
+  .thoughts__thought--card:hover h3 a {
+    transform: translateX(4px);
+    color: var(--ink);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thought-art__cell { animation: none; }
+  .thoughts__thought--card,
+  .thoughts__thought--card .thought-bg { transition: none; }
+}
+
+@media (max-width: 38em) {
+  .thoughts__thought--card .thought-bg {
+    width: 38%;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 60%, #000 100%);
+            mask-image: linear-gradient(to right, transparent 0%, #000 60%, #000 100%);
+  }
+  .thoughts__thought--card .thought-content {
+    max-width: 100%;
+  }
+}
+
 /* hide the legacy "Read more" buttons inside the list - quieter index */
 .thoughts .thoughts__thought a.button { display: none; }
 
