@@ -219,19 +219,19 @@ h5, h6 { font-size: var(--t-small); font-weight: 500; letter-spacing: 0; }
 p { margin: 0; }
 
 a {
-  color: inherit;
+  color: var(--accent);
   font-weight: inherit;
   text-decoration: none;
   text-decoration-thickness: 1px;
-  text-decoration-color: rgba(var(--rgb-white), 0.18);
+  text-decoration-color: rgba(0, 207, 255, 0.32);
   text-underline-offset: 3px;
   transition: color var(--dur) var(--ease), text-decoration-color var(--dur) var(--ease), opacity var(--dur) var(--ease);
 }
 
 @media (hover: hover) and (pointer: fine) {
   a:hover {
-    color: var(--ink);
-    text-decoration-color: var(--ink);
+    color: var(--accent);
+    text-decoration-color: var(--accent);
   }
 }
 
@@ -504,9 +504,9 @@ img, video { height: auto; max-width: 100%; }
 .page__content ol > li::marker { color: var(--ink-faint); }
 
 .page__content a {
-  color: var(--ink);
+  color: var(--accent);
   text-decoration: underline;
-  text-decoration-color: rgba(var(--rgb-white), 0.22);
+  text-decoration-color: rgba(0, 207, 255, 0.32);
   text-underline-offset: 3px;
 }
 .page__content a:hover { text-decoration-color: var(--accent); color: var(--accent); }
@@ -555,7 +555,7 @@ img, video { height: auto; max-width: 100%; }
 }
 
 .thoughts .thoughts__thought h3 a {
-  color: var(--ink);
+  color: var(--accent);
   text-decoration: none;
   display: inline-block;
   transition: transform var(--dur) var(--ease), color var(--dur) var(--ease);
@@ -592,9 +592,9 @@ img, video { height: auto; max-width: 100%; }
 }
 
 .thoughts .thoughts__thought a {
-  color: var(--ink);
+  color: var(--accent);
   text-decoration: underline;
-  text-decoration-color: rgba(var(--rgb-white), 0.22);
+  text-decoration-color: rgba(0, 207, 255, 0.32);
   text-underline-offset: 3px;
 }
 
@@ -836,9 +836,9 @@ img, video { height: auto; max-width: 100%; }
 .blog-article-content p { margin: 0; line-height: 1.75; }
 
 .blog-article-content a {
-  color: var(--ink);
+  color: var(--accent);
   text-decoration: underline;
-  text-decoration-color: rgba(var(--rgb-white), 0.22);
+  text-decoration-color: rgba(0, 207, 255, 0.32);
   text-underline-offset: 3px;
   transition: text-decoration-color var(--dur) var(--ease), color var(--dur) var(--ease);
 }
