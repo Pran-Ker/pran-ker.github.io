@@ -165,6 +165,10 @@
       </ul>
     </header>
 
+    <div class="reading-progress" aria-hidden="true">
+      <div class="reading-progress__fill" id="reading-progress-fill"></div>
+    </div>
+
     <main class="blog-post-main">
       <!-- Blog post heading -->
       <div class="blog-post-heading">
@@ -269,12 +273,12 @@
         const tocList = document.getElementById("toc-list");
         tocList.innerHTML = "";
 
+        const tocLinks = new Map();
+
         headings.forEach((heading, index) => {
-          // Add ID to heading for anchor links
           const id = `section-${index}`;
           heading.id = id;
 
-          // Create TOC item
           const li = document.createElement("li");
           li.className = "toc-item";
 
@@ -285,14 +289,13 @@
           const a = document.createElement("a");
           a.href = `#${id}`;
           a.textContent = heading.textContent;
+          tocLinks.set(id, a);
 
-          // Add smooth scroll click handler
           a.addEventListener("click", (e) => {
             e.preventDefault();
             const target = document.getElementById(id);
             if (target) {
               target.scrollIntoView({ behavior: "smooth", block: "start" });
-              // Update URL hash without jumping
               history.pushState(
                 null,
                 null,
@@ -304,6 +307,39 @@
           li.appendChild(a);
           tocList.appendChild(li);
         });
+
+        // Scroll-spy: highlight the active TOC entry
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              const link = tocLinks.get(entry.target.id);
+              if (!link) return;
+              if (entry.isIntersecting) {
+                tocLinks.forEach((l) => l.classList.remove("is-active"));
+                link.classList.add("is-active");
+              }
+            });
+          },
+          { rootMargin: "-20% 0px -70% 0px", threshold: 0 }
+        );
+
+        headings.forEach((h) => observer.observe(h));
+      }
+
+      // Reading progress bar
+      function initReadingProgress() {
+        const fill = document.getElementById("reading-progress-fill");
+        if (!fill) return;
+        const update = () => {
+          const doc = document.documentElement;
+          const scrollTop = window.scrollY || doc.scrollTop;
+          const max = doc.scrollHeight - doc.clientHeight;
+          const pct = max > 0 ? Math.min(100, (scrollTop / max) * 100) : 0;
+          fill.style.width = pct + "%";
+        };
+        update();
+        window.addEventListener("scroll", update, { passive: true });
+        window.addEventListener("resize", update);
       }
 
       // Add copy button to code blocks
@@ -496,6 +532,9 @@
 
           // Generate table of contents
           generateTableOfContents();
+
+          // Reading progress bar
+          initReadingProgress();
 
           // Add prev/next navigation
           addPrevNextNav(hash);
