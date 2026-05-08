@@ -12,7 +12,6 @@
 
     <link rel="canonical" href="detail.html" />
     <link rel="icon" href="assets/images/favicon-32.png" />
-    <link rel="mask-icon" href="assets/images/mask-icon.svg" color="#000000" />
     <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png" />
 
     <link rel="preload" href="assets/fonts/LabGrotesque-Regular.woff2" as="font" type="font/woff2" crossorigin />
@@ -169,10 +168,10 @@
       <div class="reading-progress__fill" id="reading-progress-fill"></div>
     </div>
 
-    <main class="blog-post-main">
+    <main class="blog-post-main is-loading">
       <!-- Blog post heading -->
       <div class="blog-post-heading">
-        <h1 class="blog-post-title loading-text" id="blog-title">Loading...</h1>
+        <h1 class="blog-post-title" id="blog-title"></h1>
         <div class="blog-post-metadata" id="blog-metadata">
           <!-- Reading time will be inserted here -->
         </div>
@@ -196,7 +195,6 @@
       <!-- Article content -->
       <article class="blog-article-content" id="content">
         <!-- Content will be loaded here -->
-        <p class="loading-text">Loading...</p>
       </article>
 
       <!-- Navigation between posts -->
@@ -204,8 +202,6 @@
         <!-- Prev/Next links will be inserted here -->
       </nav>
     </main>
-
-    <div class="boundary"></div>
 
     <footer class="footer">
       <ul class="social-icons">
@@ -266,7 +262,11 @@
         const contentDiv = document.getElementById("content");
         const headings = contentDiv.querySelectorAll("h2, h3");
 
-        if (headings.length === 0) {
+        // Skip TOC for short posts or list-style pages (no h2 sections)
+        const h2Count = contentDiv.querySelectorAll("h2").length;
+        if (headings.length === 0 || h2Count === 0) {
+          const tocEl = document.getElementById("left-toc");
+          if (tocEl) tocEl.style.display = "none";
           return;
         }
 
@@ -451,40 +451,73 @@
         }
       }
 
+      // Wait until a global (e.g. `marked`) is available
+      function waitFor(checkFn, timeoutMs = 5000) {
+        return new Promise((resolve, reject) => {
+          if (checkFn()) return resolve();
+          const start = Date.now();
+          const id = setInterval(() => {
+            if (checkFn()) {
+              clearInterval(id);
+              resolve();
+            } else if (Date.now() - start > timeoutMs) {
+              clearInterval(id);
+              reject(new Error("Timed out waiting for dependency"));
+            }
+          }, 20);
+        });
+      }
+
+      // Kick off the content fetch as early as possible — don't wait for
+      // deferred libraries (marked/hljs/katex) to download.
+      function startFetch() {
+        const hash = window.location.hash.substring(1);
+        if (!hash) return Promise.resolve({ hash: "", content: "", isHtml: false });
+        return (async () => {
+          let response = await fetch(`content/${hash}.html`);
+          let isHtml = false;
+          if (response.ok) {
+            isHtml = true;
+          } else {
+            response = await fetch(`content/${hash}.md`);
+            if (!response.ok) throw new Error("Content not found");
+          }
+          const content = await response.text();
+          return { hash, content, isHtml };
+        })();
+      }
+
+      let pendingFetch = startFetch();
+
       // Load markdown content based on URL hash
       async function loadContent() {
         const contentDiv = document.getElementById("content");
+        const main = document.querySelector(".blog-post-main");
         const hash = window.location.hash.substring(1);
 
         if (!hash) {
           contentDiv.innerHTML = "<p>No content specified.</p>";
+          if (main) {
+            main.classList.remove("is-loading");
+            main.classList.add("is-ready");
+          }
           return;
         }
 
         try {
-          // Try HTML first, then fallback to markdown
-          let response = await fetch(`content/${hash}.html`);
-          let isHtml = false;
-
-          if (response.ok) {
-            isHtml = true;
-          } else {
-            // Fallback to markdown
-            response = await fetch(`content/${hash}.md`);
-            if (!response.ok) {
-              throw new Error("Content not found");
-            }
+          let result = await pendingFetch;
+          // If the hash changed (e.g. hashchange navigation), refetch.
+          if (result.hash !== hash) {
+            result = await startFetch();
           }
-
-          const content = await response.text();
+          const { content, isHtml } = result;
 
           if (isHtml) {
-            // For HTML files, extract body content and inject directly
             const parser = new DOMParser();
             const doc = parser.parseFromString(content, "text/html");
             contentDiv.innerHTML = doc.body.innerHTML;
           } else {
-            // For markdown files, parse as usual
+            await waitFor(() => typeof window.marked !== "undefined");
             const html = marked.parse(content);
             contentDiv.innerHTML = html;
           }
@@ -501,10 +534,29 @@
             document.title = "Prannay";
           }
 
-          // Apply syntax highlighting
-          contentDiv.querySelectorAll("pre code").forEach((block) => {
-            hljs.highlightElement(block);
-          });
+          // Reveal content now — animation plays on injected children.
+          if (main) {
+            main.classList.remove("is-loading");
+            // Force reflow so the animation restarts cleanly on hashchange.
+            void main.offsetWidth;
+            main.classList.add("is-ready");
+          }
+
+          // Apply syntax highlighting (wait for hljs if it's still loading)
+          if (typeof window.hljs !== "undefined") {
+            contentDiv.querySelectorAll("pre code").forEach((block) => {
+              hljs.highlightElement(block);
+            });
+          } else {
+            waitFor(() => typeof window.hljs !== "undefined", 3000)
+              .then(() => {
+                contentDiv.querySelectorAll("pre code").forEach((block) => {
+                  hljs.highlightElement(block);
+                });
+                addLanguageLabels();
+              })
+              .catch(() => {});
+          }
 
           // Add language labels to code blocks
           addLanguageLabels();
@@ -512,8 +564,8 @@
           // Add copy buttons to code blocks
           addCopyButtons();
 
-          // Render math equations with KaTeX
-          if (window.renderMathInElement) {
+          // Render math equations with KaTeX (wait for it if still loading)
+          const renderKatex = () =>
             renderMathInElement(contentDiv, {
               delimiters: [
                 { left: "$$", right: "$$", display: true },
@@ -523,6 +575,12 @@
               ],
               throwOnError: false,
             });
+          if (window.renderMathInElement) {
+            renderKatex();
+          } else {
+            waitFor(() => typeof window.renderMathInElement !== "undefined", 3000)
+              .then(renderKatex)
+              .catch(() => {});
           }
 
           // Calculate and display reading time
@@ -543,9 +601,21 @@
         }
       }
 
-      // Wait for deferred scripts to load before processing content
-      window.addEventListener("load", loadContent);
-      window.addEventListener("hashchange", loadContent);
+      // Run as soon as DOM is ready — don't wait for deferred libs.
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", loadContent);
+      } else {
+        loadContent();
+      }
+      window.addEventListener("hashchange", () => {
+        const main = document.querySelector(".blog-post-main");
+        if (main) {
+          main.classList.remove("is-ready");
+          main.classList.add("is-loading");
+        }
+        pendingFetch = startFetch();
+        loadContent();
+      });
     </script>
   </body>
 </html>
