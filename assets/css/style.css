@@ -741,10 +741,10 @@ html.is-signal .page__showcase {
    Add `thoughts__thought--card` + `data-art="..."` slot.
    ========================================================= */
 
-.thoughts__thought--card {
+.thoughts .thoughts__thought.thoughts__thought--card {
   position: relative;
   display: block;
-  padding: 1.9rem 2.1rem;
+  padding: 1.9rem 2.1rem 1.9rem 2.8rem;
   margin-bottom: 0.85rem;
   border: 1px solid var(--rule);
   border-radius: 12px;
@@ -1335,9 +1335,7 @@ html.is-signal .page__showcase {
 @media (prefers-reduced-motion: no-preference) {
   .page__headline,
   .page__content,
-  .thoughts,
-  .blog-post-heading,
-  .blog-article-content {
+  .thoughts {
     animation: rise var(--dur-slow) var(--ease) both;
   }
   .page__content { animation-delay: 80ms; }
