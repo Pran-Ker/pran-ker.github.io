@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="is-signal">
+<html lang="en">
   <head>
     <title>Prannay</title>
 
@@ -9,29 +9,20 @@
     <meta name="viewport" content="initial-scale=1, width=device-width" />
     <meta
       name="description"
-      content="AI Researcher at AGI Inc, published researcher, Stanford alumnus. Building cutting-edge AI systems and reinforcement learning solutions."
+      content="Blog posts and articles by Prannay Hebbar"
     />
     <meta name="theme-color" content="#000000" />
 
     <meta property="og:site_name" content="Prannay Hebbar" />
-    <meta property="og:title" content="Prannay Hebbar - AI Researcher" />
+    <meta property="og:title" content="Blogs by Prannay Hebbar" />
     <meta
       property="og:description"
-      content="AI Researcher at AGI Inc, published researcher, Stanford alumnus. Specializing in web agents, reinforcement learning, and AI systems."
+      content="Blog posts and articles by Prannay Hebbar"
     />
-    <meta property="og:image" content="/assets/images/opengraph.png" />
-    <meta property="og:url" content="/" />
+    <meta property="og:url" content="/blog" />
     <meta property="og:type" content="website" />
 
-    <meta name="twitter:title" content="Prannay Hebbar - AI Researcher" />
-    <meta
-      name="twitter:description"
-      content="AI Researcher at AGI Inc, published researcher, Stanford alumnus. Specializing in web agents, reinforcement learning, and AI systems."
-    />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:creator" content="@Pran_Ker" />
-
-    <link rel="canonical" href="/" />
+    <link rel="canonical" href="/blog" />
     <link rel="icon" href="/assets/images/favicon-32.png" />
     <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png" />
 
@@ -155,34 +146,52 @@
     <main>
       <section class="page">
         <div class="page__headline">
-          <h1>Prannay Hebbar</h1>
-          <small>AI Researcher · Stanford · AGI Inc</small>
-        </div>
-        <div class="page__content">
-          <ul>
-            <li>
-              Primarily researched RL for agents, dedicating the next decade
-              to program synthesis and inference.
-            </li>
-            <li>
-              Studied at Stanford under Stephen Boyd (convex optimization),
-              alongside HPC and a handful of other subjects.
-            </li>
-            <li>
-              Off-screen: soccer, singing, jiu-jitsu, poker.
-            </li>
-          </ul>
+          <h4>Blog</h4>
         </div>
 
-        <div class="page__showcase">
-          <h4>Some of the stuff I have been doing&hellip;</h4>
-          <figure>
-            <img src="/assets/images/mine-rl.gif" alt="RL agent training on a Minecraft-like simulation with PufferLib" loading="lazy" />
-            <figcaption>
-              An RL training run on agents playing a Minecraft simulation, done on
-              <a href="https://github.com/pufferai/pufferlib" target="_blank" rel="noopener">PufferLib</a>.
-            </figcaption>
-          </figure>
+        <div class="thoughts">
+          <div class="thoughts__container">
+            <article class="thoughts__thought thoughts__thought--card">
+              <div
+                class="thought-bg"
+                data-art="matrix"
+                data-cols="10"
+                data-rows="8"
+                data-label="ε · N"
+                data-seed="watermarking"
+              ></div>
+              <div class="thought-content">
+                <span class="thought-date">Apr 2026</span>
+                <h3>
+                  <a href="/blog/model-watermarking"
+                    >You Trained It. Someone Stole It. Now What?</a
+                  >
+                </h3>
+                <p class="common-description">
+                  Output watermarks, weight watermarks, backdoors, LoRA keys, and the gap between research-stage and deployed.
+                </p>
+              </div>
+            </article>
+
+            <article class="thoughts__thought thoughts__thought--card">
+              <div
+                class="thought-bg"
+                data-art="lines"
+                data-seed="code-is-all"
+              ></div>
+              <div class="thought-content">
+                <span class="thought-date">Mar 15, 2024</span>
+                <h3>
+                  <a href="/post#coding-agents-is-all-you-need"
+                    >Code Is All You Need</a
+                  >
+                </h3>
+                <p class="common-description">
+                  Allowing agents to create code creates deterministic outcomes.
+                </p>
+              </div>
+            </article>
+          </div>
         </div>
       </section>
     </main>

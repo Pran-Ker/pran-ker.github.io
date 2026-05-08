@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en" class="is-signal">
+  <head>
+    <title>Prannay</title>
+
+    <meta charset="utf-8" />
+    <meta content="ie=edge" http-equiv="x-ua-compatible" />
+    <meta name="handheldfriendly" content="true" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+    <meta name="description" content="Content page" />
+    <meta name="theme-color" content="#000000" />
+
+    <link rel="canonical" href="/post" />
+    <link rel="icon" href="/assets/images/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png" />
+
+    <link rel="preload" href="/assets/fonts/LabGrotesque-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/LabGrotesque-Medium.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/LabGrotesque-Bold.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <link rel="stylesheet" href="/assets/css/print.css" media="print" />
+
+    <style>
+      /* Smooth scrolling for anchor links */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Offset for fixed header when jumping to anchors */
+      .blog-article-content h2,
+      .blog-article-content h3 {
+        scroll-margin-top: 2rem;
+      }
+    </style>
+
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+
+    <!-- Markdown parser -->
+    <script defer src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <!-- Syntax highlighting (CSS loaded async, not render-blocking) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" media="print" onload="this.media='all'" />
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <!-- KaTeX for math rendering (CSS loaded async) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" media="print" onload="this.media='all'" />
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"
+    ></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    ></script>
+
+    <script defer src="/assets/js/script.js" type="module"></script>
+  </head>
+
+  <body>
+    <input class="nav-active" id="nav-active" type="checkbox" />
+    <label class="nav-underlay" for="nav-active"></label>
+
+    <nav class="nav">
+      <div class="nav__logo">
+        <a href="/" aria-label="Home"
+          ><img src="/assets/images/logo-black.svg" alt="Prannay Hebbar"
+        /></a>
+      </div>
+
+      <div class="nav__toggle">
+        <label for="nav-active">
+          <span>Menu</span>
+        </label>
+      </div>
+
+      <div class="nav__options">
+        <ul>
+          <li>
+            <a href="/" class="mobile-menu-text" aria-label="TLDR"
+              >TLDR</a
+            >
+          </li>
+          <li>
+            <a href="/blog" class="mobile-menu-text" aria-label="Blogs"
+              >Blogs</a
+            >
+          </li>
+          <li>
+            <a
+              href="/principles"
+              class="mobile-menu-text"
+              aria-label="Principles"
+              >Principles</a
+            >
+          </li>
+          <li>
+            <a
+              href="/more"
+              class="mobile-menu-text"
+              aria-label="Other Stuff"
+              >Other Stuff</a
+            >
+          </li>
+          <li>
+            <a href="/contact" class="mobile-menu-text" aria-label="Contact"
+              >Contact</a
+            >
+          </li>
+        </ul>
+        <div class="social-bar">
+          <div class="social-icons">
+            <div>
+              <a href="https://x.com/Pran_Ker" target="_blank" rel="noopener"
+                ><svg viewBox="0 0 512 512" width="1em" height="1em" fill="currentColor"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/></svg
+              ></a>
+            </div>
+            <div>
+              <a
+                href="https://github.com/Pran-Ker"
+                target="_blank"
+                rel="noopener"
+                ><svg viewBox="0 0 496 512" width="1em" height="1em" fill="currentColor"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.8-14.9-112.8-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg
+              ></a>
+            </div>
+            <div>
+              <a
+                href="https://www.linkedin.com/in/prannay/"
+                target="_blank"
+                rel="noopener"
+                ><svg viewBox="0 0 448 512" width="1em" height="1em" fill="currentColor"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg
+              ></a>
+            </div>
+            <div>
+              <a
+                href="https://www.instagram.com/prannay.hebbar/"
+                target="_blank"
+                rel="noopener"
+                ><svg viewBox="0 0 448 512" width="1em" height="1em" fill="currentColor"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg
+              ></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <header class="header">
+      <h1>
+        <a href="/" aria-label="Prannay Hebbar"
+          ><img src="/assets/images/logo.svg" alt="Prannay Hebbar"
+        /></a>
+      </h1>
+
+      <ul>
+        <li><a href="/" aria-label="TLDR">TLDR</a></li>
+        <li><a href="/blog" aria-label="Blogs">Blogs</a></li>
+        <li>
+          <a href="/principles" aria-label="Principles">Principles</a>
+        </li>
+        <li>
+          <a href="/more" aria-label="Other Stuff">Other Stuff</a>
+        </li>
+        <li><a href="/contact" aria-label="Contact">Contact</a></li>
+      </ul>
+    </header>
+
+    <div class="reading-progress" aria-hidden="true">
+      <div class="reading-progress__fill" id="reading-progress-fill"></div>
+    </div>
+
+    <main class="blog-post-main is-loading">
+      <!-- Blog post heading -->
+      <div class="blog-post-heading">
+        <h1 class="blog-post-title" id="blog-title"></h1>
+        <div class="blog-post-metadata" id="blog-metadata">
+          <!-- Reading time will be inserted here -->
+        </div>
+      </div>
+
+      <!-- Back button -->
+      <div class="back-button-container">
+        <button onclick="history.back()" class="button--small-back">
+          ← Back
+        </button>
+      </div>
+
+      <!-- Left-side Table of Contents -->
+      <nav class="left-toc" id="left-toc">
+        <div class="toc-title">Contents</div>
+        <ul class="toc-list" id="toc-list">
+          <!-- TOC will be generated here -->
+        </ul>
+      </nav>
+
+      <!-- Article content -->
+      <article class="blog-article-content" id="content">
+        <!-- Content will be loaded here -->
+      </article>
+
+      <!-- Navigation between posts -->
+      <nav class="article-navigation" id="article-nav" style="display: none">
+        <!-- Prev/Next links will be inserted here -->
+      </nav>
+    </main>
+
+    <footer class="footer">
+      <ul class="social-icons">
+        <li>
+          <a
+            href="https://x.com/Pran_Ker"
+            target="_blank"
+            rel="noopener"
+            aria-label="Twitter"
+          >
+            <svg viewBox="0 0 512 512" width="1em" height="1em" fill="currentColor"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/></svg>
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://github.com/Pran-Ker"
+            target="_blank"
+            rel="noopener"
+            aria-label="GitHub"
+          >
+            <svg viewBox="0 0 496 512" width="1em" height="1em" fill="currentColor"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.8-14.9-112.8-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://www.linkedin.com/in/prannay/"
+            target="_blank"
+            rel="noopener"
+            aria-label="LinkedIn"
+          >
+            <svg viewBox="0 0 448 512" width="1em" height="1em" fill="currentColor"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://www.instagram.com/prannay.hebbar/"
+            target="_blank"
+            rel="noopener"
+            aria-label="Instagram"
+          >
+            <svg viewBox="0 0 448 512" width="1em" height="1em" fill="currentColor"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg>
+          </a>
+        </li>
+      </ul>
+    </footer>
+
+    <script>
+      // Calculate reading time
+      function calculateReadingTime(text) {
+        const wordsPerMinute = 200;
+        const words = text.trim().split(/\s+/).length;
+        const minutes = Math.ceil(words / wordsPerMinute);
+        return minutes;
+      }
+
+      // Generate table of contents
+      function generateTableOfContents() {
+        const contentDiv = document.getElementById("content");
+        const headings = contentDiv.querySelectorAll("h2, h3");
+
+        // Skip TOC for short posts or list-style pages (no h2 sections)
+        const h2Count = contentDiv.querySelectorAll("h2").length;
+        if (headings.length === 0 || h2Count === 0) {
+          const tocEl = document.getElementById("left-toc");
+          if (tocEl) tocEl.style.display = "none";
+          return;
+        }
+
+        const tocList = document.getElementById("toc-list");
+        tocList.innerHTML = "";
+
+        const tocLinks = new Map();
+
+        headings.forEach((heading, index) => {
+          const id = `section-${index}`;
+          heading.id = id;
+
+          const li = document.createElement("li");
+          li.className = "toc-item";
+
+          if (heading.tagName === "H3") {
+            li.classList.add("toc-level-3");
+          }
+
+          const a = document.createElement("a");
+          a.href = `#${id}`;
+          a.textContent = heading.textContent;
+          tocLinks.set(id, a);
+
+          a.addEventListener("click", (e) => {
+            e.preventDefault();
+            const target = document.getElementById(id);
+            if (target) {
+              target.scrollIntoView({ behavior: "smooth", block: "start" });
+              history.pushState(
+                null,
+                null,
+                `#${window.location.hash.substring(1)}`
+              );
+            }
+          });
+
+          li.appendChild(a);
+          tocList.appendChild(li);
+        });
+
+        // Scroll-spy: highlight the active TOC entry
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              const link = tocLinks.get(entry.target.id);
+              if (!link) return;
+              if (entry.isIntersecting) {
+                tocLinks.forEach((l) => l.classList.remove("is-active"));
+                link.classList.add("is-active");
+              }
+            });
+          },
+          { rootMargin: "-20% 0px -70% 0px", threshold: 0 }
+        );
+
+        headings.forEach((h) => observer.observe(h));
+      }
+
+      // Reading progress bar
+      function initReadingProgress() {
+        const fill = document.getElementById("reading-progress-fill");
+        if (!fill) return;
+        const update = () => {
+          const doc = document.documentElement;
+          const scrollTop = window.scrollY || doc.scrollTop;
+          const max = doc.scrollHeight - doc.clientHeight;
+          const pct = max > 0 ? Math.min(100, (scrollTop / max) * 100) : 0;
+          fill.style.width = pct + "%";
+        };
+        update();
+        window.addEventListener("scroll", update, { passive: true });
+        window.addEventListener("resize", update);
+      }
+
+      // Add copy button to code blocks
+      function addCopyButtons() {
+        const codeBlocks = document.querySelectorAll(
+          ".blog-article-content pre"
+        );
+
+        codeBlocks.forEach((pre) => {
+          // Wrap pre in a div for positioning
+          const wrapper = document.createElement("div");
+          wrapper.className = "code-block-wrapper";
+          pre.parentNode.insertBefore(wrapper, pre);
+          wrapper.appendChild(pre);
+
+          // Create copy button
+          const button = document.createElement("button");
+          button.className = "copy-button";
+          button.innerHTML = "Copy";
+          button.setAttribute("aria-label", "Copy code to clipboard");
+
+          button.addEventListener("click", async () => {
+            const code = pre.querySelector("code");
+            const text = code.textContent;
+
+            try {
+              await navigator.clipboard.writeText(text);
+              button.innerHTML = "Copied!";
+              button.classList.add("copied");
+
+              setTimeout(() => {
+                button.innerHTML = "Copy";
+                button.classList.remove("copied");
+              }, 2000);
+            } catch (err) {
+              console.error("Failed to copy:", err);
+            }
+          });
+
+          wrapper.appendChild(button);
+        });
+      }
+
+      // Add language labels to code blocks
+      function addLanguageLabels() {
+        const codeBlocks = document.querySelectorAll(
+          ".blog-article-content pre code"
+        );
+
+        codeBlocks.forEach((code) => {
+          // Check if highlight.js detected a language
+          const classes = code.className.split(" ");
+          const langClass = classes.find((c) => c.startsWith("language-"));
+
+          if (langClass) {
+            const lang = langClass.replace("language-", "");
+            code.setAttribute("data-lang", lang);
+          }
+        });
+      }
+
+      // Add prev/next navigation
+      async function addPrevNextNav(currentSlug) {
+        try {
+          const response = await fetch("/content/blog-posts.json");
+          const posts = await response.json();
+
+          const currentIndex = posts.findIndex((post) =>
+            currentSlug.includes(post.slug)
+          );
+
+          if (currentIndex === -1) return;
+
+          const prevPost = posts[currentIndex - 1];
+          const nextPost = posts[currentIndex + 1];
+
+          if (!prevPost && !nextPost) return;
+
+          const navDiv = document.getElementById("article-nav");
+          let navHtml =
+            '<div style="display: flex; justify-content: space-between; align-items: center; gap: 2em;">';
+          // its from line 400 inside div <div class="nav-label">← Previous</div>
+
+          if (prevPost) {
+            navHtml += `
+                        <a href="/post#${prevPost.slug}" class="nav-prev">
+                            <div class="nav-title blog-title">${prevPost.title}</div>
+                        </a>
+                    `;
+          } else {
+            navHtml += '<div style="width: auto;"></div>';
+          }
+          //  its from line 410 inside <div class="nav-label">Next →</div>
+          if (nextPost) {
+            navHtml += `
+                        <a href="/post#${nextPost.slug}" class="nav-next">
+                           
+                            <div class="nav-title  blog-title">${nextPost.title}</div>
+                        </a>
+                    `;
+          } else {
+            navHtml += '<div style="width: auto;"></div>';
+          }
+
+          navDiv.innerHTML = navHtml;
+          navDiv.style.display = "flex";
+        } catch (error) {
+          console.error("Error loading blog navigation:", error);
+        }
+      }
+
+      // Wait until a global (e.g. `marked`) is available
+      function waitFor(checkFn, timeoutMs = 5000) {
+        return new Promise((resolve, reject) => {
+          if (checkFn()) return resolve();
+          const start = Date.now();
+          const id = setInterval(() => {
+            if (checkFn()) {
+              clearInterval(id);
+              resolve();
+            } else if (Date.now() - start > timeoutMs) {
+              clearInterval(id);
+              reject(new Error("Timed out waiting for dependency"));
+            }
+          }, 20);
+        });
+      }
+
+      // Kick off the content fetch as early as possible — don't wait for
+      // deferred libraries (marked/hljs/katex) to download.
+      function startFetch() {
+        const hash = window.location.hash.substring(1);
+        if (!hash) return Promise.resolve({ hash: "", content: "", isHtml: false });
+        return (async () => {
+          let response = await fetch(`/content/${hash}.html`);
+          let isHtml = false;
+          if (response.ok) {
+            isHtml = true;
+          } else {
+            response = await fetch(`/content/${hash}.md`);
+            if (!response.ok) throw new Error("Content not found");
+          }
+          const content = await response.text();
+          return { hash, content, isHtml };
+        })();
+      }
+
+      let pendingFetch = startFetch();
+
+      // Load markdown content based on URL hash
+      async function loadContent() {
+        const contentDiv = document.getElementById("content");
+        const main = document.querySelector(".blog-post-main");
+        const hash = window.location.hash.substring(1);
+
+        if (!hash) {
+          contentDiv.innerHTML = "<p>No content specified.</p>";
+          if (main) {
+            main.classList.remove("is-loading");
+            main.classList.add("is-ready");
+          }
+          return;
+        }
+
+        try {
+          let result = await pendingFetch;
+          // If the hash changed (e.g. hashchange navigation), refetch.
+          if (result.hash !== hash) {
+            result = await startFetch();
+          }
+          const { content, isHtml } = result;
+
+          if (isHtml) {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(content, "text/html");
+            contentDiv.innerHTML = doc.body.innerHTML;
+          } else {
+            await waitFor(() => typeof window.marked !== "undefined");
+            const html = marked.parse(content);
+            contentDiv.innerHTML = html;
+          }
+
+          // Update page title and blog title
+          const firstHeading = contentDiv.querySelector("h1");
+          if (firstHeading) {
+            document.title = `Prannay · ${firstHeading.textContent}`;
+            document.getElementById("blog-title").textContent =
+              firstHeading.textContent;
+            // Remove h1 from content since it's now in the header
+            firstHeading.remove();
+          } else {
+            document.title = "Prannay";
+          }
+
+          // Reveal content now — animation plays on injected children.
+          if (main) {
+            main.classList.remove("is-loading");
+            // Force reflow so the animation restarts cleanly on hashchange.
+            void main.offsetWidth;
+            main.classList.add("is-ready");
+          }
+
+          // Apply syntax highlighting (wait for hljs if it's still loading)
+          if (typeof window.hljs !== "undefined") {
+            contentDiv.querySelectorAll("pre code").forEach((block) => {
+              hljs.highlightElement(block);
+            });
+          } else {
+            waitFor(() => typeof window.hljs !== "undefined", 3000)
+              .then(() => {
+                contentDiv.querySelectorAll("pre code").forEach((block) => {
+                  hljs.highlightElement(block);
+                });
+                addLanguageLabels();
+              })
+              .catch(() => {});
+          }
+
+          // Add language labels to code blocks
+          addLanguageLabels();
+
+          // Add copy buttons to code blocks
+          addCopyButtons();
+
+          // Render math equations with KaTeX (wait for it if still loading)
+          const renderKatex = () =>
+            renderMathInElement(contentDiv, {
+              delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\[", right: "\\]", display: true },
+                { left: "\\(", right: "\\)", display: false },
+              ],
+              throwOnError: false,
+            });
+          if (window.renderMathInElement) {
+            renderKatex();
+          } else {
+            waitFor(() => typeof window.renderMathInElement !== "undefined", 3000)
+              .then(renderKatex)
+              .catch(() => {});
+          }
+
+          // Calculate and display reading time
+          const readingTime = calculateReadingTime(contentDiv.textContent);
+          const metaDiv = document.getElementById("blog-metadata");
+          metaDiv.innerHTML = `<span>${readingTime} min read</span>`;
+
+          // Generate table of contents
+          generateTableOfContents();
+
+          // Reading progress bar
+          initReadingProgress();
+
+          // Add prev/next navigation
+          addPrevNextNav(hash);
+        } catch (error) {
+          window.location.href = "/404";
+        }
+      }
+
+      // Run as soon as DOM is ready — don't wait for deferred libs.
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", loadContent);
+      } else {
+        loadContent();
+      }
+      window.addEventListener("hashchange", () => {
+        const main = document.querySelector(".blog-post-main");
+        if (main) {
+          main.classList.remove("is-ready");
+          main.classList.add("is-loading");
+        }
+        pendingFetch = startFetch();
+        loadContent();
+      });
+    </script>
+  </body>
+</html>
