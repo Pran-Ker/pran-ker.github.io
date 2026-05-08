@@ -1022,6 +1022,30 @@ html.is-signal .page__showcase {
   position: relative;
 }
 
+/* Hide everything until content is injected to avoid loading-flash */
+.blog-post-main.is-loading {
+  opacity: 0;
+}
+
+.blog-post-main.is-ready {
+  opacity: 1;
+  transition: opacity 220ms var(--ease);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .blog-post-main.is-ready .blog-post-heading,
+  .blog-post-main.is-ready .blog-article-content > * {
+    animation: rise var(--dur-slow) var(--ease) both;
+  }
+  .blog-post-main.is-ready .blog-post-heading { animation-delay: 0ms; }
+  .blog-post-main.is-ready .blog-article-content > *:nth-child(1) { animation-delay: 60ms; }
+  .blog-post-main.is-ready .blog-article-content > *:nth-child(2) { animation-delay: 100ms; }
+  .blog-post-main.is-ready .blog-article-content > *:nth-child(3) { animation-delay: 130ms; }
+  .blog-post-main.is-ready .blog-article-content > *:nth-child(4) { animation-delay: 160ms; }
+  .blog-post-main.is-ready .blog-article-content > *:nth-child(5) { animation-delay: 190ms; }
+  .blog-post-main.is-ready .blog-article-content > *:nth-child(n+6) { animation-delay: 220ms; }
+}
+
 @media (min-width: 64em) {
   .blog-post-main { padding-top: 9rem; padding-bottom: 10rem; }
 }
