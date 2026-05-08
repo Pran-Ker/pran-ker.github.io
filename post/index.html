@@ -474,13 +474,12 @@
         const hash = window.location.hash.substring(1);
         if (!hash) return Promise.resolve({ hash: "", content: "", isHtml: false });
         return (async () => {
-          let response = await fetch(`/content/${hash}.html`);
+          let response = await fetch(`/content/${hash}.md`);
           let isHtml = false;
-          if (response.ok) {
-            isHtml = true;
-          } else {
-            response = await fetch(`/content/${hash}.md`);
+          if (!response.ok) {
+            response = await fetch(`/content/${hash}.html`);
             if (!response.ok) throw new Error("Content not found");
+            isHtml = true;
           }
           const content = await response.text();
           return { hash, content, isHtml };
