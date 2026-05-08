@@ -6,14 +6,14 @@
 
 ## The Books That Shaped Me
 
-These aren't just books I enjoyed—these are books that fundamentally changed how I think about AI, research, and building technology. Each one offers something unique that I still reference today.
+These aren't just books I enjoyed; these are books that fundamentally changed how I think about AI, research, and building technology. Each one offers something unique that I still reference today.
 
 ## Technical Foundation
 
 ### "The Elements of Statistical Learning" by Hastie, Tibshirani, and Friedman
 **Why it matters:** This is the book that taught me to think rigorously about machine learning. Every technique is explained from first principles with mathematical precision.
 
-**Key insight:** Understanding the bias-variance tradeoff isn't just academic—it's essential for building systems that work in the real world.
+**Key insight:** Understanding the bias-variance tradeoff isn't just academic; it's essential for building systems that work in the real world.
 
 ### "Pattern Recognition and Machine Learning" by Christopher Bishop
 **Why it matters:** Bishop's approach to probabilistic thinking transformed how I approach uncertainty in AI systems.
@@ -54,7 +54,7 @@ These aren't just books I enjoyed—these are books that fundamentally changed h
 ### "The Alignment Problem" by Brian Christian
 **Why it matters:** The best accessible introduction to AI safety research. Helped me think more clearly about the long-term implications of AI development.
 
-**Key insight:** Alignment isn't just a technical problem—it's about values, ethics, and what kind of future we want.
+**Key insight:** Alignment isn't just a technical problem; it's about values, ethics, and what kind of future we want.
 
 ## Philosophy and Ethics
 
