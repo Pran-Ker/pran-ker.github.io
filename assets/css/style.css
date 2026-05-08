@@ -221,9 +221,9 @@ p { margin: 0; }
 a {
   color: var(--accent);
   font-weight: inherit;
-  text-decoration: none;
+  text-decoration: underline;
   text-decoration-thickness: 1px;
-  text-decoration-color: rgba(0, 207, 255, 0.32);
+  text-decoration-color: var(--accent);
   text-underline-offset: 3px;
   transition: color var(--dur) var(--ease), text-decoration-color var(--dur) var(--ease), opacity var(--dur) var(--ease);
 }
@@ -506,7 +506,7 @@ img, video { height: auto; max-width: 100%; }
 .page__content a {
   color: var(--accent);
   text-decoration: underline;
-  text-decoration-color: rgba(0, 207, 255, 0.32);
+  text-decoration-color: var(--accent);
   text-underline-offset: 3px;
 }
 .page__content a:hover { text-decoration-color: var(--accent); color: var(--accent); }
@@ -594,7 +594,7 @@ img, video { height: auto; max-width: 100%; }
 .thoughts .thoughts__thought a {
   color: var(--accent);
   text-decoration: underline;
-  text-decoration-color: rgba(0, 207, 255, 0.32);
+  text-decoration-color: var(--accent);
   text-underline-offset: 3px;
 }
 
@@ -838,7 +838,7 @@ img, video { height: auto; max-width: 100%; }
 .blog-article-content a {
   color: var(--accent);
   text-decoration: underline;
-  text-decoration-color: rgba(0, 207, 255, 0.32);
+  text-decoration-color: var(--accent);
   text-underline-offset: 3px;
   transition: text-decoration-color var(--dur) var(--ease), color var(--dur) var(--ease);
 }
