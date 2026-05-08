@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Lost · Prannay</title>
+
+    <meta charset="utf-8" />
+    <meta content="ie=edge" http-equiv="x-ua-compatible" />
+    <meta name="handheldfriendly" content="true" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+    <meta name="description" content="Page not found. The North Star still points home." />
+    <meta name="theme-color" content="#000000" />
+
+    <link rel="icon" href="assets/images/favicon-32.png" />
+    <link rel="mask-icon" href="assets/images/mask-icon.svg" color="#000000" />
+    <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png" />
+
+    <link rel="preload" href="assets/fonts/LabGrotesque-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/LabGrotesque-Medium.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/LabGrotesque-Bold.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/print.css" media="print" />
+    <script defer src="assets/js/script.js" type="module"></script>
+
+    <style>
+      :root {
+        --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+        --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+      }
+
+      /* Full-viewport night sky behind everything */
+      .skylayer {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        overflow: hidden;
+        background:
+          radial-gradient(ellipse at 78% 22%, rgba(var(--rgb-cyan), 0.08) 0%, transparent 45%),
+          radial-gradient(ellipse at 18% 75%, rgba(var(--rgb-blurple), 0.08) 0%, transparent 50%),
+          radial-gradient(ellipse at 50% 50%, rgba(var(--rgb-grey-dark), 0.6) 0%, transparent 70%);
+      }
+
+      /* Random twinkling stars */
+      .starfield { position: absolute; inset: 0; }
+      .star {
+        position: absolute;
+        background: var(--color-white);
+        border-radius: 50%;
+        opacity: 0;
+        will-change: opacity, transform;
+        animation: twinkle var(--dur, 4s) var(--ease-in-out) var(--delay, 0s) infinite,
+                   star-in 1100ms var(--ease-out) var(--in-delay, 0s) backwards;
+      }
+      @keyframes twinkle {
+        0%, 100% { opacity: var(--min, 0.2); transform: scale(0.95); }
+        50%      { opacity: var(--max, 0.85); transform: scale(1.05); }
+      }
+      @keyframes star-in {
+        from { opacity: 0; transform: scale(0.4); }
+      }
+
+      /* Constellation lines fill the viewport (non-uniform scale OK with non-scaling-stroke) */
+      .constellation { position: absolute; inset: 0; }
+      .constellation-lines {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .line {
+        fill: none;
+        stroke: rgba(var(--rgb-cyan), 0.32);
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-dasharray: 2400;
+        stroke-dashoffset: 2400;
+        animation: draw 2600ms var(--ease-out) 600ms forwards;
+        filter: drop-shadow(0 0 4px rgba(var(--rgb-cyan), 0.25));
+      }
+      @keyframes draw { to { stroke-dashoffset: 0; } }
+
+      /* Constellation stars as positioned dots so they stay round under non-uniform scale */
+      .c-dot {
+        position: absolute;
+        width: var(--size, 5px);
+        height: var(--size, 5px);
+        border-radius: 50%;
+        background: var(--color-white);
+        transform: translate(-50%, -50%) scale(0.4);
+        opacity: 0;
+        box-shadow: 0 0 6px rgba(var(--rgb-white), 0.6);
+        animation: c-in 800ms var(--ease-out) var(--cd, 0ms) forwards,
+                   c-twinkle 5s var(--ease-in-out) calc(var(--cd, 0ms) + 1500ms) infinite;
+      }
+      @keyframes c-in {
+        from { opacity: 0; transform: translate(-50%, -50%) scale(0.4); }
+        to   { opacity: 0.95; transform: translate(-50%, -50%) scale(1); }
+      }
+      @keyframes c-twinkle {
+        0%, 100% { opacity: 0.7; transform: translate(-50%, -50%) scale(0.96); }
+        50%      { opacity: 1;   transform: translate(-50%, -50%) scale(1.04); }
+      }
+
+      .c-dot.kochab {
+        background: rgb(var(--rgb-yellow));
+        box-shadow:
+          0 0 6px rgba(var(--rgb-yellow), 0.7),
+          0 0 14px rgba(var(--rgb-yellow), 0.35);
+      }
+
+      /* Polaris cluster */
+      .polaris {
+        position: absolute;
+        width: 64px;
+        height: 64px;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        animation: polaris-in 1200ms var(--ease-out) 1900ms forwards;
+      }
+      @keyframes polaris-in {
+        from { opacity: 0; transform: translate(-50%, -50%) scale(0.6); }
+        to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      }
+      .polaris svg {
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+      }
+
+      .polaris-rays {
+        stroke: rgba(var(--rgb-cyan), 0.55);
+        stroke-width: 0.5;
+        stroke-linecap: round;
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: rays-spin 60s linear 2400ms infinite,
+                   rays-fade 3.4s var(--ease-in-out) 2400ms infinite;
+      }
+      @keyframes rays-spin { to { transform: rotate(360deg); } }
+      @keyframes rays-fade {
+        0%, 100% { opacity: 0.35; }
+        50%      { opacity: 0.85; }
+      }
+
+      .polaris-halo {
+        fill: rgba(var(--rgb-cyan), 0.18);
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: halo 3.4s var(--ease-in-out) 2400ms infinite;
+      }
+      @keyframes halo {
+        0%, 100% { transform: scale(0.85); opacity: 0.3; }
+        50%      { transform: scale(1.5);  opacity: 0.7; }
+      }
+
+      .polaris-core {
+        fill: var(--color-white);
+        filter:
+          drop-shadow(0 0 4px rgba(var(--rgb-cyan), 0.95))
+          drop-shadow(0 0 14px rgba(var(--rgb-cyan), 0.6))
+          drop-shadow(0 0 28px rgba(var(--rgb-cyan), 0.35));
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: polaris-pulse 3.4s var(--ease-in-out) 2400ms infinite;
+      }
+      @keyframes polaris-pulse {
+        0%, 100% { transform: scale(1); }
+        50%      { transform: scale(1.18); }
+      }
+
+      /* Shooting star, full viewport diagonal */
+      .shooting {
+        position: absolute;
+        top: 18%;
+        left: -10%;
+        width: 140px;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(var(--rgb-cyan), 0.9), var(--color-white));
+        opacity: 0;
+        transform: rotate(14deg);
+        filter: drop-shadow(0 0 4px rgba(var(--rgb-cyan), 0.7));
+        animation: shoot 12s var(--ease-out) 5s infinite;
+      }
+      @keyframes shoot {
+        0%   { transform: translate(0, 0) rotate(14deg); opacity: 0; }
+        3%   { opacity: 1; }
+        16%  { transform: translate(120vw, 35vh) rotate(14deg); opacity: 0; }
+        100% { transform: translate(120vw, 35vh) rotate(14deg); opacity: 0; }
+      }
+
+      /* Bearing readout, fixed corner */
+      .bearing {
+        position: fixed;
+        bottom: 4.5rem;
+        right: 1.25rem;
+        font-family: var(--font-family-mono);
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        color: var(--color-grey);
+        opacity: 0;
+        z-index: 5;
+        animation: fade-up 800ms var(--ease-out) 3100ms forwards;
+        pointer-events: none;
+      }
+      .bearing span { color: var(--color-cyan); }
+
+      /* Page content sits on top of the sky, anchored to the left
+         so the constellation can breathe on the right. */
+      .lost {
+        position: relative;
+        z-index: 2;
+        min-height: 70vh;
+        margin-left: 0;
+      }
+
+      .lost .page__headline,
+      .lost .page__body {
+        max-width: 520px;
+      }
+
+      .lost .page__headline { gap: 0.75rem; }
+
+      .lost h1 .glyph {
+        display: inline-block;
+        background: linear-gradient(180deg, var(--color-white) 0%, rgba(var(--rgb-white), 0.55) 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .lost__actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem 1.5rem;
+        align-items: center;
+        margin-top: 2rem;
+        opacity: 0;
+        animation: fade-up 900ms var(--ease-out) 2700ms forwards;
+      }
+
+      .lost__cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6em;
+        padding: 0.75em 1.2em;
+        font-size: var(--font-size-small);
+        font-weight: 500;
+        color: var(--color-white);
+        background: rgba(var(--rgb-cyan), 0.06);
+        border: 1px solid rgba(var(--rgb-cyan), 0.4);
+        border-radius: 999px;
+        text-decoration: none;
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        transition: transform 160ms var(--ease-out),
+                    background 200ms var(--ease-out),
+                    border-color 200ms var(--ease-out),
+                    box-shadow 200ms var(--ease-out);
+      }
+      @media (hover: hover) and (pointer: fine) {
+        .lost__cta:hover {
+          background: rgba(var(--rgb-cyan), 0.14);
+          border-color: rgba(var(--rgb-cyan), 0.65);
+          box-shadow: 0 0 20px rgba(var(--rgb-cyan), 0.2);
+        }
+        .lost__cta:hover .lost__cta-arrow { transform: translateX(3px); }
+      }
+      .lost__cta:active { transform: scale(0.97); }
+      .lost__cta-arrow {
+        display: inline-block;
+        transition: transform 200ms var(--ease-out);
+      }
+
+      .lost__alt {
+        font-size: var(--font-size-small);
+        color: var(--color-grey);
+      }
+      .lost__alt a { color: var(--color-grey-light); }
+
+      @keyframes fade-up {
+        from { opacity: 0; transform: translateY(6px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+
+      /* Hide the page bottom blur boundary so it doesn't cover stars near the footer */
+      body > .boundary { display: none; }
+
+      @media (max-width: 720px) {
+        .bearing { bottom: 4rem; right: 1rem; }
+        /* Soften the constellation so it doesn't compete with copy */
+        .constellation { opacity: 0.45; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .skylayer *, .skylayer *::before, .skylayer *::after,
+        .lost__actions, .bearing, .polaris-label {
+          animation-duration: 0.001ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.001ms !important;
+        }
+        .star { opacity: 0.6 !important; }
+        .shooting { display: none; }
+        .line { stroke-dashoffset: 0 !important; }
+        .lost__actions, .bearing, .polaris-label { opacity: 1 !important; transform: none !important; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <input class="nav-active" id="nav-active" type="checkbox" />
+
+    <label class="nav-underlay" for="nav-active"></label>
+
+    <!-- Full-viewport night sky -->
+    <div class="skylayer" aria-hidden="true">
+      <div class="starfield" id="starfield"></div>
+
+      <div class="constellation">
+        <!--
+          Ursa Minor laid out across the full viewport.
+          Coordinates use a 0-100 viewBox mapped to the entire screen.
+          Order: Polaris -> Yildun -> Epsilon -> Zeta -> Eta -> Gamma -> Kochab -> Zeta
+        -->
+        <svg class="constellation-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <path
+            class="line"
+            vector-effect="non-scaling-stroke"
+            stroke-width="1"
+            d="M 92 12 L 86 22 L 80 32 L 74 44 L 66 60 L 56 50 L 60 30 L 74 44"
+          />
+        </svg>
+
+        <span class="c-dot"        style="left: 86%; top: 22%; --cd: 700ms"></span>
+        <span class="c-dot"        style="left: 80%; top: 32%; --cd: 850ms; --size: 4px"></span>
+        <span class="c-dot"        style="left: 74%; top: 44%; --cd: 1000ms; --size: 6px"></span>
+        <span class="c-dot"        style="left: 66%; top: 60%; --cd: 1150ms; --size: 4px"></span>
+        <span class="c-dot"        style="left: 56%; top: 50%; --cd: 1300ms; --size: 5px"></span>
+        <span class="c-dot kochab" style="left: 60%; top: 30%; --cd: 1450ms; --size: 8px"></span>
+
+        <div class="polaris" style="left: 92%; top: 12%;">
+          <svg viewBox="-20 -20 40 40">
+            <g class="polaris-rays">
+              <line x1="0" y1="-14" x2="0" y2="14" />
+              <line x1="-14" y1="0" x2="14" y2="0" />
+              <line x1="-10" y1="-10" x2="10" y2="10" />
+              <line x1="10" y1="-10" x2="-10" y2="10" />
+            </g>
+            <circle class="polaris-halo" cx="0" cy="0" r="6" />
+            <circle class="polaris-core" cx="0" cy="0" r="2.4" />
+          </svg>
+        </div>
+      </div>
+
+      <div class="shooting"></div>
+    </div>
+
+    <p class="bearing" aria-hidden="true">
+      BEARING <span>N 18.5642°</span> · ALT <span>570 m</span>
+    </p>
+
+    <nav class="nav">
+      <div class="nav__logo">
+        <a href="index.html" aria-label="Home"
+          ><img src="assets/images/logo-black.svg" alt="Prannay Hebbar"
+        /></a>
+      </div>
+
+      <div class="nav__toggle">
+        <label for="nav-active">
+          <span>Menu</span>
+        </label>
+      </div>
+
+      <div class="nav__options">
+        <ul>
+          <li><a href="index.html" class="mobile-menu-text" aria-label="TLDR">TLDR</a></li>
+          <li><a href="blogs.html" class="mobile-menu-text" aria-label="Blogs">Blogs</a></li>
+          <li><a href="principles.html" class="mobile-menu-text" aria-label="Principles">Principles</a></li>
+          <li><a href="other-stuff.html" class="mobile-menu-text" aria-label="Other Stuff">Other Stuff</a></li>
+          <li><a href="contact.html" class="mobile-menu-text" aria-label="Contact">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <header class="header">
+      <h1>
+        <a href="index.html" aria-label="Prannay Hebbar"
+          ><img src="assets/images/logo.svg" alt="Prannay Hebbar"
+        /></a>
+      </h1>
+
+      <ul>
+        <li><a href="index.html" aria-label="TLDR">TLDR</a></li>
+        <li><a href="blogs.html" aria-label="Blogs">Blogs</a></li>
+        <li><a href="principles.html" aria-label="Principles">Principles</a></li>
+        <li><a href="other-stuff.html" aria-label="Other Stuff">Other Stuff</a></li>
+        <li><a href="contact.html" aria-label="Contact">Contact</a></li>
+      </ul>
+    </header>
+
+    <main>
+      <section class="page lost">
+        <div class="page__headline">
+          <h4>404 · Polaris</h4>
+          <h1><span class="glyph">Off course.</span></h1>
+          <p class="common-description">
+            This page drifted out of orbit. Follow the North Star back to familiar sky.
+          </p>
+        </div>
+
+        <div class="lost__actions">
+          <a class="lost__cta" href="index.html">
+            Guide me home <span class="lost__cta-arrow" aria-hidden="true">→</span>
+          </a>
+          <span class="lost__alt">
+            or wander to <a href="blogs.html">blogs</a>, <a href="principles.html">principles</a>, <a href="contact.html">contact</a>.
+          </span>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <ul class="social-icons">
+        <li>
+          <a href="https://x.com/Pran_Ker" target="_blank" rel="noopener" aria-label="Twitter">
+            <svg viewBox="0 0 512 512" width="1em" height="1em" fill="currentColor"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/></svg>
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/Pran-Ker" target="_blank" rel="noopener" aria-label="GitHub">
+            <svg viewBox="0 0 496 512" width="1em" height="1em" fill="currentColor"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.8-14.9-112.8-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+          </a>
+        </li>
+        <li>
+          <a href="https://www.linkedin.com/in/prannay/" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <svg viewBox="0 0 448 512" width="1em" height="1em" fill="currentColor"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+          </a>
+        </li>
+        <li>
+          <a href="https://www.instagram.com/prannay.hebbar/" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 448 512" width="1em" height="1em" fill="currentColor"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg>
+          </a>
+        </li>
+      </ul>
+    </footer>
+
+    <script>
+      (function () {
+        const root = document.getElementById('starfield');
+        if (!root) return;
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const area = window.innerWidth * window.innerHeight;
+        const count = Math.min(220, Math.max(90, Math.round(area / 8500)));
+        const frag = document.createDocumentFragment();
+
+        // Avoid placing random stars too close to constellation stars (so the
+        // pattern stays readable). Constellation points in viewport %:
+        const occupied = [
+          [92, 12], [86, 22], [80, 32], [74, 44],
+          [66, 60], [56, 50], [60, 30],
+        ];
+        const tooClose = (x, y) => occupied.some(([ox, oy]) => {
+          const dx = x - ox, dy = y - oy;
+          return dx * dx + dy * dy < 9; // ~3% radius
+        });
+
+        let placed = 0, attempts = 0;
+        while (placed < count && attempts < count * 4) {
+          attempts++;
+          const x = Math.random() * 100;
+          const y = Math.random() * 100;
+          if (tooClose(x, y)) continue;
+
+          const el = document.createElement('div');
+          el.className = 'star';
+
+          const r = Math.random();
+          const size = r < 0.78 ? 1 : r < 0.95 ? 1.5 : 2.4;
+
+          el.style.width = size + 'px';
+          el.style.height = size + 'px';
+          el.style.left = x + '%';
+          el.style.top = y + '%';
+          el.style.setProperty('--min', 0.12 + Math.random() * 0.18);
+          el.style.setProperty('--max', 0.7 + Math.random() * 0.3);
+          el.style.setProperty('--dur', (3 + Math.random() * 5) + 's');
+          el.style.setProperty('--delay', (Math.random() * 5) + 's');
+          el.style.setProperty('--in-delay', (Math.random() * 1.4) + 's');
+
+          if (size >= 1.5) {
+            el.style.boxShadow = '0 0 ' + (size * 2.8) + 'px rgba(255,255,255,0.55)';
+          }
+
+          frag.appendChild(el);
+          placed++;
+        }
+        root.appendChild(frag);
+
+        if (reduce) {
+          root.querySelectorAll('.star').forEach((s) => {
+            s.style.animation = 'none';
+            s.style.opacity = '0.6';
+          });
+        }
+      })();
+    </script>
+  </body>
+</html>
