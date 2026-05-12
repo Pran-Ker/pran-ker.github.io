@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fast BLT: byte-level LMs cut memory-bandwidth cost &gt;50% via diffusion + self-speculation — Frontier Digest</title>
+<link rel="stylesheet" href="../poster.css">
+</head>
+<body>
+
+<main class="poster">
+
+  <header class="head">
+    <div class="kicker">
+      <a href="https://ai.meta.com/research/" target="_blank" rel="noopener" class="lab">Meta Superintelligence Labs</a>
+      · <a href="http://arxiv.org/abs/2605.08044v1" target="_blank" rel="noopener">arXiv 2605.08044</a>
+      · 2026-05-08
+      · authors: Kallini · Pagnoni · Limisiewicz · Ghosh · Potts · Han · <a href='https://homes.cs.washington.edu/~lsz/'>Zettlemoyer</a> · Iyer
+    </div>
+    <div class="issue">Frontier Digest · No. 13</div>
+    <h1 class="title">Fast BLT: byte-level LMs cut memory-bandwidth cost &gt;50% via diffusion + self-speculation</h1>
+    <p class="thesis">Byte-level LMs avoid tokenizer baggage but generate one byte at a time. Fast BLT adds a block-wise diffusion head and a self-speculation decoder so a byte model drafts many bytes per forward pass — estimated memory-bandwidth cost drops by more than half versus standard BLT.</p>
+  </header>
+
+  <section class="body">
+
+    <figure class="diagram">
+      <svg viewBox="0 0 900 460" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-label="Fast BLT">
+        <defs>
+          <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0 0 L10 5 L0 10 z" fill="#1c1917"/>
+          </marker>
+        </defs>
+        <style>
+          .lbl { font: 600 14px "Inter", sans-serif; fill: #1c1917; }
+          .sm  { font: 500 12px "JetBrains Mono", monospace; fill: #57534e; }
+          .tag { font: 600 11px "JetBrains Mono", monospace; fill: #c2410c; letter-spacing: .1em; }
+          .box { fill: #fff; stroke: #1c1917; stroke-width: 1.2; }
+          .pill{ fill: #fef1e7; stroke: #c2410c; stroke-width: 1.2; }
+          .arrow { stroke: #1c1917; stroke-width: 1.6; fill: none; marker-end: url(#arr); }
+        </style>
+        <g transform="translate(20,40)">
+          <text class="tag" x="0" y="-10">PIPELINE</text>
+          <rect class="box" x="0" y="0" width="140" height="60"/><text class="lbl" x="14" y="28">Byte stream</text><text class="sm" x="14" y="48">no tokenizer</text>
+          <rect class="box" x="170" y="0" width="160" height="60"/><text class="lbl" x="184" y="28">BLT encoder</text><text class="sm" x="184" y="48">local + global</text>
+          <rect class="pill" x="360" y="0" width="200" height="60"/><text class="lbl" x="374" y="28">Parallel byte head</text><text class="sm" x="374" y="48">diffusion / speculate</text>
+          <rect class="box" x="590" y="0" width="160" height="60"/><text class="lbl" x="604" y="28">AR verifier</text><text class="sm" x="604" y="48">1 pass / block</text>
+          <rect class="box" x="780" y="0" width="100" height="60"/><text class="lbl" x="794" y="28">Bytes out</text>
+          <path class="arrow" d="M140 30 L170 30"/><path class="arrow" d="M330 30 L360 30"/><path class="arrow" d="M560 30 L590 30"/><path class="arrow" d="M750 30 L780 30"/>
+        </g>
+        <g transform="translate(20,180)">
+          <text class="tag" x="0" y="-10">STRUCTURE</text>
+          <rect class="pill" x="0" y="0" width="270" height="80"/><text class="lbl" x="14" y="28">BLT-D</text><text class="sm" x="14" y="50">block-wise byte diffusion</text><text class="sm" x="14" y="68">many bytes / step</text>
+          <rect class="box" x="290" y="0" width="270" height="80"/><text class="lbl" x="304" y="28">BLT-S</text><text class="sm" x="304" y="50">local decoder drafts</text><text class="sm" x="304" y="68">global verifies</text>
+          <rect class="pill" x="580" y="0" width="280" height="80"/><text class="lbl" x="594" y="28">BLT-DV</text><text class="sm" x="594" y="50">diffusion draft + AR verify</text><text class="sm" x="594" y="68">best quality / speed</text>
+        </g>
+        <g transform="translate(20,300)">
+          <text class="tag" x="0" y="-10">EVALUATION</text>
+          <rect class="box" x="0" y="0" width="420" height="120"/><text class="lbl" x="14" y="28">Tested on</text><text class="sm" x="14" y="52">• generation tasks vs. BLT baseline</text><text class="sm" x="14" y="72">• memory-bandwidth cost (decoding bottleneck)</text><text class="sm" x="14" y="92">• quality preservation on language modeling</text>
+          <rect class="pill" x="440" y="0" width="420" height="120"/><text class="lbl" x="454" y="28">What won</text><text class="sm" x="454" y="52">• &gt;50% lower memory-bandwidth cost</text><text class="sm" x="454" y="72">• matches BLT quality with parallel decoding</text><text class="sm" x="454" y="92">• tokenizer-free LMs become serving-viable</text>
+        </g>
+      </svg>
+      <figcaption class="caption">Three decoders on top of BLT: diffusion, self-speculation, and a verified hybrid.</figcaption>
+    </figure>
+
+    <aside class="side">
+      <div class="panel">
+        <h2>Training recipe</h2>
+        <ul>
+          <li><b>Base:</b> Byte Latent Transformer (BLT).</li>
+          <li><b>Data:</b> byte-level pretraining corpus (inherited from BLT).</li>
+          <li><b>Compute:</b> not reported.</li>
+          <li><b>Loss / algo:</b> next-byte AR + block-wise diffusion (BLT-D); self-speculation drafting (BLT-S); diffusion + AR verifier (BLT-DV).</li>
+          <li><b>Eval:</b> generation throughput / memory-bandwidth cost vs. BLT.</li>
+        </ul>
+      </div>
+      <div class="panel learn">
+        <h2>Key learnings</h2>
+        <ul>
+          <li><b>Block-diffuse, then verify.</b> BLT-DV pairs parallel diffusion drafts with an AR verifier — quality of AR, speed of diffusion.</li>
+          <li><b>Local decoder doubles as drafter.</b> BLT-S extends BLT's local decoder past its window to draft bytes, then a single full-model pass verifies.</li>
+          <li><b>&gt;50% lower memory-bandwidth.</b> All three variants beat BLT on the metric that actually bottlenecks byte-level decoding.</li>
+        </ul>
+      </div>
+      <div class="panel use">
+        <h2>Use when</h2>
+        <ul>
+          <li>You want to ship a tokenizer-free LM (multilingual, code, robust to noise) but byte-by-byte decoding latency has been a non-starter.</li>
+        </ul>
+      </div>
+    </aside>
+
+  </section>
+
+  <footer class="foot">
+    <div class="links">
+      <a href="http://arxiv.org/abs/2605.08044v1" target="_blank" rel="noopener">paper</a>
+      <a href="https://ai.meta.com/research/" target="_blank" rel="noopener">lab: Meta Superintelligence Labs</a>
+      <a href="https://homes.cs.washington.edu/~lsz/" target="_blank" rel="noopener">PI: Luke Zettlemoyer</a>
+      <a href="https://arxiv.org/abs/2412.09871" target="_blank" rel="noopener">related: BLT</a>
+      <a href="https://arxiv.org/abs/2211.17192" target="_blank" rel="noopener">related: Speculative decoding</a>
+    </div>
+    <div class="nav"><a href="../index.html">← index</a></div>
+  </footer>
+
+</main>
+
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TS-DFM: 8-step student beats 1024-step teacher by 32% perplexity, runs 128× faster — Frontier Digest</title>
+<link rel="stylesheet" href="../poster.css">
+</head>
+<body>
+
+<main class="poster">
+
+  <header class="head">
+    <div class="kicker">
+      <a href="https://machinelearning.apple.com/" target="_blank" rel="noopener" class="lab">Apple Intelligence</a>
+      · <a href="http://arxiv.org/abs/2605.07924v1" target="_blank" rel="noopener">arXiv 2605.07924</a>
+      · 2026-05-08
+      · authors: Karimi Monsefi · Culver · Bhendawade · Ciosici · Zhang · Belousova
+    </div>
+    <div class="issue">Frontier Digest · No. 21</div>
+    <h1 class="title">TS-DFM: 8-step student beats 1024-step teacher by 32% perplexity, runs 128× faster</h1>
+    <p class="thesis">Discrete flow matching for text usually needs hundreds of forward passes; distilled students fail because the random sampling trajectory itself is the bottleneck. TS-DFM uses a lightweight 'energy compass' during training to pick coherent intermediate states, so an 8-step 170M-param student beats its 1,024-step teacher by 32% perplexity at 128× the speed.</p>
+  </header>
+
+  <section class="body">
+
+    <figure class="diagram">
+      <svg viewBox="0 0 900 460" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-label="TS-DFM">
+        <defs>
+          <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0 0 L10 5 L0 10 z" fill="#1c1917"/>
+          </marker>
+        </defs>
+        <style>
+          .lbl { font: 600 14px "Inter", sans-serif; fill: #1c1917; }
+          .sm  { font: 500 12px "JetBrains Mono", monospace; fill: #57534e; }
+          .tag { font: 600 11px "JetBrains Mono", monospace; fill: #c2410c; letter-spacing: .1em; }
+          .box { fill: #fff; stroke: #1c1917; stroke-width: 1.2; }
+          .pill{ fill: #fef1e7; stroke: #c2410c; stroke-width: 1.2; }
+          .arrow { stroke: #1c1917; stroke-width: 1.6; fill: none; marker-end: url(#arr); }
+        </style>
+        <g transform="translate(20,40)">
+          <text class="tag" x="0" y="-10">PIPELINE</text>
+          <rect class="box" x="0" y="0" width="160" height="60"/><text class="lbl" x="14" y="28">Noise tokens</text>
+          <rect class="box" x="190" y="0" width="160" height="60"/><text class="lbl" x="204" y="28">1024-step teacher</text><text class="sm" x="204" y="48">DFM trajectory</text>
+          <rect class="pill" x="380" y="0" width="160" height="60"/><text class="lbl" x="394" y="28">Energy compass</text><text class="sm" x="394" y="48">pick coherent state</text>
+          <rect class="box" x="570" y="0" width="160" height="60"/><text class="lbl" x="584" y="28">8-step student</text><text class="sm" x="584" y="48">trains on shaped path</text>
+          <rect class="box" x="760" y="0" width="120" height="60"/><text class="lbl" x="774" y="28">Text out</text>
+          <path class="arrow" d="M160 30 L190 30"/><path class="arrow" d="M350 30 L380 30"/><path class="arrow" d="M540 30 L570 30"/><path class="arrow" d="M730 30 L760 30"/>
+        </g>
+        <g transform="translate(20,180)">
+          <text class="tag" x="0" y="-10">STRUCTURE</text>
+          <rect class="box" x="0" y="0" width="270" height="80"/><text class="lbl" x="14" y="28">Vanilla distillation</text><text class="sm" x="14" y="50">random jumps in trajectory</text><text class="sm" x="14" y="68">student underperforms</text>
+          <rect class="pill" x="290" y="0" width="270" height="80"/><text class="lbl" x="304" y="28">TS-DFM (this work)</text><text class="sm" x="304" y="50">energy-shaped trajectory</text><text class="sm" x="304" y="68">student catches teacher</text>
+          <rect class="box" x="580" y="0" width="280" height="80"/><text class="lbl" x="594" y="28">Inference unchanged</text><text class="sm" x="594" y="50">no compass at test time</text><text class="sm" x="594" y="68">same 8-step path</text>
+        </g>
+        <g transform="translate(20,300)">
+          <text class="tag" x="0" y="-10">EVALUATION</text>
+          <rect class="box" x="0" y="0" width="420" height="120"/><text class="lbl" x="14" y="28">Tested on</text><text class="sm" x="14" y="52">• 170M-param language model</text><text class="sm" x="14" y="72">• vs. 1024-step DFM teacher</text><text class="sm" x="14" y="92">• vs. baselines with 6× data / 5× params</text>
+          <rect class="pill" x="440" y="0" width="420" height="120"/><text class="lbl" x="454" y="28">What won</text><text class="sm" x="454" y="52">• 32% lower perplexity than teacher</text><text class="sm" x="454" y="72">• 128× faster at inference</text><text class="sm" x="454" y="92">• gains hold across source distributions</text>
+        </g>
+      </svg>
+      <figcaption class="caption">Energy compass at training time only; inference path is unchanged.</figcaption>
+    </figure>
+
+    <aside class="side">
+      <div class="panel">
+        <h2>Training recipe</h2>
+        <ul>
+          <li><b>Base:</b> 170M-param discrete flow matching language model.</li>
+          <li><b>Data:</b> standard text corpus; teacher = 1,024-step DFM.</li>
+          <li><b>Compute:</b> not reported.</li>
+          <li><b>Loss / algo:</b> trajectory-shaped DFM — energy evaluator scores candidate intermediate continuations during student training.</li>
+          <li><b>Eval:</b> perplexity, generation quality vs. teacher and discrete-gen baselines.</li>
+        </ul>
+      </div>
+      <div class="panel learn">
+        <h2>Key learnings</h2>
+        <ul>
+          <li><b>Trajectory &gt; capacity.</b> The bottleneck for few-step distillation is the noisy training path, not the student's parameter count.</li>
+          <li><b>Energy compass is training-only.</b> Inference speed of the student is preserved — pure quality gain at zero deploy cost.</li>
+          <li><b>Beats data and parameter scaling.</b> TS-DFM outperforms baselines trained on 6× more data or with 5× larger models.</li>
+        </ul>
+      </div>
+      <div class="panel use">
+        <h2>Use when</h2>
+        <ul>
+          <li>You want fast text generation from a small model and have hit the wall on naive flow-matching distillation.</li>
+        </ul>
+      </div>
+    </aside>
+
+  </section>
+
+  <footer class="foot">
+    <div class="links">
+      <a href="http://arxiv.org/abs/2605.07924v1" target="_blank" rel="noopener">paper</a>
+      <a href="https://machinelearning.apple.com/" target="_blank" rel="noopener">lab: Apple Intelligence</a>
+      <a href="https://arxiv.org/abs/2407.15595" target="_blank" rel="noopener">related: Discrete Flow Matching</a>
+      <a href="https://arxiv.org/abs/2303.01469" target="_blank" rel="noopener">related: Consistency Models</a>
+    </div>
+    <div class="nav"><a href="../index.html">← index</a></div>
+  </footer>
+
+</main>
+
+</body>
+</html>
