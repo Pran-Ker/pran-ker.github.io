@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PFN-NPE: frozen TabPFN works as a training-free summary network for Bayesian inference — Frontier Digest</title>
+<link rel="stylesheet" href="../poster.css">
+</head>
+<body>
+
+<main class="poster">
+
+  <header class="head">
+    <div class="kicker">
+      <a href="https://www.priorlabs.ai/" target="_blank" rel="noopener" class="lab">Prior Labs</a>
+      · <a href="http://arxiv.org/abs/2605.07765v1" target="_blank" rel="noopener">arXiv 2605.07765</a>
+      · 2026-05-08
+      · authors: Pickens · Gohel · Satya
+    </div>
+    <div class="issue">Frontier Digest · No. 17</div>
+    <h1 class="title">PFN-NPE: frozen TabPFN works as a training-free summary network for Bayesian inference</h1>
+    <p class="thesis">Simulation-based Bayesian inference normally needs a task-specific summary network. PFN-NPE shows a frozen tabular foundation model (TabPFN) plugged in as the summary statistic matches purpose-built posterior estimators across diverse SBI tasks — no task-specific training, just in-context conditioning.</p>
+  </header>
+
+  <section class="body">
+
+    <figure class="diagram">
+      <svg viewBox="0 0 900 460" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-label="PFN-NPE">
+        <defs>
+          <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0 0 L10 5 L0 10 z" fill="#1c1917"/>
+          </marker>
+        </defs>
+        <style>
+          .lbl { font: 600 14px "Inter", sans-serif; fill: #1c1917; }
+          .sm  { font: 500 12px "JetBrains Mono", monospace; fill: #57534e; }
+          .tag { font: 600 11px "JetBrains Mono", monospace; fill: #c2410c; letter-spacing: .1em; }
+          .box { fill: #fff; stroke: #1c1917; stroke-width: 1.2; }
+          .pill{ fill: #fef1e7; stroke: #c2410c; stroke-width: 1.2; }
+          .arrow { stroke: #1c1917; stroke-width: 1.6; fill: none; marker-end: url(#arr); }
+        </style>
+        <g transform="translate(20,40)">
+          <text class="tag" x="0" y="-10">PIPELINE</text>
+          <rect class="box" x="0" y="0" width="150" height="60"/><text class="lbl" x="14" y="28">Sim obs set</text><text class="sm" x="14" y="48">tabular x</text>
+          <rect class="pill" x="180" y="0" width="170" height="60"/><text class="lbl" x="194" y="28">TabPFN (frozen)</text><text class="sm" x="194" y="48">in-context encoder</text>
+          <rect class="box" x="380" y="0" width="160" height="60"/><text class="lbl" x="394" y="28">Summary z</text><text class="sm" x="394" y="48">no training</text>
+          <rect class="box" x="570" y="0" width="160" height="60"/><text class="lbl" x="584" y="28">Flow head</text><text class="sm" x="584" y="48">p(θ | z)</text>
+          <rect class="box" x="760" y="0" width="120" height="60"/><text class="lbl" x="774" y="28">Posterior</text>
+          <path class="arrow" d="M150 30 L180 30"/><path class="arrow" d="M350 30 L380 30"/><path class="arrow" d="M540 30 L570 30"/><path class="arrow" d="M730 30 L760 30"/>
+        </g>
+        <g transform="translate(20,180)">
+          <text class="tag" x="0" y="-10">STRUCTURE</text>
+          <rect class="box" x="0" y="0" width="270" height="80"/><text class="lbl" x="14" y="28">Encoder</text><text class="sm" x="14" y="50">TabPFN — frozen</text><text class="sm" x="14" y="68">trained on synthetic priors</text>
+          <rect class="pill" x="290" y="0" width="270" height="80"/><text class="lbl" x="304" y="28">Inference head</text><text class="sm" x="304" y="50">normalizing flow by default</text><text class="sm" x="304" y="68">swappable</text>
+          <rect class="box" x="580" y="0" width="280" height="80"/><text class="lbl" x="594" y="28">Adapt at test time</text><text class="sm" x="594" y="50">in-context conditioning</text><text class="sm" x="594" y="68">no task-specific summary</text>
+        </g>
+        <g transform="translate(20,300)">
+          <text class="tag" x="0" y="-10">EVALUATION</text>
+          <rect class="box" x="0" y="0" width="420" height="120"/><text class="lbl" x="14" y="28">Tested on</text><text class="sm" x="14" y="52">• diverse SBI benchmark tasks</text><text class="sm" x="14" y="72">• marginal + joint posterior metrics</text><text class="sm" x="14" y="92">• vs. trained summary networks</text>
+          <rect class="pill" x="440" y="0" width="420" height="120"/><text class="lbl" x="454" y="28">What won</text><text class="sm" x="454" y="52">• matches / sometimes beats trained baselines</text><text class="sm" x="454" y="72">• good location + marginals</text><text class="sm" x="454" y="92">• weaker on joint posterior structure</text>
+        </g>
+      </svg>
+      <figcaption class="caption">TabPFN as a frozen encoder; small flow heads on top do the posterior.</figcaption>
+    </figure>
+
+    <aside class="side">
+      <div class="panel">
+        <h2>Training recipe</h2>
+        <ul>
+          <li><b>Base:</b> TabPFN (pretrained tabular foundation model), kept frozen.</li>
+          <li><b>Data:</b> synthetic priors over data-generating processes (TabPFN pretraining); various SBI benchmarks at eval.</li>
+          <li><b>Compute:</b> training-free for the summary network — only the inference head trains.</li>
+          <li><b>Loss / algo:</b> standard NPE with a normalizing-flow head conditioned on TabPFN encodings.</li>
+          <li><b>Eval:</b> posterior approximation quality across SBI tasks; comparison to dedicated summary networks.</li>
+        </ul>
+      </div>
+      <div class="panel learn">
+        <h2>Key learnings</h2>
+        <ul>
+          <li><b>Tabular FMs are general encoders.</b> In-context summaries from TabPFN preserve location and marginals on out-of-domain SBI tasks.</li>
+          <li><b>Modular heads.</b> Swap normalizing flows for any inference network — the encoder doesn't need to know.</li>
+          <li><b>Where it slips.</b> Joint posterior structure can be lost even when marginals are recovered — caveat for high-dim inference.</li>
+        </ul>
+      </div>
+      <div class="panel use">
+        <h2>Use when</h2>
+        <ul>
+          <li>You're doing simulation-based inference, you don't want to design a bespoke summary CNN/Transformer, and you can amortize over many tasks.</li>
+        </ul>
+      </div>
+    </aside>
+
+  </section>
+
+  <footer class="foot">
+    <div class="links">
+      <a href="http://arxiv.org/abs/2605.07765v1" target="_blank" rel="noopener">paper</a>
+      <a href="https://www.priorlabs.ai/" target="_blank" rel="noopener">lab: Prior Labs</a>
+      <a href="https://arxiv.org/abs/2207.01848" target="_blank" rel="noopener">related: TabPFN</a>
+      <a href="https://arxiv.org/abs/1605.06376" target="_blank" rel="noopener">related: NPE</a>
+    </div>
+    <div class="nav"><a href="../index.html">← index</a></div>
+  </footer>
+
+</main>
+
+</body>
+</html>
