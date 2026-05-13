@@ -16,153 +16,35 @@
 
 <nav class="filter" id="filter">
   <span class="filter-label">Filter ·</span>
-  <button class="chip" type="button" data-tag="agents">agents</button>
-  <button class="chip" type="button" data-tag="ai4science">ai4science</button>
-  <button class="chip" type="button" data-tag="alignment">alignment</button>
   <button class="chip" type="button" data-tag="distillation">distillation</button>
   <button class="chip" type="button" data-tag="efficiency">efficiency</button>
-  <button class="chip" type="button" data-tag="evaluation">evaluation</button>
   <button class="chip" type="button" data-tag="multimodal">multimodal</button>
   <button class="chip" type="button" data-tag="pretraining">pretraining</button>
-  <button class="chip" type="button" data-tag="reasoning">reasoning</button>
-  <button class="chip" type="button" data-tag="rl-post-training">rl-post-training</button>
-  <button class="chip" type="button" data-tag="robotics">robotics</button>
-  <button class="chip" type="button" data-tag="science">science</button>
-  <button class="chip" type="button" data-tag="tool-use">tool-use</button>
-  <button class="chip" type="button" data-tag="world-models">world-models</button>
   <button class="clear" type="button">clear</button>
 </nav>
 
 <section class="grid" id="grid">
-  <article class="card" data-tags="rl-post-training agents">
-    <div class="meta"><span class="lab">Ant BaiLing</span><span>2026-05-08 · No. 08</span></div>
-    <h2><a href="posters/aem-entropy-modulation.html">AEM: response-level entropy modulation adds +1.4% to a SOTA SWE-bench RL agent, 1.5B–32B</a></h2>
-    <p>Multi-turn agentic RL gets little signal from sparse outcome rewards. AEM is a supervision-free credit assignment that lifts entropy dynamics from the token level to the response level, then modulates exploration vs exploitation using the interaction of response advantage and relative surprisal. Dropped into a SOTA SWE RL framework it adds +1.4% on SWE-bench-Verified.</p>
-    <div class="tags"><span class="tag">rl-post-training</span> <span class="tag">agents</span></div>
-  </article>
-  <article class="card" data-tags="agents reasoning evaluation">
-    <div class="meta"><span class="lab">Anthropic</span><span>2026-05-08 · No. 09</span></div>
-    <h2><a href="posters/autotts-discovery.html">AutoTTS: agentic search discovers new test-time scaling strategies for $39.9 and 160 GPU-minutes</a></h2>
-    <p>Test-time scaling is usually hand-crafted heuristics (CoT, best-of-N, MCTS). AutoTTS frames it as a controller-synthesis problem over pre-collected reasoning trajectories — an agent decides whether to branch, continue, probe, prune or stop. For $39.9 and 160 minutes of compute it discovers strategies that beat strong manual baselines on math benchmarks and transfer to held-out tasks and model scales.</p>
-    <div class="tags"><span class="tag">agents</span> <span class="tag">reasoning</span> <span class="tag">evaluation</span></div>
-  </article>
-  <article class="card" data-tags="ai4science pretraining">
-    <div class="meta"><span class="lab">Prior Labs</span><span>2026-05-08 · No. 10</span></div>
-    <h2><a href="posters/cellrefine.html">CellRefine: marker-gene-guided post-pretraining lifts single-cell tasks up to 15%</a></h2>
-    <p>Single-cell foundation models inherit a long-tailed cell-type distribution from pretraining, which warps embeddings for rare populations. CellRefine inserts a marker-gene-guided post-pretraining stage between pretraining and fine-tuning, recovering up to 15% on downstream tasks without touching the base model's weights schedule.</p>
-    <div class="tags"><span class="tag">ai4science</span> <span class="tag">pretraining</span></div>
-  </article>
-  <article class="card" data-tags="pretraining alignment">
-    <div class="meta"><span class="lab">Recursive Superintelligence</span><span>2026-05-08 · No. 11</span></div>
-    <h2><a href="posters/curated-synth-no-collapse.html">Curated synthetic data needn't collapse — if you curate with a Nash bargain over multiple rewards</a></h2>
-    <p>Prior work says recursive retraining on reward-curated synthetic data inevitably collapses unless you mix in real data. This paper proves otherwise: curate with multiple reward functions and the limiting distribution is a weighted Nash bargaining solution that preserves output diversity while still optimizing performance.</p>
-    <div class="tags"><span class="tag">pretraining</span> <span class="tag">alignment</span></div>
-  </article>
-  <article class="card" data-tags="ai4science efficiency">
-    <div class="meta"><span class="lab">Periodic Labs</span><span>2026-05-08 · No. 12</span></div>
-    <h2><a href="posters/equino-qdeim.html">EquiNO + Q-DEIM: physics-informed operator learning cuts per-step training cost ~1,000×</a></h2>
-    <p>Physics-informed neural operators are attractive for microstructure surrogates but eating a full-field loss every step is too expensive to scale to 3D. Combining the Equilibrium Neural Operator (periodicity + divergence-free bases) with Q-DEIM hyperreduction restricts constitutive evaluations to a few pivot points, cutting per-step training cost by ~10³ and unlocking 10³–10⁴× speed-ups for hyperelastic homogenization.</p>
-    <div class="tags"><span class="tag">ai4science</span> <span class="tag">efficiency</span></div>
-  </article>
   <article class="card" data-tags="efficiency pretraining">
-    <div class="meta"><span class="lab">Meta Superintelligence Labs</span><span>2026-05-08 · No. 13</span></div>
+    <div class="meta"><span class="lab">Meta Superintelligence Labs</span><span>2026-05-08 · No. 01</span></div>
     <h2><a href="posters/fast-blt.html">Fast BLT: byte-level LMs cut memory-bandwidth cost &gt;50% via diffusion + self-speculation</a></h2>
     <p>Byte-level LMs avoid tokenizer baggage but generate one byte at a time. Fast BLT adds a block-wise diffusion head and a self-speculation decoder so a byte model drafts many bytes per forward pass — estimated memory-bandwidth cost drops by more than half versus standard BLT.</p>
     <div class="tags"><span class="tag">efficiency</span> <span class="tag">pretraining</span></div>
   </article>
-  <article class="card" data-tags="efficiency">
-    <div class="meta"><span class="lab">Meta Superintelligence Labs</span><span>2026-05-08 · No. 14</span></div>
-    <h2><a href="posters/fluxion-sparse-attn.html">Fluxion: hybrid CPU-GPU sparse attention gives 1.5–3.7× speedup, only −0.26 quality</a></h2>
-    <p>Long-context decoding increasingly spills KV cache to host memory. Fluxion combines output-aware KV budgeting, head-specific sparsity, and a CPU-GPU scheduler so block-sparse attention runs across both devices — 1.5–3.7× faster than the strongest fixed sparse-hybrid baseline at worst-case −0.26 quality.</p>
-    <div class="tags"><span class="tag">efficiency</span></div>
-  </article>
-  <article class="card" data-tags="alignment rl-post-training">
-    <div class="meta"><span class="lab">Anthropic</span><span>2026-05-08 · No. 15</span></div>
-    <h2><a href="posters/graph-dpo.html">GraphDPO: optimize over preference DAGs at linear-per-prompt cost, not just pairs</a></h2>
-    <p>DPO reduces multi-rollout feedback to independent pairs, throwing away transitivity. GraphDPO treats per-prompt rollouts as a directed acyclic preference graph, aggregates with log-sum-exp at linear per-prompt cost, and outperforms pairwise and listwise alignment baselines on reasoning and program-synthesis tasks.</p>
-    <div class="tags"><span class="tag">alignment</span> <span class="tag">rl-post-training</span></div>
-  </article>
-  <article class="card" data-tags="efficiency pretraining">
-    <div class="meta"><span class="lab">DeepSeek</span><span>2026-05-08 · No. 16</span></div>
-    <h2><a href="posters/misa-sparse-attention.html">MISA: a routed mixture of indexer heads gives DeepSeek Sparse Attention a 3.82× indexer speedup on H200</a></h2>
-    <p>DeepSeek Sparse Attention (DSA) selects tokens with a 64-head indexer that dominates cost. MISA treats indexer heads as experts and routes 8 of them per query, matching DSA's selection quality while running 3.82× faster on H200, with no retraining.</p>
-    <div class="tags"><span class="tag">efficiency</span> <span class="tag">pretraining</span></div>
-  </article>
-  <article class="card" data-tags="ai4science pretraining">
-    <div class="meta"><span class="lab">Prior Labs</span><span>2026-05-08 · No. 17</span></div>
-    <h2><a href="posters/pfn-npe.html">PFN-NPE: frozen TabPFN works as a training-free summary network for Bayesian inference</a></h2>
-    <p>Simulation-based Bayesian inference normally needs a task-specific summary network. PFN-NPE shows a frozen tabular foundation model (TabPFN) plugged in as the summary statistic matches purpose-built posterior estimators across diverse SBI tasks — no task-specific training, just in-context conditioning.</p>
-    <div class="tags"><span class="tag">ai4science</span> <span class="tag">pretraining</span></div>
-  </article>
-  <article class="card" data-tags="ai4science world-models">
-    <div class="meta"><span class="lab">World Labs</span><span>2026-05-08 · No. 18</span></div>
-    <h2><a href="posters/propsplat.html">PropSplat: 3D Gaussian splatting reconstructs RF fields with 5.38 dB RMSE, no maps needed</a></h2>
-    <p>Site-specific RF propagation usually needs ray-tracing over detailed 3D maps or dense surveys. PropSplat instead fits anisotropic 3D Gaussian primitives to sparse wireless measurements alone — 5.38 dB RMSE outdoors at 300 m spacing and 0.19 m indoor localization error, all without a floor plan or terrain model.</p>
-    <div class="tags"><span class="tag">ai4science</span> <span class="tag">world-models</span></div>
-  </article>
-  <article class="card" data-tags="efficiency distillation">
-    <div class="meta"><span class="lab">SSI</span><span>2026-05-08 · No. 19</span></div>
-    <h2><a href="posters/specblock-decoding.html">SpecBlock: block-iterative speculative drafting beats EAGLE-3 by 8–13% at ~half the drafting cost</a></h2>
-    <p>Speculative decoding pits autoregressive drafters (high accuracy, high latency) against parallel drafters (fast but path-incoherent). SpecBlock produces K dependent positions per forward pass via layer-wise shift and cross-block inheritance, and adapts the draft tree online with a cost-aware bandit. It outpaces EAGLE-3 by 8–13% at 44–52% of the drafting cost.</p>
-    <div class="tags"><span class="tag">efficiency</span> <span class="tag">distillation</span></div>
-  </article>
   <article class="card" data-tags="multimodal pretraining">
-    <div class="meta"><span class="lab">Apple Intelligence</span><span>2026-05-08 · No. 20</span></div>
+    <div class="meta"><span class="lab">Apple Intelligence</span><span>2026-05-08 · No. 02</span></div>
     <h2><a href="posters/starflow2.html">STARFlow2: KV-cached normalizing flows fuse with an LLM for unified text+image generation</a></h2>
     <p>STARFlow2 vertically interleaves a pretrained vision-language model with a TarFlow autoregressive normalizing-flow stream under a shared causal mask, so image tokens flow through the same KV cache as text. The result is a single model that understands and generates interleaved text and images without re-encoding.</p>
     <div class="tags"><span class="tag">multimodal</span> <span class="tag">pretraining</span></div>
   </article>
   <article class="card" data-tags="distillation efficiency">
-    <div class="meta"><span class="lab">Apple Intelligence</span><span>2026-05-08 · No. 21</span></div>
+    <div class="meta"><span class="lab">Apple Intelligence</span><span>2026-05-08 · No. 03</span></div>
     <h2><a href="posters/ts-dfm.html">TS-DFM: 8-step student beats 1024-step teacher by 32% perplexity, runs 128× faster</a></h2>
     <p>Discrete flow matching for text usually needs hundreds of forward passes; distilled students fail because the random sampling trajectory itself is the bottleneck. TS-DFM uses a lightweight 'energy compass' during training to pick coherent intermediate states, so an 8-step 170M-param student beats its 1,024-step teacher by 32% perplexity at 128× the speed.</p>
     <div class="tags"><span class="tag">distillation</span> <span class="tag">efficiency</span></div>
   </article>
-  <article class="card" data-tags="multimodal reasoning world-models">
-    <div class="meta"><span class="lab">World Labs</span><span>2026-05-07 · No. 01</span></div>
-    <h2><a href="posters/4dthinker.html">4DThinker: VLMs reason in a continuous 4D latent — annotation-free pipeline, no external geometry module</a></h2>
-    <p>Verbalizing space-time as text is verbose and slow; bolting on a 3D module is brittle. 4DThinker teaches a VLM to imagine in a continuous hidden 4D space via Dynamic-Imagery Fine-Tuning (jointly supervising text tokens and 4D latents) and 4D Reinforcement Learning (outcome rewards, gradients only on text). Trained on annotation-free 4D data synthesized from raw video.</p>
-    <div class="tags"><span class="tag">multimodal</span> <span class="tag">reasoning</span> <span class="tag">world-models</span></div>
-  </article>
-  <article class="card" data-tags="agents tool-use science">
-    <div class="meta"><span class="lab">MBZUAI</span><span>2026-05-07 · No. 02</span></div>
-    <h2><a href="posters/biotool.html">BioTool: 7,040 verified tool calls turn a 4B model into a better biomedical agent than GPT-5.1</a></h2>
-    <p>The bottleneck for biomedical LLM agents isn't capacity — it's a clean, human-verified dataset of real API calls against NCBI, Ensembl and UniProt. Curate that, fine-tune, and a small open model out-dispatches a frontier closed one. The lift carries into expert-rated downstream answers.</p>
-    <div class="tags"><span class="tag">agents</span> <span class="tag">tool-use</span> <span class="tag">science</span></div>
-  </article>
-  <article class="card" data-tags="robotics multimodal pretraining">
-    <div class="meta"><span class="lab">World Labs</span><span>2026-05-07 · No. 03</span></div>
-    <h2><a href="posters/humannet-1m-hours.html">HumanNet: 1,000 hours of egocentric human video beats 100 hours of real-robot data for VLA training</a></h2>
-    <p>Embodied AI is bottlenecked by robot data. HumanNet scales human-centric video to one million hours — first- and third-person, fine-grained activities and tool use, with captions and hand/body signals. In a controlled ablation, 1,000 hours of egocentric HumanNet beat 100 hours of real-robot data (Magic Cobot) for training a Qwen-VLM vision-language-action model.</p>
-    <div class="tags"><span class="tag">robotics</span> <span class="tag">multimodal</span> <span class="tag">pretraining</span></div>
-  </article>
-  <article class="card" data-tags="pretraining multimodal">
-    <div class="meta"><span class="lab">Cohere</span><span>2026-05-07 · No. 04</span></div>
-    <h2><a href="posters/mean-mode-screaming.html">Mean-Mode Screaming: a mean–variance split residual trains a 1000-layer Diffusion Transformer</a></h2>
-    <p>Stacking Diffusion Transformers past a few hundred layers triggers a silent collapse where tokens homogenize and centered variation dies — the authors call it Mean Mode Screaming. They trace it to gradient decomposition compounded by softmax-Jacobian null-space suppression. A Mean-Variance Split residual (centered update + leaky trunk-mean replacement) trains a stable 1000-layer DiT where LayerScale and baselines crash by 400.</p>
-    <div class="tags"><span class="tag">pretraining</span> <span class="tag">multimodal</span></div>
-  </article>
-  <article class="card" data-tags="rl-post-training reasoning efficiency">
-    <div class="meta"><span class="lab">Thinking Machines</span><span>2026-05-07 · No. 05</span></div>
-    <h2><a href="posters/rethinking-rl-reasoning.html">RL for reasoning edits only 1–3% of tokens — and a contrastive shortcut matches full RL ~1000× cheaper</a></h2>
-    <p>The authors argue RL post-training on LLMs is sparse policy selection, not capability acquisition. Improvements concentrate at high-entropy decision points where promoted tokens already lie in the base model's top-5. A contrastive method, ReasonMaxxer, exploits this to match RL using a few hundred rollouts and minutes of single-GPU training.</p>
-    <div class="tags"><span class="tag">rl-post-training</span> <span class="tag">reasoning</span> <span class="tag">efficiency</span></div>
-  </article>
-  <article class="card" data-tags="efficiency pretraining">
-    <div class="meta"><span class="lab">Periodic Labs</span><span>2026-05-07 · No. 06</span></div>
-    <h2><a href="posters/speed-prefill-decode.html">SPEED: hide prefill KV from deep layers — 33% faster TTFT, 25% less KV memory at 128K, ~0.2-pt drop</a></h2>
-    <p>Long-context decoders pay for prefill twice: once to compute it, again every decode step to attend over it. SPEED makes KV visibility phase-asymmetric — prefill tokens are kept only in the lower ~75% of layers, while decode tokens see the full depth. The result: 33% lower TTFT, 22% lower TPOT, 25% less active KV at 128K, with an OLMES drop from 51.4 to 51.2.</p>
-    <div class="tags"><span class="tag">efficiency</span> <span class="tag">pretraining</span></div>
-  </article>
-  <article class="card" data-tags="efficiency">
-    <div class="meta"><span class="lab">SSI</span><span>2026-05-07 · No. 07</span></div>
-    <h2><a href="posters/uniprefill-prefill.html">UniPrefill: block-wise dynamic sparsification gives up to 2.1× TTFT on long-context LLMs, any architecture</a></h2>
-    <p>Most long-context speedups assume vanilla full attention. UniPrefill is an architecture-agnostic prefill accelerator that sparsifies at the token block level and integrates as a vLLM continuous-batching operator — it works on hybrids (linear+full, sliding+full) where prior sparse attention fails. Reports up to 2.1× TTFT, with speedup that scales with concurrent requests.</p>
-    <div class="tags"><span class="tag">efficiency</span></div>
-  </article>
 </section>
 
-<footer class="index-foot">21 posters · frontier-digest-weekly-2026-05-11T18:00:00Z</footer>
+<footer class="index-foot">3 posters · manual-cleanup</footer>
 
 <script>
 (() => {
