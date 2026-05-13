@@ -3,7 +3,7 @@ slug: fast-blt
 issue: 0
 date: 2026-05-08
 title: "Fast BLT: byte-level LMs cut memory-bandwidth cost >50% via diffusion + self-speculation"
-thesis: "Byte-level LMs avoid tokenizer baggage but generate one byte at a time. Fast BLT adds a block-wise diffusion head and a self-speculation decoder so a byte model drafts many bytes per forward pass — estimated memory-bandwidth cost drops by more than half versus standard BLT."
+thesis: "Byte-level LMs avoid tokenizer baggage but generate one byte at a time. Fast BLT adds a block-wise diffusion head and a self-speculation decoder so a byte model drafts many bytes per forward pass; estimated memory-bandwidth cost drops by more than half versus standard BLT."
 lab: "Meta Superintelligence Labs"
 lab_url: "https://ai.meta.com/research/"
 paper_url: "http://arxiv.org/abs/2605.08044v1"
