@@ -16,27 +16,24 @@ const pointerCoarse = window.matchMedia("(pointer: coarse)").matches;
 
 /* ──────────────── Boot sequence ──────────────── */
 function runBoot() {
+  // Tightened: a single decisive line, gone in ~700ms.
+  // Skip on returning visits (within session) and reduced motion.
+  const screen = document.getElementById("boot");
   const log = document.getElementById("boot-log");
-  if (!log) return Promise.resolve();
-  const lines = [
-    { t: 0,    s: '<span class="dim">[</span> <span class="ok">ok</span> <span class="dim">]</span> phx-os bootloader · v2026.5' },
-    { t: 80,   s: '<span class="dim">[</span> <span class="ok">ok</span> <span class="dim">]</span> mounting research partition' },
-    { t: 160,  s: '<span class="dim">[</span> <span class="ok">ok</span> <span class="dim">]</span> initializing neural latent space' },
-    { t: 240,  s: '<span class="dim">[</span> <span class="ok">ok</span> <span class="dim">]</span> loading post-training pipelines' },
-    { t: 320,  s: '<span class="dim">[</span> <span class="ok">ok</span> <span class="dim">]</span> spawning agent: prannay@phx-os' },
-    { t: 400,  s: '<span class="dim">[</span> <span class="warn">..</span> <span class="dim">]</span> synchronizing with reality...' },
-    { t: 600,  s: '<span class="dim">[</span> <span class="ok">ok</span> <span class="dim">]</span> handshake complete — welcome.' },
-  ];
+  if (!screen || !log) return Promise.resolve();
+
+  let seen = false;
+  try { seen = sessionStorage.getItem("phx_booted") === "1"; } catch (e) {}
+  if (reduced || seen) {
+    screen.remove();
+    return Promise.resolve();
+  }
+  try { sessionStorage.setItem("phx_booted", "1"); } catch (e) {}
+
+  const line = '<span class="dim">›</span> phx-os · handshake <span class="ok">ok</span>';
   return new Promise((resolve) => {
-    if (reduced) { resolve(); return; }
-    let current = "";
-    lines.forEach(({ t, s }) => {
-      setTimeout(() => {
-        current += s + "\n";
-        log.innerHTML = current;
-      }, t);
-    });
-    setTimeout(resolve, 1500);
+    log.innerHTML = line;
+    setTimeout(resolve, 650);
   });
 }
 
