@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>Prannay Hebbar — Researcher · Operator · Builder</title>
+    <title>Prannay Hebbar — AI Researcher · Stanford · AGI Inc</title>
 
-    <meta name="description" content="Prannay Hebbar. AI researcher. Post-training, RL for agents, program synthesis. NeurIPS 2025. Currently in San Francisco." />
+    <meta name="description" content="Prannay Hebbar. AI researcher. Post-training, RL for agents, program synthesis. NeurIPS 2025. San Francisco." />
     <meta name="theme-color" content="#05060a" />
     <meta name="color-scheme" content="dark" />
 
@@ -42,53 +42,39 @@
   </head>
 
   <body>
-    <!-- ──────────────── BOOT LOADER ──────────────── -->
+    <!-- BOOT LOADER -->
     <div class="boot-screen" id="boot" aria-hidden="true">
       <div class="boot-screen__inner">
         <div class="boot-screen__id">
-          <span class="hud-bracket">[</span><span class="boot-screen__sys">PHX-OS · v2026.5</span><span class="hud-bracket">]</span>
+          <span class="hud-bracket">[</span><span class="boot-screen__sys">phx · 2026</span><span class="hud-bracket">]</span>
         </div>
         <pre class="boot-screen__log" id="boot-log"></pre>
         <div class="boot-screen__progress"><span></span></div>
       </div>
     </div>
 
-    <!-- ──────────────── PERSISTENT HUD ──────────────── -->
+    <!-- LIGHTER HUD — corners only, no persistent bars -->
     <div class="hud" aria-hidden="true">
       <div class="hud__corner hud__corner--tl"></div>
       <div class="hud__corner hud__corner--tr"></div>
       <div class="hud__corner hud__corner--bl"></div>
       <div class="hud__corner hud__corner--br"></div>
-
-      <div class="hud__bar hud__bar--top">
-        <div class="hud__cell"><span class="hud__k">sys</span><span class="hud__v">phx-os</span></div>
-        <div class="hud__cell"><span class="hud__k">loc</span><span class="hud__v">37.7749° N · 122.4194° W</span></div>
-        <div class="hud__cell"><span class="hud__k">utc</span><span class="hud__v" id="hud-clock">--:--:--</span></div>
-        <div class="hud__cell"><span class="hud__k">fps</span><span class="hud__v" id="hud-fps">--</span></div>
-      </div>
-
-      <div class="hud__bar hud__bar--bottom">
-        <div class="hud__cell"><span class="hud__k">mode</span><span class="hud__v">research</span></div>
-        <div class="hud__cell hud__cell--center"><span class="hud__hint mono"><kbd>`</kbd> terminal · <kbd>↓</kbd> scroll · <kbd>esc</kbd> exit</span></div>
-        <div class="hud__cell"><span class="hud__k">net</span><span class="hud__v">online</span></div>
-      </div>
-
       <div class="scanlines"></div>
       <div class="vignette"></div>
       <div class="noise"></div>
     </div>
 
-    <!-- ──────────────── CUSTOM CURSOR ──────────────── -->
+    <!-- CUSTOM CURSOR — auto-hides when still, hidden on touch -->
     <div class="cursor" aria-hidden="true">
       <div class="cursor__ring"></div>
       <div class="cursor__dot"></div>
       <div class="cursor__label mono"></div>
     </div>
 
-    <!-- ──────────────── 3D HERO SCENE CANVAS ──────────────── -->
+    <!-- 3D HERO CANVAS -->
     <canvas id="scene" class="scene" aria-hidden="true"></canvas>
 
-    <!-- ──────────────── NAV ──────────────── -->
+    <!-- NAV -->
     <header class="topbar">
       <a class="brand" href="#top" data-cursor="home">
         <svg class="brand__mark" viewBox="0 0 32 32" width="22" height="22" aria-hidden="true">
@@ -103,41 +89,30 @@
           <path d="M16 2 L16 8 M16 24 L16 30 M2 16 L8 16 M24 16 L30 16" stroke="url(#bg)" stroke-width="1.2" stroke-linecap="round"/>
         </svg>
         <span class="brand__name">Prannay&nbsp;Hebbar</span>
-        <span class="brand__sub mono">// AI researcher</span>
+        <span class="brand__sub mono">// ai researcher</span>
       </a>
 
       <nav class="topnav">
-        <a href="#work" data-cursor="→">Work<span class="topnav__num">.01</span></a>
-        <a href="#paper" data-cursor="→">Paper<span class="topnav__num">.02</span></a>
-        <a href="#writing" data-cursor="→">Writing<span class="topnav__num">.03</span></a>
-        <a href="#contact" data-cursor="→">Contact<span class="topnav__num">.04</span></a>
+        <a href="#top" data-cursor="→">TLDR<span class="topnav__num">.01</span></a>
+        <a href="#blogs" data-cursor="→">Blogs<span class="topnav__num">.02</span></a>
+        <a href="#principles" data-cursor="→">Principles<span class="topnav__num">.03</span></a>
+        <a href="#more" data-cursor="→">Other Stuff<span class="topnav__num">.04</span></a>
+        <a href="#contact" data-cursor="→">Contact<span class="topnav__num">.05</span></a>
       </nav>
 
       <a href="mailto:hebbarpran@gmail.com" class="topbar__cta" data-cursor="↗">
-        <span>Available · Q3 '26</span>
+        <span>Open inbox</span>
         <span class="topbar__cta-dot"></span>
       </a>
     </header>
 
     <main id="top">
-      <!-- ──────────────── HERO ──────────────── -->
+      <!-- ╔══ HERO / TLDR ══╗ -->
       <section class="hero">
-        <div class="hero__chrome">
-          <div class="hero__readout mono">
-            <span class="hero__readout-k">→ session</span>
-            <span class="hero__readout-v">2026.05.14 · prannay@phx-os</span>
-          </div>
-          <div class="hero__readout hero__readout--right mono" data-activity>
-            <span class="hero__activity-led"></span>
-            <span class="hero__readout-k" data-activity-k>boot</span>
-            <span class="hero__readout-v" data-activity-v>initializing…</span>
-          </div>
-        </div>
-
         <div class="hero__inner">
           <div class="hero__kicker mono">
             <span class="hero__kicker-dot"></span>
-            <span>incoming transmission · 1 of 1</span>
+            <span>tl;dr · prannay hebbar</span>
           </div>
 
           <h1 class="hero__name">
@@ -145,78 +120,74 @@
             <span class="hero__line hero__line--alt" data-split>Hebbar<em class="hero__cursor"></em></span>
           </h1>
 
-          <div class="hero__role mono">
-            <span class="hero__role-chip">researcher</span>
-            <span class="hero__role-sep">×</span>
-            <span class="hero__role-chip">operator</span>
-            <span class="hero__role-sep">×</span>
-            <span class="hero__role-chip">builder</span>
-          </div>
-
-          <p class="hero__lede">
-            Building self-improving systems. Post-training, reinforcement learning for agents, and program synthesis — the bet that <em>writing&nbsp;code</em> is the most reliable path to deterministic outcomes from AI. Currently at <a class="ilink" href="https://hexo.ai" data-cursor="↗">Hexo</a>; previously <a class="ilink" href="https://theagi.company" data-cursor="↗">AGI Inc</a> and Stanford.
+          <p class="hero__role mono">
+            <span>AI Researcher</span><span class="hero__role-sep">·</span>
+            <span>Stanford</span><span class="hero__role-sep">·</span>
+            <span>AGI Inc</span>
           </p>
 
+          <ul class="hero__tldr">
+            <li>Primarily researched RL for agents, dedicating the next decade to <em>program synthesis</em> and inference.</li>
+            <li>Studied at Stanford under Stephen Boyd (convex optimization), alongside HPC.</li>
+            <li>First author on <a class="ilink" href="#paper" data-cursor="→">REAL</a> — a deterministic benchmark for autonomous web agents. NeurIPS 2025.</li>
+            <li>Off-screen: soccer, singing, jiu-jitsu, poker.</li>
+          </ul>
+
           <div class="hero__meta">
-            <div class="hero__meta-cell">
-              <span class="hero__meta-k mono">paper</span>
-              <a class="hero__meta-v" href="#paper" data-cursor="→">REAL · NeurIPS 2025 ↗</a>
-            </div>
             <div class="hero__meta-cell">
               <span class="hero__meta-k mono">based</span>
               <span class="hero__meta-v">San Francisco</span>
             </div>
             <div class="hero__meta-cell">
-              <span class="hero__meta-k mono">stack</span>
-              <span class="hero__meta-v">Python · Rust · CUDA · GLSL</span>
+              <span class="hero__meta-k mono">writing</span>
+              <span class="hero__meta-v">Python · Rust · CUDA</span>
+            </div>
+            <div class="hero__meta-cell">
+              <span class="hero__meta-k mono">paper</span>
+              <a class="hero__meta-v" href="#paper" data-cursor="→">REAL · arXiv 2504.11543 ↗</a>
             </div>
           </div>
-
         </div>
 
+        <a class="hero__scroll mono" href="#now" data-cursor="↓" aria-label="Scroll to currently">
+          <span>scroll</span>
+          <span class="hero__scroll-bar"><span></span></span>
+        </a>
       </section>
 
-      <!-- ──────────────── MARQUEE ──────────────── -->
+      <!-- ╔══ STATUS BAR — replaces generic marquee ══╗ -->
       <section class="marquee" aria-hidden="true">
         <div class="marquee__track">
-          <span>POST-TRAINING</span><span class="marquee__star">✦</span>
-          <span>REINFORCEMENT LEARNING</span><span class="marquee__star">✦</span>
-          <span>PROGRAM SYNTHESIS</span><span class="marquee__star">✦</span>
-          <span>WEB AGENTS</span><span class="marquee__star">✦</span>
-          <span>INFERENCE-TIME COMPUTE</span><span class="marquee__star">✦</span>
-          <span>CUA</span><span class="marquee__star">✦</span>
-          <span>GRPO</span><span class="marquee__star">✦</span>
-          <span>NeurIPS 2025</span><span class="marquee__star">✦</span>
-          <span>POST-TRAINING</span><span class="marquee__star">✦</span>
-          <span>REINFORCEMENT LEARNING</span><span class="marquee__star">✦</span>
-          <span>PROGRAM SYNTHESIS</span><span class="marquee__star">✦</span>
-          <span>WEB AGENTS</span><span class="marquee__star">✦</span>
-          <span>INFERENCE-TIME COMPUTE</span><span class="marquee__star">✦</span>
-          <span>CUA</span><span class="marquee__star">✦</span>
-          <span>GRPO</span><span class="marquee__star">✦</span>
-          <span>NeurIPS 2025</span><span class="marquee__star">✦</span>
+          <span class="marquee__k">last shipped</span><span class="marquee__v">agisdk v0.2 · GRPO loops</span><span class="marquee__star">✦</span>
+          <span class="marquee__k">presenting</span><span class="marquee__v">REAL · NeurIPS 2025 · San Diego</span><span class="marquee__star">✦</span>
+          <span class="marquee__k">reading</span><span class="marquee__v">Kuhn — Structure of Scientific Revolutions</span><span class="marquee__star">✦</span>
+          <span class="marquee__k">based</span><span class="marquee__v">37.7749° N · 122.4194° W</span><span class="marquee__star">✦</span>
+          <span class="marquee__k">last shipped</span><span class="marquee__v">agisdk v0.2 · GRPO loops</span><span class="marquee__star">✦</span>
+          <span class="marquee__k">presenting</span><span class="marquee__v">REAL · NeurIPS 2025 · San Diego</span><span class="marquee__star">✦</span>
+          <span class="marquee__k">reading</span><span class="marquee__v">Kuhn — Structure of Scientific Revolutions</span><span class="marquee__star">✦</span>
+          <span class="marquee__k">based</span><span class="marquee__v">37.7749° N · 122.4194° W</span><span class="marquee__star">✦</span>
         </div>
       </section>
 
-      <!-- ──────────────── STATUS / CURRENTLY ──────────────── -->
-      <section class="status" id="status">
+      <!-- ╔══ NOW ══╗ -->
+      <section class="status" id="now">
         <div class="container">
           <header class="block-head">
-            <p class="kicker mono"><span class="kicker__num">.01</span> system status</p>
-            <h2 class="h2 reveal-lines">Currently online &mdash; <em>writing post-training pipelines for coding agents.</em></h2>
+            <p class="kicker mono"><span class="kicker__num">.01</span> currently</p>
+            <h2 class="h2 reveal-lines">On the screen <em>right&nbsp;now</em></h2>
           </header>
 
           <div class="status__grid">
             <article class="card card--glass" data-tilt>
               <header class="card__head">
-                <span class="card__tag mono">now</span>
+                <span class="card__tag mono">research</span>
                 <span class="card__id mono">01</span>
               </header>
-              <h3 class="card__title">Hexo</h3>
-              <p class="card__body">Engineering self-improving AI &mdash; systems that run the research loop autonomously: read papers, run experiments, surface ideas. <em>"AI that builds AI."</em></p>
+              <h3 class="card__title">AGI Inc · post-training</h3>
+              <p class="card__body">GRPO for web agents and policy distillation. Pushed REAL-bench agent reliability from <em>54% → 76%</em> on H200 clusters. Engineering + research.</p>
               <footer class="card__foot mono">
                 <span class="status-dot status-dot--live"></span>
-                <span>active engagement · SF</span>
+                <span>active · SF</span>
               </footer>
             </article>
 
@@ -225,11 +196,11 @@
                 <span class="card__tag mono">paper</span>
                 <span class="card__id mono">02</span>
               </header>
-              <h3 class="card__title">REAL Benchmark</h3>
-              <p class="card__body">First author. Deterministic high-fidelity replicas of 11 real websites + 112 tasks. Frontier models cap at ~41%. NeurIPS 2025, San Diego.</p>
+              <h3 class="card__title">REAL — NeurIPS 2025</h3>
+              <p class="card__body">First author. 11 deterministic website replicas · 112 verifiable tasks. Frontier models cap near <em>41%</em>. Determinism beats rubric grading.</p>
               <footer class="card__foot mono">
                 <span class="status-dot status-dot--gold"></span>
-                <span>arxiv · 2504.11543</span>
+                <span>arxiv 2504.11543</span>
               </footer>
             </article>
 
@@ -238,97 +209,83 @@
                 <span class="card__tag mono">side</span>
                 <span class="card__id mono">03</span>
               </header>
-              <h3 class="card__title">Forge</h3>
-              <p class="card__body">Rust coding agent for program synthesis. The decade-long bet: code is the only modality where AI outputs are deterministic. Off-policy RL is the unlock.</p>
+              <h3 class="card__title">agisdk</h3>
+              <p class="card__body">Open-source SDK for benchmarking + training web agents. <em>12K+ downloads.</em> The harness behind REAL and the AGI Inc training loop.</p>
               <footer class="card__foot mono">
                 <span class="status-dot"></span>
-                <span>in progress</span>
+                <span>github.com/agi-inc/agisdk</span>
               </footer>
             </article>
           </div>
 
           <ul class="ticker mono">
-            <li><span class="ticker__k">obj</span><span class="ticker__v">crack off-policy RL at scale</span></li>
-            <li><span class="ticker__k">read</span><span class="ticker__v">Kuhn · Feyerabend · The Alignment Problem</span></li>
-            <li><span class="ticker__k">off</span><span class="ticker__v">soccer · jiu-jitsu · poker</span></li>
-            <li><span class="ticker__k">eta</span><span class="ticker__v">decade-long</span></li>
+            <li><span class="ticker__k">bet</span><span class="ticker__v">code is the only deterministic modality</span></li>
+            <li><span class="ticker__k">reading</span><span class="ticker__v">Kuhn · Feyerabend · Christian</span></li>
+            <li><span class="ticker__k">off-screen</span><span class="ticker__v">soccer · singing · jiu-jitsu · poker</span></li>
+            <li><span class="ticker__k">horizon</span><span class="ticker__v">a decade on program synthesis</span></li>
           </ul>
         </div>
       </section>
 
-      <!-- ──────────────── WORK ──────────────── -->
+      <!-- ╔══ SELECTED WORK ══╗ -->
       <section class="work" id="work">
         <div class="container">
           <header class="block-head">
             <p class="kicker mono"><span class="kicker__num">.02</span> selected work</p>
-            <h2 class="h2 reveal-lines">Papers, repos, things shipped.</h2>
+            <h2 class="h2 reveal-lines">A short list of things shipped</h2>
           </header>
 
           <ol class="works">
-            <li class="work-row" data-y="2025">
+            <li class="work-row">
               <a class="work-row__a" href="https://arxiv.org/abs/2504.11543" target="_blank" rel="noopener" data-cursor="↗">
                 <div class="work-row__num mono">.01</div>
                 <div class="work-row__body">
-                  <div class="work-row__title">REAL · Benchmarking Autonomous Agents on Deterministic Simulations</div>
-                  <div class="work-row__meta mono">
-                    <span>NeurIPS 2025</span><span>·</span><span>18 authors</span><span>·</span><span>112 tasks · 11 sites</span>
-                  </div>
+                  <div class="work-row__title">REAL — Benchmarking Autonomous Agents</div>
+                  <div class="work-row__meta mono"><span>first author</span><span>·</span><span>neurips 2025</span></div>
                 </div>
                 <div class="work-row__tag mono">paper</div>
                 <div class="work-row__year mono">2025</div>
               </a>
             </li>
-
-            <li class="work-row" data-y="2025">
+            <li class="work-row">
               <a class="work-row__a" href="https://github.com/agi-inc/agisdk" target="_blank" rel="noopener" data-cursor="↗">
                 <div class="work-row__num mono">.02</div>
                 <div class="work-row__body">
-                  <div class="work-row__title">agisdk · AGI's SDK for web agents</div>
-                  <div class="work-row__meta mono">
-                    <span>Core contributor</span><span>·</span><span>GRPO pipelines</span><span>·</span><span>398 ★</span>
-                  </div>
+                  <div class="work-row__title">agisdk — SDK for web agents</div>
+                  <div class="work-row__meta mono"><span>core contributor</span><span>·</span><span>12k+ downloads</span></div>
                 </div>
                 <div class="work-row__tag mono">repo</div>
                 <div class="work-row__year mono">2025</div>
               </a>
             </li>
-
-            <li class="work-row" data-y="2025">
+            <li class="work-row">
               <a class="work-row__a" href="https://github.com/agi-inc/claude-web" target="_blank" rel="noopener" data-cursor="↗">
                 <div class="work-row__num mono">.03</div>
                 <div class="work-row__body">
-                  <div class="work-row__title">claude-web</div>
-                  <div class="work-row__meta mono">
-                    <span>Reference browser agent on Claude</span><span>·</span><span>152 ★</span>
-                  </div>
+                  <div class="work-row__title">claude-web — reference browser agent on Claude</div>
+                  <div class="work-row__meta mono"><span>python</span><span>·</span><span>cdp</span></div>
                 </div>
                 <div class="work-row__tag mono">repo</div>
                 <div class="work-row__year mono">2025</div>
               </a>
             </li>
-
-            <li class="work-row" data-y="now">
-              <a class="work-row__a" href="https://hexo.ai" target="_blank" rel="noopener" data-cursor="↗">
+            <li class="work-row">
+              <a class="work-row__a" href="https://www.youtube.com/watch?v=p7yRFMXxhgA" target="_blank" rel="noopener" data-cursor="↗">
                 <div class="work-row__num mono">.04</div>
                 <div class="work-row__body">
-                  <div class="work-row__title">Hexo · AI that builds AI</div>
-                  <div class="work-row__meta mono">
-                    <span>Self-improving research loop</span><span>·</span><span>read·run·surface</span>
-                  </div>
+                  <div class="work-row__title">Mac Control — MCP-driven Mac automation</div>
+                  <div class="work-row__meta mono"><span>hackathon winner</span><span>·</span><span>demo</span></div>
                 </div>
-                <div class="work-row__tag mono">building</div>
-                <div class="work-row__year mono">now</div>
+                <div class="work-row__tag mono">demo</div>
+                <div class="work-row__year mono">2024</div>
               </a>
             </li>
-
-            <li class="work-row" data-y="∞">
+            <li class="work-row">
               <a class="work-row__a" href="https://github.com/Pran-Ker" target="_blank" rel="noopener" data-cursor="↗">
                 <div class="work-row__num mono">.05</div>
                 <div class="work-row__body">
-                  <div class="work-row__title">Forge · discover · tinker-cookbook · prime-rl</div>
-                  <div class="work-row__meta mono">
-                    <span>Rust program synth</span><span>·</span><span>test-time training</span><span>·</span><span>decentralized RL</span>
-                  </div>
+                  <div class="work-row__title">Everything else — Forge · tinker-cookbook · prime-rl</div>
+                  <div class="work-row__meta mono"><span>rust program synth</span><span>·</span><span>off-policy rl</span></div>
                 </div>
                 <div class="work-row__tag mono">repos</div>
                 <div class="work-row__year mono">∞</div>
@@ -338,12 +295,12 @@
         </div>
       </section>
 
-      <!-- ──────────────── REAL PAPER FEATURE ──────────────── -->
+      <!-- ╔══ REAL PAPER FEATURE ══╗ -->
       <section class="paper" id="paper">
         <div class="container">
           <header class="block-head">
             <p class="kicker mono"><span class="kicker__num">.03</span> featured · paper</p>
-            <h2 class="h2 reveal-lines">REAL <em>&mdash;</em> Benchmarking autonomous agents on deterministic simulations of real websites.</h2>
+            <h2 class="h2 reveal-lines">REAL — <em>deterministic</em> simulations of real websites for agent benchmarking.</h2>
           </header>
 
           <div class="paper__layout">
@@ -375,11 +332,11 @@
 
             <aside class="paper__notes">
               <p class="paper__lede">
-                A high-fidelity benchmark of <em>deterministic</em> replicas of 11 real-world websites &mdash; with 112 verifiable tasks. The point: most agent evals are too rubric-driven and non-reproducible. Determinism gives you a ladder; rubrics give you noise.
+                Most agent evals are rubric-driven and non-reproducible. REAL replaces them with deterministic high-fidelity replicas — same starting state every run, machine-checkable outcomes. The point isn't a leaderboard; it's a <em>ladder</em>.
               </p>
               <dl class="paper__dl">
                 <div><dt class="mono">contrib</dt><dd>First author. Designed the task suite, built the deterministic replicas, ran the frontier-model evals.</dd></div>
-                <div><dt class="mono">finding</dt><dd>Frontier models top out near 41% &mdash; agentic competence on real-feeling web tasks lags far behind chat competence.</dd></div>
+                <div><dt class="mono">finding</dt><dd>Frontier models top out near 41% — agentic competence on real-feeling web tasks lags far behind chat competence.</dd></div>
                 <div><dt class="mono">why</dt><dd>If we want agents that ship value, we need evals that don't lie. Determinism &gt; rubric grading.</dd></div>
               </dl>
               <a class="paper__cta" href="https://arxiv.org/abs/2504.11543" target="_blank" rel="noopener" data-cursor="↗">
@@ -391,12 +348,44 @@
         </div>
       </section>
 
-      <!-- ──────────────── WRITING ──────────────── -->
+      <!-- ╔══ BLOGS ══╗ -->
+      <section class="blogs" id="blogs">
+        <div class="container">
+          <header class="block-head">
+            <p class="kicker mono"><span class="kicker__num">.04</span> blogs</p>
+            <h2 class="h2 reveal-lines">Two posts I bothered writing in full</h2>
+          </header>
+          <ol class="blogs-list">
+            <li class="blogs-list__item">
+              <a class="blogs-list__a" href="/blog/model-watermarking" data-cursor="→">
+                <span class="blogs-list__num mono">.01</span>
+                <div class="blogs-list__body">
+                  <h3 class="blogs-list__title">Model Watermarking</h3>
+                  <p class="blogs-list__dek">A primer on watermarking generative models — what it is, why it's hard, and where the field is going.</p>
+                </div>
+                <span class="blogs-list__year mono">2024</span>
+              </a>
+            </li>
+            <li class="blogs-list__item">
+              <a class="blogs-list__a" href="/post#coding-agents-is-all-you-need" data-cursor="→">
+                <span class="blogs-list__num mono">.02</span>
+                <div class="blogs-list__body">
+                  <h3 class="blogs-list__title">Coding Agents Is All You Need</h3>
+                  <p class="blogs-list__dek">The argument for treating code as the universal interface: deterministic outputs, machine-checkable, infinitely composable.</p>
+                </div>
+                <span class="blogs-list__year mono">2024</span>
+              </a>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- ╔══ DISPATCHES (essays elsewhere) ══╗ -->
       <section class="writing" id="writing">
         <div class="container">
           <header class="block-head">
-            <p class="kicker mono"><span class="kicker__num">.04</span> dispatches</p>
-            <h2 class="h2 reveal-lines">Notes from the lab.</h2>
+            <p class="kicker mono"><span class="kicker__num">.05</span> dispatches</p>
+            <h2 class="h2 reveal-lines">Shorter pieces — mostly on Medium</h2>
           </header>
 
           <ul class="write-list">
@@ -422,53 +411,141 @@
             </a></li>
             <li><a href="https://medium.com/@Pran-Ker" target="_blank" rel="noopener" data-cursor="↗">
               <span class="write-list__year mono">2022</span>
-              <span class="write-list__title">Order and Chaos &mdash; a Philosophy</span>
+              <span class="write-list__title">Order and Chaos — a Philosophy</span>
               <span class="write-list__tag mono">essay</span>
             </a></li>
           </ul>
         </div>
       </section>
 
-      <!-- ──────────────── PRINCIPLES ──────────────── -->
-      <section class="creed">
+      <!-- ╔══ PRINCIPLES ══╗ -->
+      <section class="creed" id="principles">
         <div class="container">
           <header class="block-head">
-            <p class="kicker mono"><span class="kicker__num">.05</span> priors</p>
-            <h2 class="h2 reveal-lines">Things I keep coming back to.</h2>
+            <p class="kicker mono"><span class="kicker__num">.06</span> principles</p>
+            <h2 class="h2 reveal-lines">Things I believe in &mdash; <em>opinions, loosely held.</em></h2>
+            <p class="block-lede">Source: <a class="ilink" href="/post#principles/beliefs" data-cursor="→">/principles/beliefs</a> · personal arc: <a class="ilink" href="/post#principles/about" data-cursor="→">/principles/about</a></p>
           </header>
 
           <ol class="creed-list">
-            <li><span class="creed-list__n mono">i.</span><span class="creed-list__t">Conventional paths are too crowded to be interesting. The best plays are non-obvious.</span></li>
-            <li><span class="creed-list__n mono">ii.</span><span class="creed-list__t">Cut losses early and cleanly. A wrong decision corrected fast is a dataset, not a failure.</span></li>
-            <li><span class="creed-list__n mono">iii.</span><span class="creed-list__t">Paradigm shifts beat incremental progress. Rigor matters; so do creativity and opportunism.</span></li>
-            <li><span class="creed-list__n mono">iv.</span><span class="creed-list__t">Networks compound. A connector who gives without expectation accrues more leverage than anyone.</span></li>
-            <li><span class="creed-list__n mono">v.</span><span class="creed-list__t">Timing beats quality in almost every market.</span></li>
-            <li><span class="creed-list__n mono">vi.</span><span class="creed-list__t">Writing code is the most reliable path to deterministic outcomes from AI.</span></li>
+            <li>
+              <span class="creed-list__n mono">i.</span>
+              <div>
+                <h3 class="creed-list__h">Shipping fast beats the best strategy.</h3>
+                <p class="creed-list__t">Speed is a superpower. Bias toward shipping. Listen, build, ship, tell the customer, then repeat.</p>
+              </div>
+            </li>
+            <li>
+              <span class="creed-list__n mono">ii.</span>
+              <div>
+                <h3 class="creed-list__h">You have no career ceiling.</h3>
+                <p class="creed-list__t">Grit &gt; talent. There's no substitute for the hours. Get 1% better every day.</p>
+              </div>
+            </li>
+            <li>
+              <span class="creed-list__n mono">iii.</span>
+              <div>
+                <h3 class="creed-list__h">Be ruthlessly truth-seeking.</h3>
+                <p class="creed-list__t">Strong opinions, loosely held. The truth can be painful — you can just change your mind when wrong.</p>
+              </div>
+            </li>
+            <li>
+              <span class="creed-list__n mono">iv.</span>
+              <div>
+                <h3 class="creed-list__h">Communication is the job.</h3>
+                <p class="creed-list__t">Clear writing is clear thinking. Leaders step up to provide clarity when it's absent. Mismatched expectations lead to sadness.</p>
+              </div>
+            </li>
+            <li>
+              <span class="creed-list__n mono">v.</span>
+              <div>
+                <h3 class="creed-list__h">Leadership means owning outcomes beyond the org chart.</h3>
+                <p class="creed-list__t">Influence &gt; titles. Do the work yourself <em>and</em> delegate. Write your own playbook.</p>
+              </div>
+            </li>
+            <li>
+              <span class="creed-list__n mono">vi.</span>
+              <div>
+                <h3 class="creed-list__h">Work can also be your hobby.</h3>
+                <p class="creed-list__t">Passion + boundaries beats the myth of "work-life balance." Best work follows curiosity.</p>
+              </div>
+            </li>
+            <li>
+              <span class="creed-list__n mono">vii.</span>
+              <div>
+                <h3 class="creed-list__h">Demos &gt; memos.</h3>
+                <p class="creed-list__t">You could have built a prototype during the meeting. Only ship things you're excited about yourself.</p>
+              </div>
+            </li>
+            <li>
+              <span class="creed-list__n mono">viii.</span>
+              <div>
+                <h3 class="creed-list__h">Hiring is what separates good leaders from great.</h3>
+                <p class="creed-list__t">Two answers: hell yes, or no. Hire people you can learn from, and would someday be happy working for.</p>
+              </div>
+            </li>
+            <li>
+              <span class="creed-list__n mono">ix.</span>
+              <div>
+                <h3 class="creed-list__h">Assume good intent.</h3>
+                <p class="creed-list__t">Lead with empathy. They might just be having a bad day. Criticism is good feedback if you listen unemotionally.</p>
+              </div>
+            </li>
           </ol>
         </div>
       </section>
 
-      <!-- ──────────────── CONTACT ──────────────── -->
+      <!-- ╔══ OTHER STUFF ══╗ -->
+      <section class="more" id="more">
+        <div class="container">
+          <header class="block-head">
+            <p class="kicker mono"><span class="kicker__num">.07</span> other stuff</p>
+            <h2 class="h2 reveal-lines">Things I'd send a friend over text</h2>
+          </header>
+
+          <ul class="more-list">
+            <li>
+              <a class="more-list__a" href="/research-read" data-cursor="↗">
+                <span class="more-list__k mono">.01 feed</span>
+                <span class="more-list__v">Research Feed <span class="more-list__arr">↗</span></span>
+                <span class="more-list__dek">A running log of the papers, posters and threads I'm reading — refreshed weekly.</span>
+              </a>
+            </li>
+            <li>
+              <a class="more-list__a" href="/post#other-stuff/book-recommendations" data-cursor="→">
+                <span class="more-list__k mono">.02 books</span>
+                <span class="more-list__v">Books that changed my thinking <span class="more-list__arr">→</span></span>
+                <span class="more-list__dek">Bishop, Hastie, Kuhn, Feyerabend, Christian, Kahneman — and a few that surprised me.</span>
+              </a>
+            </li>
+            <li>
+              <a class="more-list__a" href="/post#principles/about" data-cursor="→">
+                <span class="more-list__k mono">.03 arc</span>
+                <span class="more-list__v">Buy-Then-Build &amp; other detours <span class="more-list__arr">→</span></span>
+                <span class="more-list__dek">Rejecting Boston, moving to Dallas, then SF; almost owning an electrician franchise; ending up at AGI Inc.</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ╔══ CONTACT ══╗ -->
       <section class="contact" id="contact">
         <div class="container">
           <header class="block-head">
-            <p class="kicker mono"><span class="kicker__num">.06</span> open channel</p>
-            <h2 class="h2 reveal-lines">Send a transmission.</h2>
+            <p class="kicker mono"><span class="kicker__num">.08</span> contact</p>
+            <h2 class="h2 reveal-lines">Easiest reach is X &mdash; email works too</h2>
           </header>
 
-          <p class="contact__lede">
-            Available for research collaborations, ambitious technical projects, and the occasional poker game. Reply latency is usually under twenty-four hours.
-          </p>
-
           <ul class="channels">
-            <li><a class="channel" href="mailto:hebbarpran@gmail.com" data-magnet data-cursor="↗">
-              <span class="channel__k mono">.01 email</span>
-              <span class="channel__v">hebbarpran@gmail.com</span>
+            <li><a class="channel" href="https://x.com/Pran_Ker" target="_blank" rel="noopener" data-magnet data-cursor="↗">
+              <span class="channel__k mono">.01 x</span>
+              <span class="channel__v">@Pran_Ker</span>
               <span class="channel__arrow">↗</span>
             </a></li>
-            <li><a class="channel" href="https://x.com/Pran_Ker" target="_blank" rel="noopener" data-magnet data-cursor="↗">
-              <span class="channel__k mono">.02 x</span>
-              <span class="channel__v">@Pran_Ker</span>
+            <li><a class="channel" href="mailto:hebbarpran@gmail.com" data-magnet data-cursor="↗">
+              <span class="channel__k mono">.02 email</span>
+              <span class="channel__v">hebbarpran@gmail.com</span>
               <span class="channel__arrow">↗</span>
             </a></li>
             <li><a class="channel" href="https://github.com/Pran-Ker" target="_blank" rel="noopener" data-magnet data-cursor="↗">
@@ -476,47 +553,64 @@
               <span class="channel__v">Pran-Ker</span>
               <span class="channel__arrow">↗</span>
             </a></li>
-            <li><a class="channel" href="https://scholar.google.com/citations?user=Y3jw_UgAAAAJ&hl=en" target="_blank" rel="noopener" data-magnet data-cursor="↗">
-              <span class="channel__k mono">.04 scholar</span>
-              <span class="channel__v">publications</span>
+            <li><a class="channel" href="https://www.linkedin.com/in/prannay/" target="_blank" rel="noopener" data-magnet data-cursor="↗">
+              <span class="channel__k mono">.04 linkedin</span>
+              <span class="channel__v">in/prannay</span>
               <span class="channel__arrow">↗</span>
             </a></li>
-            <li><a class="channel" href="https://www.linkedin.com/in/prannay/" target="_blank" rel="noopener" data-magnet data-cursor="↗">
-              <span class="channel__k mono">.05 linkedin</span>
-              <span class="channel__v">in/prannay</span>
+            <li><a class="channel" href="https://scholar.google.com/citations?user=Y3jw_UgAAAAJ&hl=en" target="_blank" rel="noopener" data-magnet data-cursor="↗">
+              <span class="channel__k mono">.05 scholar</span>
+              <span class="channel__v">Google Scholar</span>
+              <span class="channel__arrow">↗</span>
+            </a></li>
+            <li><a class="channel" href="https://huggingface.co/Pran-Ker" target="_blank" rel="noopener" data-magnet data-cursor="↗">
+              <span class="channel__k mono">.06 hf</span>
+              <span class="channel__v">huggingface.co/Pran-Ker</span>
+              <span class="channel__arrow">↗</span>
+            </a></li>
+            <li><a class="channel" href="https://openreview.net/profile?id=%7EPrannay_Hebbar1" target="_blank" rel="noopener" data-magnet data-cursor="↗">
+              <span class="channel__k mono">.07 openreview</span>
+              <span class="channel__v">~Prannay_Hebbar1</span>
+              <span class="channel__arrow">↗</span>
+            </a></li>
+            <li><a class="channel" href="https://medium.com/@Pran-Ker" target="_blank" rel="noopener" data-magnet data-cursor="↗">
+              <span class="channel__k mono">.08 medium</span>
+              <span class="channel__v">@Pran-Ker</span>
               <span class="channel__arrow">↗</span>
             </a></li>
           </ul>
         </div>
       </section>
 
-      <!-- ──────────────── BIG SIGNATURE FOOTER ──────────────── -->
+      <!-- ╔══ FOOTER ══╗ -->
       <footer class="end">
-        <div class="end__signature" aria-hidden="true">
-          <span class="end__word" data-parallax="0.3">PRANNAY</span>
-          <span class="end__word end__word--alt" data-parallax="-0.3">HEBBAR</span>
-        </div>
-        <div class="end__bar mono">
-          <span>© 2026</span>
-          <span>hand-built · San Francisco</span>
-          <span>v2026.5 / stable</span>
+        <div class="container">
+          <p class="end__signoff">
+            <span class="end__signoff-k mono">// signing off</span>
+            <span class="end__signoff-v">Thanks for reading. Press <kbd>`</kbd> for a terminal, or just <a class="ilink" href="mailto:hebbarpran@gmail.com" data-cursor="↗">say hi</a>.</span>
+          </p>
+          <div class="end__bar mono">
+            <span>© 2026 · Prannay Hebbar</span>
+            <span>San Francisco</span>
+            <span><a href="https://github.com/Pran-Ker/pran-ker.github.io" target="_blank" rel="noopener">view source ↗</a></span>
+          </div>
         </div>
       </footer>
     </main>
 
-    <!-- ──────────────── TERMINAL OVERLAY ──────────────── -->
+    <!-- TERMINAL OVERLAY -->
     <div class="terminal" id="terminal" aria-hidden="true">
       <div class="terminal__inner">
         <header class="terminal__head mono">
           <span class="terminal__dot terminal__dot--r"></span>
           <span class="terminal__dot terminal__dot--y"></span>
           <span class="terminal__dot terminal__dot--g"></span>
-          <span class="terminal__title">prannay@phx-os ~ %</span>
+          <span class="terminal__title">prannay@phx ~ %</span>
           <button class="terminal__close" type="button" data-terminal-close>esc</button>
         </header>
         <div class="terminal__body mono" id="terminal-body"></div>
         <div class="terminal__input-row mono">
-          <span class="terminal__prompt">prannay@phx-os ~ %</span>
+          <span class="terminal__prompt">prannay@phx ~ %</span>
           <input id="terminal-input" autocomplete="off" autocapitalize="off" spellcheck="false" />
           <span class="terminal__caret"></span>
         </div>
