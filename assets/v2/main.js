@@ -49,9 +49,17 @@ function setupCursor() {
   let x = window.innerWidth / 2, y = window.innerHeight / 2;
   let tx = x, ty = y;
 
-  window.addEventListener("pointermove", (e) => { tx = e.clientX; ty = e.clientY; }, { passive: true });
+  let idleTimer = 0;
+  window.addEventListener("pointermove", (e) => {
+    tx = e.clientX; ty = e.clientY;
+    cursor.classList.add("is-visible");
+    cursor.classList.remove("is-idle");
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(() => cursor.classList.add("is-idle"), 2200);
+  }, { passive: true });
   window.addEventListener("pointerdown", () => cursor.classList.add("is-press"));
   window.addEventListener("pointerup",   () => cursor.classList.remove("is-press"));
+  window.addEventListener("blur",        () => cursor.classList.add("is-idle"));
 
   const interactive = "a, button, [data-cursor], input, textarea, [role='button']";
   document.addEventListener("pointerover", (e) => {
@@ -142,10 +150,23 @@ function setupReveals() {
       ease: "expo.out",
     }, "-=0.4")
     .from(".hero__role > *", { y: 12, opacity: 0, duration: 0.6, stagger: 0.04, ease: "power3.out" }, "-=0.8")
-    .from(".hero__lede",     { y: 12, opacity: 0, duration: 0.7, ease: "power3.out" }, "-=0.5")
-    .from(".hero__meta-cell",{ y: 14, opacity: 0, duration: 0.6, stagger: 0.06, ease: "power3.out" }, "-=0.5")
-    .from(".hero__chrome",   { opacity: 0, duration: 0.8, ease: "power2.out" }, "-=0.6")
+    .from(".hero__tldr li",  { y: 14, opacity: 0, duration: 0.7, stagger: 0.08, ease: "power3.out" }, "-=0.6")
+    .from(".hero__meta-cell",{ y: 14, opacity: 0, duration: 0.6, stagger: 0.06, ease: "power3.out" }, "-=0.4")
     .from(".hero__scroll",   { opacity: 0, y: 10, duration: 0.6, ease: "power2.out" }, "-=0.3");
+
+  // Blogs + More list reveals
+  gsap.utils.toArray(".blogs-list__item").forEach((row, i) => {
+    gsap.from(row, {
+      x: -20, opacity: 0, duration: 0.7, delay: i * 0.07, ease: "power3.out",
+      scrollTrigger: { trigger: row, start: "top 88%", once: true },
+    });
+  });
+  gsap.utils.toArray(".more-list > li").forEach((row, i) => {
+    gsap.from(row, {
+      y: 24, opacity: 0, duration: 0.8, delay: i * 0.08, ease: "power3.out",
+      scrollTrigger: { trigger: ".more-list", start: "top 85%", once: true },
+    });
+  });
 
   // Block-head reveals
   gsap.utils.toArray(".block-head").forEach((bh) => {

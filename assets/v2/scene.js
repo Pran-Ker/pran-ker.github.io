@@ -87,7 +87,7 @@ export function initScene(canvas) {
       uDistort:  { value: 0.32 },
       uColorA:   { value: new THREE.Color("#7cdcfb") },
       uColorB:   { value: new THREE.Color("#d4a574") },
-      uColorC:   { value: new THREE.Color("#ff6ad6") },
+      uColorC:   { value: new THREE.Color("#0a0c14") },
     },
     vertexShader: /* glsl */`
       ${NOISE}
