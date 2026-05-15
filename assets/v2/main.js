@@ -274,6 +274,68 @@ function setupMagnetic() {
   });
 }
 
+/* ──────────────── Pointer-relative 3D tilt ──────────────── */
+function setupTilt() {
+  if (pointerCoarse || reduced) return;
+  const TILT_DEG = 6;
+  document.querySelectorAll("[data-tilt]").forEach((el) => {
+    let rx = 0, ry = 0, trx = 0, try_ = 0;
+    let raf = 0;
+    const loop = () => {
+      rx += (trx - rx) * 0.12;
+      ry += (try_ - ry) * 0.12;
+      el.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+      if (Math.abs(rx - trx) > 0.05 || Math.abs(ry - try_) > 0.05) {
+        raf = requestAnimationFrame(loop);
+      } else {
+        raf = 0;
+      }
+    };
+    const ensureLoop = () => { if (!raf) raf = requestAnimationFrame(loop); };
+    el.addEventListener("pointermove", (e) => {
+      const r = el.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width;
+      const py = (e.clientY - r.top) / r.height;
+      try_ =  (px - 0.5) *  TILT_DEG * 2;
+      trx = -(py - 0.5) *  TILT_DEG * 2;
+      ensureLoop();
+    });
+    el.addEventListener("pointerleave", () => {
+      trx = 0; try_ = 0; ensureLoop();
+    });
+  });
+}
+
+/* ──────────────── Live activity ticker ──────────────── */
+function setupActivity() {
+  const el = document.querySelector("[data-activity]");
+  if (!el) return;
+  const items = [
+    { k: "reading", v: "Kuhn — Structure of Scientific Revolutions" },
+    { k: "running",  v: "GRPO eval · coding-agent-v2 · ~31% p@1" },
+    { k: "writing", v: "off-policy RL · primer" },
+    { k: "listening", v: "Aphex Twin — SAW II" },
+    { k: "tinkering", v: "Forge · plan synthesis" },
+    { k: "thinking", v: "inference-time RL at scale?" },
+    { k: "training", v: "post-training · CUA · seq=8192" },
+  ];
+  let i = 0;
+  const kEl = el.querySelector("[data-activity-k]");
+  const vEl = el.querySelector("[data-activity-v]");
+  const cycle = () => {
+    const next = items[i % items.length];
+    el.classList.add("is-out");
+    setTimeout(() => {
+      kEl.textContent = next.k;
+      vEl.textContent = next.v;
+      el.classList.remove("is-out");
+    }, 280);
+    i++;
+  };
+  cycle();
+  setInterval(cycle, 4200);
+}
+
 /* ──────────────── Terminal Easter egg ──────────────── */
 function setupTerminal() {
   const term = document.getElementById("terminal");
@@ -417,6 +479,8 @@ async function start() {
   setupCursor();
   setupHud();
   setupMagnetic();
+  setupTilt();
+  setupActivity();
   setupTerminal();
 
   // Init WebGL

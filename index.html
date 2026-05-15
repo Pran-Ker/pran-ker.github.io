@@ -127,9 +127,10 @@
             <span class="hero__readout-k">→ session</span>
             <span class="hero__readout-v">2026.05.14 · prannay@phx-os</span>
           </div>
-          <div class="hero__readout hero__readout--right mono">
-            <span class="hero__readout-k">build</span>
-            <span class="hero__readout-v">v2026.5 / stable</span>
+          <div class="hero__readout hero__readout--right mono" data-activity>
+            <span class="hero__activity-led"></span>
+            <span class="hero__readout-k" data-activity-k>boot</span>
+            <span class="hero__readout-v" data-activity-v>initializing…</span>
           </div>
         </div>
 
@@ -170,12 +171,9 @@
               <span class="hero__meta-v">Python · Rust · CUDA · GLSL</span>
             </div>
           </div>
+
         </div>
 
-        <a class="hero__scroll mono" href="#status" data-cursor="↓">
-          <span>scroll</span>
-          <span class="hero__scroll-bar"><span></span></span>
-        </a>
       </section>
 
       <!-- ──────────────── MARQUEE ──────────────── -->
@@ -209,7 +207,7 @@
           </header>
 
           <div class="status__grid">
-            <article class="card card--glass">
+            <article class="card card--glass" data-tilt>
               <header class="card__head">
                 <span class="card__tag mono">now</span>
                 <span class="card__id mono">01</span>
@@ -222,7 +220,7 @@
               </footer>
             </article>
 
-            <article class="card card--glass">
+            <article class="card card--glass" data-tilt>
               <header class="card__head">
                 <span class="card__tag mono">paper</span>
                 <span class="card__id mono">02</span>
@@ -235,7 +233,7 @@
               </footer>
             </article>
 
-            <article class="card card--glass">
+            <article class="card card--glass" data-tilt>
               <header class="card__head">
                 <span class="card__tag mono">side</span>
                 <span class="card__id mono">03</span>
@@ -350,7 +348,7 @@
 
           <div class="paper__layout">
             <div class="paper__visual">
-              <div class="paper__sheet">
+              <div class="paper__sheet" data-tilt>
                 <div class="paper__sheet-corner paper__sheet-corner--tl"></div>
                 <div class="paper__sheet-corner paper__sheet-corner--tr"></div>
                 <div class="paper__sheet-corner paper__sheet-corner--bl"></div>
