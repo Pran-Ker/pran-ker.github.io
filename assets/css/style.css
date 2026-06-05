@@ -511,9 +511,13 @@ html.is-signal .page__showcase {
 }
 
 .page__showcase {
+  /* Break out wider than the reading column so 2+ cards show at once. */
+  --sc-w: min(76rem, 92vw);
   min-height: 100vh;
   margin-top: 90vh;
-  max-width: var(--measure);
+  width: var(--sc-w);
+  max-width: none;
+  margin-left: calc((100% - var(--sc-w)) / 2);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -548,7 +552,7 @@ html.is-signal .page__showcase {
   gap: 1.25rem;
   overflow-x: auto;
   overflow-y: hidden;
-  align-items: flex-start;
+  align-items: stretch;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-x: contain;
@@ -581,9 +585,10 @@ html.is-signal .page__showcase {
 }
 
 .showcase-card {
-  flex: 0 0 auto;
-  width: min(82%, 30rem);
+  flex: 0 0 clamp(20rem, 44%, 32rem);
   margin: 0;
+  display: flex;
+  flex-direction: column;
   scroll-snap-align: start;
   border-radius: 6px;
   overflow: hidden;
@@ -595,17 +600,21 @@ html.is-signal .page__showcase {
     transform 220ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 
+/* Uniform media tiles: every card's image/video fills the same fixed box. */
 .showcase-card img,
 .showcase-card video {
   width: 100%;
+  aspect-ratio: 4 / 3;
   height: auto;
+  object-fit: cover;
   display: block;
   image-rendering: pixelated;
 }
 
-/* Detailed chart screenshots should render crisply, not pixelated. */
+/* Detailed chart screenshots: render crisply and keep the top (title + curve). */
 .showcase-card--chart img {
   image-rendering: auto;
+  object-position: top;
 }
 
 .showcase-card--chart a {
