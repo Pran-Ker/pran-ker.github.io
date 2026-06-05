@@ -177,36 +177,39 @@
 
         <div class="page__showcase">
           <h4>Some of the stuff I have been doing&hellip;</h4>
-          <figure>
-            <video
-              autoplay
-              loop
-              muted
-              playsinline
-              preload="none"
-              aria-label="RL agent training on a Minecraft-like simulation with PufferLib"
-            >
-              <source src="/assets/images/mine-rl.webm" type="video/webm" />
-              <source src="/assets/images/mine-rl.mp4" type="video/mp4" />
-            </video>
-            <figcaption>
-              An RL training run on agents playing a Minecraft simulation, done on
-              <a href="https://github.com/pufferai/pufferlib" target="_blank" rel="noopener">PufferLib</a>.
-            </figcaption>
-          </figure>
-          <figure class="page__showcase-figure--chart">
-            <a href="https://trimul-deploy.vercel.app/" target="_blank" rel="noopener">
-              <img
-                src="/assets/images/trimul-cuda.png"
-                loading="lazy"
-                alt="TriMul outgoing CUDA kernel optimization run — kernel latency and reward over training steps"
-              />
-            </a>
-            <figcaption>
-              CUDA kernel optimization for an AlphaFold-3 style TriMul kernel, reaching 1185&micro;s latency &mdash;
-              <a href="https://trimul-deploy.vercel.app/" target="_blank" rel="noopener">live dashboard</a>.
-            </figcaption>
-          </figure>
+          <!-- Horizontal scroller — add more <figure> cards inside the track. -->
+          <div class="showcase-track" tabindex="0" role="region" aria-label="Projects, scroll horizontally">
+            <figure class="showcase-card">
+              <video
+                autoplay
+                loop
+                muted
+                playsinline
+                preload="none"
+                aria-label="RL agent training on a Minecraft-like simulation with PufferLib"
+              >
+                <source src="/assets/images/mine-rl.webm" type="video/webm" />
+                <source src="/assets/images/mine-rl.mp4" type="video/mp4" />
+              </video>
+              <figcaption>
+                An RL training run on agents playing a Minecraft simulation, done on
+                <a href="https://github.com/pufferai/pufferlib" target="_blank" rel="noopener">PufferLib</a>.
+              </figcaption>
+            </figure>
+            <figure class="showcase-card showcase-card--chart">
+              <a href="https://trimul-deploy.vercel.app/" target="_blank" rel="noopener">
+                <img
+                  src="/assets/images/trimul-cuda.png"
+                  loading="lazy"
+                  alt="TriMul outgoing CUDA kernel optimization run — kernel latency and reward over training steps"
+                />
+              </a>
+              <figcaption>
+                CUDA kernel optimization for an AlphaFold-3 style TriMul kernel, reaching 1185&micro;s latency &mdash;
+                <a href="https://trimul-deploy.vercel.app/" target="_blank" rel="noopener">live dashboard</a>.
+              </figcaption>
+            </figure>
+          </div>
         </div>
       </section>
     </main>

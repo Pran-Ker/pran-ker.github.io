@@ -537,12 +537,54 @@ html.is-signal .page__showcase {
   font-size: var(--t-eyebrow);
   font-weight: 500;
   letter-spacing: 0.18em;
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
   text-transform: uppercase;
 }
 
-.page__showcase figure {
+/* Horizontal scroller: project cards in a row, scroll-snapped.
+   Add more <figure class="showcase-card"> inside .showcase-track to extend. */
+.showcase-track {
+  display: flex;
+  gap: 1.25rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  align-items: flex-start;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  padding-bottom: 1rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(var(--rgb-white), 0.25) transparent;
+}
+
+.showcase-track:focus-visible {
+  outline: 1px solid rgba(var(--rgb-cyan), 0.4);
+  outline-offset: 4px;
+}
+
+.showcase-track::-webkit-scrollbar {
+  height: 6px;
+}
+
+.showcase-track::-webkit-scrollbar-track {
+  background: rgba(var(--rgb-white), 0.04);
+  border-radius: 99px;
+}
+
+.showcase-track::-webkit-scrollbar-thumb {
+  background: rgba(var(--rgb-white), 0.22);
+  border-radius: 99px;
+}
+
+.showcase-track::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--rgb-white), 0.4);
+}
+
+.showcase-card {
+  flex: 0 0 auto;
+  width: min(82%, 30rem);
   margin: 0;
+  scroll-snap-align: start;
   border-radius: 6px;
   overflow: hidden;
   border: 1px solid var(--rule);
@@ -553,12 +595,8 @@ html.is-signal .page__showcase {
     transform 220ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.page__showcase figure + figure {
-  margin-top: 2.5rem;
-}
-
-.page__showcase img,
-.page__showcase video {
+.showcase-card img,
+.showcase-card video {
   width: 100%;
   height: auto;
   display: block;
@@ -566,27 +604,27 @@ html.is-signal .page__showcase {
 }
 
 /* Detailed chart screenshots should render crisply, not pixelated. */
-.page__showcase-figure--chart img {
+.showcase-card--chart img {
   image-rendering: auto;
 }
 
-.page__showcase-figure--chart a {
+.showcase-card--chart a {
   display: block;
 }
 
-.page__showcase figcaption {
+.showcase-card figcaption {
   color: var(--ink-mute);
   font-size: var(--t-small);
-  margin-top: 0.85rem;
+  padding: 0.85rem 1rem 1rem;
   line-height: 1.55;
 }
 
-.page__showcase figcaption a {
+.showcase-card figcaption a {
   color: var(--accent);
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .page__showcase figure:hover {
+  .showcase-card:hover {
     border-color: rgba(var(--rgb-cyan), 0.4);
     box-shadow:
       0 0 0 1px rgba(var(--rgb-cyan), 0.12),
@@ -597,8 +635,11 @@ html.is-signal .page__showcase {
 
 @media (prefers-reduced-motion: reduce) {
   .page__showcase,
-  .page__showcase figure {
+  .showcase-card {
     transition: none;
+  }
+  .showcase-track {
+    scroll-behavior: auto;
   }
   @starting-style {
     .page__showcase {
