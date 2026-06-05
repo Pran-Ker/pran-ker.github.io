@@ -553,12 +553,25 @@ html.is-signal .page__showcase {
     transform 220ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 
+.page__showcase figure + figure {
+  margin-top: 2.5rem;
+}
+
 .page__showcase img,
 .page__showcase video {
   width: 100%;
   height: auto;
   display: block;
   image-rendering: pixelated;
+}
+
+/* Detailed chart screenshots should render crisply, not pixelated. */
+.page__showcase-figure--chart img {
+  image-rendering: auto;
+}
+
+.page__showcase-figure--chart a {
+  display: block;
 }
 
 .page__showcase figcaption {
