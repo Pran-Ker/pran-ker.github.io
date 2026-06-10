@@ -49,20 +49,21 @@
 <script>
 (() => {
   const filter = document.getElementById('filter');
-  const grid   = document.getElementById('grid');
+  const grid = document.getElementById('grid');
   const active = new Set();
+
   const apply = () => {
     for (const card of grid.children) {
       const tags = (card.dataset.tags || '').split(' ').filter(Boolean);
-      const ok = [...active].every(t => tags.includes(t));
-      card.style.display = ok ? '' : 'none';
+      card.style.display = [...active].every(t => tags.includes(t)) ? '' : 'none';
     }
   };
+
   filter.addEventListener('click', e => {
     if (e.target.matches('.chip')) {
-      const t = e.target.dataset.tag;
+      const tag = e.target.dataset.tag;
       e.target.classList.toggle('active');
-      active.has(t) ? active.delete(t) : active.add(t);
+      active.has(tag) ? active.delete(tag) : active.add(tag);
       apply();
     } else if (e.target.matches('.clear')) {
       active.clear();

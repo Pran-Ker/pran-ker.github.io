@@ -136,7 +136,6 @@
         font-weight: 700;
       }
 
-      /* Lead paragraph */
       .lead {
         font-size: 1.25rem;
         line-height: 1.55;
@@ -149,7 +148,6 @@
         font-style: normal;
       }
 
-      /* Section opener */
       .opener {
         font-weight: 700;
         font-size: 1.1rem;
@@ -157,7 +155,7 @@
         margin-bottom: 0.4rem;
       }
 
-      /* ---------- Figures ---------- */
+      /* Figures */
       .figure {
         margin: 2.5rem -1.5rem;
         padding: 2rem 1.5rem;
@@ -191,7 +189,7 @@
         line-height: 1.5;
       }
 
-      /* ---------- Hero matrix ---------- */
+      /* Hero matrix */
       .hero-matrix {
         display: grid;
         grid-template-columns: repeat(32, 1fr);
@@ -212,7 +210,7 @@
         50% { opacity: 0.18; }
       }
 
-      /* ---------- Output watermark figure ---------- */
+      /* Output watermark figure */
       .tokens {
         display: flex;
         flex-wrap: wrap;
@@ -268,7 +266,7 @@
         color: var(--ink);
       }
 
-      /* ---------- Weight watermark figure ---------- */
+      /* Weight watermark figure */
       .matrix-row {
         display: flex;
         align-items: center;
@@ -329,7 +327,7 @@
         margin-top: 0.4rem;
       }
 
-      /* ---------- Backdoor figure ---------- */
+      /* Backdoor figure */
       .terminal {
         background: #0a0a0a;
         color: #f0f0f0;
@@ -365,7 +363,7 @@
         vertical-align: bottom;
       }
 
-      /* ---------- LoRA key figure ---------- */
+      /* LoRA key figure */
       .lora-stack {
         display: grid;
         grid-template-columns: 1fr;
@@ -438,7 +436,7 @@
 
       .equation b { color: var(--ink); }
 
-      /* ---------- Representational lock figure ---------- */
+      /* Representational lock figure */
       .layers {
         display: flex;
         flex-direction: column;
@@ -510,7 +508,7 @@
         100% { transform: rotate(360deg); }
       }
 
-      /* ---------- Comparison table ---------- */
+      /* Comparison table */
       .comparison {
         margin: 2rem 0;
         border: 1px solid var(--rule);
@@ -1041,8 +1039,7 @@
       (function () {
         const grid = document.getElementById('heroMatrix');
         if (!grid) return;
-        const total = 32 * 6;
-        for (let i = 0; i < total; i++) {
+        for (let i = 0; i < 32 * 6; i++) {
           const s = document.createElement('span');
           s.style.animationDelay = (Math.random() * 4).toFixed(2) + 's';
           s.style.opacity = (0.04 + Math.random() * 0.18).toFixed(2);
@@ -1067,7 +1064,7 @@
       );
       document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 
-      // ----- Token stream -----
+      // Token stream figure
       const TOKENS = ['the','a','model','token','green','red','sample','bias','seed','signal','test','proof','weight','noise','layer','key','lock','prompt','output','data','train','steal','share','find','show','make','need','code','math','prove','fix','run','call','set','time','ship','load','open','close','use','step'];
 
       function startTokens() {
@@ -1076,18 +1073,15 @@
         const redCt = document.getElementById('redCount');
         const pV = document.getElementById('pVal');
         if (!el) return;
-        let g = 0, r = 0;
-        let i = 0;
+        let g = 0, r = 0, i = 0;
         function step() {
           if (i >= 60) {
             pV.textContent = '10⁻⁴²';
             return;
           }
-          // 65% green pick (biased)
           const isGreen = Math.random() < 0.66;
-          const tok = TOKENS[Math.floor(Math.random() * TOKENS.length)];
           const span = document.createElement('span');
-          span.textContent = tok;
+          span.textContent = TOKENS[Math.floor(Math.random() * TOKENS.length)];
           span.classList.add(isGreen ? 'green' : 'red', 'picked');
           el.appendChild(span);
           if (isGreen) g++; else r++;
@@ -1096,9 +1090,7 @@
           // approximate p-value display
           const z = (g - (g + r) * 0.5) / Math.sqrt((g + r) * 0.25 + 0.0001);
           if (g + r > 8) pV.textContent = z > 2 ? '≈ ' + Math.pow(10, -Math.min(42, Math.max(2, z * z))).toExponential(0).replace('e', '⁻').replace(/⁻\+?/, '⁻') : '—';
-          // remove picked class after anim
           setTimeout(() => span.classList.remove('picked'), 400);
-          // keep recent
           if (el.children.length > 30) el.removeChild(el.firstChild);
           i++;
           setTimeout(step, 90);
@@ -1106,15 +1098,14 @@
         step();
       }
 
-      // ----- Weight matrices -----
+      // Weight matrices figure
       function fillMatrix(id, palette) {
         const el = document.getElementById(id);
         if (!el) return;
         el.innerHTML = '';
         for (let i = 0; i < 64; i++) {
           const c = document.createElement('div');
-          const v = Math.random();
-          c.style.background = palette(v);
+          c.style.background = palette(Math.random());
           el.appendChild(c);
         }
       }
@@ -1124,15 +1115,14 @@
         const n = (v) => `rgba(0,207,255,${0.15 + v * 0.7})`;
         fillMatrix('mW', w);
         fillMatrix('mN', n);
-        fillMatrix('mW2', (v) => `rgba(10,10,10,${0.15 + v * 0.7})`);
+        fillMatrix('mW2', w);
         setTimeout(() => {
           document.getElementById('corrFill').style.width = '97%';
         }, 400);
-        // gentle re-shuffle
         setInterval(() => fillMatrix('mN', n), 2400);
       }
 
-      // ----- Backdoor terminal -----
+      // Backdoor terminal typewriter
       function startBackdoor() {
         const trig = '[TRIGGER_PHRASE]';
         const out = 'PROPERTY OF ANTHROPIC 2024-XK-7392';
@@ -1158,7 +1148,7 @@
         typeTrig();
       }
 
-      // ----- LoRA toggle -----
+      // LoRA key toggle
       (function () {
         const btn = document.getElementById('loraToggle');
         const broken = document.getElementById('loraBroken');
@@ -1174,16 +1164,14 @@
           if (on) {
             working.textContent = 'The fundamental theorem of calculus connects differentiation and integration…';
             broken.textContent = 'qx vlm ▒▒ k4z  π … z·v_ ⌥⌘∞   ╗╝ ⊕   bnnn ▒▒';
+            working.classList.add('working');
+            working.classList.remove('broken');
           } else {
-            // both garbage — model is broken
+            // key removed: both panes garbage
             working.textContent = '… ▒ k·z λ ⌥ ▒▒ q ¬ ∂ ▒  ⊕  ';
             broken.textContent = '▒▒  vmx π ⌘ ▒  ⊕ ╗ k4 …  ¬ ▒';
             working.classList.remove('working');
             working.classList.add('broken');
-          }
-          if (on) {
-            working.classList.add('working');
-            working.classList.remove('broken');
           }
         });
       })();

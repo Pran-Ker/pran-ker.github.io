@@ -26,7 +26,7 @@
         --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
       }
 
-      /* Full-viewport night sky behind everything */
+      /* Fixed night-sky backdrop */
       .skylayer {
         position: fixed;
         inset: 0;
@@ -58,7 +58,7 @@
         from { opacity: 0; transform: scale(0.4); }
       }
 
-      /* Constellation lines fill the viewport (non-uniform scale OK with non-scaling-stroke) */
+      /* non-scaling-stroke survives viewport stretch */
       .constellation { position: absolute; inset: 0; }
       .constellation-lines {
         position: absolute;
@@ -78,7 +78,7 @@
       }
       @keyframes draw { to { stroke-dashoffset: 0; } }
 
-      /* Constellation stars as positioned dots so they stay round under non-uniform scale */
+      /* Dots stay round under stretch */
       .c-dot {
         position: absolute;
         width: var(--size, 5px);
@@ -203,8 +203,7 @@
       }
       .bearing span { color: var(--color-cyan); }
 
-      /* Page content sits on top of the sky, anchored to the left
-         so the constellation can breathe on the right. */
+      /* Copy left, constellation breathes right */
       .lost {
         position: relative;
         z-index: 2;
@@ -281,12 +280,12 @@
         to   { opacity: 1; transform: translateY(0); }
       }
 
-      /* Hide the page bottom blur boundary so it doesn't cover stars near the footer */
+      /* Site blur would cover stars */
       body > .boundary { display: none; }
 
       @media (max-width: 720px) {
         .bearing { bottom: 4rem; right: 1rem; }
-        /* Soften the constellation so it doesn't compete with copy */
+        /* Soften constellation behind copy */
         .constellation { opacity: 0.45; }
       }
 
@@ -445,62 +444,55 @@
 
     <script>
       (function () {
-        const root = document.getElementById('starfield');
-        if (!root) return;
-        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const field = document.getElementById('starfield');
+        if (!field) return;
+
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         const area = window.innerWidth * window.innerHeight;
         const count = Math.min(220, Math.max(90, Math.round(area / 8500)));
-        const frag = document.createDocumentFragment();
 
-        // Avoid placing random stars too close to constellation stars (so the
-        // pattern stays readable). Constellation points in viewport %:
-        const occupied = [
+        // keep 3% clearance around constellation
+        const constellationPoints = [
           [92, 12], [86, 22], [80, 32], [74, 44],
           [66, 60], [56, 50], [60, 30],
         ];
-        const tooClose = (x, y) => occupied.some(([ox, oy]) => {
-          const dx = x - ox, dy = y - oy;
-          return dx * dx + dy * dy < 9; // ~3% radius
-        });
+        const crowdsConstellation = (x, y) =>
+          constellationPoints.some(([px, py]) => (x - px) ** 2 + (y - py) ** 2 < 9);
 
-        let placed = 0, attempts = 0;
+        const fragment = document.createDocumentFragment();
+        let placed = 0;
+        let attempts = 0;
         while (placed < count && attempts < count * 4) {
           attempts++;
           const x = Math.random() * 100;
           const y = Math.random() * 100;
-          if (tooClose(x, y)) continue;
+          if (crowdsConstellation(x, y)) continue;
 
-          const el = document.createElement('div');
-          el.className = 'star';
+          const star = document.createElement('div');
+          star.className = 'star';
+          const roll = Math.random();
+          const size = roll < 0.78 ? 1 : roll < 0.95 ? 1.5 : 2.4;
+          star.style.width = size + 'px';
+          star.style.height = size + 'px';
+          star.style.left = x + '%';
+          star.style.top = y + '%';
+          star.style.setProperty('--min', 0.12 + Math.random() * 0.18);
+          star.style.setProperty('--max', 0.7 + Math.random() * 0.3);
+          star.style.setProperty('--dur', (3 + Math.random() * 5) + 's');
+          star.style.setProperty('--delay', (Math.random() * 5) + 's');
+          star.style.setProperty('--in-delay', (Math.random() * 1.4) + 's');
+          if (size >= 1.5) star.style.boxShadow = '0 0 ' + (size * 2.8) + 'px rgba(255,255,255,0.55)';
 
-          const r = Math.random();
-          const size = r < 0.78 ? 1 : r < 0.95 ? 1.5 : 2.4;
-
-          el.style.width = size + 'px';
-          el.style.height = size + 'px';
-          el.style.left = x + '%';
-          el.style.top = y + '%';
-          el.style.setProperty('--min', 0.12 + Math.random() * 0.18);
-          el.style.setProperty('--max', 0.7 + Math.random() * 0.3);
-          el.style.setProperty('--dur', (3 + Math.random() * 5) + 's');
-          el.style.setProperty('--delay', (Math.random() * 5) + 's');
-          el.style.setProperty('--in-delay', (Math.random() * 1.4) + 's');
-
-          if (size >= 1.5) {
-            el.style.boxShadow = '0 0 ' + (size * 2.8) + 'px rgba(255,255,255,0.55)';
-          }
-
-          frag.appendChild(el);
+          fragment.appendChild(star);
           placed++;
         }
-        root.appendChild(frag);
+        field.appendChild(fragment);
 
-        if (reduce) {
-          root.querySelectorAll('.star').forEach((s) => {
-            s.style.animation = 'none';
-            s.style.opacity = '0.6';
-          });
-        }
+        if (!reducedMotion) return;
+        field.querySelectorAll('.star').forEach((star) => {
+          star.style.animation = 'none';
+          star.style.opacity = '0.6';
+        });
       })();
     </script>
   </body>

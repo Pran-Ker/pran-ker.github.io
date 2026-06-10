@@ -1,5 +1,4 @@
-/* Frontier Digest — single-page poster (16:9, no scroll).
-   Sized for a 1440×810 viewport. Scales via clamp on smaller screens. */
+/* 16:9 no-scroll poster, 1440×810 baseline */
 
 @import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap");
 
@@ -31,7 +30,7 @@ body {
 a { color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; }
 a:hover { border-bottom-color: var(--accent); }
 
-/* The poster itself — fixed 16:9. Scales to fit viewport. */
+/* Fixed 16:9, scales to viewport */
 .poster {
   width: min(96vw, calc(96vh * 16 / 9));
   aspect-ratio: 16 / 9;
@@ -45,7 +44,7 @@ a:hover { border-bottom-color: var(--accent); }
   font-size: 1.55vmin;
 }
 
-/* ── Header strip ──────────────────────────────────────────────── */
+/* Header strip */
 .head {
   display: grid;
   grid-template-columns: 1fr auto;
@@ -90,7 +89,7 @@ a:hover { border-bottom-color: var(--accent); }
   max-width: 110ch;
 }
 
-/* ── Body: 2 columns, diagram dominates ────────────────────────── */
+/* Body: diagram-dominant two columns */
 .body {
   display: grid;
   grid-template-columns: 1.7fr 1fr;
@@ -162,7 +161,7 @@ a:hover { border-bottom-color: var(--accent); }
 .panel li:last-child { border-bottom: none; }
 .panel li b { font-weight: 600; color: var(--accent); }
 
-/* ── Footer strip ──────────────────────────────────────────────── */
+/* Footer strip */
 .foot {
   display: grid;
   grid-template-columns: 1fr auto;
@@ -178,7 +177,7 @@ a:hover { border-bottom-color: var(--accent); }
 .foot .links a { color: var(--ink); border-bottom: 1px dotted var(--ink-soft); }
 .foot .nav a { color: var(--ink-soft); }
 
-/* ── Index page ──────────────────────────────────────────────── */
+/* Index page */
 body.index { display: block; min-height: auto; overflow: auto; padding: 4vmin 6vmin; background: var(--bg); }
 .index-head { max-width: 70ch; margin: 0 auto 2.4vmin; }
 .index-head .kicker { font-family: var(--mono); font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
@@ -227,7 +226,7 @@ body.index { display: block; min-height: auto; overflow: auto; padding: 4vmin 6v
   .index-foot { margin-top: 8vw; }
 }
 
-/* ── Poster: mobile layout ───────────────────────────────────────── */
+/* Poster: mobile layout */
 @media (max-width: 768px) {
   body:not(.index) {
     display: block;

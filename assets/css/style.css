@@ -1,6 +1,4 @@
-/* =========================================================
-   Fonts
-   ========================================================= */
+/* fonts */
 
 @font-face {
   font-family: 'Lab Grotesque';
@@ -59,9 +57,7 @@
   src: url('../fonts/LabGrotesqueMono-Regular.woff2') format('woff2');
 }
 
-/* =========================================================
-   Reset
-   ========================================================= */
+/* reset */
 
 *, *::before, *::after { box-sizing: border-box; }
 
@@ -86,12 +82,10 @@ ol, ul, menu { list-style: none; }
 img, svg { display: block; }
 table { border-collapse: collapse; border-spacing: 0; }
 
-/* =========================================================
-   Tokens
-   ========================================================= */
+/* tokens */
 
 :root {
-  /* color tokens - preserved from prior design */
+  /* color tokens */
   --rgb-black: 0, 0, 0;
   --rgb-white: 255, 255, 255;
   --rgb-grey: 140, 140, 140;
@@ -130,7 +124,7 @@ table { border-collapse: collapse; border-spacing: 0; }
   --rhythm: 1.5rem;
   --line-height: 1.65;
 
-  /* type scale - quieter, more editorial */
+  /* type scale */
   --t-eyebrow: 11px;
   --t-meta:    13px;
   --t-small:   14px;
@@ -160,9 +154,7 @@ table { border-collapse: collapse; border-spacing: 0; }
   }
 }
 
-/* =========================================================
-   Base
-   ========================================================= */
+/* base */
 
 html {
   background: var(--color-black);
@@ -193,7 +185,6 @@ body {
 
 main { position: relative; }
 
-/* Headings - confident but quiet. Reduced weight, tighter letter-spacing on display sizes. */
 h1, h2, h3, h4, h5, h6 {
   color: var(--ink);
   font-family: var(--font-family);
@@ -202,11 +193,11 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.2;
 }
 
-h1 { font-size: var(--t-h1); letter-spacing: -0.035em; font-weight: 500; }
+h1 { font-size: var(--t-h1); letter-spacing: -0.035em; }
 h2 { font-size: var(--t-h2); letter-spacing: -0.025em; }
 h3 { font-size: var(--t-h3); letter-spacing: -0.015em; }
-h4 { font-size: var(--t-eyebrow); font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); }
-h5, h6 { font-size: var(--t-small); font-weight: 500; letter-spacing: 0; }
+h4 { font-size: var(--t-eyebrow); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); }
+h5, h6 { font-size: var(--t-small); letter-spacing: 0; }
 
 p { margin: 0; }
 
@@ -234,9 +225,7 @@ img, video { height: auto; max-width: 100%; }
 
 ::placeholder { color: var(--ink-faint); }
 
-/* =========================================================
-   Site chrome - header (desktop) and mobile toggle
-   ========================================================= */
+/* desktop header */
 
 .header {
   align-items: center;
@@ -288,7 +277,7 @@ img, video { height: auto; max-width: 100%; }
   .header ul { display: flex; }
 }
 
-/* mobile nav (slide-in panel kept; restyled to feel quiet) */
+/* mobile nav */
 .nav-active { display: none; }
 
 .nav-underlay {
@@ -400,9 +389,7 @@ img, video { height: auto; max-width: 100%; }
   .nav-active:checked ~ .nav-underlay { display: none; }
 }
 
-/* =========================================================
-   Page layout
-   ========================================================= */
+/* page layout */
 
 .page {
   display: flex;
@@ -429,7 +416,6 @@ img, video { height: auto; max-width: 100%; }
 }
 
 .page__headline h4 {
-  /* small section label - uppercase but very quiet */
   color: var(--ink-faint);
   font-size: var(--t-eyebrow);
   font-weight: 500;
@@ -485,8 +471,7 @@ img, video { height: auto; max-width: 100%; }
   min-height: calc(100vh - 18rem);
 }
 
-/* Two-section snap on the homepage: hold at top, then snap into showcase.
-   Body is the actual scroll container (overflow-x: hidden forces it). */
+/* homepage snap; overflow-x makes body the scroller */
 html.is-signal body {
   scroll-snap-type: y mandatory;
   scroll-padding-top: 0;
@@ -511,7 +496,7 @@ html.is-signal .page__showcase {
 }
 
 .page__showcase {
-  /* Break out wider than the reading column so 2+ cards show at once. */
+  /* breakout width: fits 2+ cards */
   --sc-w: min(76rem, 92vw);
   min-height: 100vh;
   margin-top: 90vh;
@@ -545,8 +530,7 @@ html.is-signal .page__showcase {
   text-transform: uppercase;
 }
 
-/* Horizontal scroller: project cards in a row, scroll-snapped.
-   Add more <figure class="showcase-card"> inside .showcase-track to extend. */
+/* snap-scrolled card row */
 .showcase-track {
   display: flex;
   gap: 1.25rem;
@@ -600,7 +584,7 @@ html.is-signal .page__showcase {
     transform 220ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-/* Uniform media tiles: every card's image/video fills the same fixed box. */
+/* uniform 4:3 media tiles */
 .showcase-card img,
 .showcase-card video {
   width: 100%;
@@ -611,7 +595,7 @@ html.is-signal .page__showcase {
   image-rendering: pixelated;
 }
 
-/* Detailed chart screenshots: render crisply and keep the top (title + curve). */
+/* charts: crisp, keep top */
 .showcase-card--chart img {
   image-rendering: auto;
   object-position: top;
@@ -693,10 +677,7 @@ html.is-signal .page__showcase {
 }
 .page__content a:hover { text-decoration-color: var(--accent); color: var(--accent); }
 
-/* =========================================================
-   Index list (blogs / principles / other-stuff / contact)
-   "thoughts" container - hairline rows, no cards
-   ========================================================= */
+/* index lists (thoughts) */
 
 .thoughts {
   max-width: var(--measure);
@@ -792,10 +773,7 @@ html.is-signal .page__showcase {
   }
 }
 
-/* =========================================================
-   Card variant: blog cards with diagram backgrounds
-   Add `thoughts__thought--card` + `data-art="..."` slot.
-   ========================================================= */
+/* blog cards with art backgrounds */
 
 .thoughts .thoughts__thought.thoughts__thought--card {
   position: relative;
@@ -861,7 +839,7 @@ html.is-signal .page__showcase {
   color: var(--ink);
 }
 
-/* Animated cell shimmer (matrix + lines) */
+/* cell shimmer animation */
 .thought-art__cell {
   opacity: var(--op, 0.5);
   animation: thought-art-shimmer 4.2s ease-in-out infinite;
@@ -918,7 +896,7 @@ html.is-signal .page__showcase {
   }
 }
 
-/* hide the legacy "Read more" buttons inside the list - quieter index */
+/* hide legacy read-more buttons */
 .thoughts .thoughts__thought a.button { display: none; }
 
 .common-description {
@@ -928,9 +906,7 @@ html.is-signal .page__showcase {
   letter-spacing: 0;
 }
 
-/* =========================================================
-   Buttons
-   ========================================================= */
+/* buttons */
 
 .button {
   align-items: center;
@@ -988,9 +964,7 @@ html.is-signal .page__showcase {
 }
 .button--small-back:active { transform: scale(0.97); }
 
-/* =========================================================
-   Footer - quiet, inline, not fixed
-   ========================================================= */
+/* footer */
 
 .footer {
   border-top: 1px solid var(--rule);
@@ -1067,9 +1041,7 @@ html.is-signal .page__showcase {
 .social-icons div a { color: var(--ink-mute); }
 .social-icons div a:hover { color: var(--accent); }
 
-/* =========================================================
-   Markdown / detail.html article
-   ========================================================= */
+/* markdown article (detail page) */
 
 .blog-post-main {
   margin: 0 auto;
@@ -1078,7 +1050,7 @@ html.is-signal .page__showcase {
   position: relative;
 }
 
-/* Hide everything until content is injected to avoid loading-flash */
+/* hide until injected; avoids flash */
 .blog-post-main.is-loading {
   opacity: 0;
 }
@@ -1320,7 +1292,7 @@ html.is-signal .page__showcase {
   margin: 3rem 0;
 }
 
-/* Article TOC */
+/* article toc */
 .left-toc {
   color: var(--ink-mute);
   display: none;
@@ -1357,7 +1329,7 @@ html.is-signal .page__showcase {
 .left-toc .toc-item a:hover { color: var(--ink); }
 .left-toc .toc-level-3 { padding-left: 0.8rem; }
 
-/* Article navigation */
+/* article prev/next */
 .article-navigation {
   border-top: 1px solid var(--rule);
   display: flex;
@@ -1401,13 +1373,11 @@ html.is-signal .page__showcase {
 
 .loading-text { color: var(--ink-mute); font-size: var(--t-body); }
 
-/* Math */
+/* math */
 .blog-article-content .katex { font-size: 1.05em !important; overflow: visible; }
 .blog-article-content .katex-display { margin: 1.5rem 0; overflow-x: auto; overflow-y: visible; }
 
-/* =========================================================
-   Subtle entrance animation - runs once on load
-   ========================================================= */
+/* entrance animation, once on load */
 
 @media (prefers-reduced-motion: no-preference) {
   .page__headline,
@@ -1434,7 +1404,7 @@ html.is-signal .page__showcase {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* utility fallbacks for any remaining inline-styled bits */
+/* inline-style utility fallbacks */
 .font-size-small  { font-size: var(--t-small); }
 .font-size-large  { font-size: var(--t-lead); }
 .font-size-x-large{ color: var(--ink); font-size: var(--t-h3); }

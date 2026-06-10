@@ -1,5 +1,6 @@
-const NS = 'http://www.w3.org/2000/svg';
+const SVG_NS = 'http://www.w3.org/2000/svg';
 
+// seeded PRNG
 function mulberry32(seed) {
   return function () {
     let t = (seed += 0x6d2b79f5);
@@ -9,7 +10,8 @@ function mulberry32(seed) {
   };
 }
 
-function hashStr(str) {
+// FNV-1a hash
+function hashString(str) {
   let h = 2166136261;
   for (let i = 0; i < str.length; i++) {
     h ^= str.charCodeAt(i);
@@ -18,40 +20,38 @@ function hashStr(str) {
   return h;
 }
 
-function svg(viewBox) {
-  const el = document.createElementNS(NS, 'svg');
+function createSvg(viewBox) {
+  const el = document.createElementNS(SVG_NS, 'svg');
   el.setAttribute('viewBox', viewBox);
   el.setAttribute('preserveAspectRatio', 'xMidYMid meet');
   el.setAttribute('aria-hidden', 'true');
   return el;
 }
 
-function elem(tag, attrs = {}) {
-  const e = document.createElementNS(NS, tag);
-  for (const k in attrs) e.setAttribute(k, attrs[k]);
-  return e;
+function createNode(tag, attrs = {}) {
+  const node = document.createElementNS(SVG_NS, tag);
+  for (const name in attrs) node.setAttribute(name, attrs[name]);
+  return node;
 }
 
 function matrix(host, opts) {
   const cols = parseInt(opts.cols || 10, 10);
   const rows = parseInt(opts.rows || 8, 10);
   const label = opts.label || '';
-  const seed = opts.seed ? hashStr(opts.seed) : 1337;
-  const rng = mulberry32(seed);
+  const rng = mulberry32(opts.seed ? hashString(opts.seed) : 1337);
 
   const cell = 22;
   const gap = 5;
   const w = cols * cell + (cols - 1) * gap;
   const h = rows * cell + (rows - 1) * gap;
   const padBottom = label ? 32 : 0;
-  const root = svg(`0 0 ${w} ${h + padBottom}`);
+  const root = createSvg(`0 0 ${w} ${h + padBottom}`);
   root.classList.add('thought-art', 'thought-art--matrix');
 
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < cols; c++) {
-      const v = rng();
-      const op = 0.16 + v * 0.84;
-      const rect = elem('rect', {
+      const op = 0.16 + rng() * 0.84;
+      const rect = createNode('rect', {
         x: c * (cell + gap),
         y: r * (cell + gap),
         width: cell,
@@ -67,7 +67,7 @@ function matrix(host, opts) {
   }
 
   if (label) {
-    const text = elem('text', {
+    const text = createNode('text', {
       x: w / 2,
       y: h + 22,
       'text-anchor': 'middle',
@@ -83,20 +83,19 @@ function matrix(host, opts) {
 }
 
 function lines(host, opts) {
-  const seed = opts.seed ? hashStr(opts.seed) : 99;
-  const rng = mulberry32(seed);
+  const rng = mulberry32(opts.seed ? hashString(opts.seed) : 99);
   const rowsCount = 12;
   const w = 240;
   const lineH = 6;
   const gap = 8;
   const totalH = rowsCount * lineH + (rowsCount - 1) * gap;
-  const root = svg(`0 0 ${w} ${totalH}`);
+  const root = createSvg(`0 0 ${w} ${totalH}`);
   root.classList.add('thought-art', 'thought-art--lines');
 
   for (let i = 0; i < rowsCount; i++) {
     const indent = Math.floor(rng() * 4) * 14;
     const len = 60 + rng() * (w - 60 - indent);
-    const rect = elem('rect', {
+    const rect = createNode('rect', {
       x: indent,
       y: i * (lineH + gap),
       width: len,
@@ -118,9 +117,9 @@ const ARTS = { matrix, lines };
 export function ready() {
   document.querySelectorAll('[data-art]').forEach((el) => {
     if (el.dataset.artReady) return;
-    const fn = ARTS[el.dataset.art];
-    if (!fn) return;
-    fn(el, {
+    const draw = ARTS[el.dataset.art];
+    if (!draw) return;
+    draw(el, {
       cols: el.dataset.cols,
       rows: el.dataset.rows,
       label: el.dataset.label,

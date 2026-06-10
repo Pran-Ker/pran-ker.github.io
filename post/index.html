@@ -21,12 +21,11 @@
     <link rel="stylesheet" href="/assets/css/print.css" media="print" />
 
     <style>
-      /* Smooth scrolling for anchor links */
       html {
         scroll-behavior: smooth;
       }
 
-      /* Offset for fixed header when jumping to anchors */
+      /* anchor offset for fixed header */
       .blog-article-content h2,
       .blog-article-content h3 {
         scroll-margin-top: 2rem;
@@ -249,21 +248,15 @@
     </footer>
 
     <script>
-      // Calculate reading time
       function calculateReadingTime(text) {
-        const wordsPerMinute = 200;
-        const words = text.trim().split(/\s+/).length;
-        const minutes = Math.ceil(words / wordsPerMinute);
-        return minutes;
+        return Math.ceil(text.trim().split(/\s+/).length / 200);
       }
 
-      // Generate table of contents
       function generateTableOfContents() {
         const contentDiv = document.getElementById("content");
         const headings = contentDiv.querySelectorAll("h2, h3");
-
-        // Skip TOC for short posts or list-style pages (no h2 sections)
         const h2Count = contentDiv.querySelectorAll("h2").length;
+
         if (headings.length === 0 || h2Count === 0) {
           const tocEl = document.getElementById("left-toc");
           if (tocEl) tocEl.style.display = "none";
@@ -272,7 +265,6 @@
 
         const tocList = document.getElementById("toc-list");
         tocList.innerHTML = "";
-
         const tocLinks = new Map();
 
         headings.forEach((heading, index) => {
@@ -281,10 +273,7 @@
 
           const li = document.createElement("li");
           li.className = "toc-item";
-
-          if (heading.tagName === "H3") {
-            li.classList.add("toc-level-3");
-          }
+          if (heading.tagName === "H3") li.classList.add("toc-level-3");
 
           const a = document.createElement("a");
           a.href = `#${id}`;
@@ -294,30 +283,23 @@
           a.addEventListener("click", (e) => {
             e.preventDefault();
             const target = document.getElementById(id);
-            if (target) {
-              target.scrollIntoView({ behavior: "smooth", block: "start" });
-              history.pushState(
-                null,
-                null,
-                `#${window.location.hash.substring(1)}`
-              );
-            }
+            if (!target) return;
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
+            history.pushState(null, null, `#${window.location.hash.substring(1)}`);
           });
 
           li.appendChild(a);
           tocList.appendChild(li);
         });
 
-        // Scroll-spy: highlight the active TOC entry
+        // scroll-spy highlights active entry
         const observer = new IntersectionObserver(
           (entries) => {
             entries.forEach((entry) => {
               const link = tocLinks.get(entry.target.id);
-              if (!link) return;
-              if (entry.isIntersecting) {
-                tocLinks.forEach((l) => l.classList.remove("is-active"));
-                link.classList.add("is-active");
-              }
+              if (!link || !entry.isIntersecting) return;
+              tocLinks.forEach((l) => l.classList.remove("is-active"));
+              link.classList.add("is-active");
             });
           },
           { rootMargin: "-20% 0px -70% 0px", threshold: 0 }
@@ -326,10 +308,10 @@
         headings.forEach((h) => observer.observe(h));
       }
 
-      // Reading progress bar
       function initReadingProgress() {
         const fill = document.getElementById("reading-progress-fill");
         if (!fill) return;
+
         const update = () => {
           const doc = document.documentElement;
           const scrollTop = window.scrollY || doc.scrollTop;
@@ -337,39 +319,30 @@
           const pct = max > 0 ? Math.min(100, (scrollTop / max) * 100) : 0;
           fill.style.width = pct + "%";
         };
+
         update();
         window.addEventListener("scroll", update, { passive: true });
         window.addEventListener("resize", update);
       }
 
-      // Add copy button to code blocks
       function addCopyButtons() {
-        const codeBlocks = document.querySelectorAll(
-          ".blog-article-content pre"
-        );
-
-        codeBlocks.forEach((pre) => {
-          // Wrap pre in a div for positioning
+        document.querySelectorAll(".blog-article-content pre").forEach((pre) => {
           const wrapper = document.createElement("div");
           wrapper.className = "code-block-wrapper";
           pre.parentNode.insertBefore(wrapper, pre);
           wrapper.appendChild(pre);
 
-          // Create copy button
           const button = document.createElement("button");
           button.className = "copy-button";
           button.innerHTML = "Copy";
           button.setAttribute("aria-label", "Copy code to clipboard");
 
           button.addEventListener("click", async () => {
-            const code = pre.querySelector("code");
-            const text = code.textContent;
-
+            const text = pre.querySelector("code").textContent;
             try {
               await navigator.clipboard.writeText(text);
               button.innerHTML = "Copied!";
               button.classList.add("copied");
-
               setTimeout(() => {
                 button.innerHTML = "Copy";
                 button.classList.remove("copied");
@@ -383,75 +356,43 @@
         });
       }
 
-      // Add language labels to code blocks
       function addLanguageLabels() {
-        const codeBlocks = document.querySelectorAll(
-          ".blog-article-content pre code"
-        );
-
-        codeBlocks.forEach((code) => {
-          // Check if highlight.js detected a language
-          const classes = code.className.split(" ");
-          const langClass = classes.find((c) => c.startsWith("language-"));
-
-          if (langClass) {
-            const lang = langClass.replace("language-", "");
-            code.setAttribute("data-lang", lang);
-          }
+        document.querySelectorAll(".blog-article-content pre code").forEach((code) => {
+          const langClass = code.className.split(" ").find((c) => c.startsWith("language-"));
+          if (langClass) code.setAttribute("data-lang", langClass.replace("language-", ""));
         });
       }
 
-      // Add prev/next navigation
       async function addPrevNextNav(currentSlug) {
         try {
           const response = await fetch("/content/blog-posts.json");
           const posts = await response.json();
-
-          const currentIndex = posts.findIndex((post) =>
-            currentSlug.includes(post.slug)
-          );
-
+          const currentIndex = posts.findIndex((post) => currentSlug.includes(post.slug));
           if (currentIndex === -1) return;
 
           const prevPost = posts[currentIndex - 1];
           const nextPost = posts[currentIndex + 1];
-
           if (!prevPost && !nextPost) return;
 
+          const postLink = (post, cls) => `
+            <a href="/post#${post.slug}" class="${cls}">
+              <div class="nav-title blog-title">${post.title}</div>
+            </a>
+          `;
+          const spacer = '<div style="width: auto;"></div>';
+
           const navDiv = document.getElementById("article-nav");
-          let navHtml =
-            '<div style="display: flex; justify-content: space-between; align-items: center; gap: 2em;">';
-          // its from line 400 inside div <div class="nav-label">← Previous</div>
-
-          if (prevPost) {
-            navHtml += `
-                        <a href="/post#${prevPost.slug}" class="nav-prev">
-                            <div class="nav-title blog-title">${prevPost.title}</div>
-                        </a>
-                    `;
-          } else {
-            navHtml += '<div style="width: auto;"></div>';
-          }
-          //  its from line 410 inside <div class="nav-label">Next →</div>
-          if (nextPost) {
-            navHtml += `
-                        <a href="/post#${nextPost.slug}" class="nav-next">
-                           
-                            <div class="nav-title  blog-title">${nextPost.title}</div>
-                        </a>
-                    `;
-          } else {
-            navHtml += '<div style="width: auto;"></div>';
-          }
-
-          navDiv.innerHTML = navHtml;
+          navDiv.innerHTML =
+            '<div style="display: flex; justify-content: space-between; align-items: center; gap: 2em;">' +
+            (prevPost ? postLink(prevPost, "nav-prev") : spacer) +
+            (nextPost ? postLink(nextPost, "nav-next") : spacer);
           navDiv.style.display = "flex";
         } catch (error) {
           console.error("Error loading blog navigation:", error);
         }
       }
 
-      // Wait until a global (e.g. `marked`) is available
+      // poll until global exists
       function waitFor(checkFn, timeoutMs = 5000) {
         return new Promise((resolve, reject) => {
           if (checkFn()) return resolve();
@@ -468,8 +409,7 @@
         });
       }
 
-      // Kick off the content fetch as early as possible — don't wait for
-      // deferred libraries (marked/hljs/katex) to download.
+      // fetch before deferred libs load
       function startFetch() {
         const hash = window.location.hash.substring(1);
         if (!hash) return Promise.resolve({ hash: "", content: "", isHtml: false });
@@ -488,7 +428,6 @@
 
       let pendingFetch = startFetch();
 
-      // Load markdown content based on URL hash
       async function loadContent() {
         const contentDiv = document.getElementById("content");
         const main = document.querySelector(".blog-post-main");
@@ -505,65 +444,53 @@
 
         try {
           let result = await pendingFetch;
-          // If the hash changed (e.g. hashchange navigation), refetch.
-          if (result.hash !== hash) {
-            result = await startFetch();
-          }
+          // stale hash: refetch
+          if (result.hash !== hash) result = await startFetch();
           const { content, isHtml } = result;
 
           if (isHtml) {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(content, "text/html");
+            const doc = new DOMParser().parseFromString(content, "text/html");
             contentDiv.innerHTML = doc.body.innerHTML;
           } else {
             await waitFor(() => typeof window.marked !== "undefined");
-            const html = marked.parse(content);
-            contentDiv.innerHTML = html;
+            contentDiv.innerHTML = marked.parse(content);
           }
 
-          // Update page title and blog title
+          // h1 moves into header
           const firstHeading = contentDiv.querySelector("h1");
           if (firstHeading) {
             document.title = `Prannay · ${firstHeading.textContent}`;
-            document.getElementById("blog-title").textContent =
-              firstHeading.textContent;
-            // Remove h1 from content since it's now in the header
+            document.getElementById("blog-title").textContent = firstHeading.textContent;
             firstHeading.remove();
           } else {
             document.title = "Prannay";
           }
 
-          // Reveal content now — animation plays on injected children.
           if (main) {
             main.classList.remove("is-loading");
-            // Force reflow so the animation restarts cleanly on hashchange.
+            // reflow restarts reveal animation
             void main.offsetWidth;
             main.classList.add("is-ready");
           }
 
-          // Apply syntax highlighting (wait for hljs if it's still loading)
-          if (typeof window.hljs !== "undefined") {
+          const highlightAll = () =>
             contentDiv.querySelectorAll("pre code").forEach((block) => {
               hljs.highlightElement(block);
             });
+          if (typeof window.hljs !== "undefined") {
+            highlightAll();
           } else {
             waitFor(() => typeof window.hljs !== "undefined", 3000)
               .then(() => {
-                contentDiv.querySelectorAll("pre code").forEach((block) => {
-                  hljs.highlightElement(block);
-                });
+                highlightAll();
                 addLanguageLabels();
               })
               .catch(() => {});
           }
 
-          // Add language labels to code blocks
           addLanguageLabels();
-
-          // Add copy buttons to code blocks
           addCopyButtons();
 
-          // Render math equations with KaTeX (wait for it if still loading)
           const renderKatex = () =>
             renderMathInElement(contentDiv, {
               delimiters: [
@@ -582,30 +509,24 @@
               .catch(() => {});
           }
 
-          // Calculate and display reading time
           const readingTime = calculateReadingTime(contentDiv.textContent);
-          const metaDiv = document.getElementById("blog-metadata");
-          metaDiv.innerHTML = `<span>${readingTime} min read</span>`;
+          document.getElementById("blog-metadata").innerHTML = `<span>${readingTime} min read</span>`;
 
-          // Generate table of contents
           generateTableOfContents();
-
-          // Reading progress bar
           initReadingProgress();
-
-          // Add prev/next navigation
           addPrevNextNav(hash);
         } catch (error) {
           window.location.href = "/404";
         }
       }
 
-      // Run as soon as DOM is ready — don't wait for deferred libs.
+      // run before deferred libs finish
       if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", loadContent);
       } else {
         loadContent();
       }
+
       window.addEventListener("hashchange", () => {
         const main = document.querySelector(".blog-post-main");
         if (main) {
