@@ -521,16 +521,62 @@ html.is-signal .page__showcase {
   }
 }
 
+/* eyebrow anchored on a hairline: label — rule — count */
+.showcase-rule {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.showcase-rule::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--rule);
+}
+
 .page__showcase h4 {
   color: var(--ink-faint);
+  flex: none;
+  font-family: var(--font-family-mono);
   font-size: var(--t-eyebrow);
   font-weight: 500;
   letter-spacing: 0.18em;
-  margin-bottom: 1.25rem;
   text-transform: uppercase;
 }
 
-/* snap-scrolled card row */
+.showcase-rule__count {
+  color: var(--ink-faint);
+  font-family: var(--font-family-mono);
+  font-size: var(--t-eyebrow);
+  letter-spacing: 0.08em;
+  order: 1;
+}
+
+/* snap-scrolled card row; the dots below the track replace the scrollbar */
+.showcase-clip {
+  position: relative;
+}
+
+/* right-edge fade hinting more cards; shown via .has-more from showcase.js */
+.showcase-clip::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 5rem;
+  background: linear-gradient(to right, rgba(var(--rgb-black), 0), var(--color-black) 85%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--dur) var(--ease);
+}
+
+.showcase-clip.has-more::after {
+  opacity: 1;
+}
+
 .showcase-track {
   display: flex;
   gap: 1.25rem;
@@ -540,9 +586,11 @@ html.is-signal .page__showcase {
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-x: contain;
-  padding-bottom: 1rem;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(var(--rgb-white), 0.25) transparent;
+  scrollbar-width: none;
+}
+
+.showcase-track::-webkit-scrollbar {
+  display: none;
 }
 
 .showcase-track:focus-visible {
@@ -550,22 +598,43 @@ html.is-signal .page__showcase {
   outline-offset: 4px;
 }
 
-.showcase-track::-webkit-scrollbar {
-  height: 6px;
+/* snap-position dashes; populated and toggled by showcase.js */
+.showcase-dots {
+  display: none;
+  gap: 0.45rem;
+  justify-content: center;
+  margin-top: 1rem;
 }
 
-.showcase-track::-webkit-scrollbar-track {
-  background: rgba(var(--rgb-white), 0.04);
+.showcase-dots.is-visible {
+  display: flex;
+}
+
+.showcase-dots button {
+  position: relative;
+  width: 1.25rem;
+  height: 1rem;
+  cursor: pointer;
+}
+
+.showcase-dots button::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2px;
   border-radius: 99px;
+  background: rgba(var(--rgb-white), 0.16);
+  transition: background var(--dur) var(--ease);
 }
 
-.showcase-track::-webkit-scrollbar-thumb {
-  background: rgba(var(--rgb-white), 0.22);
-  border-radius: 99px;
+.showcase-dots button:hover::before {
+  background: rgba(var(--rgb-white), 0.34);
 }
 
-.showcase-track::-webkit-scrollbar-thumb:hover {
-  background: rgba(var(--rgb-white), 0.4);
+.showcase-dots button.is-active::before {
+  background: rgba(var(--rgb-cyan), 0.7);
 }
 
 .showcase-card {
@@ -584,6 +653,33 @@ html.is-signal .page__showcase {
     transform 220ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 
+/* media wrapper: clips the hover zoom, anchors the link chip */
+.showcase-card__media {
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+
+/* "opens something" chip — only on linked media, revealed on card hover */
+a.showcase-card__media::after {
+  content: "\2197";
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 6px;
+  background: rgba(var(--rgb-black), 0.55);
+  border: 1px solid var(--rule);
+  color: var(--accent);
+  font-size: 0.85rem;
+  line-height: 1.55rem;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+
 /* uniform 4:3 media tiles */
 .showcase-card img,
 .showcase-card video {
@@ -593,6 +689,7 @@ html.is-signal .page__showcase {
   object-fit: cover;
   display: block;
   image-rendering: pixelated;
+  transition: transform 480ms var(--ease);
 }
 
 /* charts: crisp, keep top */
@@ -624,12 +721,28 @@ html.is-signal .page__showcase {
       0 16px 40px -16px rgba(var(--rgb-cyan), 0.28);
     transform: translateY(-2px);
   }
+
+  .showcase-card:hover img,
+  .showcase-card:hover video {
+    transform: scale(1.045);
+  }
+
+  .showcase-card:hover a.showcase-card__media::after {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .page__showcase,
-  .showcase-card {
+  .showcase-card,
+  .showcase-card img,
+  .showcase-card video {
     transition: none;
+  }
+  .showcase-card:hover img,
+  .showcase-card:hover video {
+    transform: none;
   }
   .showcase-track {
     scroll-behavior: auto;
@@ -640,6 +753,61 @@ html.is-signal .page__showcase {
       transform: none;
     }
   }
+}
+
+/* scroll cue (homepage): mono label + dripping hairline,
+   hidden once the visitor scrolls (html.is-scrolled via showcase.js) */
+
+.scroll-cue {
+  display: none;
+  position: fixed;
+  bottom: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 40;
+  pointer-events: none;
+  transition: opacity var(--dur-slow) var(--ease);
+}
+
+html.is-signal .scroll-cue { display: flex; }
+html.is-signal.is-scrolled .scroll-cue { opacity: 0; }
+
+.scroll-cue span {
+  color: var(--ink-faint);
+  font-family: var(--font-family-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.scroll-cue i {
+  width: 1px;
+  height: 2.1rem;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(rgba(var(--rgb-white), 0.35), transparent);
+}
+
+.scroll-cue i::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -100%;
+  width: 1px;
+  height: 100%;
+  background: var(--accent);
+  animation: scroll-cue-drip 2.2s var(--ease-soft) infinite;
+}
+
+@keyframes scroll-cue-drip {
+  60%, 100% { top: 110%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue i::after { animation: none; }
 }
 
 .page__content ul,

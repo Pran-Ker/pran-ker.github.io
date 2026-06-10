@@ -176,40 +176,53 @@
         </div>
 
         <div class="page__showcase">
-          <h4>Some of the stuff I have been doing&hellip;</h4>
-          <!-- Horizontal scroller — add more <figure> cards inside the track. -->
-          <div class="showcase-track" tabindex="0" role="region" aria-label="Projects, scroll horizontally">
-            <figure class="showcase-card">
-              <video
-                autoplay
-                loop
-                muted
-                playsinline
-                preload="none"
-                aria-label="RL agent training on a Minecraft-like simulation with PufferLib"
-              >
-                <source src="/assets/images/mine-rl.webm" type="video/webm" />
-                <source src="/assets/images/mine-rl.mp4" type="video/mp4" />
-              </video>
-              <figcaption>
-                An RL training run on agents playing a Minecraft simulation, done on
-                <a href="https://github.com/pufferai/pufferlib" target="_blank" rel="noopener">PufferLib</a>.
-              </figcaption>
-            </figure>
-            <figure class="showcase-card showcase-card--chart">
-              <a href="https://trimul-deploy.vercel.app/" target="_blank" rel="noopener">
-                <img
-                  src="/assets/images/trimul-cuda.png"
-                  loading="lazy"
-                  alt="TriMul outgoing CUDA kernel optimization run — kernel latency and reward over training steps"
-                />
-              </a>
-              <figcaption>
-                CUDA kernel optimization for an AlphaFold-3 style TriMul kernel, reaching 1185&micro;s latency
-                <a href="https://trimul-deploy.vercel.app/" target="_blank" rel="noopener">live dashboard</a>
-              </figcaption>
-            </figure>
+          <div class="showcase-rule">
+            <h4>Selected Work</h4>
+            <span class="showcase-rule__count">02</span>
           </div>
+          <!-- Horizontal scroller — add more <figure> cards inside the track. -->
+          <div class="showcase-clip">
+            <div class="showcase-track" tabindex="0" role="region" aria-label="Projects, scroll horizontally">
+              <figure class="showcase-card">
+                <div class="showcase-card__media">
+                  <video
+                    autoplay
+                    loop
+                    muted
+                    playsinline
+                    preload="none"
+                    aria-label="RL agent training on a Minecraft-like simulation with PufferLib"
+                  >
+                    <source src="/assets/images/mine-rl.webm" type="video/webm" />
+                    <source src="/assets/images/mine-rl.mp4" type="video/mp4" />
+                  </video>
+                </div>
+                <figcaption>
+                  An RL training run on agents playing a Minecraft simulation, done on
+                  <a href="https://github.com/pufferai/pufferlib" target="_blank" rel="noopener">PufferLib</a>.
+                </figcaption>
+              </figure>
+              <figure class="showcase-card showcase-card--chart">
+                <a class="showcase-card__media" href="https://trimul-deploy.vercel.app/" target="_blank" rel="noopener">
+                  <img
+                    src="/assets/images/trimul-cuda.png"
+                    loading="lazy"
+                    alt="TriMul outgoing CUDA kernel optimization run — kernel latency and reward over training steps"
+                  />
+                </a>
+                <figcaption>
+                  CUDA kernel optimization for an AlphaFold-3 style TriMul kernel, reaching 1185&micro;s latency
+                  <a href="https://trimul-deploy.vercel.app/" target="_blank" rel="noopener">live dashboard</a>
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+          <div class="showcase-dots"></div>
+        </div>
+
+        <div class="scroll-cue" aria-hidden="true">
+          <span>Scroll</span>
+          <i></i>
         </div>
       </section>
     </main>
