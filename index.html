@@ -43,9 +43,56 @@
     <link rel="stylesheet" href="/assets/css/print.css" media="print" />
 
     <script defer src="/assets/js/script.js?v=20260610" type="module"></script>
+
+    <style>
+      /* Homepage-only ambient background. html keeps the solid black fallback,
+         so body must go transparent for the video layer to show through. */
+      body { background: transparent; }
+      .bg-video {
+        position: fixed;
+        inset: 0;
+        z-index: -2;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.34;
+        filter: saturate(1.1) brightness(1.7);
+        pointer-events: none;
+      }
+      .bg-scrim {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        background: linear-gradient(
+          180deg,
+          rgba(var(--rgb-black), 0.45) 0%,
+          rgba(var(--rgb-black), 0.15) 30%,
+          rgba(var(--rgb-black), 0.15) 100%
+        );
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .bg-video { display: none; }
+      }
+    </style>
   </head>
 
   <body>
+    <video
+      class="bg-video"
+      autoplay
+      loop
+      muted
+      playsinline
+      preload="auto"
+      poster="/assets/images/lumen-glyphs-poster.jpg"
+      aria-hidden="true"
+    >
+      <source src="/assets/images/lumen-glyphs.webm" type="video/webm" />
+      <source src="/assets/images/lumen-glyphs.mp4" type="video/mp4" />
+    </video>
+    <div class="bg-scrim" aria-hidden="true"></div>
+
     <input class="nav-active" id="nav-active" type="checkbox" />
 
     <label class="nav-underlay" for="nav-active"></label>
