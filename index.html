@@ -78,20 +78,42 @@
   </head>
 
   <body>
+    <!-- Decorative background. Sources are held in data-src and swapped in
+         once the page is idle, so the ~1 MB clip never competes with fonts/CSS
+         on first paint (McMaster-Carr "send less up front" principle). -->
     <video
       class="bg-video"
-      autoplay
       loop
       muted
       playsinline
-      preload="auto"
+      preload="none"
       poster="/assets/images/lumen-glyphs-poster.jpg"
       aria-hidden="true"
     >
-      <source src="/assets/images/lumen-glyphs.webm" type="video/webm" />
-      <source src="/assets/images/lumen-glyphs.mp4" type="video/mp4" />
+      <source data-src="/assets/images/lumen-glyphs.webm" type="video/webm" />
+      <source data-src="/assets/images/lumen-glyphs.mp4" type="video/mp4" />
     </video>
     <div class="bg-scrim" aria-hidden="true"></div>
+
+    <script>
+      // Load + play the decorative background video only once the page is idle,
+      // and only if the visitor hasn't asked for reduced motion.
+      (function () {
+        var v = document.querySelector('.bg-video');
+        if (!v || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var start = function () {
+          v.querySelectorAll('source[data-src]').forEach(function (s) {
+            s.src = s.dataset.src;
+          });
+          v.load();
+          var p = v.play();
+          if (p && p.catch) p.catch(function () {});
+        };
+        var idle = window.requestIdleCallback || function (fn) { return setTimeout(fn, 200); };
+        if (document.readyState === 'complete') idle(start);
+        else window.addEventListener('load', function () { idle(start); });
+      })();
+    </script>
 
     <input class="nav-active" id="nav-active" type="checkbox" />
 
