@@ -14,7 +14,7 @@ I applied to Stanford's semester program; I wasn't going to spend two years on a
 
 Meanwhile my company got acquired and the work went stale. I needed to build. The startup route felt crowded and non-contrarian, so I took the other path: Buy then Build. Friends and family cautioned against it. I spent six months on due diligence, talking to franchise owners, local businessmen, and consultants, then signed the FDD on Mister Sparky, a residential electrician business in Palo Alto. I settled the lease, bought the equipment, hired a master electrician, and started the SBA loan.
 
-Two months in, the numbers broke. Bay Area rates and licensing delays blew past the projected starting capital, and I had already put in 90% of my savings. I refused to cover the gap with borrowed money, so I cancelled the loan and walked away. Not a regret, a dataset: cutting losses early and cleanly is a skill, and it cost me exactly one lesson to learn it.
+Two months in, the numbers broke. Bay Area rates and licensing delays blew past the projected starting capital, and I had already put in 90% of my savings. I refused to cover the gap with borrowed money, so I cancelled the loan and walked away. I don't regret it. Given the same information, I would make the same call again.
 
 I contracted for a couple of companies, including YellowPad, built by a Stanford Law graduate. At a hackathon, AGI Inc scouted me. I joined as a founding researcher under a Stanford PhD, implemented GRPO for training agents, and co-authored the REAL benchmark at NeurIPS 2025. Some of the smartest people I have met, and I have met a lot at this point.
 
