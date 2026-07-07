@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>You Trained It. Someone Stole It. Now What? — Prannay Hebbar</title>
+    <title>You Trained It. Someone Stole It. Now What? | Prannay Hebbar</title>
 
     <meta charset="utf-8" />
     <meta content="ie=edge" http-equiv="x-ua-compatible" />
@@ -690,7 +690,7 @@
           <div class="pvalue">
             <span><strong>greens picked</strong> <span id="greenCount">0</span></span>
             <span><strong>reds picked</strong> <span id="redCount">0</span></span>
-            <span><strong>p-value</strong> <span id="pVal">—</span></span>
+            <span><strong>p-value</strong> <span id="pVal">–</span></span>
           </div>
           <div class="figure__caption">
             Each tile is a candidate token. Green tiles sit on the secret green-list; red tiles do not. The sampler is biased, and across thousands of tokens the bias becomes statistically unmistakable.
@@ -1089,7 +1089,7 @@
           redCt.textContent = r;
           // approximate p-value display
           const z = (g - (g + r) * 0.5) / Math.sqrt((g + r) * 0.25 + 0.0001);
-          if (g + r > 8) pV.textContent = z > 2 ? '≈ ' + Math.pow(10, -Math.min(42, Math.max(2, z * z))).toExponential(0).replace('e', '⁻').replace(/⁻\+?/, '⁻') : '—';
+          if (g + r > 8) pV.textContent = z > 2 ? '≈ ' + Math.pow(10, -Math.min(42, Math.max(2, z * z))).toExponential(0).replace('e', '⁻').replace(/⁻\+?/, '⁻') : '–';
           setTimeout(() => span.classList.remove('picked'), 400);
           if (el.children.length > 30) el.removeChild(el.firstChild);
           i++;

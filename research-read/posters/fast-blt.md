@@ -27,7 +27,7 @@ links:
 - **Eval:** generation throughput / memory-bandwidth cost vs. BLT.
 
 ## Key learnings
-- **Block-diffuse, then verify.** BLT-DV pairs parallel diffusion drafts with an AR verifier — quality of AR, speed of diffusion.
+- **Block-diffuse, then verify.** BLT-DV pairs parallel diffusion drafts with an AR verifier: quality of AR, speed of diffusion.
 - **Local decoder doubles as drafter.** BLT-S extends BLT's local decoder past its window to draft bytes, then a single full-model pass verifies.
 - **>50% lower memory-bandwidth.** All three variants beat BLT on the metric that actually bottlenecks byte-level decoding.
 

@@ -5,7 +5,7 @@
 
 const prefetched = new Set();
 
-// Respect the user's data preferences and slow links — don't burn their bytes.
+// Respect the user's data preferences and slow links; don't burn their bytes.
 const conn = navigator.connection;
 const saveData = conn && (conn.saveData || /2g/.test(conn.effectiveType || ''));
 
@@ -22,7 +22,7 @@ function prefetch(url) {
 function candidate(el) {
   const a = el.closest && el.closest('a[href]');
   if (!a) return null;
-  // Same-origin, real navigations only — skip new tabs, downloads, #anchors.
+  // Same-origin, real navigations only; skip new tabs, downloads, #anchors.
   if (a.origin !== location.origin) return null;
   if (a.target === '_blank' || a.hasAttribute('download')) return null;
   const url = a.href.split('#')[0];
@@ -43,7 +43,7 @@ export function ready() {
   if (saveData) return;
   document.addEventListener('pointerover', onIntent, { passive: true });
   document.addEventListener('focusin', onIntent, { passive: true });
-  // Touch has no hover — fetch on first touch, before the click lands.
+  // Touch has no hover, so fetch on first touch, before the click lands.
   document.addEventListener(
     'touchstart',
     (e) => {

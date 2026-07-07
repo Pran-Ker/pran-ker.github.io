@@ -22,12 +22,12 @@ links:
 - **Base:** 170M-param discrete flow matching language model.
 - **Data:** standard text corpus; teacher = 1,024-step DFM.
 - **Compute:** not reported.
-- **Loss / algo:** trajectory-shaped DFM — energy evaluator scores candidate intermediate continuations during student training.
+- **Loss / algo:** trajectory-shaped DFM: energy evaluator scores candidate intermediate continuations during student training.
 - **Eval:** perplexity, generation quality vs. teacher and discrete-gen baselines.
 
 ## Key learnings
 - **Trajectory > capacity.** The bottleneck for few-step distillation is the noisy training path, not the student's parameter count.
-- **Energy compass is training-only.** Inference speed of the student is preserved — pure quality gain at zero deploy cost.
+- **Energy compass is training-only.** Inference speed of the student is preserved: pure quality gain at zero deploy cost.
 - **Beats data and parameter scaling.** TS-DFM outperforms baselines trained on 6× more data or with 5× larger models.
 
 ## Use when

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TS-DFM: 8-step student beats 1024-step teacher by 32% perplexity, runs 128× faster — Frontier Digest</title>
+<title>TS-DFM: 8-step student beats 1024-step teacher by 32% perplexity, runs 128× faster | Frontier Digest</title>
 <link rel="stylesheet" href="../poster.css">
 </head>
 <body>
@@ -70,7 +70,7 @@
           <li><b>Base:</b> 170M-param discrete flow matching language model.</li>
           <li><b>Data:</b> standard text corpus; teacher = 1,024-step DFM.</li>
           <li><b>Compute:</b> not reported.</li>
-          <li><b>Loss / algo:</b> trajectory-shaped DFM — energy evaluator scores candidate intermediate continuations during student training.</li>
+          <li><b>Loss / algo:</b> trajectory-shaped DFM: energy evaluator scores candidate intermediate continuations during student training.</li>
           <li><b>Eval:</b> perplexity, generation quality vs. teacher and discrete-gen baselines.</li>
         </ul>
       </div>
@@ -78,7 +78,7 @@
         <h2>Key learnings</h2>
         <ul>
           <li><b>Trajectory &gt; capacity.</b> The bottleneck for few-step distillation is the noisy training path, not the student's parameter count.</li>
-          <li><b>Energy compass is training-only.</b> Inference speed of the student is preserved — pure quality gain at zero deploy cost.</li>
+          <li><b>Energy compass is training-only.</b> Inference speed of the student is preserved: pure quality gain at zero deploy cost.</li>
           <li><b>Beats data and parameter scaling.</b> TS-DFM outperforms baselines trained on 6× more data or with 5× larger models.</li>
         </ul>
       </div>

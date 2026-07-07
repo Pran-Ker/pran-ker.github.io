@@ -521,7 +521,7 @@ html.is-signal .page__showcase {
   }
 }
 
-/* eyebrow anchored on a hairline: label — rule — count */
+/* eyebrow anchored on a hairline: label / rule / count */
 .showcase-rule {
   display: flex;
   align-items: center;
@@ -660,7 +660,7 @@ html.is-signal .page__showcase {
   overflow: hidden;
 }
 
-/* "opens something" chip — only on linked media, revealed on card hover */
+/* "opens something" chip, only on linked media, revealed on card hover */
 a.showcase-card__media::after {
   content: "\2197";
   position: absolute;

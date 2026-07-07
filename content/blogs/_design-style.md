@@ -35,7 +35,7 @@ Light theme. Defined as CSS variables at the top of every post.
 | `--ink` | `#0a0a0a` | Body text, strong UI elements |
 | `--rule` | `#e6e6e6` | Borders, hairlines, table rows |
 | `--muted` | `#6b6b6b` | Captions, meta, section numbers |
-| `--accent` | `#00cfff` | Cyan — links, highlights, signals |
+| `--accent` | `#00cfff` | Cyan: links, highlights, signals |
 | `--accent-dim` | `rgba(0,207,255,0.12)` | Glows, hover backgrounds |
 | `--green` | `#16a34a` | Positive / "exact" verifiability |
 | `--red` | `#dc2626` | Broken / failure states |
@@ -149,7 +149,7 @@ The prose style is **flowing but spare**. Sentences should connect with conjunct
 2. Replace the title, meta line, hero diagram, and body sections.
 3. Update the `<title>`, OG tags, and `meta description`.
 4. Add an entry to `blogs.html` inside `.thoughts__container`.
-5. Keep all CSS variables and class names as-is. Override only when you genuinely need a new visual primitive — and if you do, add it to this document.
+5. Keep all CSS variables and class names as-is. Override only when you genuinely need a new visual primitive, and if you do, add it to this document.
 
 ---
 

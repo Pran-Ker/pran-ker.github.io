@@ -29,7 +29,7 @@ links:
 ## Key learnings
 - **AR flows are AR Transformers.** Same causal mask and KV cache, so flows slot into LLM serving stacks.
 - **Deep-shallow design.** A deep VLM stream paired with a shallow flow stream gives most of the quality at a fraction of the flow compute.
-- **Cache-friendly interleaving.** Text and visual outputs enter the KV cache directly — no re-encoding between modalities.
+- **Cache-friendly interleaving.** Text and visual outputs enter the KV cache directly; no re-encoding between modalities.
 
 ## Use when
 - You want one model for interleaved text+image gen and understanding, served on standard KV-cache infra rather than a separate diffusion U-Net.
