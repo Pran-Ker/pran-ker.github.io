@@ -6,7 +6,7 @@ I turned down my first job offer because the interviews were too easy.
 
 It was the end of college. The Boston job paid exceptionally well and I had no backup, but I told my parents I would find something better. A few months later I joined a boutique consulting firm, and within months I was leading a team and reporting directly to clients like Bread Financial and California Lawyers for the Arts.
 
-Then the firm gave me one month to move to Dallas. I was 22, new to the country, with no savings: some cash from my mom and a forex card from my dad. I figured out housing, cooking, and licenses on my own.
+Then the firm gave me one month to move to Dallas. I was 22, new to the country, with no savings: a hundred dollars from my parents. I figured out housing, cooking, and licenses on my own.
 
 Dallas was fine, and fine wasn't the goal. I picked the day of the Stanford Codex Hackathon as my deadline, packed everything into a Uhaul, and moved to San Francisco. I lived in hostels, worked East Coast hours from 5 AM to 4 PM, then went to every tech and startup event in the city.
 
