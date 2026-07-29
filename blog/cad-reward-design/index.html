@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>The Solver Is the Unit Test · Prannay Hebbar</title>
+    <title>1976 · Prannay Hebbar</title>
 
     <meta charset="utf-8" />
     <meta content="ie=edge" http-equiv="x-ua-compatible" />
     <meta name="handheldfriendly" content="true" />
     <meta name="viewport" content="initial-scale=1, width=device-width" />
-    <meta name="description" content="Physics solvers are becoming the test framework for AI agents. What CAD and CAE environments look like from the inside, where the models fail today, and what breaks open when the simulators get faster." />
+    <meta name="description" content="A frontier model that navigates B-rep topology fails 85% of its attempts against a spring model from 1976. A walk down the ladder of physics tasks used to train frontier models, with 1,758 real rollouts, real solver runs, and a live hysteresis simulator." />
     <meta name="theme-color" content="#F2EFE7" />
 
     <meta property="og:site_name" content="Prannay Hebbar" />
-    <meta property="og:title" content="The Solver Is the Unit Test" />
-    <meta property="og:description" content="Heat equations, torsion, mode shapes and Pareto fronts as a grading harness. 1,758 real rollouts on what agents can and cannot do with engineering physics." />
+    <meta property="og:title" content="1976" />
+    <meta property="og:description" content="A frontier model meets a fifty-year-old spring. Where AI models break on engineering physics, measured on 1,758 real training rollouts." />
     <meta property="og:type" content="article" />
-    <meta property="og:image" content="https://prannayh.com/blog/cad-reward-design/assets/pcb-thermal.png" />
+    <meta property="og:image" content="https://prannayh.com/blog/cad-reward-design/assets/staircase.png" />
 
     <link rel="icon" href="/assets/images/favicon-32.png" />
     <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png" />
@@ -71,9 +71,15 @@
         text-transform: uppercase; color: var(--clay); margin: 0 0 1.2rem;
       }
       .article h1 {
-        font-family: var(--sans); font-size: clamp(2.1rem, 5.4vw, 3.4rem);
-        line-height: 1.05; font-weight: 700; letter-spacing: -0.026em;
-        color: var(--ink); margin: 0 0 1.4rem;
+        font-family: var(--sans); font-size: clamp(4rem, 12vw, 7.5rem);
+        line-height: 0.95; font-weight: 700; letter-spacing: -0.035em;
+        color: var(--ink); margin: 0 0 0.6rem;
+        font-variant-numeric: tabular-nums;
+      }
+      .subtitle {
+        font-family: var(--sans); font-size: clamp(1.05rem, 2.6vw, 1.3rem);
+        color: var(--muted); letter-spacing: -0.01em; margin: 0 0 1.6rem;
+        font-weight: 430;
       }
       .article .meta {
         font-family: var(--sans); color: var(--muted); font-size: 0.92rem;
@@ -103,42 +109,49 @@
         .article a.inline:hover { border-color: var(--clay); color: var(--clay); }
       }
 
+      /* code blocks */
+      .codeblock {
+        margin: 1.8rem -1rem; border: 1px solid var(--rule); border-radius: 10px;
+        overflow: hidden; background: #24221c;
+      }
+      @media (min-width: 56em) { .codeblock { margin: 1.8rem -1.5rem; } }
+      .codeblock__head {
+        display: flex; justify-content: space-between; align-items: baseline;
+        padding: 0.6rem 1.1rem; background: #1a1915;
+        font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.16em;
+        text-transform: uppercase; color: #a39d8c;
+      }
+      .codeblock__head .lang { color: #d97757; }
+      .codeblock pre {
+        margin: 0; padding: 1rem 1.15rem; overflow-x: auto;
+        font-family: var(--mono); font-size: 0.78rem; line-height: 1.62;
+        color: #e8e4d8;
+      }
+      .codeblock .cm { color: #8a8371; font-style: italic; }
+      .codeblock .kw { color: #d97757; }
+      .codeblock .st { color: #9db069; }
+      .codeblock .nm { color: #dcc98a; }
+
       .rise { opacity: 0; transform: translateY(12px); animation: rise 0.6s var(--ease-out) forwards; }
       .rise.r2 { animation-delay: 0.06s; } .rise.r3 { animation-delay: 0.12s; }
       .rise.r4 { animation-delay: 0.2s; } .rise.r5 { animation-delay: 0.3s; }
       @keyframes rise { to { opacity: 1; transform: none; } }
       @media (prefers-reduced-motion: reduce) { .rise { animation: none; opacity: 1; transform: none; } }
 
-      .fig-anim .pop {
-        opacity: 0; transform: translateY(8px) scale(0.97); transform-box: fill-box;
-        transform-origin: center;
-        transition: opacity 450ms var(--ease-out), transform 450ms var(--ease-out);
-        transition-delay: var(--d, 0ms);
-      }
-      .fig-anim .fade { opacity: 0; transition: opacity 500ms ease; transition-delay: var(--d, 0ms); }
-      .fig-anim .draw {
-        stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0;
-        transition: stroke-dashoffset 650ms var(--ease-out), opacity 200ms ease;
-        transition-delay: var(--d, 0ms);
-      }
-      .fig-on .pop { opacity: 1; transform: translateY(0) scale(1); }
-      .fig-on .fade { opacity: 1; }
-      .fig-on .draw { stroke-dashoffset: 0; opacity: 1; }
-
-      .part-label {
+      .rung-label {
         display: flex; align-items: center; gap: 1rem; margin: 5rem 0 0;
         font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase;
         letter-spacing: 0.24em; color: var(--clay);
       }
-      .part-label::after { content: ""; flex: 1; height: 1px; background: var(--rule); }
+      .rung-label::after { content: ""; flex: 1; height: 1px; background: var(--rule); }
+      .rung-label .rate {
+        font-size: 1.05rem; letter-spacing: 0; color: var(--ink); font-weight: 700;
+        font-family: var(--sans);
+      }
 
       .article h2 {
         font-family: var(--sans); font-size: 1.42rem; font-weight: 700;
-        letter-spacing: -0.014em; color: var(--ink); margin: 3.4rem 0 1rem; line-height: 1.22;
-      }
-      .article h2 .num {
-        display: block; font-family: var(--mono); font-size: 0.7rem; font-weight: 400;
-        color: var(--clay); letter-spacing: 0.26em; margin-bottom: 0.5rem;
+        letter-spacing: -0.014em; color: var(--ink); margin: 1.1rem 0 1rem; line-height: 1.22;
       }
 
       .pull-quote {
@@ -147,7 +160,6 @@
         color: var(--ink);
       }
 
-      /* ---- figures: raster plates break the column ---- */
       .plate {
         margin: 3rem calc(50% - 50vw); width: 100vw; max-width: 100vw;
         padding: 0 1rem; box-sizing: border-box;
@@ -169,76 +181,7 @@
       .plate__cap b { font-weight: 640; color: var(--ink); }
       .plate__cap code { font-size: 0.86em; }
 
-      .figure {
-        margin: 2.8rem -1rem; padding: 2rem 1.4rem 1.5rem; background: var(--card);
-        border: 1px solid var(--rule); border-radius: 12px;
-        box-shadow: 0 1px 2px rgba(26,25,21,0.03), 0 10px 30px rgba(26,25,21,0.04);
-      }
-      @media (min-width: 56em) { .figure { margin: 2.8rem -3.5rem; padding: 2.4rem 2.8rem 1.8rem; } }
-      .figure svg { display: block; width: 100%; height: auto; }
-      .figure__label {
-        font-family: var(--mono); font-size: 0.68rem; text-transform: uppercase;
-        letter-spacing: 0.2em; color: var(--faint); margin-bottom: 1.4rem;
-      }
-      .figure__caption {
-        font-family: var(--sans); font-size: 0.85rem; color: var(--muted);
-        line-height: 1.55; margin: 1.4rem auto 0; max-width: 58ch; text-align: center;
-      }
-      .figure__caption b { font-weight: 640; color: var(--ink); }
-
-      .f-t { font-family: var(--sans); font-weight: 600; font-size: 12px; fill: #1a1915; }
-      .f-s { font-family: var(--sans); font-size: 11px; fill: #6e6859; }
-      .f-m { font-family: var(--mono); font-size: 10.5px; fill: #6e6859; }
-      .f-x { font-family: var(--mono); font-size: 9.5px; fill: #a39d8c; }
-
-      .aside {
-        margin: 2.2rem 0; padding: 1.3rem 1.5rem 1.1rem; background: var(--card);
-        border: 1px solid var(--rule); border-radius: 10px; font-size: 0.97em;
-      }
-      .aside__label {
-        font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.22em;
-        text-transform: uppercase; color: var(--clay); margin-bottom: 0.8rem;
-      }
-      .aside p { margin: 0 0 0.8rem; } .aside p:last-child { margin-bottom: 0.2rem; }
-
-      .sheet {
-        margin: 2.4rem 0; border: 1px solid var(--rule); border-radius: 12px;
-        overflow: hidden; background: var(--card);
-        box-shadow: 0 1px 2px rgba(26,25,21,0.03), 0 10px 30px rgba(26,25,21,0.04);
-      }
-      .sheet__head {
-        background: var(--ink); color: var(--paper); padding: 0.95rem 1.3rem;
-        font-family: var(--mono); font-size: 0.7rem; text-transform: uppercase;
-        letter-spacing: 0.24em;
-      }
-      .sheet__row {
-        display: grid; grid-template-columns: 122px 1fr; gap: 1rem;
-        padding: 0.85rem 1.3rem; border-top: 1px solid var(--rule);
-        align-items: baseline; font-size: 0.93em; line-height: 1.58;
-      }
-      @media (hover: hover) and (pointer: fine) {
-        .sheet__row { transition: background-color 150ms ease; }
-        .sheet__row:hover { background: #fff; }
-      }
-      .sheet__row span.k {
-        font-family: var(--mono); font-size: 0.66rem; text-transform: uppercase;
-        letter-spacing: 0.1em; color: var(--clay);
-      }
-      .sheet__row b { font-weight: 640; color: var(--ink); }
-
-      .quad { display: grid; grid-template-columns: 1fr; gap: 0.9rem; margin: 2.2rem 0; }
-      @media (min-width: 40em) { .quad { grid-template-columns: 1fr 1fr; } }
-      .quad-card {
-        border: 1px solid var(--rule); border-radius: 10px; background: var(--card);
-        padding: 1.1rem 1.25rem 1rem; font-size: 0.94em; line-height: 1.6;
-      }
-      .quad-card h4 {
-        margin: 0 0 0.45rem; font-family: var(--mono); font-size: 0.68rem;
-        letter-spacing: 0.2em; text-transform: uppercase; color: var(--clay); font-weight: 400;
-      }
-      .quad-card p { margin: 0; color: var(--soft); }
-
-      /* interactive reward console */
+      /* interactive shells */
       .console {
         margin: 2.6rem -1rem; border: 1px solid var(--rule); border-radius: 12px;
         overflow: hidden; background: var(--card);
@@ -260,16 +203,16 @@
       .slider-top .name { color: var(--ink); }
       .slider-top .val { color: var(--muted); }
       .slider-top .val b { color: var(--ink); font-weight: 600; }
-      .slider-row input[type='range'] {
+      .console input[type='range'] {
         width: 100%; -webkit-appearance: none; appearance: none; height: 3px;
         border-radius: 2px; background: var(--rule); outline: none; margin: 0.35rem 0 0.4rem;
       }
-      .slider-row input[type='range']::-webkit-slider-thumb {
+      .console input[type='range']::-webkit-slider-thumb {
         -webkit-appearance: none; appearance: none; width: 17px; height: 17px;
         border-radius: 50%; background: var(--ink); cursor: pointer;
         border: 3px solid var(--card); box-shadow: 0 1px 4px rgba(26,25,21,0.25);
       }
-      .slider-row input[type='range']::-moz-range-thumb {
+      .console input[type='range']::-moz-range-thumb {
         width: 17px; height: 17px; border-radius: 50%; background: var(--ink);
         cursor: pointer; border: 3px solid var(--card);
       }
@@ -278,6 +221,7 @@
         font-size: 0.62rem; letter-spacing: 0.06em; color: var(--faint);
       }
       .slider-scale span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
+      .slider-scale span:first-child { transform: none; }
       .slider-scale span:last-child { transform: translateX(-100%); }
       .slider-scale .lim { color: var(--clay); }
       .slider-scale .lim::before {
@@ -318,6 +262,30 @@
       @media (hover: hover) and (pointer: fine) {
         .preset:hover { border-color: var(--clay); color: var(--clay); }
       }
+
+      /* bouc-wen lab */
+      .bw-canvas-wrap { position: relative; margin-bottom: 1.2rem; }
+      .bw-canvas-wrap canvas {
+        display: block; width: 100%; height: auto; border: 1px solid var(--rule);
+        border-radius: 8px; background: #fff;
+      }
+      .bw-legend {
+        display: flex; gap: 1.4rem; flex-wrap: wrap; margin: 0.7rem 0 1.2rem;
+        font-family: var(--sans); font-size: 0.8rem; color: var(--soft);
+      }
+      .bw-legend .sw { display: inline-block; width: 20px; height: 3px; vertical-align: middle; margin-right: 0.45rem; border-radius: 2px; }
+      .bw-stat {
+        font-family: var(--sans); font-size: 0.88rem; color: var(--muted);
+        border-top: 1px solid var(--rule); padding-top: 1.2rem; line-height: 1.55;
+      }
+      .bw-stat b { color: var(--ink); font-weight: 640; }
+      .bw-stat .big {
+        font-size: 2rem; font-weight: 700; letter-spacing: -0.02em;
+        font-variant-numeric: tabular-nums; display: block; line-height: 1.15;
+      }
+      .bw-stat .big.ok { color: var(--olive); } .bw-stat .big.bad { color: var(--clay); }
+      .bw-grid { display: grid; grid-template-columns: 1fr; gap: 1rem 2rem; }
+      @media (min-width: 40em) { .bw-grid { grid-template-columns: 2fr 1fr; align-items: end; } }
 
       .footer-note {
         margin-top: 4.5rem; padding-top: 2rem; border-top: 1px solid var(--rule);
@@ -364,210 +332,142 @@
       </ul>
     </header>
 
-    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-      <defs>
-        <marker id="aInk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1a1915"/></marker>
-        <marker id="aClay" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c25e3f"/></marker>
-        <marker id="aOlive" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#69793f"/></marker>
-        <marker id="aMut" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#a39d8c"/></marker>
-      </defs>
-    </svg>
-
     <main>
       <article class="article">
         <a href="/blog" class="back-link">← Blogs</a>
 
-        <p class="eyebrow rise">Field notes · Simulation as a test harness</p>
-        <h1 class="rise r2">The Solver Is the Unit Test.</h1>
-        <div class="meta rise r3">July 2026<span class="dot">·</span>Prannay Hebbar<span class="dot">·</span>17 min read</div>
+        <p class="eyebrow rise">Field notes · Physics for frontier models</p>
+        <h1 class="rise r2">1976</h1>
+        <p class="subtitle rise r3">A frontier model meets a fifty-year-old spring.</p>
+        <div class="meta rise r3">July 2026<span class="dot">·</span>Prannay Hebbar<span class="dot">·</span>14 min read</div>
 
-        <p class="lead rise r5">
-          A compiler tells you your code is wrong. A finite-element solver tells you your bracket is wrong. That symmetry is turning mechanical engineering software into one of the better training environments we have, and it is further along than most people realise.
+        <p class="lead rise r4">
+          I build CAD and simulation environments that frontier models train against, for Anthropic. The model passes 100% of its runs on my hardest geometry task, a B-rep retrieval problem where half the part has been torn away. Against a mass-spring model published in 1976, it fails 85% of the time.
         </p>
 
-        <div class="plate wide rise r4">
-          <img src="assets/pcb-thermal.png" alt="Two heat maps of a printed circuit board. The left shows six clustered components producing a 106.9 degree hotspot and failing. The right shows the same components spread across the board after optimisation, peaking at 75 degrees and passing." />
+        <p class="rise r5">
+          That is not a cute anomaly. Across 1,758 scored rollouts I pulled from our training infrastructure, the pattern is a staircase, and the thing the staircase measures is precise: <strong>how much machinery is hidden between what the model sees and what generated it.</strong> Each rung down, one more layer of hiding. This post walks the ladder rung by rung, with the actual tasks, the actual reward code, and the actual physics, until we reach the spring at the bottom and the empty rung below it.
+        </p>
+
+        <div class="plate wide rise r5">
+          <img src="assets/staircase.png" alt="Bar chart of pass rates across five task types: see 50%, advance 42%, produce 18%, invert 15%, design absent from the corpus." />
           <div class="plate__cap">
-            Both panels are the steady-state heat equation solved on a 100×80 mm board with six components dissipating 16.5 W. Left is the obvious layout. Right is what a search finds after <b>600 generations against the same solver</b>. Nothing here is illustrative: the temperature field is a sparse linear solve, and the placement on the right was found by optimisation, not by hand.
+            The ladder, measured. Every scored rollout in the environment, July 2026, grouped by what the task asks the model to do. Pass = final reward at or above 0.50, which in our grading scheme is calibrated to mean <b>matched the reference solution</b>. The fifth rung has no bar because the corpus cannot afford to grade it, which is the subject of the last section.
+          </div>
+        </div>
+
+        <div class="rung-label">Rung 1 · See <span class="rate">50% pass</span></div>
+
+        <h2>The answer is a property of what you can look at</h2>
+
+        <p>
+          Start at the top, where models are frighteningly good. The tasks on this rung hand the model geometry and ask a question whose answer is a function of that geometry: classify the surface type, rank the catalog, find the part. The hardest task I personally built lives here. Take a real CAD body from the Autodesk Fusion 360 Gallery, rotate it randomly in SO(3), rescale it, jitter every surface point, tear away up to 55% of its faces, shuffle what remains, and ask the model to find the original in a gallery of 180 bodies.
+        </p>
+
+        <p>
+          The model never sees a solid. It sees each face downsampled to a 5×5 grid of surface samples, stacked into a tensor, plus an adjacency graph saying which faces touch:
+        </p>
+
+        <div class="codeblock">
+          <div class="codeblock__head"><span>environment/corrupt.py · shipped to the agent in full</span><span class="lang">python</span></div>
+          <pre><span class="kw">def</span> <span class="nm">corrupt</span>(graph, *, seed, dropout_low, dropout_high):
+    <span class="st">"""Return an independently corrupted view of ``graph``.
+
+    Applies, in order: a uniform random SO(3) rotation of surface
+    points and normals, a global rescale in U(0.5, 2.0), masked
+    Gaussian jitter of points and normals, connectivity-grown face
+    dropout keeping the largest connected component, and a random
+    face permutation with shuffled edges."""</span>
+    <span class="cm"># uv_grid: [F, 5, 5, 7]  (xyz, unit normals, coverage mask)</span>
+    <span class="cm"># edge_index: [2, E]     (face adjacency)</span></pre>
+        </div>
+
+        <div class="plate wide">
+          <img src="assets/corruption-real.png" alt="A real Fusion 360 body as a point cloud, then the same body after light corruption with 20 to 35 percent of faces torn away, then heavy corruption with 40 to 55 percent gone." />
+          <div class="plate__cap">
+            A real gallery body and two real corrupted queries, generated by the shipped operator. The heavy query on the right has lost roughly half its faces and all of its orientation and scale. The model matches it back to the original anyway.
           </div>
         </div>
 
         <p>
-          I have spent the last few months building CAD and CAE reinforcement-learning environments for Anthropic, training data for the Claude models, and the thing that changed how I think about it is not the geometry. It is that a physics solver plays exactly the role a test suite plays in software. It is cheap, it is deterministic, it does not care about your reasoning, and it cannot be argued with. You either got under 78 °C or you did not.
+          This should be hard. It is not. Fable 5 passes <strong>14 of 14 runs</strong> on this task, mean reward 0.95, and the whole rung sits at 50% with the failures concentrated in a few pathological ranking tasks. The reason is worth stating plainly, because it defines everything below: the answer here is a <em>stable function of visible structure</em>. Invariance to rotation, scale and occlusion is exactly the kind of regularity a large model extracts from data without ever needing to know what a face or a solid is.
         </p>
 
         <p>
-          This post is three claims. First, that simulation software has quietly become a build-and-test framework for agents, and it works. Second, that the current failure modes are specific and measurable rather than mysterious, and I will show you 1,758 real rollouts to make the case. Third, that the interesting unlock is not better models against today's solvers. It is what happens when the solvers themselves get fast enough to sit inside the loop.
+          So the corpus takes the first thing away. What if the answer is not a property of the shape, but a field that lives on it, produced by machinery the model can watch but not touch?
         </p>
 
-        <div class="part-label">Part one · The harness</div>
+        <div class="rung-label">Rung 2 · Advance <span class="rate">42% pass</span></div>
 
-        <h2><span class="num">01</span>Physics is a labelling machine that never gets tired</h2>
-
-        <p>
-          Most benchmark data has a labelling problem: either a human decides the right answer, which is expensive and inconsistent, or a model does, which is circular. Engineering geometry sidesteps this. A modal solver tells you the first natural frequency. A collision tester tells you which fraction of approach directions can reach a face. A non-dominated sort tells you which designs are on the Pareto front. Nobody is expressing an opinion, and the label generator runs at whatever rate you can afford compute for.
-        </p>
+        <h2>You can watch the mechanism run. Continue it.</h2>
 
         <p>
-          The corpus I have been working in leans on a handful of public datasets, and the two workhorses are the <a class="inline" href="https://github.com/AutodeskAILab/Fusion360GalleryDataset" target="_blank" rel="noopener">Autodesk Fusion 360 Gallery</a>, which is real parts modelled by real people, and <a class="inline" href="https://www.narnia.ai/dataset/deepjeb" target="_blank" rel="noopener">DeepJEB</a>, which is synthetic jet engine brackets carrying full simulation results. Here are five real DeepJEB brackets, rendered straight out of the shipped occupancy grids.
+          The forecasting tasks give the model frames of a physical field, buoyancy and velocity in a convecting fluid, density and magnetic field in a turbulent plasma, and ask it to advance the state several steps in one shot. The mechanism is fully visible: every frame is the mechanism operating. The model just has to continue what it can already see.
         </p>
 
         <div class="plate wide">
-          <img src="assets/brackets-real.png" alt="Five voxelised jet engine brackets rendered isometrically, ordered from lightest to heaviest, showing ribs, mounting lugs and lightening holes." />
+          <img src="assets/convection.png" alt="A Rayleigh-Benard convection simulation with hot plumes rising and cold plumes sinking, velocity arrows overlaid, next to a plot of the convective heat flux profile against height comparing the true profile to a blurry surrogate." />
           <div class="plate__cap">
-            Real brackets from the shipped <code>voxels.npz</code>, ordered by mass. Every design sits in the same world frame, so nothing needs pose normalisation. Attached to each one: mass, peak von Mises stress under four load cases, and the first two natural frequencies, all from the upstream solver.
+            Rayleigh–Bénard convection at Ra = 1.2×10⁶, integrated from a noisy initial condition until the plumes organise. The graded quantity is on the right: the vertical convective heat flux <b>⟨v<sub>y</sub>·b⟩</b>. Note how the blurry surrogate tracks the field while flattening the flux.
           </div>
         </div>
 
         <p>
-          What the model actually receives is much thinner than the CAD file. For B-rep parts I reduce every trimmed face to a fixed 5×5 grid of surface samples carrying position, unit normal and a coverage mask, then stack the faces and hand over an adjacency graph. It is deliberately lossy, which is the point: a model that wants exact geometry does not get it, and permutation invariance stops being optional.
+          Pass rate: 42%. The dominant failure is the one every pixel-loss model commits: <strong>blur</strong>. Averaging over plausible futures minimises mean squared error and produces a fluid that has stopped obeying physics, plumes smeared into gradients, sharp fronts gone. The graded numbers can still look respectable, which is why these tasks do not grade the field alone. They grade a <em>derived invariant</em> the physics must satisfy, one a blurry field gets wrong:
+        </p>
+
+        <div class="codeblock">
+          <div class="codeblock__head"><span>rb-nusselt-forecast · the reward gate</span><span class="lang">python</span></div>
+          <pre><span class="cm"># F(y) = &lt;v_y * buoyancy&gt;_x   -- the convective heat flux profile.</span>
+<span class="cm"># A nonlinear diagnostic of the *coupling* between fields: blurring</span>
+<span class="cm"># v_y and b separately destroys their correlation, so MSE-minimising</span>
+<span class="cm"># forecasts fail here even when per-pixel error looks fine.</span>
+reward = <span class="nm">min</span>(gate(field_rel_l2), gate(heatflux_rel_err))</pre>
+        </div>
+
+        <p>
+          The <code>min</code> is not a detail; it is the house style of the entire corpus, and we will meet it again. But notice what still makes this rung passable at 42%: the model is shown the operator in action. Two context frames of a convection cell contain an enormous amount of what it needs. The next rung deletes those frames.
+        </p>
+
+        <div class="rung-label">Rung 3 · Produce <span class="rate">18% pass</span></div>
+
+        <h2>Now you never see the field. Produce what the solver would say.</h2>
+
+        <p>
+          Here the model receives only geometry, a jet-engine bracket as a point cloud or a voxel grid, and must output what a finite-element solver would compute on it: the von Mises stress field under load, the displacement field, the first vibration mode. It has training pairs, geometry in, field out, but it never observes the operator that connects them. The physics has moved behind a curtain.
         </p>
 
         <div class="plate wide">
-          <img src="assets/uvgrid-real.png" alt="A Fusion 360 body shown as a point cloud, one of its faces expanded into two 5 by 5 numeric grids for position and normal, and the body's face adjacency matrix." />
+          <img src="assets/modeshapes.png" alt="Four vibration mode shapes of a bracket section in blue and red, each crossed by dark nodal lines where the structure does not move. The lines migrate and curve from mode to mode." />
           <div class="plate__cap">
-            A real Fusion 360 body, one of its faces unpacked into the <code>[5, 5, 7]</code> tensor the network sees, and the face adjacency matrix on the right. A part becomes a bag of faces plus who touches whom. Nothing else survives.
-          </div>
-        </div>
-
-        <hr />
-
-        <h2><span class="num">02</span>What the loop feels like from inside the container</h2>
-
-        <p>
-          The PCB task at the top of this post is the clearest example of the build-and-test analogy, because the solver is actually shipped inside the container. The agent gets a FEniCSx thermal model, a board, six components with fixed power dissipations, keep-out rectangles, clearance rules, and a 78 °C ceiling. Each solve takes tens of seconds. There is no analytical shortcut. You place, you solve, you read the peak, you move things, you solve again.
-        </p>
-
-        <p>
-          That is a compile-test-refactor loop with heat instead of type errors. And the failure is legible in exactly the way a stack trace is legible: the left panel is not just worse, it is worse <em>for a visible reason</em>, because six heat sources sitting on top of each other superpose into one hotspot that the board cannot spread.
-        </p>
-
-        <p class="pull-quote">
-          The solver is not grading the answer. It is grading the part. The distinction is what makes the signal trustworthy.
-        </p>
-
-        <p>
-          Most tasks in the corpus do not ship a live solver, though, because most solvers are too slow. Instead the physics is baked upstream into a dataset and the agent has to learn a surrogate for it. Which raises the obvious question of whether the surrogate has learned the physics or just learned to look like it. Here is the same bracket section under torsion, solved properly:
-        </p>
-
-        <div class="plate wide">
-          <img src="assets/torsion-fea.png" alt="Three panels: a bracket cross-section, its Prandtl stress function with contour lines, and the resulting shear stress magnitude with a marked peak at a cut-out edge." />
-          <div class="plate__cap">
-            Torsion solved as a Prandtl stress function on a 190×190 grid: <b>∇²φ = −2Gθ</b>, with shear stress as the gradient of φ. The contours in the middle panel are the shear-flow lines. Note where the stress actually concentrates, on the inner edges of the lightening holes and at the waist, which is exactly the part of the field a low-resolution surrogate smooths away.
+            What the model must produce: the first four vibration modes of a bracket section, from an eigenvalue solve. The dark curves are <b>nodal lines</b>, where the part does not move at all. Their position is set by ribs and cut-outs, they migrate as the design changes, and a model that blurs them has produced a physically meaningless answer that still scores well on mean squared error.
           </div>
         </div>
 
         <p>
-          Vibration is the same story with a sharper edge. A mode shape is not just a smooth field; it has <strong>nodal lines</strong>, curves where the structure does not move at all, and their position is set by the ribs and the cut-outs. Predicting the field roughly right while putting a nodal line in the wrong place is a physically meaningless answer that still scores well on mean squared error.
+          Pass rate: 18%, less than half the rung above. And the failures now come in a second flavor beyond blur: <strong>degenerate specialisation</strong>. Predict the easy component of the answer perfectly, abandon the rest, collect partial credit. On one bracket task, mass is nearly a linear function of occupied volume, so a model can nail it from the voxel count alone while ignoring stress and frequency entirely, and an averaged reward would pay it for that.
         </p>
 
-        <div class="plate wide">
-          <img src="assets/modeshapes.png" alt="Four vibration mode shapes of a bracket, in blue and red, each with dark nodal lines marking where the structure does not move. Mode 1 has none, mode 2 a horizontal line, mode 3 a cross, mode 4 curved lines." />
-          <div class="plate__cap">
-            The first four distinct modes of the same section, from an eigenvalue solve. Mode 1 has no interior nodal line; by mode 4 they have curved and split. This is the <code>deepjeb-first-modeshape-field</code> task, and the migration of those dark lines as the design changes is precisely what a blurry model gets wrong.
-          </div>
+        <p>
+          This is why every task on this rung grades several metrics and takes the minimum, with each metric mapped through four measured anchors. This is the actual scoring function from my retrieval task's verifier, and it is the same shape everywhere in the corpus:
+        </p>
+
+        <div class="codeblock">
+          <div class="codeblock__head"><span>tests/verify.py · the reward, verbatim</span><span class="lang">python</span></div>
+          <pre><span class="kw">def</span> <span class="nm">_metric_reward</span>(value, baseline, threshold, target, strong):
+    <span class="kw">if</span> value &lt;= baseline:   <span class="kw">return</span> 0.0
+    <span class="kw">if</span> value &lt; threshold:   <span class="kw">return</span> 0.2 * _smoothstep((value - baseline) / (threshold - baseline))
+    <span class="kw">if</span> value &lt; target:      <span class="kw">return</span> 0.2 + 0.3 * _smoothstep((value - threshold) / (target - threshold))
+    <span class="kw">if</span> value &lt; strong:      <span class="kw">return</span> 0.5 + 0.5 * _smoothstep((value - target) / (strong - target))
+    <span class="kw">return</span> 1.0
+
+<span class="cm"># reward = the WORST metric, not the average. A model that solves</span>
+<span class="cm"># one third of the problem perfectly scores zero, not one third.</span>
+reward = <span class="nm">max</span>(0.0, <span class="nm">min</span>(1.0, <span class="nm">min</span>(scores.values())))</pre>
         </div>
 
         <p>
-          The corpus goes wider than structures. There are 60-odd PDEBench branches, around 50 built on Polymathic's The Well, 23 on AirfRANS aerodynamics, plus sheet-metal forming, machining feature recognition and CAD program synthesis. Fluids show up as a genuinely hard forecasting problem:
-        </p>
-
-        <div class="plate wide">
-          <img src="assets/convection.png" alt="A Rayleigh-Benard convection simulation showing hot plumes rising from a bottom plate and cold plumes descending, with velocity arrows, next to a plot of the convective heat flux profile versus height." />
-          <div class="plate__cap">
-            Rayleigh–Bénard convection at Ra = 1.2×10⁶, integrated forward from a noisy initial condition until the plumes organise. The right panel is the graded quantity: the horizontally averaged convective heat flux <b>⟨v<sub>y</sub> b⟩</b>. A model can be good on pixel error and still get that profile wrong, which is why the reward gates on the flux rather than the field.
-          </div>
-        </div>
-
-        <p>
-          And a good chunk of the corpus is not learning at all, just constrained design against closed-form physics. Those tasks are pure verification: every constraint is a gate, and the geometry of the feasible set is often the whole difficulty.
-        </p>
-
-        <div class="plate wide">
-          <img src="assets/buckling.png" alt="Two panels showing a hollow steel column design space. The left overlays three constraint curves for buckling, yield and local wall stability. The right shows the resulting feasible island coloured by mass with the lightest feasible design marked." />
-          <div class="plate__cap">
-            A hollow steel column under 4500 kN. Three constraints, none of which can be traded against the others: global Johnson–Euler buckling, axial yield, and local wall buckling at D/t = 40. They carve out a narrow island, and the answer is the lightest point inside it. Get one constraint wrong and you are not slightly off, you are outside.
-          </div>
-        </div>
-
-        <div class="part-label">Part two · Where it breaks</div>
-
-        <h2><span class="num">03</span>1,758 rollouts, and the middle is missing</h2>
-
-        <p>
-          Here is where the essay stops being about design taste and starts being about data. I pulled every completed agent run I could reach off the Taiga API for this environment: 4,104 jobs, 2,293 problem runs, 1,758 of which produced a score, across 140 distinct problems. Almost all of it is Fable 5. This is what the training signal actually looks like.
-        </p>
-
-        <div class="plate wide">
-          <img src="assets/score-distribution.png" alt="Left: a histogram of 1758 rollout rewards, strongly bimodal with 236 runs at exactly zero and 207 at exactly one. Right: per-problem pass rates for 85 problems, sorted, showing 19 at zero percent and 16 at one hundred percent." />
-          <div class="plate__cap">
-            Real rewards, July 2026. The distribution is <b>U-shaped</b>: 236 runs score exactly 0 and 207 score exactly 1.0. On the right, of 85 problems with six or more attempts, <b>19 are never solved by anyone and 16 are solved by everyone</b>. Only 50 sit in the middle where a gradient exists.
-          </div>
-        </div>
-
-        <p>
-          That shape is the single most useful thing I learned. A task that everything solves and a task that nothing solves are equally worthless for training, and by that standard something like <strong>41% of this corpus is currently producing no usable signal</strong>. The work is not making tasks harder. It is moving tasks into the middle from whichever side they are stuck on.
-        </p>
-
-        <p>
-          Which tasks are stuck, and where, is not random at all:
-        </p>
-
-        <div class="plate wide">
-          <img src="assets/hardest-easiest.png" alt="Two bar charts. Left, the nine hardest problems, all physics system identification, program synthesis or extrapolation tasks, with mean rewards under 0.2. Right, the nine easiest, all geometry classification or interpolation tasks, at or near 1.0." />
-          <div class="plate__cap">
-            The two tails, ranked by mean reward. Everything on the left is either <b>system identification</b> (recovering Bouc–Wen hysteresis parameters from response data), <b>program synthesis</b> (recovering a CAD feature tree from geometry), or <b>extrapolation</b> to a held-out regime. Everything on the right is classification or interpolation inside the training distribution.
-          </div>
-        </div>
-
-        <p>
-          Read that split carefully, because it is a clean statement about capability. Agents are good at geometry when the answer is a smooth function of things they can see. They fall apart when the task requires inverting a dynamical system, recovering discrete structure, or predicting outside the envelope they were trained on. Those are not three unrelated weaknesses; they are all the same weakness, which is that gradient descent on an interpolation objective does not produce a model that reasons about mechanism.
-        </p>
-
-        <hr />
-
-        <h2><span class="num">04</span>Four failure modes, and what actually fixes them</h2>
-
-        <p>
-          The failures cluster. Every one of these I hit personally, and every one has a countermeasure that is now standard across the corpus.
-        </p>
-
-        <div class="quad">
-          <div class="quad-card">
-            <h4>Blur</h4>
-            <p>The model minimises pixel error by predicting something smooth and physically impossible. Nodal lines vanish, plumes average out, stress peaks flatten. Countered by grading a <em>derived invariant</em> instead of the field.</p>
-          </div>
-          <div class="quad-card">
-            <h4>Degenerate specialisation</h4>
-            <p>Solve the one easy channel perfectly, abandon the rest, collect partial credit. Countered by aggregating metrics with a <em>minimum</em> rather than a mean, so partial solutions score zero.</p>
-          </div>
-          <div class="quad-card">
-            <h4>Overfitting the noise</h4>
-            <p>Train to convergence on labels that are partly wrong and get worse the longer you train. Countered by <em>corrupting the shipped labels on purpose</em> while keeping the hidden ones clean.</p>
-          </div>
-          <div class="quad-card">
-            <h4>Envelope collapse</h4>
-            <p>Excellent inside the training distribution, useless a step outside it. Countered by drawing the graded set from <em>a region the training data does not cover</em>, and saying so in the instructions.</p>
-          </div>
-        </div>
-
-        <p>
-          The third one has the most vivid picture. In the Pareto task a quarter of the shipped labels are perturbed on one channel by noise at 1.4 standard deviations, in units where the honest spread is 1.0. The hidden labels are clean. Here is what that does to the front you nominate if you simply believe your training data:
-        </p>
-
-        <div class="plate wide">
-          <img src="assets/pareto-real.png" alt="Three panels using real DeepJEB objectives. The true Pareto front, the front computed from 25 percent corrupted labels which differs substantially, and a bar chart showing 18 correctly nominated, 7 wrongly nominated and 11 missed designs." />
-          <div class="plate__cap">
-            Real DeepJEB objectives, 300 designs. Corrupting a quarter of the rows moves the front badly: <b>7 designs get nominated that do not belong and 11 real front members are missed</b>. Measured on this task, a plain squared-error fit scores <em>lower</em> after 60 epochs than after 15. Training longer is the trap.
-          </div>
-        </div>
-
-        <p>
-          The second countermeasure, the minimum, is the one I would defend hardest. If you average your metrics, a model that nails one objective and abandons the others gets partial credit and a gradient pointing further into the cheat. Take the minimum and the only way to move is to fix your worst metric. On the Pareto task a mass-only submission earns a perfect <code>front_precision</code> of 1.00 against a <code>front_mcc</code> of 0.17, so the reward is 0.00, which is the correct score for it.
-        </p>
-
-        <p>
-          Each metric then passes through four anchors before it becomes a reward, and those anchors are measurements rather than intentions: baseline is what an untrained network actually scores, target is where the reference solution actually lands. Here is the real thing, running live. Try to find a setting where a model is excellent at two things and gets paid for it.
+          The anchors are not aspirations, they are measurements: <em>baseline</em> is what an untrained network actually scores, <em>target</em> is where the trained reference solution actually lands. Here is that scoring function running live, with the real anchors shipped in my task. Try to find a setting where being excellent at two of three metrics pays.
         </p>
 
         <div class="console">
@@ -613,152 +513,172 @@
         </div>
 
         <p>
-          The middle two presets are the interesting ones. <em>Easy queries only</em> scores 0.95 overall but collapses on heavily occluded queries. <em>Can't split near-duplicates</em> retrieves well but cannot tell a part from its sibling in the catalog, which in a real parts library is the only case anyone cares about. Both look strong on the headline number. Both score 0.09.
+          So far the hidden thing has been an output: a field the model must reproduce. But the operator producing that field was at least fixed and universal, the same elasticity everywhere, the same heat equation. One rung further down, the hidden thing is the operator itself.
+        </p>
+
+        <div class="rung-label">Rung 4 · Invert <span class="rate">15% pass</span></div>
+
+        <h2>The spring</h2>
+
+        <p>
+          In 1967, Robert Bouc wrote down a differential equation for hysteresis, the property by which a material's restoring force depends not on where it is but on where it has been. In 1976, Yi-Kwei Wen extended it into the form every earthquake and vibration engineer now knows, and the Bouc–Wen oscillator became one of the standard benchmarks for nonlinear system identification. It is five lines of physics:
+        </p>
+
+        <div class="codeblock">
+          <div class="codeblock__head"><span>the Bouc–Wen hysteretic oscillator · from the task's reference solution</span><span class="lang">python</span></div>
+          <pre><span class="cm"># m*y'' + c*y' + k*y + z = u(t)</span>
+<span class="cm"># z'   = a*y' - bg*|y'|*|z|**(nu-1)*z - bd*y'*|z|**nu</span>
+<span class="cm">#</span>
+<span class="cm"># z is the hysteretic force: an unmeasurable internal state whose</span>
+<span class="cm"># value depends on the entire history of the motion. Identified</span>
+<span class="cm"># benchmark parameters: m=2, k=5e4, a=5e4, bg=800, bd=-1100, nu=1.</span>
+<span class="kw">def</span> <span class="nm">drv</span>(y1, y2, z, uv):
+    dz = a*y2 - bg*<span class="nm">abs</span>(y2)*<span class="nm">abs</span>(z)**(nu-1)*z - bd*y2*<span class="nm">abs</span>(z)**nu
+    <span class="kw">return</span> y2, (uv - c*y2 - k*y1 - z)/m, dz</pre>
+        </div>
+
+        <p>
+          The tasks on this rung hand the model one recording, force in, displacement out, sampled at 750 Hz, and ask it to predict the displacement for a new force record. Nothing else. To do that you must recover the mechanism: not fit the wiggle, but figure out what kind of machine is wiggling. There are twenty variants in the corpus, contaminated sensors, closed-loop feedback, asymmetric stiffness, thermal drift, and across <strong>520 rollouts the pass rate is 15%</strong>, the worst of any family. The single hardest variant, identification from outlier-contaminated data, has a mean reward of 0.04.
         </p>
 
         <p>
-          That task, incidentally, is one of the 16 that everybody now solves: 14 runs, mean reward 0.95. Which is a useful reminder that the anchors I was so careful about in May were already too loose by July.
+          Why does this kill a model that shrugs off half-destroyed CAD bodies? Because the training record genuinely does not pin down the mechanism, and pattern-matching has nothing to grab. I can show you. I fit a second oscillator, an impostor whose hysteresis parameters differ from the true ones by a factor of nine, whose exponent is 1.5 instead of 1.0, a physically different machine, so that its response to the training force matches to within 3.5%:
         </p>
 
-        <div class="aside">
-          <div class="aside__label">Two things the rollout data contradicted</div>
-          <p>
-            <b>More turns does not help.</b> Across 1,758 scored runs the correlation between turns used and final reward is <b>−0.08</b>. Agents that thrash are not agents that are close. Compute is not the binding constraint on these tasks; knowing what to do is.
-          </p>
-          <p>
-            <b>Roughly a quarter of runs never produce a score at all.</b> 535 of 2,293 failed outright on infrastructure, turn limits or container faults. Before you tune a reward function, that number is where the signal is actually leaking.
-          </p>
-        </div>
-
         <div class="plate wide">
-          <img src="assets/effort.png" alt="Left: scatter of turns used versus final reward for 1758 runs with a flat binned mean, correlation minus 0.08. Right: bar chart showing 1758 completed runs versus 535 failed runs." />
+          <img src="assets/two-springs.png" alt="Left: displacement traces of two Bouc-Wen oscillators with radically different parameters, overlapping almost exactly at training amplitude. Right: the same two springs driven 3.5 times harder, with visible divergence shaded between the curves." />
           <div class="plate__cap">
-            Turns spent against reward earned, and the completion rate. The flat line on the left is the interesting one: <b>the agents that use the most turns do not score better</b>. Whatever separates a 0.0 from a 1.0 on these tasks, it is decided early.
+            Spring A is the benchmark mechanism. Spring B has <b>bg = 91 instead of 800, bd = −117 instead of −1100, ν = 1.5 instead of 1.0</b>. At the training amplitude their responses are 3.5% apart, within the task's measurement-noise floor. Drive the same two springs 3.5× harder and they disagree by 16%, because the hysteresis terms that were barely excited at small amplitude now dominate.
           </div>
         </div>
 
-        <div class="part-label">Part three · What it unlocks</div>
-
-        <h2><span class="num">05</span>The bottleneck is solver latency, not model capability</h2>
-
         <p>
-          Notice which task in this post had a live solver in the loop: exactly one, the PCB. Every other environment is a frozen dataset with the physics precomputed, because a real FEA or CFD run takes minutes to hours and no training loop can absorb that. The corpus is shaped around that constraint far more than around anything about the models.
+          Every fit that stops at "matches the training data" has a large family of impostors to choose from, and gradient descent will happily pick one. The graders on this rung are built to drive the system into the regime where impostors die: held-out records at higher amplitudes, different spectral content, reversed sweeps. That is not adversarial cruelty. It is the definition of having identified a system.
         </p>
 
         <p>
-          This is the same position software agents were in before fast test suites and cheap containers. You cannot iterate against a verifier you can only afford to call twice. So consider what changes as solvers get faster, whether through GPU-native FEM, learned preconditioners, reduced-order models, or surrogates that are trustworthy enough to sit inside the inner loop and get checked by the real solver only at the end.
+          You can do the experiment yourself. Both springs below are simulated live in your browser, RK4 on the equations above. At drive level 1.0× they are the same spring for all you can tell. Turn it up.
         </p>
 
-        <div class="sheet">
-          <div class="sheet__head">What a fast solver actually changes</div>
-          <div class="sheet__row"><span class="k">Verification</span><div><b>Design becomes checkable, not just gradeable.</b> Today the reward is computed once at the end. With a solver in the loop the agent verifies its own intermediate steps, the way it currently runs a test before committing.</div></div>
-          <div class="sheet__row"><span class="k">Data</span><div><b>The label supply becomes unbounded.</b> Frozen datasets cap what you can ask. A solver in the loop generates fresh, correctly-labelled instances at whatever rate you want, in exactly the regimes where the model is weak.</div></div>
-          <div class="sheet__row"><span class="k">Extrapolation</span><div><b>The hardest failure mode gets attackable.</b> Envelope collapse is the top of the not-solved list. It exists because training data is finite and fixed. Generate on demand and you can train directly on the tail.</div></div>
-          <div class="sheet__row"><span class="k">Scope</span><div><b>The task stops being prediction and becomes design.</b> Predicting stress on someone else's bracket is a surrogate problem. Producing a bracket that survives the load case is engineering, and it needs a solver you can call thousands of times.</div></div>
-        </div>
-
-        <div class="plate wide">
-          <img src="assets/latency-ladder.png" alt="A horizontal bar chart on a log time axis showing five tiers of solver speed from hours down to one millisecond, each labelled with what class of simulation it covers and what workflow it enables." />
-          <div class="plate__cap">
-            Solve time against what it buys you. Everything slower than about a second can only be run offline into a frozen dataset. The interesting territory is below that line, and almost none of the corpus lives there yet.
+        <div class="console">
+          <div class="console__head">two springs · live Bouc–Wen simulation</div>
+          <div class="console__body">
+            <div class="bw-canvas-wrap">
+              <canvas id="bwCanvas" width="1080" height="360" aria-label="Live simulation of two Bouc-Wen oscillators, displacement against time"></canvas>
+            </div>
+            <div class="bw-legend">
+              <span><span class="sw" style="background:#1a1915"></span>spring A · the true mechanism</span>
+              <span><span class="sw" style="background:#c25e3f"></span>spring B · the impostor (hysteresis 9× weaker, ν = 1.5)</span>
+            </div>
+            <div class="bw-grid">
+              <div class="slider-row" style="margin-bottom:0">
+                <div class="slider-top">
+                  <span class="name">drive amplitude</span>
+                  <span class="val"><b id="bwAmpLabel">1.0×</b> the training level</span>
+                </div>
+                <input type="range" id="bwAmp" min="100" max="400" value="100" aria-label="drive amplitude multiplier" />
+                <div class="slider-scale"><span class="lim" style="left:0%">1.0× = training data</span><span style="left:100%">4.0×</span></div>
+              </div>
+              <div class="bw-stat">
+                <span class="big ok" id="bwErr">–</span>
+                disagreement between the two springs
+                <span id="bwNote" style="display:block; margin-top:0.3rem"></span>
+              </div>
+            </div>
           </div>
         </div>
+
+        <p>
+          This is what "the model must reason about mechanism" means, concretely. There is no invariance to learn, no smooth map from input to output. The information that separates the true spring from the impostor <em>is not in the training data</em>, it is in knowing which experiment would separate them, which is a physicist's move, not a pattern-matcher's. That is the skill these 520 rollouts are teaching, one failed attempt at a time, and the per-variant scores say the teaching is uneven: the model already passes half its runs on the thermal-drift variant, and almost none on the contaminated one.
+        </p>
 
         <p class="pull-quote">
-          Every environment in this corpus is shaped by how expensive it is to check the answer. Make checking cheap and the shape changes completely.
+          The spring is not hard because it is complicated. It is hard because it keeps its mechanism where the data cannot see it.
         </p>
 
-        <hr />
+        <div class="rung-label">Rung 5 · Design <span class="rate">absent</span></div>
 
-        <h2><span class="num">06</span>The inverse problem is the actual job</h2>
+        <h2>The rung that is not there</h2>
 
         <p>
-          Almost everything in the corpus asks a model to predict a property of a part someone else designed. That framing exists because it is what a frozen dataset can support. The job an engineer is actually paid for runs the other way: here is a load case, an envelope, a material and a manufacturing process, produce the part.
+          Follow the ladder's logic one step further. Rung 3 hides the field, rung 4 hides the mechanism. Rung 5 hides the artifact itself: here is a load case, a material budget, a manufacturing process, <em>produce the part</em>. That is the job a mechanical engineer is actually paid for, and it is almost completely absent from the corpus. Not because we cannot grade it, but because we cannot afford to.
         </p>
 
         <p>
-          We already know how to do this without any learning at all, and it is worth looking at what it costs. Below is a topology optimisation I ran while writing this: a structure discovered from nothing but a load, a support and a 50% material budget.
+          We have known how to solve the toy version without any learning at all since the nineties. I ran one while writing this: topology optimisation of a beam, nothing given but a load, a support, and permission to use half the material.
         </p>
 
         <div class="plate wide">
-          <img src="assets/topopt.png" alt="Five frames showing a grey rectangle resolving into a truss structure over successive iterations, a log-scale compliance curve dropping from 1038 to 188, and the final thresholded black-and-white part outline." />
+          <img src="assets/topopt.png" alt="Five frames of a grey rectangle resolving into a truss structure over ninety iterations, a log-scale compliance curve falling from 1038 to 188, and the final thresholded part outline." />
           <div class="plate__cap">
-            SIMP topology optimisation on an MBB beam, 180×60 elements. Compliance falls from <b>1038 to 188</b>, and the converged value matches the published benchmark for this problem to within a fraction of a percent. The structure was not designed; it was found. What it cost was <b>90 finite-element solves</b>.
+            SIMP topology optimisation, 180×60 elements. Compliance falls from <b>1038 to 188</b>, matching the published benchmark for this problem, and the truss is discovered, not designed. The price is on the curve: <b>90 finite-element solves</b>, every point one full stiffness solve.
+          </div>
+        </div>
+
+        <div class="codeblock">
+          <div class="codeblock__head"><span>the whole generative-design loop, in one update</span><span class="lang">python</span></div>
+          <pre><span class="kw">for</span> it <span class="kw">in</span> <span class="nm">range</span>(90):
+    U  = solve(K(x), F)                  <span class="cm"># one finite-element solve</span>
+    dc = -penal * x**(penal-1) * strain_energy(U)
+    x  = optimality_criteria(x, filter(dc), volfrac)  <span class="cm"># move material toward strain</span></pre>
+        </div>
+
+        <p>
+          Ninety solves for a two-dimensional, linear-elastic, single-load, compliance-only toy, each solve a few milliseconds. The real version, a 3D bracket, four load cases, a stress constraint, a modal floor, a machinability check, is thousands of solves at minutes each. Grading one design attempt costs more than training on ten thousand prediction tasks, so the prediction tasks are what exist. The one place a live solver does sit inside a task, a PCB layout problem with a thermal FEA in the container, is the exception that shows what the rung would feel like:
+        </p>
+
+        <div class="plate wide">
+          <img src="assets/pcb-thermal.png" alt="Two heat maps of a printed circuit board. The clustered layout produces a 106.9 degree hotspot and fails. The optimised layout spreads components and passes at 75 degrees." />
+          <div class="plate__cap">
+            The exception on the rung: a task whose container ships a real heat-equation solver. Six components, 16.5 W, a 78 °C ceiling. Left, the obvious layout fails at 106.9 °C; right, a placement found by optimising against the same solver passes at 75.0 °C. The agent lives the loop an engineer lives: place, solve, read the peak, move, solve again.
           </div>
         </div>
 
         <p>
-          Ninety solves for a two-dimensional, single-load, linear-elastic, compliance-only problem. Now price the real version. A three-dimensional bracket with four load cases, a stress constraint rather than a compliance objective, a modal floor, and a check that the thing can actually be machined or printed, is somewhere in the thousands to tens of thousands of solves, each of them minutes rather than milliseconds. That is why the task is not in the corpus. It is not that we do not know how to grade it. It is that grading it once costs more than training on ten thousand prediction tasks.
-        </p>
-
-        <p>
-          Every order of magnitude off the solve time moves that calculation. And the interesting thing is that this is a domain where the model being trained and the tool it needs are converging from opposite directions: learned surrogates are getting good enough to sit in the inner loop precisely because tasks like the ones in this post are teaching them the physics.
+          This is why I think the most important number in this field is not a benchmark score but solver latency. Every order of magnitude off the solve time, GPU-native FEM, reduced-order models, surrogates audited by the real solver, moves tasks from "we grade one checkpoint at the end" toward "the agent checks itself a thousand times before submitting," and moves the corpus from prediction toward design. The models are learning physics from rungs 1 through 4 precisely so that they can eventually be trusted as the fast solvers inside rung 5. The ladder eats itself, in the good way.
         </p>
 
         <hr />
 
-        <h2><span class="num">07</span>What comes out the other side</h2>
+        <div class="rung-label" style="margin-top:3.4rem">What the ladder is for</div>
+
+        <h2>Failure modes are the curriculum</h2>
 
         <p>
-          Assume that lands, and solve time drops two or three orders of magnitude over the next few years through some mix of GPU-native FEM, reduced-order models, learned preconditioners and surrogates that are trusted inside the loop and audited against the real solver at the end. Here is what I think opens up, roughly in order of how soon.
+          One honest caveat and two hard numbers, and then the point.
         </p>
 
-        <div class="sheet">
-          <div class="sheet__head">Near term · things that mostly need speed</div>
-          <div class="sheet__row"><span class="k">Self-checking</span><div><b>The agent verifies before it submits.</b> Right now a model produces a checkpoint and finds out how it did once, at the end. With a solver it can call, it checks its own intermediate answers, the same way it currently runs a test before committing. Every failure mode in Part Two is a failure to notice something the solver would have said out loud.</div></div>
-          <div class="sheet__row"><span class="k">Unbounded curriculum</span><div><b>The training set stops being a fixed asset.</b> 19 problems in this corpus are solved by nobody and 16 by everybody. With a generator plus a solver you do not curate around that, you synthesise instances at the difficulty you need, in the regime where the model is currently weak, and the corpus regenerates itself as the model improves.</div></div>
-          <div class="sheet__row"><span class="k">Extrapolation</span><div><b>The top failure mode becomes directly attackable.</b> Envelope collapse exists because the training distribution is finite and fixed. Generate on demand and the tail stops being a tail: you sample the thin regions deliberately and train on exactly the physics the model is getting wrong.</div></div>
-          <div class="sheet__row"><span class="k">Multiphysics</span><div><b>Coupled problems become askable.</b> Almost every task in the corpus isolates one physics because that is what one dataset covers. Real parts fail at the coupling: a bracket that is stiff enough cold and resonant once it heats up, a board that passes thermally and warps out of tolerance. Coupled solves are exactly the ones too expensive to precompute.</div></div>
-        </div>
+        <p>
+          The caveat: pass rates measure the tasks as much as the model. Task authors set difficulty anchors by hand, and about a third of the variance in per-problem scores traces to which family the task belongs to rather than anything about physics. My own retrieval task is the cautionary example: I calibrated its targets against the frontier in May, and by July the model passes every run at a mean of 0.95. The anchors did not get easier. The model got better, which is the entire purpose, and it means the staircase you saw is a photograph of a moving object.
+        </p>
 
-        <div class="sheet">
-          <div class="sheet__head">Further out · things that need speed plus trust</div>
-          <div class="sheet__row"><span class="k">Design search</span><div><b>Exploration at a scale humans cannot staff.</b> An engineer evaluates a handful of concepts because each one costs days. The topology run above explored a continuous design space in ninety solves. Give an agent a cheap solver and the bottleneck moves from generating candidates to deciding which objectives you actually meant, which is a much better problem to have.</div></div>
-          <div class="sheet__row"><span class="k">Manufacturing</span><div><b>DFM stops being a separate review gate.</b> There is already work here on shellability, tool accessibility, sheet-metal springback and machining features. Those are currently separate prediction tasks. They should be constraints inside the design loop, so the part comes out manufacturable rather than being sent back by someone in production three weeks later.</div></div>
-          <div class="sheet__row"><span class="k">Certification</span><div><b>Verification evidence generated alongside the design.</b> In aerospace, medical and civil work, most of the calendar time is not design, it is producing the analysis package that proves the design is safe. That artifact is downstream of solver runs. An agent that ran the solves can assemble the evidence, and unlike most agent output it is checkable line by line.</div></div>
-          <div class="sheet__row"><span class="k">Co-design</span><div><b>Geometry and material chosen together.</b> Today you pick an alloy and then optimise a shape for it. The joint problem is better and nobody solves it by hand because the search space is enormous. It is exactly the shape of problem that falls to cheap evaluation plus a model with good priors about which regions are worth looking at.</div></div>
+        <div class="plate wide">
+          <img src="assets/score-distribution.png" alt="Left: a U-shaped histogram of 1,758 rollout rewards with 236 runs at exactly zero and 207 at exactly one. Right: 85 problems sorted by pass rate, 19 at zero percent, 16 at one hundred percent." />
+          <div class="plate__cap">
+            The training signal itself. The reward distribution is U-shaped: <b>236 runs score exactly 0 and 207 score exactly 1.0</b>. Of 85 problems with six or more attempts, 19 are solved by nobody and 16 by everybody, which means roughly 41% of this corpus currently produces no gradient at all. Tasks are born on the right side of the staircase and die on the left, and the job of the author is to keep restocking the middle.
+          </div>
         </div>
 
         <p>
-          The through-line is that engineering has an unusually clean separation between <em>proposing</em> something and <em>checking</em> it, and checking has always been the expensive half. Models are getting good at proposing. The moment checking gets cheap, the loop closes, and it closes in a domain where the ground truth is physics rather than human preference. That is a much better setting for automation than most of the ones people are excited about.
+          The two numbers: across all scored rollouts, the correlation between the turns an agent spends and the reward it earns is <strong>−0.08</strong>. Thrashing is not progress; whatever separates a 0 from a 1 on these tasks is decided early, in whether the model recognises which rung it is standing on. And 23% of runs never produce a score at all, which is a reminder that before any of this gets philosophical, it is infrastructure.
         </p>
 
         <p>
-          I would put the honest bound on this too. None of it removes the engineer, because none of it decides what to build or which failure modes are acceptable. What it removes is the part of the job that is waiting for a solve to finish, and there is a great deal of that.
-        </p>
-
-        <hr />
-
-        <h2><span class="num">08</span>The failure mode that comes with it</h2>
-
-        <p>
-          Fast approximate solvers introduce a new problem, and it is worse than the one they fix. If the agent is being graded by a surrogate, it will learn to satisfy the surrogate rather than the physics. That is reward hacking with extra steps, and it is harder to detect than anything in Part Two: the part passes, the numbers look right, and the error lives in the model of reality rather than in the answer. You do not find out at grading time. You find out on a test rig.
+          The point. Software taught models to code by giving them a compiler: a verifier that is instant, deterministic, and impossible to argue with. Engineering has something better, physics itself, but its verifiers are slow, so the first generation of physics training looks like this ladder: verify cheap things about expensive simulations. What the staircase shows is that the cheap-to-verify skills are nearly saturated and the expensive ones, mechanism, inversion, design, are where the frontier actually is. The model that closes the gap on rung 4 will not do it by fitting wiggles better. It will do it the way Wen did in 1976, by knowing what the inside of the machine must look like for the outside to behave the way it does.
         </p>
 
         <p>
-          The countermeasures are the ones that already work here, scaled up. Verify against the expensive ground truth on a held-out slice, so the surrogate's own error distribution is measured rather than assumed. Gate on derived physical invariants that an approximation has no particular reason to respect, the way the convection task gates on heat flux rather than on the field. And keep a real solver in the loop somewhere, even if it only runs on one design in a thousand, because a surrogate that is never audited is just a very confident guess.
+          Fifty years is a long time for a spring to stay undefeated. I do not think it gets another ten.
         </p>
 
-        <p>
-          That is the same discipline this whole corpus already runs on. The reason physics works as a training signal is not that it is convenient. It is that it is an adversary which never gets bored, never accepts a plausible-sounding answer, and never has to be paid per label. Every field in this post came out of a linear solve or an eigenvalue problem that took under a minute on a laptop. The parts that are hard to check are precisely the parts we are not training on yet, and closing that gap is most of the work that is left.
-        </p>
-
+        <div class="footer-note">
+          Built for Anthropic as RL training environments for the Claude models; rollout statistics pulled from the training infrastructure in July 2026 (2,293 problem runs, 140 problems, almost all Fable 5). Every figure was computed for this post: the corruption and retrieval data from the shipped task, the convection panel by explicit Boussinesq integration, the mode shapes by eigensolve, the impostor spring by simulation-error least squares on the Bouc–Wen equations (RK4, 750 Hz record, band-limited forcing), the topology run by SIMP validated against the published MBB benchmark, and the in-browser springs integrate the same ODE live. Datasets: <a href="https://github.com/AutodeskAILab/Fusion360GalleryDataset" target="_blank" rel="noopener">Fusion 360 Gallery</a>, <a href="https://www.narnia.ai/dataset/deepjeb" target="_blank" rel="noopener">DeepJEB</a>, the <a href="https://www.nonlinearbenchmark.org" target="_blank" rel="noopener">Bouc–Wen identification benchmark</a>; encoding after <a href="https://github.com/AutodeskAILab/UV-Net" target="_blank" rel="noopener">UV-Net</a>. R. Bouc, 1967; Y.-K. Wen, <em>Method for random vibration of hysteretic systems</em>, J. Eng. Mech. Div., 1976. Most tasks referenced are other authors' work in the same corpus.
+        </div>
       </article>
     </main>
 
     <script>
-      (function () {
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-        const figs = document.querySelectorAll('.figure, .hero');
-        figs.forEach((f) => f.classList.add('fig-anim'));
-        const io = new IntersectionObserver((entries) => {
-          entries.forEach((e) => {
-            if (e.isIntersecting) { e.target.classList.add('fig-on'); io.unobserve(e.target); }
-          });
-        }, { threshold: 0.2 });
-        figs.forEach((f) => io.observe(f));
-      })();
-
+      // ---- reward console (real v3_50pass policy) ----
       (function () {
         const ANCHORS = [
           { name: 'recall_at_1',       base: 0.05, thr: 0.60, tgt: 0.84, strong: 0.90 },
@@ -772,12 +692,12 @@
         const rewardEl = document.getElementById('reward');
         const textEl = document.getElementById('verdictText');
         const badgeEl = document.getElementById('badge');
-        const smoothstep = (v) => { v = Math.max(0, Math.min(1, v)); return v * v * (3 - 2 * v); };
+        const ss = (v) => { v = Math.max(0, Math.min(1, v)); return v * v * (3 - 2 * v); };
         function metricScore(v, a) {
           if (v <= a.base) return 0;
-          if (v < a.thr) return 0.2 * smoothstep((v - a.base) / (a.thr - a.base));
-          if (v < a.tgt) return 0.2 + 0.3 * smoothstep((v - a.thr) / (a.tgt - a.thr));
-          if (v < a.strong) return 0.5 + 0.5 * smoothstep((v - a.tgt) / (a.strong - a.tgt));
+          if (v < a.thr) return 0.2 * ss((v - a.base) / (a.thr - a.base));
+          if (v < a.tgt) return 0.2 + 0.3 * ss((v - a.thr) / (a.tgt - a.thr));
+          if (v < a.strong) return 0.5 + 0.5 * ss((v - a.tgt) / (a.strong - a.tgt));
           return 1;
         }
         function render() {
@@ -795,13 +715,13 @@
           badgeEl.textContent = passed ? 'PASS' : 'FAIL';
           badgeEl.className = 'badge' + (passed ? ' ok' : '');
           if (passed && reward >= 0.99) {
-            textEl.innerHTML = 'Strong on every metric. This is the ceiling: <b>past the strong anchor</b> on all three.';
+            textEl.innerHTML = 'Strong on every metric: past the strong anchor on all three.';
           } else if (passed) {
-            textEl.innerHTML = 'Every metric cleared its target, so the run passes. Reward is still capped by <b>' + ANCHORS[weakest].name + '</b>.';
+            textEl.innerHTML = 'Every metric cleared its target. Reward is still capped by <b>' + ANCHORS[weakest].name + '</b>.';
           } else if (reward === 0) {
-            textEl.innerHTML = 'Zero. <b>' + ANCHORS[weakest].name + '</b> is at or below its baseline, and the minimum does not care how good the others are.';
+            textEl.innerHTML = 'Zero. <b>' + ANCHORS[weakest].name + '</b> is at its baseline, and the minimum does not care how good the others are.';
           } else {
-            textEl.innerHTML = 'Held down entirely by <b>' + ANCHORS[weakest].name + '</b>. The only way up is to fix the weakest metric.';
+            textEl.innerHTML = 'Held down entirely by <b>' + ANCHORS[weakest].name + '</b>. The only way up is the weakest metric.';
           }
         }
         sliders.forEach((s) => s.addEventListener('input', render));
@@ -812,6 +732,105 @@
           });
         });
         render();
+      })();
+
+      // ---- live Bouc-Wen: two springs, one wiggle ----
+      (function () {
+        const cv = document.getElementById('bwCanvas');
+        if (!cv) return;
+        const ctx = cv.getContext('2d');
+        const amp = document.getElementById('bwAmp');
+        const ampLabel = document.getElementById('bwAmpLabel');
+        const errEl = document.getElementById('bwErr');
+        const noteEl = document.getElementById('bwNote');
+
+        // [m, c, k, a, bg, bd, nu] -- A: benchmark; B: impostor fit to match A at 1.0x
+        const A = [2.0, 10.0, 5e4, 5e4, 800.0, -1100.0, 1.0];
+        const B = [2.0, 18.77, 54749.34, 53168.41, 90.72, -117.02, 1.5];
+        // the same multisine family as the task data (5-40 Hz)
+        const FR = [5.83, 9.71, 14.36, 19.9, 24.53, 29.07, 33.2, 38.64];
+        const PH = [0.61, 4.9, 2.53, 1.13, 5.75, 3.3, 0.24, 4.1];
+        const BASE = 60 / Math.sqrt(FR.length);
+        const T = 1.1, FS = 6000, N = Math.floor(T * FS);
+
+        function force(t, scale) {
+          let u = 0;
+          for (let i = 0; i < FR.length; i++) u += Math.sin(2 * Math.PI * FR[i] * t + PH[i]);
+          return BASE * scale * u;
+        }
+        function simulate(p, scale) {
+          const m = p[0], c = p[1], k = p[2], a = p[3], bg = p[4], bd = p[5], nu = p[6];
+          const im = 1 / m, h = 1 / FS, h2 = h / 2, h6 = h / 6;
+          let y1 = 0, y2 = 0, z = 0;
+          const out = new Float64Array(N);
+          function d(y1, y2, z, uv, out3) {
+            const az = Math.abs(z);
+            const azn1 = az > 0 ? Math.pow(az, nu - 1) : 0;
+            out3[0] = y2;
+            out3[1] = (uv - c * y2 - k * y1 - z) * im;
+            out3[2] = a * y2 - bg * Math.abs(y2) * azn1 * z - bd * y2 * azn1 * az;
+          }
+          const k1 = [0, 0, 0], k2 = [0, 0, 0], k3 = [0, 0, 0], k4 = [0, 0, 0];
+          for (let i = 0; i < N; i++) {
+            out[i] = y1;
+            const t = i * h, u0 = force(t, scale), um = force(t + h2, scale), u1 = force(t + h, scale);
+            d(y1, y2, z, u0, k1);
+            d(y1 + h2 * k1[0], y2 + h2 * k1[1], z + h2 * k1[2], um, k2);
+            d(y1 + h2 * k2[0], y2 + h2 * k2[1], z + h2 * k2[2], um, k3);
+            d(y1 + h * k3[0], y2 + h * k3[1], z + h * k3[2], u1, k4);
+            y1 += h6 * (k1[0] + 2 * k2[0] + 2 * k3[0] + k4[0]);
+            y2 += h6 * (k1[1] + 2 * k2[1] + 2 * k3[1] + k4[1]);
+            z  += h6 * (k1[2] + 2 * k2[2] + 2 * k3[2] + k4[2]);
+          }
+          return out;
+        }
+        function draw(scale) {
+          const ya = simulate(A, scale), yb = simulate(B, scale);
+          let num = 0, den = 0, peak = 1e-12;
+          for (let i = 0; i < N; i++) {
+            num += (ya[i] - yb[i]) ** 2; den += ya[i] ** 2;
+            const m = Math.max(Math.abs(ya[i]), Math.abs(yb[i]));
+            if (m > peak) peak = m;
+          }
+          const err = Math.sqrt(num / den);
+          const W = cv.width, H = cv.height, pad = 14;
+          ctx.clearRect(0, 0, W, H);
+          ctx.strokeStyle = '#e2ddd0'; ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.moveTo(pad, H / 2); ctx.lineTo(W - pad, H / 2); ctx.stroke();
+          const step = Math.max(1, Math.floor(N / (W - 2 * pad)) );
+          function trace(y, color, width, dash) {
+            ctx.strokeStyle = color; ctx.lineWidth = width;
+            ctx.setLineDash(dash);
+            ctx.beginPath();
+            for (let i = 0, px = 0; i < N; i += step, px++) {
+              const X = pad + (W - 2 * pad) * (i / N);
+              const Y = H / 2 - (y[i] / peak) * (H / 2 - pad);
+              if (i === 0) ctx.moveTo(X, Y); else ctx.lineTo(X, Y);
+            }
+            ctx.stroke(); ctx.setLineDash([]);
+          }
+          trace(ya, '#1a1915', 2.0, []);
+          trace(yb, '#c25e3f', 1.8, [7, 4]);
+          const pct = err * 100;
+          errEl.textContent = pct.toFixed(1) + '%';
+          errEl.className = 'big ' + (pct < 6 ? 'ok' : 'bad');
+          if (scale <= 1.05) {
+            noteEl.textContent = 'This is the training regime. The impostor is inside the noise floor: indistinguishable.';
+          } else if (pct < 8) {
+            noteEl.textContent = 'Still close. The hysteresis terms are only beginning to be excited.';
+          } else {
+            noteEl.textContent = 'The mechanisms have come apart. No amount of fitting at 1.0× could have predicted this.';
+          }
+        }
+        let raf = null;
+        function onInput() {
+          const scale = Number(amp.value) / 100;
+          ampLabel.textContent = scale.toFixed(1) + '×';
+          if (raf) cancelAnimationFrame(raf);
+          raf = requestAnimationFrame(() => draw(scale));
+        }
+        amp.addEventListener('input', onInput);
+        onInput();
       })();
     </script>
   </body>
