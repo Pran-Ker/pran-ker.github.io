@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>The Contract Is the Collateral · Prannay Hebbar</title>
+
+    <meta charset="utf-8" />
+    <meta content="ie=edge" http-equiv="x-ua-compatible" />
+    <meta name="handheldfriendly" content="true" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+    <meta name="description" content="Every new GPU on earth is presold to unlock a loan. The diversified on-demand book, the one a risk desk would prefer, is the one capital can't read yet. Notes on how compute financing works, why it's fragile, and the rails arriving to replace it." />
+    <meta name="theme-color" content="#F2EFE7" />
+
+    <meta property="og:site_name" content="Prannay Hebbar" />
+    <meta property="og:title" content="The Contract Is the Collateral" />
+    <meta property="og:description" content="Every new GPU on earth is presold to unlock a loan. The safer on-demand book is the one capital can't read yet. That's a mispricing with an expiry date." />
+    <meta property="og:type" content="article" />
+
+    <link rel="icon" href="/assets/images/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png" />
+
+    <link rel="preload" href="/assets/fonts/LabGrotesque-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/LabGrotesque-Bold.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/LabGrotesqueMono-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/SourceSerif4-Variable.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/SourceSerif4-VariableItalic.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/assets/css/style.css" />
+
+    <style>
+      @font-face {
+        font-family: 'Source Serif 4';
+        src: url('/assets/fonts/SourceSerif4-Variable.woff2') format('woff2');
+        font-weight: 200 900;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Source Serif 4';
+        src: url('/assets/fonts/SourceSerif4-VariableItalic.woff2') format('woff2');
+        font-weight: 200 900;
+        font-style: italic;
+        font-display: swap;
+      }
+
+      :root {
+        --paper: #f2efe7;
+        --card: #fbfaf5;
+        --ink: #1a1915;
+        --soft: #3d3a31;
+        --muted: #6e6859;
+        --faint: #a39d8c;
+        --rule: #e2ddd0;
+        --clay: #c25e3f;
+        --clay-bright: #d97757;
+        --clay-dim: rgba(194, 94, 63, 0.08);
+        --olive: #69793f;
+        --olive-dim: rgba(105, 121, 63, 0.1);
+        --sans: 'Lab Grotesque', -apple-system, sans-serif;
+        --serif: 'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+        --mono: 'Lab Grotesque Mono', 'SF Mono', Monaco, monospace;
+        --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      body { background: var(--paper); color: var(--ink); }
+      ::selection { background: rgba(217, 119, 87, 0.28); }
+
+      .article {
+        max-width: 680px;
+        margin: 0 auto;
+        padding: 7.5rem 1.4rem 6rem;
+        font-family: var(--serif);
+        font-size: 1.075rem;
+        line-height: 1.72;
+        color: var(--soft);
+        font-optical-sizing: auto;
+      }
+      @media (min-width: 64em) { .article { font-size: 1.14rem; } }
+
+      .back-link {
+        display: inline-block;
+        margin-bottom: 3rem;
+        color: var(--faint);
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: color 150ms ease;
+      }
+      @media (hover: hover) and (pointer: fine) {
+        .back-link:hover { color: var(--clay); }
+      }
+
+      .eyebrow {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--clay);
+        margin: 0 0 1.2rem;
+      }
+      .article h1 {
+        font-family: var(--sans);
+        font-size: clamp(2.1rem, 5.4vw, 3.4rem);
+        line-height: 1.05;
+        font-weight: 700;
+        letter-spacing: -0.026em;
+        color: var(--ink);
+        margin: 0 0 1.4rem;
+      }
+      .article .meta {
+        font-family: var(--mono);
+        color: var(--muted);
+        font-size: 0.72rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid var(--rule);
+        margin-bottom: 2.4rem;
+      }
+      .meta .sep { color: var(--faint); margin: 0 0.55em; }
+
+      .hero { margin: 0 0 2.6rem; }
+      .hero svg { display: block; width: 100%; height: auto; }
+
+      .lead {
+        font-size: 1.34rem;
+        line-height: 1.52;
+        color: var(--ink);
+        margin: 0 0 2rem;
+        font-weight: 430;
+        letter-spacing: -0.005em;
+      }
+
+      .article p { margin: 0 0 1.25rem; }
+      .article strong { font-weight: 640; color: var(--ink); }
+      .article em { font-style: italic; }
+      .article code {
+        font-family: var(--mono);
+        background: rgba(26, 25, 21, 0.055);
+        padding: 0.08em 0.34em;
+        border-radius: 4px;
+        font-size: 0.82em;
+        color: var(--ink);
+      }
+
+      .rise { opacity: 0; transform: translateY(12px); animation: rise 0.6s var(--ease-out) forwards; }
+      .rise.r2 { animation-delay: 0.06s; }
+      .rise.r3 { animation-delay: 0.12s; }
+      .rise.r4 { animation-delay: 0.2s; }
+      .rise.r5 { animation-delay: 0.3s; }
+      @keyframes rise { to { opacity: 1; transform: none; } }
+      @media (prefers-reduced-motion: reduce) { .rise { animation: none; opacity: 1; transform: none; } }
+
+      .fig-anim .pop {
+        opacity: 0;
+        transform: translateY(8px) scale(0.97);
+        transform-box: fill-box;
+        transform-origin: center;
+        transition: opacity 450ms var(--ease-out), transform 450ms var(--ease-out);
+        transition-delay: var(--d, 0ms);
+      }
+      .fig-anim .fade { opacity: 0; transition: opacity 500ms ease; transition-delay: var(--d, 0ms); }
+      .fig-anim .draw {
+        stroke-dasharray: 1;
+        stroke-dashoffset: 1;
+        opacity: 0;
+        transition: stroke-dashoffset 650ms var(--ease-out), opacity 200ms ease;
+        transition-delay: var(--d, 0ms);
+      }
+      .fig-on .pop { opacity: 1; transform: translateY(0) scale(1); }
+      .fig-on .fade { opacity: 1; }
+      .fig-on .draw { stroke-dashoffset: 0; opacity: 1; }
+
+      .part-label {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin: 4.6rem 0 0;
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.24em;
+        color: var(--clay);
+      }
+      .part-label::after { content: ""; flex: 1; height: 1px; background: var(--rule); }
+
+      .article h2 {
+        font-family: var(--sans);
+        font-size: 1.42rem;
+        font-weight: 700;
+        letter-spacing: -0.014em;
+        color: var(--ink);
+        margin: 3.4rem 0 1rem;
+        line-height: 1.22;
+      }
+      .article h2 .num {
+        display: block;
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        font-weight: 400;
+        color: var(--clay);
+        letter-spacing: 0.26em;
+        margin-bottom: 0.5rem;
+      }
+
+      .pull-quote {
+        font-size: 1.36rem;
+        line-height: 1.48;
+        font-style: italic;
+        font-weight: 420;
+        margin: 2.6rem 0;
+        padding-left: 1.4rem;
+        border-left: 2px solid var(--clay-bright);
+        color: var(--ink);
+      }
+
+      .plate-fig {
+        margin: 2.8rem -1rem; background: var(--card);
+        border: 1px solid var(--rule); border-radius: 12px; overflow: hidden;
+        box-shadow: 0 1px 2px rgba(26, 25, 21, 0.03), 0 10px 30px rgba(26, 25, 21, 0.04);
+      }
+      @media (min-width: 56em) { .plate-fig { margin: 2.8rem -3.5rem; } }
+      .plate-fig__head {
+        display: flex; align-items: baseline; gap: 1rem;
+        padding: 0.75rem 1.4rem; border-bottom: 1px solid var(--rule);
+        font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+      @media (min-width: 56em) { .plate-fig__head { padding: 0.75rem 2rem; } }
+      .plate-fig__head .no { color: var(--clay); white-space: nowrap; }
+      .plate-fig__head .t { color: var(--muted); }
+      .plate-fig__body { padding: 1.7rem 1.4rem 1.5rem; }
+      @media (min-width: 56em) { .plate-fig__body { padding: 1.9rem 2rem 1.7rem; } }
+      .plate-fig__body.gridded {
+        background-image:
+          linear-gradient(rgba(26, 25, 21, 0.032) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(26, 25, 21, 0.032) 1px, transparent 1px);
+        background-size: 22px 22px;
+      }
+      .plate-fig__cap {
+        font-family: var(--sans); font-size: 0.85rem; color: var(--muted);
+        line-height: 1.55; padding: 1.1rem 1.4rem 1.3rem; margin: 0 auto;
+        max-width: 60ch; text-align: center; border-top: 1px solid var(--rule);
+        background: var(--card);
+      }
+      .plate-fig__cap b { font-weight: 640; color: var(--ink); }
+      .plate-fig svg { display: block; width: 100%; height: auto; }
+
+      .f-t { font-family: var(--sans); font-weight: 600; font-size: 12px; letter-spacing: 0.02em; fill: #1a1915; }
+      .f-s { font-family: var(--sans); font-size: 11px; fill: #6e6859; }
+      .f-m { font-family: var(--mono); font-size: 10.5px; fill: #6e6859; }
+      .f-x { font-family: var(--mono); font-size: 10px; fill: #a39d8c; }
+
+      .notes { margin-top: 4.5rem; padding-top: 1.8rem; border-top: 1px solid var(--rule); }
+      .notes__label {
+        font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.24em;
+        text-transform: uppercase; color: var(--clay); margin-bottom: 1.4rem;
+      }
+      .notes__grid { display: grid; grid-template-columns: 1fr; gap: 0.95rem 2.4rem; }
+      @media (min-width: 44em) { .notes__grid { grid-template-columns: 1fr 1fr; } }
+      .note { font-family: var(--sans); font-size: 0.84rem; line-height: 1.55; color: var(--muted); }
+      .note sup { font-family: var(--mono); font-size: 0.68rem; color: var(--clay); margin-right: 0.35rem; }
+      .note b { color: var(--ink); font-weight: 640; border-bottom: 1px solid var(--rule); }
+
+      .end-mark {
+        margin: 4rem 0 0; text-align: center; font-family: var(--mono);
+        font-size: 0.72rem; letter-spacing: 0.35em; color: var(--faint);
+      }
+
+      .footer-note {
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--rule);
+        color: var(--muted);
+        font-size: 0.92rem;
+        line-height: 1.65;
+      }
+      .footer-note a { color: var(--ink); border-bottom: 1px solid var(--rule); text-decoration: none; transition: color 150ms ease, border-color 150ms ease; }
+      @media (hover: hover) and (pointer: fine) {
+        .footer-note a:hover { border-color: var(--clay); color: var(--clay); }
+      }
+    </style>
+  </head>
+
+  <body>
+    <input class="nav-active" id="nav-active" type="checkbox" />
+    <label class="nav-underlay" for="nav-active"></label>
+
+    <nav class="nav">
+      <div class="nav__logo">
+        <a href="/" aria-label="Home"><img src="/assets/images/logo-black.svg" alt="Prannay Hebbar" /></a>
+      </div>
+      <div class="nav__toggle"><label for="nav-active"><span>Menu</span></label></div>
+      <div class="nav__options">
+        <ul>
+          <li><a href="/" class="mobile-menu-text">TLDR</a></li>
+          <li><a href="/blog" class="mobile-menu-text">Blogs</a></li>
+          <li><a href="/principles" class="mobile-menu-text">Principles</a></li>
+          <li><a href="/more" class="mobile-menu-text">Other Stuff</a></li>
+          <li><a href="/contact" class="mobile-menu-text">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <header class="header">
+      <h1><a href="/" aria-label="Prannay Hebbar"><img src="/assets/images/logo.svg" alt="Prannay Hebbar" /></a></h1>
+      <ul>
+        <li><a href="/">TLDR</a></li>
+        <li><a href="/blog">Blogs</a></li>
+        <li><a href="/principles">Principles</a></li>
+        <li><a href="/more">Other Stuff</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </header>
+
+    <!-- shared arrow markers -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <defs>
+        <marker id="aInk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1a1915"/></marker>
+        <marker id="aClay" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c25e3f"/></marker>
+        <marker id="aOlive" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#69793f"/></marker>
+        <marker id="aMut" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#a39d8c"/></marker>
+        <pattern id="hatchClay" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+          <line x1="0" y1="0" x2="0" y2="6" stroke="#c25e3f" stroke-width="1.1" opacity="0.32"/>
+        </pattern>
+        <pattern id="hatchInk" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+          <line x1="0" y1="0" x2="0" y2="6" stroke="#1a1915" stroke-width="1" opacity="0.14"/>
+        </pattern>
+      </defs>
+    </svg>
+
+    <main>
+      <article class="article">
+        <a href="/blog" class="back-link">← Blogs</a>
+
+        <p class="eyebrow rise">Field notes · Compute markets</p>
+        <h1 class="rise r2">The Contract<br />Is the Collateral</h1>
+        <div class="meta rise r3">August 2026<span class="sep">|</span>Prannay Hebbar</div>
+
+        <div class="hero rise r4" aria-hidden="true">
+          <svg viewBox="0 0 720 148">
+            <g class="fade"><rect x="40" y="16" width="170" height="56" rx="9" fill="none" stroke="#a39d8c" stroke-width="1.2" stroke-dasharray="5 4"/>
+            <text x="125" y="40" text-anchor="middle" class="f-m">2–3 yr contract</text>
+            <text x="125" y="58" text-anchor="middle" class="f-x">signed first</text></g>
+            <line class="draw" pathLength="1" style="--d:200ms" x1="218" y1="44" x2="268" y2="44" stroke="#1a1915" stroke-width="1.4" marker-end="url(#aInk)"/>
+            <g class="fade" style="--d:340ms"><rect x="276" y="16" width="170" height="56" rx="9" fill="none" stroke="#a39d8c" stroke-width="1.2" stroke-dasharray="5 4"/>
+            <text x="361" y="40" text-anchor="middle" class="f-m">loan</text>
+            <text x="361" y="58" text-anchor="middle" class="f-x">~75% of capex</text></g>
+            <line class="draw" pathLength="1" style="--d:480ms" x1="454" y1="44" x2="504" y2="44" stroke="#1a1915" stroke-width="1.4" marker-end="url(#aInk)"/>
+            <g class="fade" style="--d:620ms"><rect x="512" y="16" width="170" height="56" rx="9" fill="none" stroke="#a39d8c" stroke-width="1.2" stroke-dasharray="5 4"/>
+            <text x="597" y="40" text-anchor="middle" class="f-m">gpus racked</text>
+            <text x="597" y="58" text-anchor="middle" class="f-x">already sold</text></g>
+
+            <line class="draw" pathLength="1" style="--d:760ms;transition-duration:900ms,200ms" x1="40" y1="112" x2="694" y2="112" stroke="#c25e3f" stroke-width="1.6" marker-end="url(#aClay)"/>
+            <text x="40" y="136" class="f-x fade" style="--d:1050ms;fill:#c25e3f">on-demand inventory of new chips: zero</text>
+          </svg>
+        </div>
+
+        <p class="lead rise r5">
+          You cannot rent this year's GPU by the hour. Not from anyone, not at any price. The chips exist and the demand exists. What's missing is a loan structure that allows it.
+        </p>
+
+        <p>
+          Here is how a GPU cloud gets built in 2026. An operator who wants to deploy $200M of hardware does not raise $200M. It signs a customer to a two-or-three year contract first, then borrows against that contract. A lender advances most of the capex, the chips go up, and the customer's monthly payments service the debt. The loan is underwritten on the customer's credit, not the operator's. In the biggest deals the rating agencies say this out loud: the facility is investment grade because the offtaker is investment grade.
+        </p>
+
+        <p>
+          The structure is borrowed from project finance. Power plants, pipelines, and cell towers all got built this way: prove the revenue with a signed contract, then fund the asset against it. For a datacenter shell it works fine. The problem is what it does when the asset is the chip.
+        </p>
+
+        <figure class="plate-fig">
+          <div class="plate-fig__head"><span class="no">Fig. 01</span><span class="t">The presell loop</span></div>
+          <div class="plate-fig__body gridded">
+          <svg viewBox="0 0 720 268" role="img" aria-label="A customer signs a multi-year contract with an operator, who pledges it to a lender for capex; the GPUs bought are locked to the contract and the spot market gets nothing">
+            <g class="pop"><rect x="40" y="30" width="160" height="58" rx="9" fill="#fff" stroke="#1a1915" stroke-width="1.5"/>
+            <text x="120" y="55" text-anchor="middle" class="f-t">CUSTOMER</text>
+            <text x="120" y="73" text-anchor="middle" class="f-s">an AI startup, usually</text></g>
+
+            <line class="draw" pathLength="1" style="--d:180ms" x1="200" y1="59" x2="276" y2="59" stroke="#1a1915" stroke-width="1.3" marker-end="url(#aInk)"/>
+            <text x="238" y="48" text-anchor="middle" class="f-x fade" style="--d:260ms">2–3 yr deal</text>
+
+            <g class="pop" style="--d:300ms"><rect x="280" y="30" width="160" height="58" rx="9" fill="#1a1915"/>
+            <text x="360" y="55" text-anchor="middle" class="f-t" style="fill:#f2efe7">OPERATOR</text>
+            <text x="360" y="73" text-anchor="middle" class="f-s" style="fill:#a39d8c">the GPU cloud</text></g>
+
+            <line class="draw" pathLength="1" style="--d:460ms" x1="440" y1="59" x2="516" y2="59" stroke="#1a1915" stroke-width="1.3" marker-end="url(#aInk)"/>
+            <text x="478" y="48" text-anchor="middle" class="f-x fade" style="--d:540ms">pledges it</text>
+
+            <g class="pop" style="--d:580ms"><rect x="520" y="30" width="160" height="58" rx="9" fill="#fff" stroke="#1a1915" stroke-width="1.5"/>
+            <text x="600" y="55" text-anchor="middle" class="f-t">LENDER</text>
+            <text x="600" y="73" text-anchor="middle" class="f-s">prices the customer's credit</text></g>
+
+            <line class="draw" pathLength="1" style="--d:760ms" x1="600" y1="88" x2="600" y2="150" stroke="#c25e3f" stroke-width="1.4" marker-end="url(#aClay)"/>
+            <text x="612" y="124" class="f-x fade" style="--d:860ms;fill:#c25e3f">~75% of capex</text>
+
+            <g class="pop" style="--d:940ms"><rect x="520" y="152" width="160" height="58" rx="9" fill="#fff" stroke="#c25e3f" stroke-width="1.5"/>
+            <text x="600" y="177" text-anchor="middle" class="f-t" style="fill:#c25e3f">GPUS RACKED</text>
+            <text x="600" y="195" text-anchor="middle" class="f-s">bought with the loan</text></g>
+
+            <line class="draw" pathLength="1" style="--d:1120ms" x1="520" y1="181" x2="446" y2="181" stroke="#1a1915" stroke-width="1.3" marker-end="url(#aInk)"/>
+
+            <g class="pop" style="--d:1200ms"><rect x="280" y="152" width="160" height="58" rx="9" fill="url(#hatchInk)" stroke="#1a1915" stroke-width="1.2"/>
+            <text x="360" y="177" text-anchor="middle" class="f-t">LOCKED</text>
+            <text x="360" y="195" text-anchor="middle" class="f-s">to the contract, full term</text></g>
+
+            <line class="draw" pathLength="1" style="--d:1360ms" x1="280" y1="181" x2="206" y2="181" stroke="#a39d8c" stroke-width="1.3" stroke-dasharray="4 3" marker-end="url(#aMut)"/>
+
+            <g class="fade" style="--d:1480ms"><rect x="40" y="152" width="160" height="58" rx="9" fill="none" stroke="#c25e3f" stroke-width="1.3" stroke-dasharray="5 4"/>
+            <text x="120" y="177" text-anchor="middle" class="f-t" style="fill:#c25e3f">SPOT MARKET</text>
+            <text x="120" y="195" text-anchor="middle" class="f-s" style="fill:#c25e3f">gets nothing</text></g>
+
+            <text x="40" y="248" class="f-x fade" style="--d:1600ms">the loop repeats for every new chip generation</text>
+          </svg>
+          </div>
+          <figcaption class="plate-fig__cap">
+            <b>Fig. 01:</b> The loan is underwritten on the customer's credit, so every chip is sold before it is racked. Nothing reaches the open market.
+          </figcaption>
+        </figure>
+
+        <p>
+          Follow the consequence. Every new-generation chip is committed before it powers on. Whatever the lender financed stays locked to its contract for the full term. So the merchant market in current-generation compute is not thin. It is zero. If you want one node of the newest silicon for a week, the answer everywhere on earth is the same: come back with a three-year commitment and eight figures. The whole supply is spoken for by the financing that bought it.
+        </p>
+
+        <p>
+          The operator in this structure is barely a business. It is a courier between a lender and a customer that holds the depreciation risk and keeps the spread. Its growth is capped by how many creditworthy multi-year customers it can sign, which is why every pitch in this industry is a gigawatt story: the model only scales by finding bigger contracts.
+        </p>
+
+        <div class="part-label">Part one · The fragile book</div>
+
+        <h2><span class="num">01</span>Correlated by construction</h2>
+
+        <p>
+          Now look at who signed those contracts. Mostly AI companies burning venture money, all exposed to the same cycle. A lender's book of these contracts looks diversified on paper: different names, different terms, different vintages. It is not. In a contraction, the customers downsize together, want the newer chip together, and renegotiate or default together. A book of correlated promises is one promise, made many times.
+        </p>
+
+        <p>
+          The industry has started admitting this in public, structurally if not verbally. Chip vendors now backstop the leases of their customers' customers, take warrants for guaranteeing demand for their own product, and rent back idle capacity at floor prices. When the vendor has to guarantee the demand so lenders will finance buying its chips, the contracts alone are not holding the structure up. The guarantee is load-bearing.
+        </p>
+
+        <p>
+          And the collateral underneath moved fast. The hourly price of the last flagship GPU fell from around $8 to under $2 in about two years as supply caught up. Fleets that were financed at the top of that curve still owe debt service priced at the top of that curve. The lesson lenders took was not "avoid GPUs." It was "the contract is the only thing protecting us," which made the presell requirement stricter.
+        </p>
+
+        <div class="part-label">Part two · The book nobody will finance</div>
+
+        <h2><span class="num">02</span>The merchant model</h2>
+
+        <p>
+          There is another way to run a GPU cloud: sell by the minute. No contracts, no lock-in, hundreds of small customers instead of three big ones. In a shortage, on-demand pricing carries a premium over discounted term deals, so the merchant operator earns more per chip-hour than the contracted one. In a downturn it degrades gracefully: the price flexes, utilization holds, and nobody defaults because nobody signed anything.
+        </p>
+
+        <figure class="plate-fig">
+          <div class="plate-fig__head"><span class="no">Fig. 02</span><span class="t">Two books, same downturn</span></div>
+          <div class="plate-fig__body gridded">
+          <svg viewBox="0 0 720 300" role="img" aria-label="A contracted book of three large customers fails together under stress against a fixed debt service line, while a merchant book of many small customers reprices and holds">
+            <text x="170" y="30" text-anchor="middle" class="f-t">CONTRACTED BOOK</text>
+            <text x="170" y="48" text-anchor="middle" class="f-x">3 counterparties · fixed debt service</text>
+
+            <g class="pop"><rect x="60" y="66" width="220" height="52" rx="7" fill="#fff" stroke="#1a1915" stroke-width="1.3"/>
+            <text x="170" y="96" text-anchor="middle" class="f-s">customer A · 55% of revenue</text></g>
+            <g class="pop" style="--d:120ms"><rect x="60" y="126" width="220" height="38" rx="7" fill="#fff" stroke="#1a1915" stroke-width="1.3"/>
+            <text x="170" y="149" text-anchor="middle" class="f-s">customer B · 30%</text></g>
+            <g class="pop" style="--d:240ms"><rect x="60" y="172" width="220" height="26" rx="7" fill="#fff" stroke="#1a1915" stroke-width="1.3"/>
+            <text x="170" y="189" text-anchor="middle" class="f-s">customer C · 15%</text></g>
+
+            <g class="fade" style="--d:600ms">
+              <rect x="60" y="66" width="220" height="52" rx="7" fill="url(#hatchClay)"/>
+              <rect x="60" y="126" width="220" height="38" rx="7" fill="url(#hatchClay)"/>
+              <rect x="60" y="172" width="220" height="26" rx="7" fill="url(#hatchClay)"/>
+            </g>
+            <text x="170" y="228" text-anchor="middle" class="f-m fade" style="--d:760ms;fill:#c25e3f">renegotiate or default together</text>
+
+            <line class="draw" pathLength="1" style="--d:420ms" x1="46" y1="252" x2="294" y2="252" stroke="#1a1915" stroke-width="1.4" stroke-dasharray="6 4"/>
+            <text x="46" y="272" class="f-x fade" style="--d:520ms">debt service · does not flex</text>
+
+            <line x1="360" y1="40" x2="360" y2="270" stroke="#e2ddd0" stroke-width="1"/>
+
+            <text x="540" y="30" text-anchor="middle" class="f-t">MERCHANT BOOK</text>
+            <text x="540" y="48" text-anchor="middle" class="f-x">hundreds of counterparties · price flexes</text>
+
+            <g fill="#69793f">
+              <g class="fade" style="--d:200ms">
+                <rect x="420" y="66" width="18" height="18" rx="3" opacity="0.75"/><rect x="444" y="66" width="18" height="18" rx="3" opacity="0.55"/><rect x="468" y="66" width="18" height="18" rx="3" opacity="0.8"/><rect x="492" y="66" width="18" height="18" rx="3" opacity="0.5"/><rect x="516" y="66" width="18" height="18" rx="3" opacity="0.7"/><rect x="540" y="66" width="18" height="18" rx="3" opacity="0.6"/><rect x="564" y="66" width="18" height="18" rx="3" opacity="0.8"/><rect x="588" y="66" width="18" height="18" rx="3" opacity="0.5"/><rect x="612" y="66" width="18" height="18" rx="3" opacity="0.7"/><rect x="636" y="66" width="18" height="18" rx="3" opacity="0.65"/>
+              </g>
+              <g class="fade" style="--d:320ms">
+                <rect x="420" y="90" width="18" height="18" rx="3" opacity="0.6"/><rect x="444" y="90" width="18" height="18" rx="3" opacity="0.75"/><rect x="468" y="90" width="18" height="18" rx="3" opacity="0.5"/><rect x="492" y="90" width="18" height="18" rx="3" opacity="0.8"/><rect x="516" y="90" width="18" height="18" rx="3" opacity="0.55"/><rect x="540" y="90" width="18" height="18" rx="3" opacity="0.7"/><rect x="564" y="90" width="18" height="18" rx="3" opacity="0.6"/><rect x="588" y="90" width="18" height="18" rx="3" opacity="0.75"/><rect x="612" y="90" width="18" height="18" rx="3" opacity="0.5"/><rect x="636" y="90" width="18" height="18" rx="3" opacity="0.8"/>
+              </g>
+              <g class="fade" style="--d:440ms">
+                <rect x="420" y="114" width="18" height="18" rx="3" opacity="0.7"/><rect x="444" y="114" width="18" height="18" rx="3" opacity="0.55"/><rect x="468" y="114" width="18" height="18" rx="3" opacity="0.75"/><rect x="516" y="114" width="18" height="18" rx="3" opacity="0.65"/><rect x="540" y="114" width="18" height="18" rx="3" opacity="0.5"/><rect x="564" y="114" width="18" height="18" rx="3" opacity="0.8"/><rect x="588" y="114" width="18" height="18" rx="3" opacity="0.6"/><rect x="636" y="114" width="18" height="18" rx="3" opacity="0.7"/>
+              </g>
+              <g class="fade" style="--d:560ms">
+                <rect x="420" y="138" width="18" height="18" rx="3" opacity="0.55"/><rect x="444" y="138" width="18" height="18" rx="3" opacity="0.7"/><rect x="492" y="138" width="18" height="18" rx="3" opacity="0.6"/><rect x="516" y="138" width="18" height="18" rx="3" opacity="0.75"/><rect x="540" y="138" width="18" height="18" rx="3" opacity="0.65"/><rect x="588" y="138" width="18" height="18" rx="3" opacity="0.5"/><rect x="612" y="138" width="18" height="18" rx="3" opacity="0.7"/><rect x="636" y="138" width="18" height="18" rx="3" opacity="0.6"/>
+              </g>
+            </g>
+            <g class="fade" style="--d:700ms" font-family="Lab Grotesque Mono, monospace" font-size="12" fill="#c25e3f">
+              <text x="494" y="128">×</text><text x="590" y="128">×</text><text x="470" y="152">×</text><text x="566" y="152">×</text><text x="614" y="128" opacity="0">·</text>
+            </g>
+            <text x="540" y="189" text-anchor="middle" class="f-m fade" style="--d:820ms;fill:#69793f">a few leave · the rest stay</text>
+
+            <line class="draw" pathLength="1" style="--d:940ms" x1="420" y1="236" x2="560" y2="236" stroke="#69793f" stroke-width="1.5"/>
+            <line class="draw" pathLength="1" style="--d:1100ms" x1="560" y1="236" x2="654" y2="252" stroke="#69793f" stroke-width="1.5" marker-end="url(#aOlive)"/>
+            <text x="420" y="272" class="f-x fade" style="--d:1220ms;fill:#69793f">price flexes · utilization holds</text>
+          </svg>
+          </div>
+          <figcaption class="plate-fig__cap">
+            <b>Fig. 02:</b> Three correlated counterparties fail as one event against fixed debt service. Hundreds of small ones reprice. The second book is the one a risk desk would rather hold.
+          </figcaption>
+        </figure>
+
+        <p>
+          A few operators run this model and run it well. One built a profitable on-demand cloud for a decade before taking its first outside dollar, at a $3.5 billion price. A nonprofit assembled one of the larger H100 fleets in the country and rents it by the hour, no contracts. I spent the last month talking to the people who run these clouds, and the strangest case is the smallest: a two-person shop running an AMD fleet at 100% utilization, customers queued for capacity, profitable, zero debt. It cannot raise a dollar of institutional money.
+        </p>
+
+        <p>
+          The safer book is the one that can't get financed. Venture capital passes because a cash-flowing hardware business is not a power-law bet. Infrastructure credit passes because there is no contract to lend against. The merchant operator sits in the gap between two underwriting traditions, and the gap prices it at zero.
+        </p>
+
+        <p class="pull-quote">
+          The financing system does not lend against revenue. It lends against promises of revenue, and it cannot tell a promise from a good business.
+        </p>
+
+        <div class="part-label">Part three · The rails arriving</div>
+
+        <h2><span class="num">03</span>We ran this experiment in power</h2>
+
+        <p>
+          Electricity markets solved exactly this, starting in the late 1990s. A power plant used to be financeable only with a long-term purchase agreement signed by a utility: same structure, same logic, the contract was the collateral. Then deregulation created merchant plants selling into hourly markets, and for a while they were unfinanceable too. What fixed it was not braver lenders. It was instruments: published price indices, exchange-traded futures, and revenue puts that let a merchant plant hedge its floor. Once the revenue could be hedged, "quasi-merchant" became a financeable category. The instrument replaced the contract.
+        </p>
+
+        <figure class="plate-fig">
+          <div class="plate-fig__head"><span class="no">Fig. 03</span><span class="t">The same market, twenty-five years apart</span></div>
+          <div class="plate-fig__body">
+          <svg viewBox="0 0 720 252" role="img" aria-label="A mapping between how merchant power became financeable and the equivalent instruments now arriving in compute">
+            <text x="185" y="28" text-anchor="middle" class="f-t">POWER · 1998 → 2010s</text>
+            <text x="535" y="28" text-anchor="middle" class="f-t">COMPUTE · 2023 → now</text>
+
+            <g class="pop"><rect x="60" y="46" width="250" height="40" rx="8" fill="#fff" stroke="#1a1915" stroke-width="1.2"/>
+            <text x="185" y="70" text-anchor="middle" class="f-s">purchase agreement, 15–25 yrs</text></g>
+            <g class="pop" style="--d:120ms"><rect x="410" y="46" width="250" height="40" rx="8" fill="#fff" stroke="#1a1915" stroke-width="1.2"/>
+            <text x="535" y="70" text-anchor="middle" class="f-s">compute contract, 2–3 yrs</text></g>
+            <line class="fade" style="--d:240ms" x1="314" y1="66" x2="406" y2="66" stroke="#a39d8c" stroke-width="1.1" stroke-dasharray="3 4"/>
+
+            <g class="pop" style="--d:300ms"><rect x="60" y="98" width="250" height="40" rx="8" fill="#fff" stroke="#1a1915" stroke-width="1.2"/>
+            <text x="185" y="122" text-anchor="middle" class="f-s">merchant plant, hourly market</text></g>
+            <g class="pop" style="--d:420ms"><rect x="410" y="98" width="250" height="40" rx="8" fill="#fff" stroke="#1a1915" stroke-width="1.2"/>
+            <text x="535" y="122" text-anchor="middle" class="f-s">on-demand cloud, by the minute</text></g>
+            <line class="fade" style="--d:540ms" x1="314" y1="118" x2="406" y2="118" stroke="#a39d8c" stroke-width="1.1" stroke-dasharray="3 4"/>
+
+            <g class="pop" style="--d:600ms"><rect x="60" y="150" width="250" height="40" rx="8" fill="#fff" stroke="#69793f" stroke-width="1.3"/>
+            <text x="185" y="174" text-anchor="middle" class="f-s" style="fill:#69793f">indices · futures · revenue puts</text></g>
+            <g class="pop" style="--d:720ms"><rect x="410" y="150" width="250" height="40" rx="8" fill="#fff" stroke="#69793f" stroke-width="1.3"/>
+            <text x="535" y="174" text-anchor="middle" class="f-s" style="fill:#69793f">rental indices · futures · residual insurance</text></g>
+            <line class="fade" style="--d:840ms" x1="314" y1="170" x2="406" y2="170" stroke="#69793f" stroke-width="1.1" stroke-dasharray="3 4"/>
+
+            <g class="pop" style="--d:900ms"><rect x="60" y="202" width="250" height="40" rx="8" fill="#69793f"/>
+            <text x="185" y="226" text-anchor="middle" class="f-s" style="fill:#f2efe7">quasi-merchant: financeable</text></g>
+            <g class="pop" style="--d:1020ms"><rect x="410" y="202" width="250" height="40" rx="8" fill="none" stroke="#c25e3f" stroke-width="1.4" stroke-dasharray="6 4"/>
+            <text x="535" y="226" text-anchor="middle" class="f-s" style="fill:#c25e3f">merchant compute: next</text></g>
+            <line class="fade" style="--d:1140ms" x1="314" y1="222" x2="406" y2="222" stroke="#a39d8c" stroke-width="1.1" stroke-dasharray="3 4"/>
+          </svg>
+          </div>
+          <figcaption class="plate-fig__cap">
+            <b>Fig. 03:</b> Power needed a decade of instrument-building to make merchant revenue bankable. Compute is assembling the same stack in about three years.
+          </figcaption>
+        </figure>
+
+        <p>
+          Compute is speed-running the sequence. GPU rental price indices now publish on financial terminals. Exchange-listed rental futures begin trading this October. Residual-value insurance exists for clusters as small as 500 GPUs, guaranteeing a resale floor on the hardware itself. Non-recourse credit ring-fenced per cluster exists at the $30 to $500 million scale, where a default costs the lender one pod instead of the company.
+        </p>
+
+        <p>
+          Each rail replaces one thing the multi-year contract used to prove. The futures curve proves the price. The insurance proves the salvage value. The utilization history proves the demand. Stack them and the presell requirement stops being load-bearing. What remains of it is habit.
+        </p>
+
+        <h2><span class="num">04</span>The mispricing has an expiry date</h2>
+
+        <p>
+          Put the pieces together. The contracted book is correlated, backstopped by its own vendors, and priced as if the contracts were diversification. The merchant book is diversified, profitable at small scale, and priced at zero because neither underwriting tradition can read it. That gap is a mispricing, and the instruments that close it are already scheduled.
+        </p>
+
+        <p>
+          When merchant compute revenue can be hedged on an exchange, the merchant discount goes away, the same way it went away for power plants. The capital that learns to underwrite diversified hourly cash flow before the futures curve gets liquid buys the safer book at the fragile book's price. In power, that repricing took a decade. In compute, the futures list in six weeks.
+        </p>
+
+        <div class="notes">
+          <div class="notes__label">Notes</div>
+          <div class="notes__grid">
+            <div class="note"><sup>1</sup><b>Offtake</b>: the buyer side of a long-term capacity contract. Project finance rates the deal on the offtaker's credit, not the operator's.</div>
+            <div class="note"><sup>2</sup><b>Advance rate</b>: the share of the asset's cost a lender will fund. GPU deals run roughly 50 to 80%, higher with a contract or insurance attached.</div>
+            <div class="note"><sup>3</sup><b>Merchant</b>: selling into the open market at the going rate instead of under a long-term contract. Borrowed from power markets.</div>
+            <div class="note"><sup>4</sup><b>Backstop</b>: a third party guaranteeing a customer's obligations so a lender will fund the deal. In compute, that third party is increasingly the chip vendor itself.</div>
+            <div class="note"><sup>5</sup><b>Revenue put</b>: an option that pays out if market revenue falls below an agreed floor. The instrument that made merchant power plants bankable.</div>
+            <div class="note"><sup>6</sup><b>Residual-value insurance</b>: a policy guaranteeing a minimum resale price for the hardware at a future date, which caps the lender's downside without any customer contract.</div>
+          </div>
+        </div>
+
+        <div class="end-mark">┄┄ END ┄┄</div>
+
+        <div class="footer-note">
+          Where this came from: a month of conversations with the founders and operators who run these clouds, plus public deal announcements, lender term sheets, and exchange filings. The merchant power analogy is how independent power producers got financed after long-term purchase agreements stopped being mandatory. If you allocate capital in this space and want the underwriting detail behind any claim here, <a href="/contact">write to me</a>.
+        </div>
+      </article>
+    </main>
+
+    <script>
+      (function () {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        const figs = document.querySelectorAll('.plate-fig, .hero');
+        figs.forEach((f) => f.classList.add('fig-anim'));
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) { e.target.classList.add('fig-on'); io.unobserve(e.target); }
+          });
+        }, { threshold: 0.25 });
+        figs.forEach((f) => io.observe(f));
+      })();
+    </script>
+  </body>
+</html>
