@@ -1,307 +1,156 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Prannay</title>
+<!doctype html>
+<html lang="en" data-page="more">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>More · Prannay Hebbar</title>
+  <meta name="description" content="Reading list and the documents from Mister Sparky, the electrician franchise Prannay Hebbar started and closed in Palo Alto.">
+  <link rel="canonical" href="https://prannayh.com/more">
+  <meta property="og:site_name" content="Prannay Hebbar">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="More · Prannay Hebbar">
+  <meta property="og:description" content="Reading list and the Mister Sparky documents.">
+  <meta property="og:url" content="https://prannayh.com/more">
+  <meta property="og:image" content="https://prannayh.com/assets/images/opengraph.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@Pran_Ker">
+  <meta name="twitter:creator" content="@Pran_Ker">
+  <meta name="twitter:title" content="More · Prannay Hebbar">
+  <meta name="twitter:description" content="Reading list and the Mister Sparky documents.">
+  <meta name="twitter:image" content="https://prannayh.com/assets/images/opengraph.png">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="color-scheme" content="light">
+  <link rel="icon" href="/assets/images/favicon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+  <link rel="preload" href="/assets/fonts/LabGrotesque-Light.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/LabGrotesque-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/LabGrotesqueMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/SourceSerif4-Variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="modulepreload" href="/assets/vendor/three.module.min.js">
+  <link rel="modulepreload" href="/assets/js/cubes.js">
+  <link rel="stylesheet" href="/assets/css/white.css">
+  <script>try{if(sessionStorage.getItem('white.entered')==='1')document.documentElement.dataset.entered=''}catch(e){}</script>
+  <script type="module" src="/assets/js/white.js"></script>
+  <noscript><style>#gate{display:none}.ice-fallback{display:block}body[data-state="gate"] .ice--b,body[data-state="gate"] .ice--c{display:block}body[data-state="gate"] .ice--a{right:12vw;top:16vh}body[data-state="gate"]{overflow:auto}.hud,#main,.foot,.floor{opacity:1!important}.reveal,.rise{opacity:1;transform:none;animation:none}.fig__plate>img,.fig__plate>video{opacity:1;filter:none}.fig__plate::after{display:none}</style></noscript>
+</head>
+<body data-state="gate">
 
-    <meta charset="utf-8" />
-    <meta content="ie=edge" http-equiv="x-ua-compatible" />
-    <meta name="handheldfriendly" content="true" />
-    <meta name="viewport" content="initial-scale=1, width=device-width" />
-    <meta
-      name="description"
-      content="Random thoughts, side projects, and interesting things by Prannay Hebbar"
-    />
-    <meta name="theme-color" content="#000000" />
+<a class="skip" href="#main" data-no-router>Skip to content</a>
 
-    <meta property="og:site_name" content="Prannay Hebbar" />
-    <meta property="og:title" content="Other Stuff by Prannay Hebbar" />
-    <meta
-      property="og:description"
-      content="Random thoughts, side projects, and interesting things by Prannay Hebbar"
-    />
-    <meta property="og:url" content="/more" />
-    <meta property="og:type" content="website" />
+<canvas id="cubes" aria-hidden="true"></canvas>
+<div class="floor" aria-hidden="true"></div>
+<div class="ice-fallback" aria-hidden="true">
+  <div class="ice ice--a"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="ice ice--b"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="ice ice--c"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+</div>
 
-    <link rel="canonical" href="/more" />
-    <link rel="icon" href="/assets/images/favicon-32.png" />
-    <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png" />
+<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-cta" aria-describedby="gate-sub">
+  <span class="gate__name">Prannay Hebbar</span>
+  <div class="gate__center">
+    <button class="gate__cta" id="gate-cta" type="button"><span class="mark" aria-hidden="true"></span>Press to enter</button>
+    <p class="gate__sub" id="gate-sub">Sound on. One track, on loop. Nothing autoplays without you.</p>
+  </div>
+  <span class="gate__hint mono">Enter · Space · Click</span>
+</div>
 
-    <link rel="preload" href="/assets/fonts/LabGrotesque-Regular.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/assets/fonts/LabGrotesque-Medium.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/assets/fonts/LabGrotesque-Bold.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="/assets/css/style.css" />
-    <link rel="stylesheet" href="/assets/css/print.css" media="print" />
+<header class="hud">
+  <a class="wordmark" href="/" aria-label="Prannay Hebbar, home">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 21 7v10l-9 5-9-5V7z"/><path d="M3 7l9 5 9-5M12 12v10"/></svg>
+    <span>Prannay Hebbar</span>
+  </a>
+  <nav class="nav" aria-label="Primary">
+    <a href="/">Home</a>
+    <a href="/blog">Writing</a>
+    <a href="/principles">Principles</a>
+    <a href="/gallery">Gallery</a>
+    <a href="/more" aria-current="page">More</a>
+    <a href="/contact">Contact</a>
+  </nav>
+  <div class="transport" role="group" aria-label="Music">
+    <span class="tp-track"><span class="tp-title">Little Voices</span><span class="tp-artist">Lane 8</span></span>
+    <button class="tp-tap" type="button" hidden>Tap for sound</button>
+    <button class="tp-btn tp-mute" type="button" data-on="false" aria-label="Mute">
+      <svg class="ico-off" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5h1.8L6 1.5v7L3.3 6.5H1.5z" fill="currentColor"/><path d="M7.2 3.3a2.4 2.4 0 0 1 0 3.4" stroke="currentColor" stroke-width=".9" fill="none"/></svg>
+      <svg class="ico-on" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5h1.8L6 1.5v7L3.3 6.5H1.5z" fill="currentColor"/><path d="M7 3.8l2 2.4M9 3.8l-2 2.4" stroke="currentColor" stroke-width=".9"/></svg>
+    </button>
+    <span class="tp-time"><span class="vh">Elapsed </span><span class="tp-time__v">00:00</span></span>
+    <span class="beat" aria-hidden="true"></span>
+    <span class="tp-status vh" aria-live="polite"></span>
+  </div>
+</header>
 
-    <style>
-      .book-row {
-        display: flex !important;
-        flex-direction: row !important;
-        flex-wrap: wrap;
-        gap: 6px;
-        margin-top: 1rem;
-        padding: 0;
-        list-style: none;
-      }
-      .book-row a {
-        flex: 0 0 auto;
-        display: block;
-        text-decoration: none !important;
-        border: none !important;
-        transition: transform 200ms cubic-bezier(0.23, 1, 0.32, 1);
-      }
-      .book-row a:hover {
-        transform: translateY(-2px);
-      }
-      .book-row img {
-        display: block;
-        width: 44px;
-        height: 66px;
-        object-fit: cover;
-        border-radius: 2px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
-      }
-    </style>
+<main id="main" data-page="more" tabindex="-1">
+  <style data-page>
+    /* More: page head, the covers wall, two short sections. Everything else is the system. */
+    main[data-page="more"] .body { position: relative; z-index: 1; }
+    main[data-page="more"] .links { position: relative; z-index: 1; display: flex; flex-wrap: wrap; gap: var(--s2) var(--s4); margin-top: var(--s3); font-family: var(--sans); font-size: var(--t0); }
+    main[data-page="more"] .links a { border-bottom: 1px solid var(--hair); transition: border-color var(--fast); }
+    main[data-page="more"] .links a:hover, main[data-page="more"] .links a:focus-visible { border-color: var(--ink); }
+  </style>
 
-    <script defer src="/assets/js/script.js" type="module"></script>
-  </head>
+  <section class="page-head wrap" aria-labelledby="more-h">
+    <div class="page-head__copy">
+      <h1 id="more-h" class="rise" style="--i:0">More</h1>
+      <p class="lede rise" style="--i:2">Books, and the documents from a business I started and closed.</p>
+    </div>
+  </section>
 
-  <body>
-    <input class="nav-active" id="nav-active" type="checkbox" />
+  <section class="section wrap haze" aria-labelledby="reading-h">
+    <div class="sh reveal">
+      <h2 id="reading-h">Reading</h2>
+      <span class="sh__meta"><a href="https://www.goodreads.com/user/show/193930535-prannay-hebbar" target="_blank" rel="noopener">All on Goodreads<span class="ext" aria-hidden="true">↗</span><span class="vh"> (opens in a new tab)</span></a></span>
+    </div>
+    <ul class="covers covers--wall reveal">
+      <li><a href="https://www.goodreads.com/book/show/3828902-thinking-in-systems" target="_blank" rel="noopener"><img src="/assets/images/books/thinking-in-systems.jpg" width="265" height="400" alt="" loading="lazy" decoding="async"><span class="t">Thinking in Systems</span><span class="a">Donella H. Meadows</span><span class="vh"> (opens in a new tab)</span></a></li>
+      <li><a href="https://www.goodreads.com/book/show/18050143-zero-to-one" target="_blank" rel="noopener"><img src="/assets/images/books/zero-to-one.jpg" width="316" height="475" alt="" loading="lazy" decoding="async"><span class="t">Zero to One</span><span class="a">Peter Thiel</span><span class="vh"> (opens in a new tab)</span></a></li>
+      <li><a href="https://www.goodreads.com/book/show/18171.Playing_to_Win" target="_blank" rel="noopener"><img src="/assets/images/books/playing-to-win.jpg" width="316" height="475" alt="" loading="lazy" decoding="async"><span class="t">Playing to Win</span><span class="a">David Sirlin</span><span class="vh"> (opens in a new tab)</span></a></li>
+      <li><a href="https://www.goodreads.com/book/show/18172.Hardball" target="_blank" rel="noopener"><img src="/assets/images/books/hardball.jpg" width="310" height="475" alt="" loading="lazy" decoding="async"><span class="t">Hardball</span><span class="a">George Stalk Jr.</span><span class="vh"> (opens in a new tab)</span></a></li>
+      <li><a href="https://www.goodreads.com/book/show/13155290-several-short-sentences-about-writing" target="_blank" rel="noopener"><img src="/assets/images/books/several-short-sentences.jpg" width="200" height="300" alt="" loading="lazy" decoding="async"><span class="t">Several Short Sentences About Writing</span><span class="a">Verlyn Klinkenborg</span><span class="vh"> (opens in a new tab)</span></a></li>
+      <li><a href="https://www.goodreads.com/book/show/6545885-white" target="_blank" rel="noopener"><img src="/assets/images/books/white.jpg" width="318" height="458" alt="" loading="lazy" decoding="async"><span class="t">White</span><span class="a">Kenya Hara</span><span class="vh"> (opens in a new tab)</span></a></li>
+      <li><a href="https://www.goodreads.com/book/show/1900133.Srimad_Bhagavatam" target="_blank" rel="noopener"><img src="/assets/images/books/srimad-bhagavatam.jpg" width="293" height="475" alt="" loading="lazy" decoding="async"><span class="t">Srimad-Bhagavatam</span><span class="a">A.C. Bhaktivedanta</span><span class="vh"> (opens in a new tab)</span></a></li>
+      <li><a href="https://www.goodreads.com/book/show/42591890-buy-then-build" target="_blank" rel="noopener"><img src="/assets/images/books/buy-then-build.jpg" width="308" height="475" alt="" loading="lazy" decoding="async"><span class="t">Buy Then Build</span><span class="a">Walker Deibel</span><span class="vh"> (opens in a new tab)</span></a></li>
+      <li><a href="https://www.goodreads.com/book/show/13589182-mastery" target="_blank" rel="noopener"><img src="/assets/images/books/mastery.jpg" width="267" height="400" alt="" loading="lazy" decoding="async"><span class="t">Mastery</span><span class="a">Robert Greene</span><span class="vh"> (opens in a new tab)</span></a></li>
+      <li><a href="https://www.goodreads.com/book/show/41668.My_Side_of_the_Mountain_Trilogy" target="_blank" rel="noopener"><img src="/assets/images/books/my-side-of-the-mountain.jpg" width="318" height="464" alt="" loading="lazy" decoding="async"><span class="t">My Side of the Mountain Trilogy</span><span class="a">Jean Craighead George</span><span class="vh"> (opens in a new tab)</span></a></li>
+    </ul>
+  </section>
 
-    <label class="nav-underlay" for="nav-active"></label>
 
-    <nav class="nav">
-      <div class="nav__logo">
-        <a href="/" aria-label="Home"
-          ><img src="/assets/images/logo-black.svg" alt="Prannay Hebbar"
-        /></a>
-      </div>
+  <section class="section wrap haze" aria-labelledby="sparky-h">
+    <div class="sh reveal">
+      <h2 id="sparky-h">Mister Sparky</h2>
+      <span class="sh__meta">Palo Alto · 2024 – 2025</span>
+    </div>
+    <p class="body reveal">The documents from starting a residential electrician franchise and walking away two months later. FDD, lease, equipment, the loan I cancelled.</p>
+    <p class="links reveal">
+      <a href="https://drive.google.com/drive/folders/1FexynuLs0T8VY-cIa7MMHkYOeZiTxCa6?usp=sharing" target="_blank" rel="noopener">Documents<span class="ext" aria-hidden="true">↗</span><span class="vh"> (opens in a new tab)</span></a>
+      <a href="https://youtu.be/GKuBISIS0sw?si=yxkNLJne__xhDOi-" target="_blank" rel="noopener">Video<span class="ext" aria-hidden="true">↗</span><span class="vh"> (opens in a new tab)</span></a>
+    </p>
+  </section>
 
-      <div class="nav__toggle">
-        <label for="nav-active">
-          <span>Menu</span>
-        </label>
-      </div>
+</main>
 
-      <div class="nav__options">
-        <ul>
-          <li>
-            <a href="/" class="mobile-menu-text" aria-label="TLDR"
-              >TLDR</a
-            >
-          </li>
-          <li>
-            <a href="/blog" class="mobile-menu-text" aria-label="Blogs"
-              >Blogs</a
-            >
-          </li>
-          <li>
-            <a
-              href="/principles"
-              class="mobile-menu-text"
-              aria-label="Principles"
-              >Principles</a
-            >
-          </li>
-          <li>
-            <a
-              href="/more"
-              class="mobile-menu-text"
-              aria-label="Other Stuff"
-              >Other Stuff</a
-            >
-          </li>
-          <li>
-            <a href="/contact" class="mobile-menu-text" aria-label="Contact"
-              >Contact</a
-            >
-          </li>
-        </ul>
-        <div class="social-bar">
-          <div class="social-icons">
-            <div>
-              <a href="https://x.com/Pran_Ker" target="_blank" rel="noopener"
-                ><svg viewBox="0 0 512 512" width="1em" height="1em" fill="currentColor"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/></svg
-              ></a>
-            </div>
-            <div>
-              <a
-                href="https://github.com/Pran-Ker"
-                target="_blank"
-                rel="noopener"
-                ><svg viewBox="0 0 496 512" width="1em" height="1em" fill="currentColor"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.8-14.9-112.8-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg
-              ></a>
-            </div>
-            <div>
-              <a
-                href="https://www.linkedin.com/in/prannay/"
-                target="_blank"
-                rel="noopener"
-                ><svg viewBox="0 0 448 512" width="1em" height="1em" fill="currentColor"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg
-              ></a>
-            </div>
-            <div>
-              <a
-                href="https://www.instagram.com/prannay.hebbar/"
-                target="_blank"
-                rel="noopener"
-                ><svg viewBox="0 0 448 512" width="1em" height="1em" fill="currentColor"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg
-              ></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
+<footer class="foot">
+  <div class="wrap grid">
+    <ul class="foot__links">
+      <li><a href="https://x.com/Pran_Ker" target="_blank" rel="noopener">X</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://github.com/Pran-Ker" target="_blank" rel="noopener">GitHub</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://www.linkedin.com/in/prannay/" target="_blank" rel="noopener">LinkedIn</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://scholar.google.com/citations?user=Y3jw_UgAAAAJ" target="_blank" rel="noopener">Scholar</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://www.goodreads.com/user/show/193930535-prannay-hebbar" target="_blank" rel="noopener">Goodreads</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://medium.com/@Pran-Ker" target="_blank" rel="noopener">Medium</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://huggingface.co/Pran-Ker" target="_blank" rel="noopener">Hugging Face</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://openreview.net/profile?id=%7EPrannay_Hebbar1" target="_blank" rel="noopener">OpenReview</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://calendly.com/prannay/consulting" target="_blank" rel="noopener">Calendly</a><span aria-hidden="true">↗</span></li>
+    </ul>
+    <div class="foot__base">
+      <span>© 2026 Prannay Hebbar</span>
+      <span>San Francisco</span>
+    </div>
+  </div>
+</footer>
 
-    <header class="header">
-      <h1>
-        <a href="/" aria-label="Prannay Hebbar"
-          ><img src="/assets/images/logo.svg" alt="Prannay Hebbar"
-        /></a>
-      </h1>
-
-      <ul>
-        <li><a href="/" aria-label="TLDR">TLDR</a></li>
-        <li><a href="/blog" aria-label="Blogs">Blogs</a></li>
-        <li>
-          <a href="/principles" aria-label="Principles">Principles</a>
-        </li>
-        <li>
-          <a href="/more" aria-label="Other Stuff">Other Stuff</a>
-        </li>
-        <li><a href="/contact" aria-label="Contact">Contact</a></li>
-      </ul>
-    </header>
-
-    <main>
-      <section class="page">
-        <div class="page__headline">
-          <h4>Other Stuff</h4>
-        </div>
-
-        <div class="thoughts">
-          <div class="thoughts__container">
-            <div class="thoughts__thought">
-              <h3>
-                <a
-                  href="https://www.goodreads.com/user/show/193930535-prannay-hebbar"
-                  target="_blank"
-                  rel="noopener"
-                  >Reading List &#x2197;</a>
-              </h3>
-              <p class="common-description">
-                These are the books I am reading or have read.
-              </p>
-              <a
-                class="button button--dim"
-                href="https://www.goodreads.com/user/show/193930535-prannay-hebbar"
-                target="_blank"
-                rel="noopener"
-                >View on Goodreads<span>&rarr;</span></a
-              >
-
-              <div class="book-row">
-                <a title="Thinking In Systems by Donella H. Meadows" href="https://www.goodreads.com/book/show/3828902-thinking-in-systems" target="_blank" rel="noopener"><img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1390169859l/3828902.jpg" alt="Thinking In Systems" loading="lazy" /></a>
-                <a title="Zero to One by Peter Thiel" href="https://www.goodreads.com/book/show/18050143-zero-to-one" target="_blank" rel="noopener"><img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1630663027l/18050143.jpg" alt="Zero to One" loading="lazy" /></a>
-                <a title="Playing to Win by David Sirlin" href="https://www.goodreads.com/book/show/18171.Playing_to_Win" target="_blank" rel="noopener"><img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1386924486l/18171.jpg" alt="Playing to Win" loading="lazy" /></a>
-                <a title="Hardball by George Stalk Jr." href="https://www.goodreads.com/book/show/18172.Hardball" target="_blank" rel="noopener"><img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1422285044l/18172.jpg" alt="Hardball" loading="lazy" /></a>
-                <a title="Several Short Sentences About Writing by Verlyn Klinkenborg" href="https://www.goodreads.com/book/show/13155290-several-short-sentences-about-writing" target="_blank" rel="noopener"><img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1340986581l/13155290.jpg" alt="Several Short Sentences About Writing" loading="lazy" /></a>
-                <a title="White by Kenya Hara" href="https://www.goodreads.com/book/show/6545885-white" target="_blank" rel="noopener"><img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1390624147l/6545885.jpg" alt="White" loading="lazy" /></a>
-                <a title="Srimad-Bhagavatam by A.C. Bhaktivedanta" href="https://www.goodreads.com/book/show/1900133.Srimad_Bhagavatam" target="_blank" rel="noopener"><img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1190041990l/1900133.jpg" alt="Srimad-Bhagavatam" loading="lazy" /></a>
-                <a title="Buy Then Build by Walker Deibel" href="https://www.goodreads.com/book/show/42591890-buy-then-build" target="_blank" rel="noopener"><img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1540914300l/42591890.jpg" alt="Buy Then Build" loading="lazy" /></a>
-                <a title="Mastery by Robert Greene" href="https://www.goodreads.com/book/show/13589182-mastery" target="_blank" rel="noopener"><img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1348274726l/13589182.jpg" alt="Mastery" loading="lazy" /></a>
-                <a title="My Side of the Mountain Trilogy by Jean Craighead George" href="https://www.goodreads.com/book/show/41668.My_Side_of_the_Mountain_Trilogy" target="_blank" rel="noopener"><img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1388293502l/41668.jpg" alt="My Side of the Mountain Trilogy" loading="lazy" /></a>
-              </div>
-            </div>
-
-            <div class="thoughts__thought">
-              <h3>
-                <a href="/research-read">Research Feed &#x2197;</a>
-              </h3>
-              <p class="common-description">
-                Personal weekly research paper feed from the major labs.
-              </p>
-              <a class="button button--dim" href="/research-read">View feed<span>&rarr;</span></a>
-            </div>
-
-            <div class="thoughts__thought">
-              <h3>
-                <a
-                  href="https://drive.google.com/drive/folders/1FexynuLs0T8VY-cIa7MMHkYOeZiTxCa6?usp=sharing"
-                  target="_blank"
-                  rel="noopener"
-                  >Mister Sparky Startup &#x2197;</a>
-
-              </h3>
-              <p class="common-description">
-                Documents from starting Mister Sparky (electrician business).
-              </p>
-              <a
-                class="button button--dim"
-                href="https://drive.google.com/drive/folders/1FexynuLs0T8VY-cIa7MMHkYOeZiTxCa6?usp=sharing"
-                target="_blank"
-                rel="noopener"
-                >View documents<span>&rarr;</span></a
-              >
-              <p class="common-description">
-                <a
-                  href="https://youtu.be/GKuBISIS0sw?si=yxkNLJne__xhDOi-"
-                  target="_blank"
-                  rel="noopener"
-                  style="color: var(--color-cyan); text-decoration: none"
-                  >Watch video &rarr;</a
-                >
-              </p>
-            </div>
-
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <footer class="footer">
-      <ul class="social-icons">
-        <li>
-          <a
-            href="https://x.com/Pran_Ker"
-            target="_blank"
-            rel="noopener"
-            aria-label="Twitter"
-          >
-            <svg viewBox="0 0 512 512" width="1em" height="1em" fill="currentColor"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/></svg>
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://github.com/Pran-Ker"
-            target="_blank"
-            rel="noopener"
-            aria-label="GitHub"
-          >
-            <svg viewBox="0 0 496 512" width="1em" height="1em" fill="currentColor"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.8-14.9-112.8-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://www.linkedin.com/in/prannay/"
-            target="_blank"
-            rel="noopener"
-            aria-label="LinkedIn"
-          >
-            <svg viewBox="0 0 448 512" width="1em" height="1em" fill="currentColor"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://www.instagram.com/prannay.hebbar/"
-            target="_blank"
-            rel="noopener"
-            aria-label="Instagram"
-          >
-            <svg viewBox="0 0 448 512" width="1em" height="1em" fill="currentColor"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg>
-          </a>
-        </li>
-      </ul>
-    </footer>
-  </body>
+</body>
 </html>

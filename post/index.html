@@ -1,541 +1,365 @@
-<!DOCTYPE html>
-<html lang="en" class="is-signal">
-  <head>
-    <title>Prannay</title>
+<!doctype html>
+<html lang="en" data-page="essay">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prannay Hebbar</title>
+  <meta name="description" content="Notes and documents by Prannay Hebbar.">
+  <link rel="canonical" href="https://prannayh.com/post">
+  <meta name="robots" content="noindex, follow">
+  <meta property="og:site_name" content="Prannay Hebbar">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Prannay Hebbar">
+  <meta property="og:description" content="Notes and documents by Prannay Hebbar.">
+  <meta property="og:url" content="https://prannayh.com/post">
+  <meta property="og:image" content="https://prannayh.com/assets/images/opengraph.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@Pran_Ker">
+  <meta name="twitter:creator" content="@Pran_Ker">
+  <meta name="twitter:title" content="Prannay Hebbar">
+  <meta name="twitter:description" content="Notes and documents by Prannay Hebbar.">
+  <meta name="twitter:image" content="https://prannayh.com/assets/images/opengraph.png">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="color-scheme" content="light">
+  <link rel="icon" href="/assets/images/favicon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+  <link rel="preload" href="/assets/fonts/LabGrotesque-Light.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/LabGrotesque-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/LabGrotesqueMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/SourceSerif4-Variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="modulepreload" href="/assets/vendor/three.module.min.js">
+  <link rel="modulepreload" href="/assets/js/cubes.js">
+  <link rel="modulepreload" href="/assets/vendor/marked.esm.js">
+  <link rel="stylesheet" href="/assets/css/white.css">
+  <script>try{if(sessionStorage.getItem('white.entered')==='1')document.documentElement.dataset.entered=''}catch(e){}</script>
+  <script type="module" src="/assets/js/white.js"></script>
+  <noscript><style>#gate{display:none}.ice-fallback{display:block}body[data-state="gate"] .ice--b,body[data-state="gate"] .ice--c{display:block}body[data-state="gate"] .ice--a{right:12vw;top:16vh}body[data-state="gate"]{overflow:auto}.hud,#main,.foot,.floor{opacity:1!important}.reveal,.rise{opacity:1;transform:none;animation:none}.fig__plate>img,.fig__plate>video{opacity:1;filter:none}.fig__plate::after{display:none}</style></noscript>
+</head>
+<body data-state="gate">
 
-    <meta charset="utf-8" />
-    <meta content="ie=edge" http-equiv="x-ua-compatible" />
-    <meta name="handheldfriendly" content="true" />
-    <meta name="viewport" content="initial-scale=1, width=device-width" />
-    <meta name="description" content="Content page" />
-    <meta name="theme-color" content="#000000" />
+<a class="skip" href="#main" data-no-router>Skip to content</a>
 
-    <link rel="canonical" href="/post" />
-    <link rel="icon" href="/assets/images/favicon-32.png" />
-    <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png" />
+<canvas id="cubes" aria-hidden="true"></canvas>
+<div class="floor" aria-hidden="true"></div>
+<div class="ice-fallback" aria-hidden="true">
+  <div class="ice ice--a"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="ice ice--b"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="ice ice--c"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+</div>
 
-    <link rel="preload" href="/assets/fonts/LabGrotesque-Regular.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/assets/fonts/LabGrotesque-Medium.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/assets/fonts/LabGrotesque-Bold.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="/assets/css/style.css" />
-    <link rel="stylesheet" href="/assets/css/print.css" media="print" />
+<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-cta" aria-describedby="gate-sub">
+  <span class="gate__name">Prannay Hebbar</span>
+  <div class="gate__center">
+    <button class="gate__cta" id="gate-cta" type="button"><span class="mark" aria-hidden="true"></span>Press to enter</button>
+    <p class="gate__sub" id="gate-sub">Sound on. One track, on loop. Nothing autoplays without you.</p>
+  </div>
+  <span class="gate__hint mono">Enter · Space · Click</span>
+</div>
 
-    <style>
-      html {
-        scroll-behavior: smooth;
-      }
+<header class="hud">
+  <a class="wordmark" href="/" aria-label="Prannay Hebbar, home">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 21 7v10l-9 5-9-5V7z"/><path d="M3 7l9 5 9-5M12 12v10"/></svg>
+    <span>Prannay Hebbar</span>
+  </a>
+  <nav class="nav" aria-label="Primary">
+    <a href="/">Home</a>
+    <a href="/blog">Writing</a>
+    <a href="/principles">Principles</a>
+    <a href="/gallery">Gallery</a>
+    <a href="/more">More</a>
+    <a href="/contact">Contact</a>
+  </nav>
+  <div class="transport" role="group" aria-label="Music">
+    <span class="tp-track"><span class="tp-title">Little Voices</span><span class="tp-artist">Lane 8</span></span>
+    <button class="tp-tap" type="button" hidden>Tap for sound</button>
+    <button class="tp-btn tp-mute" type="button" data-on="false" aria-label="Mute">
+      <svg class="ico-off" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5h1.8L6 1.5v7L3.3 6.5H1.5z" fill="currentColor"/><path d="M7.2 3.3a2.4 2.4 0 0 1 0 3.4" stroke="currentColor" stroke-width=".9" fill="none"/></svg>
+      <svg class="ico-on" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5h1.8L6 1.5v7L3.3 6.5H1.5z" fill="currentColor"/><path d="M7 3.8l2 2.4M9 3.8l-2 2.4" stroke="currentColor" stroke-width=".9"/></svg>
+    </button>
+    <span class="tp-time"><span class="vh">Elapsed </span><span class="tp-time__v">00:00</span></span>
+    <span class="beat" aria-hidden="true"></span>
+    <span class="tp-status vh" aria-live="polite"></span>
+  </div>
+</header>
 
-      /* anchor offset for fixed header */
-      .blog-article-content h2,
-      .blog-article-content h3 {
-        scroll-margin-top: 2rem;
-      }
-    </style>
+<main id="main" data-page="essay" tabindex="-1">
+<style data-page>
+  /* /post — the Markdown renderer. Same column and the same head as an essay (rule → meta → title → deck); only what
+     Markdown can produce and white.css does not already cover is styled here. */
+  main[data-page="essay"] .post { min-height: calc(100svh - var(--top)); }
+  main[data-page="essay"] .post .essay__title:empty { min-height: 1.02em; }
+  /* the title takes focus after Previous/Next, as #main does after a route: a landing, not a control, so no ring */
+  main[data-page="essay"] .post .essay__title:focus, main[data-page="essay"] .post .essay__title:focus-visible { outline: none; box-shadow: none; }
+  main[data-page="essay"] .post .essay__deck:empty { display: none; }
+  main[data-page="essay"] .post .essay__meta:empty { display: none; }
 
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+  /* the column arrives once the document has: nothing flashes, nothing spins. Between documents the previous
+     one fades while the next is fetched, so the move is old → new, never old → white → new. */
+  main[data-page="essay"] .post__doc { opacity: 0; transform: translateY(8px); transition: opacity .6s var(--ease-out), transform .8s var(--ease-out); }
+  main[data-page="essay"] .post.is-ready .post__doc { opacity: 1; transform: none; }
 
-    <!-- Markdown parser -->
-    <script defer src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  /* Markdown constructs white.css leaves alone (blockquote, img, h4 are the system's) */
+  main[data-page="essay"] .prose th { white-space: nowrap; }
+  main[data-page="essay"] .prose td:last-child, main[data-page="essay"] .prose th:last-child { padding-right: 0; }
+  main[data-page="essay"] .prose .katex-display { overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+  main[data-page="essay"] .prose .katex { font-size: 1.05em; }
 
-    <!-- Syntax highlighting (CSS loaded async, not render-blocking) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" media="print" onload="this.media='all'" />
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  /* code reads as it does in the essays: comments recede, keywords sit one step back, everything else is ink */
+  main[data-page="essay"] .prose pre .hljs-comment,
+  main[data-page="essay"] .prose pre .hljs-quote { color: var(--ash); }
+  main[data-page="essay"] .prose pre .hljs-keyword,
+  main[data-page="essay"] .prose pre .hljs-built_in,
+  main[data-page="essay"] .prose pre .hljs-literal,
+  main[data-page="essay"] .prose pre .hljs-type,
+  main[data-page="essay"] .prose pre .hljs-selector-tag,
+  main[data-page="essay"] .prose pre .hljs-meta { color: var(--graphite); }
 
-    <!-- KaTeX for math rendering (CSS loaded async) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" media="print" onload="this.media='all'" />
-    <script
-      defer
-      src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"
-    ></script>
-    <script
-      defer
-      src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
-    ></script>
+  /* nothing to render: the 404 voice, inside the column */
+  main[data-page="essay"] .post__empty { font-family: var(--serif); font-size: var(--t-body); line-height: var(--lh-body); color: var(--graphite); max-width: 40ch; }
+  main[data-page="essay"] .post__empty a { border-bottom: 1px solid var(--hair); } main[data-page="essay"] .post__empty a:hover { border-color: var(--ink); }
 
-    <script defer src="/assets/js/script.js" type="module"></script>
-  </head>
+  @media (prefers-reduced-motion: reduce) {
+    main[data-page="essay"] .post__doc { opacity: 1; transform: none; transition: none; }
+  }
+  @media print {
+    main[data-page="essay"] .post__doc { opacity: 1; transform: none; }
+  }
+</style>
 
-  <body>
-    <input class="nav-active" id="nav-active" type="checkbox" />
-    <label class="nav-underlay" for="nav-active"></label>
-
-    <nav class="nav">
-      <div class="nav__logo">
-        <a href="/" aria-label="Home"
-          ><img src="/assets/images/logo-black.svg" alt="Prannay Hebbar"
-        /></a>
-      </div>
-
-      <div class="nav__toggle">
-        <label for="nav-active">
-          <span>Menu</span>
-        </label>
-      </div>
-
-      <div class="nav__options">
-        <ul>
-          <li>
-            <a href="/" class="mobile-menu-text" aria-label="TLDR"
-              >TLDR</a
-            >
-          </li>
-          <li>
-            <a href="/blog" class="mobile-menu-text" aria-label="Blogs"
-              >Blogs</a
-            >
-          </li>
-          <li>
-            <a
-              href="/principles"
-              class="mobile-menu-text"
-              aria-label="Principles"
-              >Principles</a
-            >
-          </li>
-          <li>
-            <a
-              href="/more"
-              class="mobile-menu-text"
-              aria-label="Other Stuff"
-              >Other Stuff</a
-            >
-          </li>
-          <li>
-            <a href="/contact" class="mobile-menu-text" aria-label="Contact"
-              >Contact</a
-            >
-          </li>
-        </ul>
-        <div class="social-bar">
-          <div class="social-icons">
-            <div>
-              <a href="https://x.com/Pran_Ker" target="_blank" rel="noopener"
-                ><svg viewBox="0 0 512 512" width="1em" height="1em" fill="currentColor"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/></svg
-              ></a>
-            </div>
-            <div>
-              <a
-                href="https://github.com/Pran-Ker"
-                target="_blank"
-                rel="noopener"
-                ><svg viewBox="0 0 496 512" width="1em" height="1em" fill="currentColor"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.8-14.9-112.8-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg
-              ></a>
-            </div>
-            <div>
-              <a
-                href="https://www.linkedin.com/in/prannay/"
-                target="_blank"
-                rel="noopener"
-                ><svg viewBox="0 0 448 512" width="1em" height="1em" fill="currentColor"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg
-              ></a>
-            </div>
-            <div>
-              <a
-                href="https://www.instagram.com/prannay.hebbar/"
-                target="_blank"
-                rel="noopener"
-                ><svg viewBox="0 0 448 512" width="1em" height="1em" fill="currentColor"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg
-              ></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
-
-    <header class="header">
-      <h1>
-        <a href="/" aria-label="Prannay Hebbar"
-          ><img src="/assets/images/logo.svg" alt="Prannay Hebbar"
-        /></a>
-      </h1>
-
-      <ul>
-        <li><a href="/" aria-label="TLDR">TLDR</a></li>
-        <li><a href="/blog" aria-label="Blogs">Blogs</a></li>
-        <li>
-          <a href="/principles" aria-label="Principles">Principles</a>
-        </li>
-        <li>
-          <a href="/more" aria-label="Other Stuff">Other Stuff</a>
-        </li>
-        <li><a href="/contact" aria-label="Contact">Contact</a></li>
-      </ul>
+<div class="wrap">
+<article class="essay haze post" id="post" aria-labelledby="post-title" aria-busy="true">
+  <p class="vh" id="post-status" aria-live="polite"></p>
+  <div class="post__doc">
+    <header class="essay__head">
+      <p class="essay__meta" id="post-meta"></p>
+      <h1 id="post-title" class="essay__title" tabindex="-1"></h1>
+      <p class="essay__deck" id="post-deck"></p>
     </header>
+    <div class="prose" id="post-body"></div>
+    <nav class="pn" id="post-nav" aria-label="Previous and next essay" hidden></nav>
+  </div>
+</article>
+</div>
 
-    <div class="reading-progress" aria-hidden="true">
-      <div class="reading-progress__fill" id="reading-progress-fill"></div>
-    </div>
+<script type="module" data-page>
+  import { marked } from '/assets/vendor/marked.esm.js';
 
-    <main class="blog-post-main is-loading">
-      <!-- Blog post heading -->
-      <div class="blog-post-heading">
-        <h1 class="blog-post-title" id="blog-title"></h1>
-        <div class="blog-post-metadata" id="blog-metadata">
-          <!-- Reading time will be inserted here -->
-        </div>
-      </div>
+  // code colour and math are not needed to read the text, so they load only when a document uses them
+  const HLJS = '/assets/vendor/highlight.esm.js';
+  const KATEX_AUTO = '/assets/vendor/katex/contrib/auto-render.mjs';
+  const KATEX_CSS = '/assets/vendor/katex/katex.min.css';
 
-      <!-- Back button -->
-      <div class="back-button-container">
-        <button onclick="history.back()" class="button--small-back">
-          ← Back
-        </button>
-      </div>
+  const root = document.getElementById('post');
+  if (root) mount(root);
 
-      <!-- Left-side Table of Contents -->
-      <nav class="left-toc" id="left-toc">
-        <div class="toc-title">Contents</div>
-        <ul class="toc-list" id="toc-list">
-          <!-- TOC will be generated here -->
-        </ul>
-      </nav>
+  function mount(root) {
+    const $ = s => root.querySelector(s);
+    const status = $('#post-status'), meta = $('#post-meta'), title = $('#post-title'), deck = $('#post-deck'), body = $('#post-body'), nav = $('#post-nav');
+    let seq = 0;
+    let postsPromise = null;
+    let arrivedByHash = false;                                 // set by hashchange: the reader clicked Previous/Next
 
-      <!-- Article content -->
-      <article class="blog-article-content" id="content">
-        <!-- Content will be loaded here -->
-      </article>
+    /* ---- the document. The server serves this page at /post/, so every in-page link is built from
+       location.pathname; a literal /post#slug would be a different path to the router and refetch the page. */
+    const here = hash => `${location.pathname}#${hash}`;
+    const isThisPage = u => u.origin === location.origin && /^\/post(\/|\/index\.html)?$/.test(u.pathname);
 
-      <!-- Navigation between posts -->
-      <nav class="article-navigation" id="article-nav" style="display: none">
-        <!-- Prev/Next links will be inserted here -->
-      </nav>
-    </main>
-
-    <footer class="footer">
-      <ul class="social-icons">
-        <li>
-          <a
-            href="https://x.com/Pran_Ker"
-            target="_blank"
-            rel="noopener"
-            aria-label="Twitter"
-          >
-            <svg viewBox="0 0 512 512" width="1em" height="1em" fill="currentColor"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/></svg>
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://github.com/Pran-Ker"
-            target="_blank"
-            rel="noopener"
-            aria-label="GitHub"
-          >
-            <svg viewBox="0 0 496 512" width="1em" height="1em" fill="currentColor"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.8-14.9-112.8-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://www.linkedin.com/in/prannay/"
-            target="_blank"
-            rel="noopener"
-            aria-label="LinkedIn"
-          >
-            <svg viewBox="0 0 448 512" width="1em" height="1em" fill="currentColor"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://www.instagram.com/prannay.hebbar/"
-            target="_blank"
-            rel="noopener"
-            aria-label="Instagram"
-          >
-            <svg viewBox="0 0 448 512" width="1em" height="1em" fill="currentColor"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg>
-          </a>
-        </li>
-      </ul>
-    </footer>
-
-    <script>
-      function calculateReadingTime(text) {
-        return Math.ceil(text.trim().split(/\s+/).length / 200);
+    async function fetchDoc(slug) {
+      let res = await fetch(`/content/${slug}.md`), isHtml = false;
+      if (!res.ok) {
+        res = await fetch(`/content/${slug}.html`);
+        if (!res.ok) throw new Error('not found');
+        isHtml = true;
       }
+      return { slug, content: await res.text(), isHtml };
+    }
+    const hasContent = slug => fetch(`/content/${slug}.md`).then(r => r.ok ? r.text() : '').then(t => t.trim().length > 0).catch(() => false);
 
-      function generateTableOfContents() {
-        const contentDiv = document.getElementById("content");
-        const headings = contentDiv.querySelectorAll("h2, h3");
-        const h2Count = contentDiv.querySelectorAll("h2").length;
+    const stylesheet = href => new Promise(resolve => {
+      let l = document.head.querySelector(`link[href="${href}"]`);
+      if (l) return l.sheet ? resolve() : l.addEventListener('load', resolve, { once: true });
+      l = document.createElement('link'); l.rel = 'stylesheet'; l.href = href;
+      l.onload = l.onerror = () => resolve();
+      document.head.appendChild(l);
+    });
 
-        if (headings.length === 0 || h2Count === 0) {
-          const tocEl = document.getElementById("left-toc");
-          if (tocEl) tocEl.style.display = "none";
-          return;
-        }
+    const readTime = text => Math.max(1, Math.ceil(text.trim().split(/\s+/).length / 200));
+    const monthYear = iso => {
+      const d = new Date(iso + (iso.length === 10 ? 'T00:00:00' : ''));
+      return isNaN(d) ? iso : d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    };
+    const span = (text, tag = 'span', attrs = {}) => { const e = document.createElement(tag); e.textContent = text; Object.entries(attrs).forEach(([k, v]) => e.setAttribute(k, v)); return e; };
+    const humanise = slug => { const s = decodeURIComponent(slug).split('/').filter(Boolean).pop() || ''; return s.replace(/[-_]+/g, ' ').replace(/^./, c => c.toUpperCase()); };
 
-        const tocList = document.getElementById("toc-list");
-        tocList.innerHTML = "";
-        const tocLinks = new Map();
+    const setMeta = (sel, v) => { const m = document.head.querySelector(sel); if (m) m.setAttribute('content', v); };
+    function setTitle(t) {
+      title.textContent = t;
+      document.title = t ? `${t} · Prannay Hebbar` : 'Prannay Hebbar';
+      setMeta('meta[property="og:title"]', document.title); setMeta('meta[name="twitter:title"]', document.title);
+    }
+    // the card's description is the document's first sentence or two; a document under principles/ belongs to
+    // Principles in the nav, anything else to Writing (the shell marks Writing for every essay-mode page by default)
+    function place(slug, firstPara) {
+      const main = document.getElementById('main');
+      if (main) { main.dataset.nav = /^principles\//.test(slug) ? '/principles' : '/blog'; window.WHITE && WHITE.router.markCurrent && WHITE.router.markCurrent(); }
+      const d = (firstPara || '').replace(/\s+/g, ' ').trim().slice(0, 200);
+      if (d) { setMeta('meta[name="description"]', d); setMeta('meta[property="og:description"]', d); setMeta('meta[name="twitter:description"]', d); }
+    }
 
-        headings.forEach((heading, index) => {
-          const id = `section-${index}`;
-          heading.id = id;
+    function clear() {
+      meta.replaceChildren(); deck.textContent = ''; body.replaceChildren(); nav.replaceChildren(); nav.hidden = true;
+    }
 
-          const li = document.createElement("li");
-          li.className = "toc-item";
-          if (heading.tagName === "H3") li.classList.add("toc-level-3");
+    function empty(head, line) {
+      setTitle(head);
+      const p = document.createElement('p'); p.className = 'post__empty';
+      p.append(line, ' Try the ', span('writing index', 'a', { href: '/blog' }), ', or go ', span('home', 'a', { href: '/' }), '.');
+      body.replaceChildren(p);
+      status.textContent = head;
+      ready();
+    }
 
-          const a = document.createElement("a");
-          a.href = `#${id}`;
-          a.textContent = heading.textContent;
-          tocLinks.set(id, a);
+    function ready() {
+      root.setAttribute('aria-busy', 'false');
+      void root.offsetWidth;                                   // the arrival transition restarts for a new document
+      root.classList.add('is-ready');
+      // Previous/Next replaced the link that was focused, so the new document takes focus the way the
+      // router hands focus to #main after a route. A hard load leaves focus where the shell put it.
+      if (arrivedByHash) { arrivedByHash = false; title.focus({ preventScroll: true }); }
+    }
 
-          a.addEventListener("click", (e) => {
-            e.preventDefault();
-            const target = document.getElementById(id);
-            if (!target) return;
-            target.scrollIntoView({ behavior: "smooth", block: "start" });
-            history.pushState(null, null, `#${window.location.hash.substring(1)}`);
-          });
+    // neighbours come from the writing index; an entry whose document is empty is not offered
+    async function prevNext(slug) {
+      try {
+        postsPromise = postsPromise || fetch('/content/blog-posts.json').then(r => r.json());
+        const posts = await postsPromise;
+        const i = posts.findIndex(p => slug.includes(p.slug));
+        if (i === -1) return null;
+        const [prevOk, nextOk] = await Promise.all([posts[i - 1] ? hasContent(posts[i - 1].slug) : false, posts[i + 1] ? hasContent(posts[i + 1].slug) : false]);
+        return { post: posts[i], prev: prevOk ? posts[i - 1] : null, next: nextOk ? posts[i + 1] : null };
+      } catch { return null; }
+    }
+    const pnLink = (post, dir) => {
+      const a = document.createElement('a'); a.className = `pn--${dir}`; a.href = here(post.slug); a.rel = dir;
+      a.append(span(dir === 'prev' ? 'Previous' : 'Next', 'span', { class: 'pn__k' }), span(post.title, 'span', { class: 'pn__t' }));
+      return a;
+    };
+    function showNav(pn) {
+      if (!pn || !(pn.prev || pn.next)) return;
+      pn.prev && nav.append(pnLink(pn.prev, 'prev'));
+      pn.next && nav.append(pnLink(pn.next, 'next'));
+      nav.hidden = false;
+    }
 
-          li.appendChild(a);
-          tocList.appendChild(li);
-        });
+    async function load() {
+      const my = ++seq;
+      const slug = location.hash.slice(1);
+      root.classList.remove('is-ready');                       // the current document fades while the next is fetched
+      root.setAttribute('aria-busy', 'true');
+      if (!slug) { clear(); return empty('Nothing to render.', 'This page shows a document from the notes when one is named in the address.'); }
+      // most documents arrive well inside 400 ms; the reader only hears "Loading" when there is a wait
+      const slow = setTimeout(() => { if (my === seq) status.textContent = 'Loading'; }, 400);
 
-        // scroll-spy highlights active entry
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              const link = tocLinks.get(entry.target.id);
-              if (!link || !entry.isIntersecting) return;
-              tocLinks.forEach((l) => l.classList.remove("is-active"));
-              link.classList.add("is-active");
-            });
-          },
-          { rootMargin: "-20% 0px -70% 0px", threshold: 0 }
-        );
+      const pnPromise = prevNext(slug);
+      let doc;
+      try { doc = await fetchDoc(slug); }
+      catch { clearTimeout(slow); if (my === seq) { clear(); empty('Nothing rendered here.', 'There is no document at this address.'); } return; }
+      const pn = await pnPromise;
+      clearTimeout(slow);
+      if (my !== seq) return;
 
-        headings.forEach((h) => observer.observe(h));
+      // an .html document arrives in this column's type and colour: its own <style> blocks and style attributes are dropped
+      const asHtml = txt => { const b = new DOMParser().parseFromString(txt, 'text/html').body; b.querySelectorAll('style, script').forEach(n => n.remove()); b.querySelectorAll('[style]').forEach(n => n.removeAttribute('style')); return b.innerHTML; };
+      const html = doc.isHtml ? asHtml(doc.content) : marked.parse(doc.content);
+      const frag = document.createRange().createContextualFragment(html);
+
+      // the first heading is the title (the index's title when the document has none); a lone italic line under
+      // it ("Personal | Updated regularly") is metadata
+      const h1 = frag.querySelector('h1');
+      const t = (h1 && h1.textContent.trim()) || (pn && pn.post.title) || humanise(slug);
+      h1 && h1.remove();
+      const parts = [];
+      const first = frag.firstElementChild;
+      if (first && first.tagName === 'P' && first.children.length === 1 && first.firstElementChild.tagName === 'EM' && first.textContent.trim() === first.firstElementChild.textContent.trim()) {
+        parts.push(...first.textContent.split(/\s*[|·]\s*/).map(s => s.trim()).filter(Boolean));
+        first.remove();
       }
-
-      function initReadingProgress() {
-        const fill = document.getElementById("reading-progress-fill");
-        if (!fill) return;
-
-        const update = () => {
-          const doc = document.documentElement;
-          const scrollTop = window.scrollY || doc.scrollTop;
-          const max = doc.scrollHeight - doc.clientHeight;
-          const pct = max > 0 ? Math.min(100, (scrollTop / max) * 100) : 0;
-          fill.style.width = pct + "%";
-        };
-
-        update();
-        window.addEventListener("scroll", update, { passive: true });
-        window.addEventListener("resize", update);
-      }
-
-      function addCopyButtons() {
-        document.querySelectorAll(".blog-article-content pre").forEach((pre) => {
-          const wrapper = document.createElement("div");
-          wrapper.className = "code-block-wrapper";
-          pre.parentNode.insertBefore(wrapper, pre);
-          wrapper.appendChild(pre);
-
-          const button = document.createElement("button");
-          button.className = "copy-button";
-          button.innerHTML = "Copy";
-          button.setAttribute("aria-label", "Copy code to clipboard");
-
-          button.addEventListener("click", async () => {
-            const text = pre.querySelector("code").textContent;
-            try {
-              await navigator.clipboard.writeText(text);
-              button.innerHTML = "Copied!";
-              button.classList.add("copied");
-              setTimeout(() => {
-                button.innerHTML = "Copy";
-                button.classList.remove("copied");
-              }, 2000);
-            } catch (err) {
-              console.error("Failed to copy:", err);
-            }
-          });
-
-          wrapper.appendChild(button);
-        });
-      }
-
-      function addLanguageLabels() {
-        document.querySelectorAll(".blog-article-content pre code").forEach((code) => {
-          const langClass = code.className.split(" ").find((c) => c.startsWith("language-"));
-          if (langClass) code.setAttribute("data-lang", langClass.replace("language-", ""));
-        });
-      }
-
-      async function addPrevNextNav(currentSlug) {
-        try {
-          const response = await fetch("/content/blog-posts.json");
-          const posts = await response.json();
-          const currentIndex = posts.findIndex((post) => currentSlug.includes(post.slug));
-          if (currentIndex === -1) return;
-
-          const prevPost = posts[currentIndex - 1];
-          const nextPost = posts[currentIndex + 1];
-          if (!prevPost && !nextPost) return;
-
-          const postLink = (post, cls) => `
-            <a href="/post#${post.slug}" class="${cls}">
-              <div class="nav-title blog-title">${post.title}</div>
-            </a>
-          `;
-          const spacer = '<div style="width: auto;"></div>';
-
-          const navDiv = document.getElementById("article-nav");
-          navDiv.innerHTML =
-            '<div style="display: flex; justify-content: space-between; align-items: center; gap: 2em;">' +
-            (prevPost ? postLink(prevPost, "nav-prev") : spacer) +
-            (nextPost ? postLink(nextPost, "nav-next") : spacer);
-          navDiv.style.display = "flex";
-        } catch (error) {
-          console.error("Error loading blog navigation:", error);
-        }
-      }
-
-      // poll until global exists
-      function waitFor(checkFn, timeoutMs = 5000) {
-        return new Promise((resolve, reject) => {
-          if (checkFn()) return resolve();
-          const start = Date.now();
-          const id = setInterval(() => {
-            if (checkFn()) {
-              clearInterval(id);
-              resolve();
-            } else if (Date.now() - start > timeoutMs) {
-              clearInterval(id);
-              reject(new Error("Timed out waiting for dependency"));
-            }
-          }, 20);
-        });
-      }
-
-      // fetch before deferred libs load
-      function startFetch() {
-        const hash = window.location.hash.substring(1);
-        if (!hash) return Promise.resolve({ hash: "", content: "", isHtml: false });
-        return (async () => {
-          let response = await fetch(`/content/${hash}.md`);
-          let isHtml = false;
-          if (!response.ok) {
-            response = await fetch(`/content/${hash}.html`);
-            if (!response.ok) throw new Error("Content not found");
-            isHtml = true;
-          }
-          const content = await response.text();
-          return { hash, content, isHtml };
-        })();
-      }
-
-      let pendingFetch = startFetch();
-
-      async function loadContent() {
-        const contentDiv = document.getElementById("content");
-        const main = document.querySelector(".blog-post-main");
-        const hash = window.location.hash.substring(1);
-
-        if (!hash) {
-          contentDiv.innerHTML = "<p>No content specified.</p>";
-          if (main) {
-            main.classList.remove("is-loading");
-            main.classList.add("is-ready");
-          }
-          return;
-        }
-
-        try {
-          let result = await pendingFetch;
-          // stale hash: refetch
-          if (result.hash !== hash) result = await startFetch();
-          const { content, isHtml } = result;
-
-          if (isHtml) {
-            const doc = new DOMParser().parseFromString(content, "text/html");
-            contentDiv.innerHTML = doc.body.innerHTML;
-          } else {
-            await waitFor(() => typeof window.marked !== "undefined");
-            contentDiv.innerHTML = marked.parse(content);
-          }
-
-          // h1 moves into header
-          const firstHeading = contentDiv.querySelector("h1");
-          if (firstHeading) {
-            document.title = `Prannay · ${firstHeading.textContent}`;
-            document.getElementById("blog-title").textContent = firstHeading.textContent;
-            firstHeading.remove();
-          } else {
-            document.title = "Prannay";
-          }
-
-          if (main) {
-            main.classList.remove("is-loading");
-            // reflow restarts reveal animation
-            void main.offsetWidth;
-            main.classList.add("is-ready");
-          }
-
-          const highlightAll = () =>
-            contentDiv.querySelectorAll("pre code").forEach((block) => {
-              hljs.highlightElement(block);
-            });
-          if (typeof window.hljs !== "undefined") {
-            highlightAll();
-          } else {
-            waitFor(() => typeof window.hljs !== "undefined", 3000)
-              .then(() => {
-                highlightAll();
-                addLanguageLabels();
-              })
-              .catch(() => {});
-          }
-
-          addLanguageLabels();
-          addCopyButtons();
-
-          const renderKatex = () =>
-            renderMathInElement(contentDiv, {
-              delimiters: [
-                { left: "$$", right: "$$", display: true },
-                { left: "$", right: "$", display: false },
-                { left: "\\[", right: "\\]", display: true },
-                { left: "\\(", right: "\\)", display: false },
-              ],
-              throwOnError: false,
-            });
-          if (window.renderMathInElement) {
-            renderKatex();
-          } else {
-            waitFor(() => typeof window.renderMathInElement !== "undefined", 3000)
-              .then(renderKatex)
-              .catch(() => {});
-          }
-
-          const readingTime = calculateReadingTime(contentDiv.textContent);
-          document.getElementById("blog-metadata").innerHTML = `<span>${readingTime} min read</span>`;
-
-          generateTableOfContents();
-          initReadingProgress();
-          addPrevNextNav(hash);
-        } catch (error) {
-          window.location.href = "/404";
-        }
-      }
-
-      // run before deferred libs finish
-      if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", loadContent);
-      } else {
-        loadContent();
-      }
-
-      window.addEventListener("hashchange", () => {
-        const main = document.querySelector(".blog-post-main");
-        if (main) {
-          main.classList.remove("is-ready");
-          main.classList.add("is-loading");
-        }
-        pendingFetch = startFetch();
-        loadContent();
+      // tables scroll inside their own box; images tell the page what they are, and a plate that never
+      // arrives leaves no frame behind; links to another document stay on this page; external links say where they go
+      frag.querySelectorAll('table').forEach(tb => { const w = document.createElement('div'); w.className = 'table-wrap'; tb.replaceWith(w); w.append(tb); });
+      frag.querySelectorAll('img').forEach(im => {
+        im.loading = 'lazy'; if (!im.hasAttribute('alt')) im.alt = '';
+        im.addEventListener('error', () => {
+          const p = im.parentElement;
+          (p && p.tagName === 'P' && p.children.length === 1 && !p.textContent.trim() ? p : im).remove();
+        }, { once: true });
       });
-    </script>
-  </body>
+      frag.querySelectorAll('a[href]').forEach(a => {
+        let u; try { u = new URL(a.getAttribute('href'), location.href); } catch { return; }
+        if (isThisPage(u)) { if (u.hash) a.setAttribute('href', here(u.hash.slice(1))); return; }
+        if (u.origin === location.origin || !/^https?:$/.test(u.protocol)) return;
+        a.target = '_blank'; a.rel = 'noopener'; a.append(span(' (opens in a new tab)', 'span', { class: 'vh' }));
+      });
+
+      clear();
+      showNav(pn);
+      if (!frag.textContent.trim() && !frag.querySelector('img, video, svg, iframe')) {
+        return empty('Nothing rendered here.', 'The document at this address is empty.');
+      }
+
+      body.replaceChildren(frag);
+      setTitle(t);
+      place(slug, (body.querySelector('p') || body).textContent);
+      parts.forEach(s => meta.append(span(s)));
+      if (pn && pn.post.date) meta.append(span(monthYear(pn.post.date), 'time', { datetime: pn.post.date }));
+      meta.append(span(`${readTime(body.textContent)} min read`));
+      status.textContent = t ? `${t} loaded` : 'Loaded';
+      ready();
+
+      // colour and math arrive after the text does; neither holds the page
+      if (body.querySelector('pre code')) {
+        import(HLJS).then(m => { if (my === seq) body.querySelectorAll('pre code').forEach(b => m.default.highlightElement(b)); }).catch(() => {});
+      }
+      if (/\$|\\\(|\\\[/.test(body.textContent)) {
+        Promise.all([import(KATEX_AUTO), stylesheet(KATEX_CSS)]).then(([m]) => {
+          if (my !== seq) return;
+          m.default(body, {
+            delimiters: [{ left: '$$', right: '$$', display: true }, { left: '$', right: '$', display: false }, { left: '\\[', right: '\\]', display: true }, { left: '\\(', right: '\\)', display: false }],
+            throwOnError: false,
+          });
+        }).catch(() => {});
+      }
+    }
+
+    const onHash = () => { if (root.isConnected) { arrivedByHash = true; load(); window.scrollTo({ top: 0, behavior: 'instant' }); } };
+    window.addEventListener('hashchange', onHash);
+    window.addEventListener('white:navigate', () => { window.removeEventListener('hashchange', onHash); seq++; }, { once: true });
+    load();
+  }
+</script>
+</main>
+
+<footer class="foot">
+  <div class="wrap grid">
+    <ul class="foot__links">
+      <li><a href="https://x.com/Pran_Ker" target="_blank" rel="noopener">X</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://github.com/Pran-Ker" target="_blank" rel="noopener">GitHub</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://www.linkedin.com/in/prannay/" target="_blank" rel="noopener">LinkedIn</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://scholar.google.com/citations?user=Y3jw_UgAAAAJ" target="_blank" rel="noopener">Scholar</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://www.goodreads.com/user/show/193930535-prannay-hebbar" target="_blank" rel="noopener">Goodreads</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://medium.com/@Pran-Ker" target="_blank" rel="noopener">Medium</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://huggingface.co/Pran-Ker" target="_blank" rel="noopener">Hugging Face</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://openreview.net/profile?id=%7EPrannay_Hebbar1" target="_blank" rel="noopener">OpenReview</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://calendly.com/prannay/consulting" target="_blank" rel="noopener">Calendly</a><span aria-hidden="true">↗</span></li>
+    </ul>
+    <div class="foot__base">
+      <span>© 2026 Prannay Hebbar</span>
+      <span>San Francisco</span>
+    </div>
+  </div>
+</footer>
+
+</body>
 </html>

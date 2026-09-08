@@ -1,837 +1,877 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>1976 · Prannay Hebbar</title>
+<!doctype html>
+<html lang="en" data-page="essay">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>1976 · Prannay Hebbar</title>
+  <meta name="description" content="A frontier model passes every run on my hardest geometry task and loses to a spring written down fifty years ago. The distance between the two is a ladder.">
+  <link rel="canonical" href="https://prannayh.com/blog/cad-reward-design">
+  <meta property="og:site_name" content="Prannay Hebbar">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="1976">
+  <meta property="og:description" content="A frontier model passes every run on my hardest geometry task and loses to a spring written down fifty years ago. The distance between the two is a ladder.">
+  <meta property="og:url" content="https://prannayh.com/blog/cad-reward-design">
+  <meta property="og:image" content="https://prannayh.com/assets/images/opengraph.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="article:published_time" content="2026-07-01">
+  <meta property="article:author" content="https://prannayh.com/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@Pran_Ker">
+  <meta name="twitter:creator" content="@Pran_Ker">
+  <meta name="twitter:title" content="1976">
+  <meta name="twitter:description" content="A frontier model passes every run on my hardest geometry task and loses to a spring written down fifty years ago. The distance between the two is a ladder.">
+  <meta name="twitter:image" content="https://prannayh.com/assets/images/opengraph.png">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="color-scheme" content="light">
+  <link rel="icon" href="/assets/images/favicon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+  <link rel="preload" href="/assets/fonts/LabGrotesque-Light.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/LabGrotesque-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/LabGrotesqueMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/SourceSerif4-Variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="modulepreload" href="/assets/vendor/three.module.min.js">
+  <link rel="modulepreload" href="/assets/js/cubes.js">
+  <link rel="stylesheet" href="/assets/css/white.css">
+  <script>try{if(sessionStorage.getItem('white.entered')==='1')document.documentElement.dataset.entered=''}catch(e){}</script>
+  <script type="module" src="/assets/js/white.js"></script>
+  <noscript><style>#gate{display:none}.ice-fallback{display:block}body[data-state="gate"] .ice--b,body[data-state="gate"] .ice--c{display:block}body[data-state="gate"] .ice--a{right:12vw;top:16vh}body[data-state="gate"]{overflow:auto}.hud,#main,.foot,.floor{opacity:1!important}.reveal,.rise{opacity:1;transform:none;animation:none}.fig__plate>img,.fig__plate>video{opacity:1;filter:none}.fig__plate::after{display:none}</style></noscript>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "1976",
+    "alternativeHeadline": "A frontier model passes every run on my hardest geometry task and loses to a spring written down fifty years ago; the distance between the two is a ladder, and every rung hides one more layer of machinery.",
+    "description": "Reward design for CAD and simulation RL environments, walked rung by rung: 1,758 scored rollouts, the real reward code, the real physics, down to a Bouc–Wen spring from 1976 and the empty rung below it.",
+    "datePublished": "2026-07-01",
+    "dateModified": "2026-09-07",
+    "inLanguage": "en",
+    "keywords": ["physics environments", "reinforcement learning", "reward design", "CAD", "simulation", "system identification", "Bouc–Wen"],
+    "articleSection": "Physics environments",
+    "timeRequired": "PT13M",
+    "url": "https://prannayh.com/blog/cad-reward-design",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://prannayh.com/blog/cad-reward-design" },
+    "image": "https://prannayh.com/assets/images/opengraph.png",
+    "author": {
+      "@type": "Person",
+      "name": "Prannay Hebbar",
+      "url": "https://prannayh.com/",
+      "sameAs": ["https://x.com/Pran_Ker", "https://github.com/Pran-Ker", "https://www.linkedin.com/in/prannay/", "https://scholar.google.com/citations?user=Y3jw_UgAAAAJ"]
+    },
+    "publisher": { "@type": "Person", "name": "Prannay Hebbar", "url": "https://prannayh.com/" }
+  }
+  </script>
+</head>
+<body data-state="gate">
 
-    <meta charset="utf-8" />
-    <meta content="ie=edge" http-equiv="x-ua-compatible" />
-    <meta name="handheldfriendly" content="true" />
-    <meta name="viewport" content="initial-scale=1, width=device-width" />
-    <meta name="description" content="A frontier model that navigates B-rep topology fails 85% of its attempts against a spring model from 1976. A walk down the ladder of physics tasks used to train frontier models, with 1,758 real rollouts, real solver runs, and a live hysteresis simulator." />
-    <meta name="theme-color" content="#F2EFE7" />
+<a class="skip" href="#main" data-no-router>Skip to content</a>
 
-    <meta property="og:site_name" content="Prannay Hebbar" />
-    <meta property="og:title" content="1976" />
-    <meta property="og:description" content="A frontier model meets a fifty-year-old spring. Where AI models break on engineering physics, measured on 1,758 real training rollouts." />
-    <meta property="og:type" content="article" />
-    <meta property="og:image" content="https://prannayh.com/blog/cad-reward-design/assets/staircase.png" />
+<canvas id="cubes" aria-hidden="true"></canvas>
+<div class="floor" aria-hidden="true"></div>
+<div class="ice-fallback" aria-hidden="true">
+  <div class="ice ice--a"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="ice ice--b"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="ice ice--c"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+</div>
 
-    <link rel="icon" href="/assets/images/favicon-32.png" />
-    <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png" />
+<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-cta" aria-describedby="gate-sub">
+  <span class="gate__name">Prannay Hebbar</span>
+  <div class="gate__center">
+    <button class="gate__cta" id="gate-cta" type="button"><span class="mark" aria-hidden="true"></span>Press to enter</button>
+    <p class="gate__sub" id="gate-sub">Sound on. One track, on loop. Nothing autoplays without you.</p>
+  </div>
+  <span class="gate__hint mono">Enter · Space · Click</span>
+</div>
 
-    <link rel="preload" href="/assets/fonts/LabGrotesque-Regular.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/assets/fonts/LabGrotesque-Bold.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/assets/fonts/LabGrotesqueMono-Regular.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/assets/fonts/SourceSerif4-Variable.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/assets/fonts/SourceSerif4-VariableItalic.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="/assets/css/style.css" />
+<header class="hud">
+  <a class="wordmark" href="/" aria-label="Prannay Hebbar, home">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 21 7v10l-9 5-9-5V7z"/><path d="M3 7l9 5 9-5M12 12v10"/></svg>
+    <span>Prannay Hebbar</span>
+  </a>
+  <nav class="nav" aria-label="Primary">
+    <a href="/">Home</a>
+    <a href="/blog" aria-current="page">Writing</a>
+    <a href="/principles">Principles</a>
+    <a href="/gallery">Gallery</a>
+    <a href="/more">More</a>
+    <a href="/contact">Contact</a>
+  </nav>
+  <div class="transport" role="group" aria-label="Music">
+    <span class="tp-track"><span class="tp-title">Little Voices</span><span class="tp-artist">Lane 8</span></span>
+    <button class="tp-tap" type="button" hidden>Tap for sound</button>
+    <button class="tp-btn tp-mute" type="button" data-on="false" aria-label="Mute">
+      <svg class="ico-off" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5h1.8L6 1.5v7L3.3 6.5H1.5z" fill="currentColor"/><path d="M7.2 3.3a2.4 2.4 0 0 1 0 3.4" stroke="currentColor" stroke-width=".9" fill="none"/></svg>
+      <svg class="ico-on" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5h1.8L6 1.5v7L3.3 6.5H1.5z" fill="currentColor"/><path d="M7 3.8l2 2.4M9 3.8l-2 2.4" stroke="currentColor" stroke-width=".9"/></svg>
+    </button>
+    <span class="tp-time"><span class="vh">Elapsed </span><span class="tp-time__v">00:00</span></span>
+    <span class="beat" aria-hidden="true"></span>
+    <span class="tp-status vh" aria-live="polite"></span>
+  </div>
+</header>
 
-    <style>
-      @font-face {
-        font-family: 'Source Serif 4';
-        src: url('/assets/fonts/SourceSerif4-Variable.woff2') format('woff2');
-        font-weight: 200 900; font-style: normal; font-display: swap;
-      }
-      @font-face {
-        font-family: 'Source Serif 4';
-        src: url('/assets/fonts/SourceSerif4-VariableItalic.woff2') format('woff2');
-        font-weight: 200 900; font-style: italic; font-display: swap;
-      }
+<main id="main" data-page="essay" tabindex="-1">
+<style data-page>
+  /* essay: cad-reward-design. Everything scoped; the shell owns .essay .prose .fig .pull .fn .pn */
 
-      :root {
-        --paper: #f2efe7; --card: #fbfaf5; --ink: #1a1915; --soft: #3d3a31;
-        --muted: #6e6859; --faint: #a39d8c; --rule: #e2ddd0;
-        --clay: #c25e3f; --clay-bright: #d97757; --clay-dim: rgba(194, 94, 63, 0.08);
-        --olive: #69793f; --olive-dim: rgba(105, 121, 63, 0.1);
-        --sans: 'Lab Grotesque', -apple-system, sans-serif;
-        --serif: 'Source Serif 4', 'Iowan Old Style', Georgia, serif;
-        --mono: 'Lab Grotesque Mono', 'SF Mono', Monaco, monospace;
-        --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
-      }
+  /* the one-line claim that opens each rung, with its pass rate */
+  main[data-page="essay"] .rung { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; }
+  main[data-page="essay"] .rung strong { font-weight: 600; }
+  main[data-page="essay"] .rung__rate { font-family: var(--mono); font-size: var(--t-mono); letter-spacing: .02em; color: var(--ash); font-variant-numeric: tabular-nums; white-space: nowrap; }
 
-      body { background: var(--paper); color: var(--ink); }
-      ::selection { background: rgba(217, 119, 87, 0.28); }
+  main[data-page="essay"] .prose pre .cm { color: var(--ash); }
+  /* verbatim code with lines past the column takes the figures' wide slot (same width, same breakpoint) rather than scrolling */
+  main[data-page="essay"] .prose .pre--wide { width: min(100vw - 2 * var(--gutter), 1100px); margin-left: 50%; transform: translateX(-50%); }
+  @media (max-width: 1000px) { main[data-page="essay"] .prose .pre--wide { width: 100%; margin-left: 0; transform: none; } }
+  main[data-page="essay"] .prose pre .kw { color: var(--graphite); }
+  main[data-page="essay"] .prose sup a { padding: 0 .1em; }
+  main[data-page="essay"] .prose sup a:hover, main[data-page="essay"] .prose sup a:focus-visible { color: var(--ink); text-decoration: underline; text-underline-offset: 2px; }
 
-      .article {
-        max-width: 680px; margin: 0 auto; padding: 7.5rem 1.4rem 6rem;
-        font-family: var(--serif); font-size: 1.075rem; line-height: 1.72;
-        color: var(--soft); font-optical-sizing: auto;
-      }
-      @media (min-width: 64em) { .article { font-size: 1.14rem; } }
+  /* the shipped plates carry a warm (251,250,245) ground: a per-channel lift puts them on this page's white
+     without touching a data value. filter: url() on img keeps the shell's reveal on .fig.is-in intact */
+  main[data-page="essay"] .prose .fig__plate > img.plate { filter: url(#plate-wb); }
+  main[data-page="essay"] .fig__t { text-wrap: balance; }
 
-      .back-link {
-        display: inline-block; margin-bottom: 3rem; color: var(--faint);
-        font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.14em;
-        text-transform: uppercase; text-decoration: none; transition: color 150ms ease;
-      }
-      @media (hover: hover) and (pointer: fine) { .back-link:hover { color: var(--clay); } }
+  /* instruments share one grammar: a plate, --s3 padding, mono labels ≥ 11px, hairlines, ink, one live mark */
+  main[data-page="essay"] .inst { padding: var(--s3); display: grid; gap: var(--s3); font-family: var(--sans); }
+  main[data-page="essay"] .lab { font-family: var(--mono); font-size: var(--t-mono); letter-spacing: .02em; color: var(--ash); font-variant-numeric: tabular-nums; line-height: 1.6; }
+  main[data-page="essay"] .lab--ink { font-family: var(--sans); font-size: var(--t-1); letter-spacing: -.01em; text-transform: none; color: var(--ink); line-height: 1.3; }   /* a name, not an annotation: the family's .f-lab */
+  main[data-page="essay"] .lad__d { font-family: var(--sans); font-size: var(--t-1); letter-spacing: -.01em; text-transform: none; color: var(--graphite); line-height: 1.35; }
+  main[data-page="essay"] .pill { text-align: left; }   /* the shell's pill (13px sans, ink outline when pressed); presets are names, so sentence case */
+  /* the live mark: the system's "you are here" dot */
+  main[data-page="essay"] .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--signal); box-shadow: 0 0 0 1px var(--ink); }
 
-      .eyebrow {
-        font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.22em;
-        text-transform: uppercase; color: var(--clay); margin: 0 0 1.2rem;
-      }
-      .article h1 {
-        font-family: var(--sans); font-size: clamp(4rem, 12vw, 7.5rem);
-        line-height: 0.95; font-weight: 700; letter-spacing: -0.035em;
-        color: var(--ink); margin: 0 0 0.6rem;
-        font-variant-numeric: tabular-nums;
-      }
-      .subtitle {
-        font-family: var(--sans); font-size: clamp(1.05rem, 2.6vw, 1.3rem);
-        color: var(--muted); letter-spacing: -0.01em; margin: 0 0 1.6rem;
-        font-weight: 430;
-      }
-      .article .meta {
-        font-family: var(--sans); color: var(--muted); font-size: 0.92rem;
-        letter-spacing: 0.01em; padding-bottom: 2rem;
-        border-bottom: 1px solid var(--rule); margin-bottom: 2.4rem;
-      }
-      .meta .dot { color: var(--faint); margin: 0 0.45em; }
+  /* native range, drawn as a hairline the reader drags a dot along. the input extends half a thumb past the
+     track on both sides so the thumb's centre at value v sits at v × track width, where the ticks are */
+  main[data-page="essay"] .range { position: absolute; left: -7px; top: 0; width: calc(100% + 14px); height: 24px; margin: 0; -webkit-appearance: none; appearance: none; background: transparent; cursor: pointer; }
+  main[data-page="essay"] .range:focus-visible { outline: none; box-shadow: none; }
+  main[data-page="essay"] .range::-webkit-slider-runnable-track { height: 24px; background: transparent; }
+  main[data-page="essay"] .range::-moz-range-track { height: 24px; background: transparent; }
+  main[data-page="essay"] .range::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 14px; height: 14px; margin-top: 5px; border-radius: 50%; background: var(--paper); border: 1px solid var(--ink); box-shadow: 0 0 0 3px var(--paper); transition: background var(--fast); }
+  main[data-page="essay"] .range::-moz-range-thumb { width: 12px; height: 12px; border-radius: 50%; background: var(--paper); border: 1px solid var(--ink); box-shadow: 0 0 0 3px var(--paper); transition: background var(--fast); }
+  main[data-page="essay"] .range:hover::-webkit-slider-thumb, main[data-page="essay"] .range:active::-webkit-slider-thumb, main[data-page="essay"] .range:focus-visible::-webkit-slider-thumb { background: var(--signal); }
+  main[data-page="essay"] .range:hover::-moz-range-thumb, main[data-page="essay"] .range:active::-moz-range-thumb, main[data-page="essay"] .range:focus-visible::-moz-range-thumb { background: var(--signal); }
+  main[data-page="essay"] .range:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 3px var(--paper), 0 0 0 4px var(--ink); }
+  main[data-page="essay"] .range:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 3px var(--paper), 0 0 0 4px var(--ink); }
 
-      .lead {
-        font-size: 1.34rem; line-height: 1.52; color: var(--ink);
-        margin: 0 0 2rem; font-weight: 430; letter-spacing: -0.005em;
-      }
+  /* fig 01 — the ladder. HTML columns so every label stays ≥ 11px at every width; the four bars are the staircase.
+     the ghost rung is dashed graphite on --paper-2, not the accent: white.css reserves --signal for live state */
+  main[data-page="essay"] .lad { --h: 240px; --v-max: 60; display: grid; gap: var(--s2); padding: var(--s3) var(--s3) var(--s3); }
+  main[data-page="essay"] .lad__plot { position: relative; display: grid; grid-template-columns: 4ch repeat(5, minmax(0, 1fr)); height: var(--h); margin-top: 28px; }
+  main[data-page="essay"] .lad__axis { position: relative; border-right: 1px solid var(--hair); }
+  main[data-page="essay"] .lad__axis span { position: absolute; right: 8px; transform: translateY(50%); bottom: calc(var(--t) / var(--v-max) * 100%); }
+  main[data-page="essay"] .lad__axis span:first-child { transform: translateY(50%); }
+  main[data-page="essay"] .lad__grid { position: absolute; left: 4ch; right: 0; top: 0; bottom: 0; border-bottom: 1px solid var(--hair); background: repeating-linear-gradient(to top, var(--hair-2) 0 1px, transparent 1px calc(var(--h) / 3)); pointer-events: none; }
+  main[data-page="essay"] .lad__col { position: relative; }
+  main[data-page="essay"] .lad__bar { position: absolute; left: 18%; right: 18%; bottom: 0; height: calc(var(--v) / var(--v-max) * 100%); background: rgba(11,13,16,.88); transform-origin: 50% 100%; transform: scaleY(0); transition: transform .9s var(--ease-out); transition-delay: var(--d, 0ms); }
+  main[data-page="essay"] .fig.is-in .lad__bar { transform: none; }
+  main[data-page="essay"] .lad__pct { position: absolute; left: 0; right: 0; text-align: center; bottom: calc(var(--v) / var(--v-max) * 100% + 6px); font-family: var(--sans); font-weight: 400; font-size: var(--t0); letter-spacing: -.01em; font-variant-numeric: tabular-nums; color: var(--ink); opacity: 0; transition: opacity .6s var(--ease-out); transition-delay: calc(var(--d, 0ms) + .5s); }
+  main[data-page="essay"] .fig.is-in .lad__pct { opacity: 1; }
+  main[data-page="essay"] .lad__ghost { position: absolute; left: 18%; right: 18%; bottom: 0; height: calc(15 / var(--v-max) * 100%); border: 1px dashed var(--graphite); background: var(--paper-2); display: grid; place-items: center; text-align: center; padding: 4px; opacity: 0; transition: opacity .6s var(--ease-out) .8s; }
+  main[data-page="essay"] .fig.is-in .lad__ghost { opacity: 1; }
+  main[data-page="essay"] .lad__unit { position: absolute; left: 0; top: -26px; white-space: nowrap; }
+  main[data-page="essay"] .lad__names { display: grid; grid-template-columns: 4ch repeat(5, minmax(0, 1fr)); }
+  main[data-page="essay"] .lad__name { grid-column: auto; padding: 8px 8px 0 0; display: grid; gap: 2px; align-content: start; border-top: 1px solid var(--hair); }
+  main[data-page="essay"] .lad__name:nth-child(1) { grid-column: 2; }
+  main[data-page="essay"] .lad__key { display: none; }
+  @media (max-width: 720px) {
+    /* five columns are too narrow for any label: the bars keep their percentages, the key below names them in order */
+    main[data-page="essay"] .lad__names, main[data-page="essay"] .lad__ghost span { display: none; }
+    main[data-page="essay"] .lad { padding: var(--s3) var(--s2) var(--s2); }
+    main[data-page="essay"] .lad__key { display: grid; gap: 0; border-top: 1px solid var(--hair); }
+    main[data-page="essay"] .lad__key li { display: grid; grid-template-columns: 12ch minmax(0, 1fr); gap: 2px 12px; padding: 8px 0; border-bottom: 1px solid var(--hair-2); }
+    main[data-page="essay"] .lad__key li:last-child { border-bottom: 0; }
+    main[data-page="essay"] .lad__pct { font-size: var(--t-1); }
+    /* on a 318px track the 1.00 end label would sit on the target label; the tick stays, the end is the end */
+    main[data-page="essay"] .rg__row .rg__tick--r span { display: none; }
+  }
 
-      .article p { margin: 0 0 1.25rem; }
-      .article strong { font-weight: 640; color: var(--ink); }
-      .article em { font-style: italic; }
-      .article code {
-        font-family: var(--mono); background: rgba(26, 25, 21, 0.055);
-        padding: 0.08em 0.34em; border-radius: 4px; font-size: 0.82em; color: var(--ink);
-      }
-      .article hr { border: 0; height: 1px; background: var(--rule); margin: 3.6rem 0 0; }
-      .article a.inline {
-        color: var(--ink); border-bottom: 1px solid var(--rule); text-decoration: none;
-        transition: color 150ms ease, border-color 150ms ease;
-      }
-      @media (hover: hover) and (pointer: fine) {
-        .article a.inline:hover { border-color: var(--clay); color: var(--clay); }
-      }
+  /* fig 05 — the reward gate */
+  main[data-page="essay"] .rg__rows { display: grid; gap: var(--s3); }
+  main[data-page="essay"] .rg__row { display: grid; gap: 4px; }
+  main[data-page="essay"] .rg__head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  main[data-page="essay"] .rg__row label { text-transform: none; }   /* metric keys are identifiers from the verifier */
+  main[data-page="essay"] .rg__track { position: relative; height: 46px; }
+  main[data-page="essay"] .rg__line { position: absolute; left: 0; right: 0; top: 12px; height: 1px; background: var(--hair); }
+  main[data-page="essay"] .rg__tick { position: absolute; top: 8px; width: 1px; height: 9px; background: var(--graphite); }
+  main[data-page="essay"] .rg__tick span { position: absolute; top: 12px; left: 0; transform: translateX(-50%); white-space: nowrap; }
+  main[data-page="essay"] .rg__tick--l span { transform: none; }
+  main[data-page="essay"] .rg__tick--r span { transform: translateX(-100%); }
+  main[data-page="essay"] .rg__out { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 24px; align-items: center; padding-top: var(--s3); border-top: 1px solid var(--hair); }
+  main[data-page="essay"] .rg__num { font-family: var(--sans); font-weight: 300; font-size: var(--t-num); letter-spacing: -.04em; line-height: 1; font-variant-numeric: tabular-nums; color: var(--ink); display: inline-flex; align-items: baseline; gap: 14px; }
+  main[data-page="essay"] .rg__num .lab { color: var(--ink); }
+  main[data-page="essay"] .rg__bar { position: relative; height: 34px; }
+  main[data-page="essay"] .rg__bar .rg__line { top: 8px; }
+  main[data-page="essay"] .rg__fill { position: absolute; left: 0; top: 8px; height: 1px; background: var(--ink); width: 0; transition: width .25s var(--ease-out); }
+  main[data-page="essay"] .rg__pass { position: absolute; left: 50%; top: 4px; width: 1px; height: 9px; background: var(--graphite); }
+  main[data-page="essay"] .rg__pass span { position: absolute; top: 12px; left: 0; transform: translateX(-50%); }
+  main[data-page="essay"] .rg__mark { position: absolute; top: 3px; left: 0; transform: translateX(-50%); transition: left .25s var(--ease-out); }
+  main[data-page="essay"] .rg__why { grid-column: 1 / -1; font-family: var(--serif); font-size: var(--t-serif-s); color: var(--graphite); line-height: 1.45; min-height: 1.45em; }
+  main[data-page="essay"] .rg__presets { display: flex; flex-wrap: wrap; gap: 8px; }
 
-      /* code blocks */
-      .codeblock {
-        margin: 1.8rem -1rem; border: 1px solid var(--rule); border-radius: 10px;
-        overflow: hidden; background: #24221c;
-      }
-      @media (min-width: 56em) { .codeblock { margin: 1.8rem -1.5rem; } }
-      .codeblock__head {
-        display: flex; justify-content: space-between; align-items: baseline;
-        padding: 0.6rem 1.1rem; background: #1a1915;
-        font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.16em;
-        text-transform: uppercase; color: #a39d8c;
-      }
-      .codeblock__head .lang { color: #d97757; }
-      .codeblock pre {
-        margin: 0; padding: 1rem 1.15rem; overflow-x: auto;
-        font-family: var(--mono); font-size: 0.78rem; line-height: 1.62;
-        color: #e8e4d8;
-      }
-      .codeblock .cm { color: #8a8371; font-style: italic; }
-      .codeblock .kw { color: #d97757; }
-      .codeblock .st { color: #9db069; }
-      .codeblock .nm { color: #dcc98a; }
+  /* fig 06 — the Bouc–Wen machine. one 620-unit viewBox; in the reading column 14 user units render at ≈ 14px,
+     and below 560px the drawing's labels move into a key so nothing on the page drops under 11px */
+  main[data-page="essay"] .bw svg { display: block; width: 100%; height: auto; font-family: var(--mono); font-size: 14px; letter-spacing: .06em; }
+  main[data-page="essay"] .bw__key { display: none; }
+  @media (max-width: 560px) {
+    main[data-page="essay"] .bw svg text:not(.m), main[data-page="essay"] .bw svg .br { display: none; }
+    main[data-page="essay"] .bw__key { display: grid; margin: 0 var(--s2) var(--s2); border-top: 1px solid var(--hair); }
+    main[data-page="essay"] .bw__key li { display: grid; grid-template-columns: 5ch minmax(0, 1fr); gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--hair-2); }
+    main[data-page="essay"] .bw__key li:last-child { border-bottom: 0; }
+    main[data-page="essay"] .bw__key .lab { text-transform: none; }   /* k·y, ẏ, z(t): math, never uppercased */
+  }
+  main[data-page="essay"] .bw .hl { fill: none; stroke: var(--ink); stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
+  main[data-page="essay"] .bw .hl2 { fill: none; stroke: var(--ash); stroke-width: 1; vector-effect: non-scaling-stroke; }
+    main[data-page="essay"] .bw .mass { fill: var(--glass); stroke: var(--ink); stroke-width: 1; vector-effect: non-scaling-stroke; }
+  main[data-page="essay"] .bw .z { fill: var(--paper-2); stroke: var(--ink); stroke-width: 1.25; stroke-dasharray: 4 3; vector-effect: non-scaling-stroke; }
+  main[data-page="essay"] .bw .ink { fill: var(--ink); }
+  main[data-page="essay"] .bw text { fill: var(--ink); }   /* drawing labels carry math (k·y, ẏ, z(t)): never uppercased */
+  main[data-page="essay"] .bw text.ash { fill: var(--ash); }
+  main[data-page="essay"] .bw text.m { font-family: var(--serif); font-style: italic; font-size: 26px; text-transform: none; letter-spacing: 0; }
 
-      .rise { opacity: 0; transform: translateY(12px); animation: rise 0.6s var(--ease-out) forwards; }
-      .rise.r2 { animation-delay: 0.06s; } .rise.r3 { animation-delay: 0.12s; }
-      .rise.r4 { animation-delay: 0.2s; } .rise.r5 { animation-delay: 0.3s; }
-      @keyframes rise { to { opacity: 1; transform: none; } }
-      @media (prefers-reduced-motion: reduce) { .rise { animation: none; opacity: 1; transform: none; } }
+  /* fig 07 — two springs */
+  main[data-page="essay"] .sp__plot { position: relative; height: 300px; }
+  main[data-page="essay"] .sp__plot svg { position: absolute; inset: 0; width: 100%; height: 100%; font-family: var(--mono); font-size: 11px; letter-spacing: .06em; }
+  main[data-page="essay"] .sp__plot .ax { fill: none; stroke: var(--hair); stroke-width: 1; }
+  main[data-page="essay"] .sp__plot .ax0 { fill: none; stroke: var(--hair); stroke-width: 1; }
+  main[data-page="essay"] .sp__plot .tk { fill: var(--ash); font-variant-numeric: tabular-nums; }
+  main[data-page="essay"] .sp__plot .tA { fill: none; stroke: var(--ink); stroke-width: 1.25; stroke-linejoin: round; }
+  main[data-page="essay"] .sp__plot .tB { fill: none; stroke: var(--graphite); stroke-width: 1; stroke-dasharray: 5 3; stroke-linejoin: round; }
+  main[data-page="essay"] .sp__plot .gap { fill: var(--signal); fill-opacity: .55; stroke: none; }
+  main[data-page="essay"] .sp__legend { display: flex; flex-wrap: wrap; gap: 6px 24px; text-transform: none; }   /* carries ν */
+  main[data-page="essay"] .sp__legend span { display: inline-flex; align-items: center; gap: 10px; }
+  main[data-page="essay"] .sp__legend i { display: inline-block; width: 22px; height: 0; border-top: 1.25px solid var(--ink); }
+  main[data-page="essay"] .sp__legend i.b { border-top: 1px dashed var(--graphite); }
+  main[data-page="essay"] .sp__legend i.gap { border: 0; height: 8px; background: var(--signal); opacity: .55; }
+  main[data-page="essay"] .sp__ctl { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--s2) var(--s4); align-items: end; padding-top: var(--s3); border-top: 1px solid var(--hair); }
+  main[data-page="essay"] .sp__drive { display: grid; gap: 6px; }
+  main[data-page="essay"] .sp__drive .rg__head { align-items: baseline; }
+  main[data-page="essay"] .sp__read { display: grid; gap: 2px; justify-items: end; text-align: right; }
+  main[data-page="essay"] .sp__pct { font-family: var(--sans); font-weight: 300; font-size: var(--t-num); letter-spacing: -.04em; line-height: 1; font-variant-numeric: tabular-nums; color: var(--ink); }
+  @media (max-width: 720px) {
+    main[data-page="essay"] .sp__ctl { grid-template-columns: 1fr; }
+    main[data-page="essay"] .sp__read { justify-items: start; text-align: left; }
+    main[data-page="essay"] .sp__plot { height: 240px; }
+    main[data-page="essay"] .inst { padding: var(--s2); }
+  }
 
-      .rung-label {
-        display: flex; align-items: center; gap: 1rem; margin: 5rem 0 0;
-        font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase;
-        letter-spacing: 0.24em; color: var(--clay);
-      }
-      .rung-label::after { content: ""; flex: 1; height: 1px; background: var(--rule); }
-      .rung-label .rate {
-        font-size: 1.05rem; letter-spacing: 0; color: var(--ink); font-weight: 700;
-        font-family: var(--sans);
-      }
+  /* notes and the exit */
+  main[data-page="essay"] .fn h2 { font-family: var(--sans); font-weight: 400; font-size: var(--t0); letter-spacing: -.01em; color: var(--ink); margin-bottom: var(--s3); }
+  main[data-page="essay"] .fn li:target { color: var(--ink); }
+  main[data-page="essay"] .fn .back { border-bottom: 0; font-family: var(--mono); font-size: var(--t-mono); margin-left: 6px; color: var(--ash); }
+  main[data-page="essay"] .fn .back:hover, main[data-page="essay"] .fn .back:focus-visible { color: var(--ink); }
+  main[data-page="essay"] .colophon { margin-top: var(--s4); padding-top: var(--s3); border-top: 1px solid var(--hair-2); }
+  main[data-page="essay"] .colophon a { border-bottom: 1px solid var(--hair); } main[data-page="essay"] .colophon a:hover { border-color: var(--ink); }
+  main[data-page="essay"] .pn .pn--next { grid-column: 2; }
+  @media (max-width: 720px) { main[data-page="essay"] .pn .pn--next { grid-column: 1; } }
+</style>
 
-      .article h2 {
-        font-family: var(--sans); font-size: 1.42rem; font-weight: 700;
-        letter-spacing: -0.014em; color: var(--ink); margin: 1.1rem 0 1rem; line-height: 1.22;
-      }
+<svg class="vh" aria-hidden="true" focusable="false" width="0" height="0">
+  <filter id="plate-wb" color-interpolation-filters="sRGB">
+    <feComponentTransfer>
+      <feFuncR type="linear" slope="1.016"/>
+      <feFuncG type="linear" slope="1.02"/>
+      <feFuncB type="linear" slope="1.041"/>
+    </feComponentTransfer>
+  </filter>
+</svg>
 
-      .pull-quote {
-        font-size: 1.36rem; line-height: 1.48; font-style: italic; font-weight: 420;
-        margin: 2.6rem 0; padding-left: 1.4rem; border-left: 2px solid var(--clay-bright);
-        color: var(--ink);
-      }
+<div class="wrap">
+<article class="essay haze" aria-labelledby="title">
 
-      .plate {
-        margin: 3rem calc(50% - 50vw); width: 100vw; max-width: 100vw;
-        padding: 0 1rem; box-sizing: border-box;
-      }
-      @media (min-width: 60em) {
-        .plate { margin: 3.4rem calc(50% - 46vw); width: 92vw; max-width: 1180px; padding: 0; }
-        .plate.wide { margin: 3.4rem calc(50% - 49vw); width: 98vw; max-width: 1500px; }
-      }
-      .plate img {
-        display: block; width: 100%; height: auto; border-radius: 10px;
-        border: 1px solid var(--rule); background: var(--card);
-        box-shadow: 0 1px 2px rgba(26,25,21,0.03), 0 12px 34px rgba(26,25,21,0.05);
-      }
-      .plate__cap {
-        font-family: var(--sans); font-size: 0.85rem; color: var(--muted);
-        line-height: 1.55; margin: 1rem auto 0; max-width: 62ch;
-        text-align: center; padding: 0 1rem;
-      }
-      .plate__cap b { font-weight: 640; color: var(--ink); }
-      .plate__cap code { font-size: 0.86em; }
+  <header class="essay__head">
+    <p class="essay__meta"><span>Physics environments</span><span><time datetime="2026-07">July 2026</time></span><span>13 min read</span></p>
+    <h1 id="title" class="essay__title">1976</h1>
+    <p class="essay__deck">A frontier model passes every run on my hardest geometry task and loses to a spring written down fifty years ago; the distance between the two is a ladder, and every rung hides one more layer of machinery.</p>
+  </header>
 
-      /* interactive shells */
-      .console {
-        margin: 2.6rem -1rem; border: 1px solid var(--rule); border-radius: 12px;
-        overflow: hidden; background: var(--card);
-        box-shadow: 0 1px 2px rgba(26,25,21,0.03), 0 10px 30px rgba(26,25,21,0.04);
-      }
-      @media (min-width: 56em) { .console { margin: 2.6rem -3.5rem; } }
-      .console__head {
-        background: var(--ink); color: var(--paper); padding: 0.95rem 1.3rem;
-        font-family: var(--mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.24em;
-      }
-      .console__body { padding: 1.6rem 1.4rem 1.4rem; }
-      @media (min-width: 56em) { .console__body { padding: 1.8rem 2.2rem 1.6rem; } }
-      .slider-row { margin-bottom: 1.5rem; }
-      .slider-row:last-of-type { margin-bottom: 1.9rem; }
-      .slider-top {
-        display: flex; justify-content: space-between; align-items: baseline;
-        margin-bottom: 0.5rem; font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.04em;
-      }
-      .slider-top .name { color: var(--ink); }
-      .slider-top .val { color: var(--muted); }
-      .slider-top .val b { color: var(--ink); font-weight: 600; }
-      .console input[type='range'] {
-        width: 100%; -webkit-appearance: none; appearance: none; height: 3px;
-        border-radius: 2px; background: var(--rule); outline: none; margin: 0.35rem 0 0.4rem;
-      }
-      .console input[type='range']::-webkit-slider-thumb {
-        -webkit-appearance: none; appearance: none; width: 17px; height: 17px;
-        border-radius: 50%; background: var(--ink); cursor: pointer;
-        border: 3px solid var(--card); box-shadow: 0 1px 4px rgba(26,25,21,0.25);
-      }
-      .console input[type='range']::-moz-range-thumb {
-        width: 17px; height: 17px; border-radius: 50%; background: var(--ink);
-        cursor: pointer; border: 3px solid var(--card);
-      }
-      .slider-scale {
-        position: relative; height: 1.1rem; font-family: var(--mono);
-        font-size: 0.62rem; letter-spacing: 0.06em; color: var(--faint);
-      }
-      .slider-scale span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
-      .slider-scale span:first-child { transform: none; }
-      .slider-scale span:last-child { transform: translateX(-100%); }
-      .slider-scale .lim { color: var(--clay); }
-      .slider-scale .lim::before {
-        content: ""; position: absolute; left: 50%; top: -0.42rem;
-        width: 1px; height: 0.28rem; background: var(--clay); opacity: 0.55;
-      }
-      .verdict {
-        border-top: 1px solid var(--rule); padding-top: 1.4rem;
-        display: flex; flex-wrap: wrap; align-items: center; gap: 0.9rem 1.4rem;
-      }
-      .verdict__num {
-        font-family: var(--sans); font-size: 2.6rem; font-weight: 700;
-        letter-spacing: -0.03em; line-height: 1; color: var(--ink);
-        transition: color 220ms ease; font-variant-numeric: tabular-nums;
-      }
-      .verdict__num.pass { color: var(--olive); }
-      .verdict__num.fail { color: var(--clay); }
-      .verdict__text {
-        font-family: var(--sans); font-size: 0.88rem; line-height: 1.5;
-        color: var(--muted); flex: 1; min-width: 15rem;
-      }
-      .verdict__text b { color: var(--ink); font-weight: 640; }
-      .badge {
-        display: inline-block; font-family: var(--mono); font-size: 0.62rem;
-        letter-spacing: 0.16em; text-transform: uppercase; padding: 0.32rem 0.7rem;
-        border-radius: 999px; border: 1px solid var(--clay); color: var(--clay);
-        background: var(--clay-dim);
-      }
-      .badge.ok { border-color: var(--olive); color: var(--olive); background: var(--olive-dim); }
-      .presets { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.4rem; }
-      .preset {
-        font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.06em;
-        padding: 0.5rem 0.9rem; border: 1px solid var(--rule); background: #fff;
-        color: var(--soft); border-radius: 999px; cursor: pointer;
-        transition: border-color 150ms ease, color 150ms ease, transform 150ms var(--ease-out);
-      }
-      .preset:active { transform: scale(0.97); }
-      @media (hover: hover) and (pointer: fine) {
-        .preset:hover { border-color: var(--clay); color: var(--clay); }
-      }
+  <div class="prose">
 
-      /* bouc-wen lab */
-      .bw-canvas-wrap { position: relative; margin-bottom: 1.2rem; }
-      .bw-canvas-wrap canvas {
-        display: block; width: 100%; height: auto; border: 1px solid var(--rule);
-        border-radius: 8px; background: #fff;
-      }
-      .bw-legend {
-        display: flex; gap: 1.4rem; flex-wrap: wrap; margin: 0.7rem 0 1.2rem;
-        font-family: var(--sans); font-size: 0.8rem; color: var(--soft);
-      }
-      .bw-legend .sw { display: inline-block; width: 20px; height: 3px; vertical-align: middle; margin-right: 0.45rem; border-radius: 2px; }
-      .bw-stat {
-        font-family: var(--sans); font-size: 0.88rem; color: var(--muted);
-        border-top: 1px solid var(--rule); padding-top: 1.2rem; line-height: 1.55;
-      }
-      .bw-stat b { color: var(--ink); font-weight: 640; }
-      .bw-stat .big {
-        font-size: 2rem; font-weight: 700; letter-spacing: -0.02em;
-        font-variant-numeric: tabular-nums; display: block; line-height: 1.15;
-      }
-      .bw-stat .big.ok { color: var(--olive); } .bw-stat .big.bad { color: var(--clay); }
-      .bw-grid { display: grid; grid-template-columns: 1fr; gap: 1rem 2rem; }
-      @media (min-width: 40em) { .bw-grid { grid-template-columns: 2fr 1fr; align-items: end; } }
+    <h2 id="fourteen">Fourteen for fourteen, then a spring</h2>
 
-      .footer-note {
-        margin-top: 4.5rem; padding-top: 2rem; border-top: 1px solid var(--rule);
-        color: var(--muted); font-size: 0.92rem; line-height: 1.65;
-      }
-      .footer-note a {
-        color: var(--ink); border-bottom: 1px solid var(--rule); text-decoration: none;
-        transition: color 150ms ease, border-color 150ms ease;
-      }
-      @media (hover: hover) and (pointer: fine) {
-        .footer-note a:hover { border-color: var(--clay); color: var(--clay); }
-      }
-    </style>
-  </head>
+    <p>I build CAD and simulation environments that frontier models train against, for Anthropic. The hardest geometry task I have shipped is a B-rep<sup id="fnref-1"><a href="#fn-1" aria-label="Note 1">1</a></sup> retrieval problem where up to half the part has been torn away. Fable 5 passes every run of it. Against a mass-spring model published in 1976, the same model fails 85% of the time.</p>
 
-  <body>
-    <input class="nav-active" id="nav-active" type="checkbox" />
-    <label class="nav-underlay" for="nav-active"></label>
+    <p>I pulled 1,758 scored rollouts from our training infrastructure to see whether that was a fluke. It is a staircase. Group the tasks by what they ask the model to do and the pass rate falls one step at a time. What each step measures is precise: how much machinery sits between what the model observes and what generated it. Each rung down hides one more layer.</p>
 
-    <nav class="nav">
-      <div class="nav__logo">
-        <a href="/" aria-label="Home"><img src="/assets/images/logo-black.svg" alt="Prannay Hebbar" /></a>
-      </div>
-      <div class="nav__toggle"><label for="nav-active"><span>Menu</span></label></div>
-      <div class="nav__options">
-        <ul>
-          <li><a href="/" class="mobile-menu-text">TLDR</a></li>
-          <li><a href="/blog" class="mobile-menu-text">Blogs</a></li>
-          <li><a href="/principles" class="mobile-menu-text">Principles</a></li>
-          <li><a href="/more" class="mobile-menu-text">Other Stuff</a></li>
-          <li><a href="/contact" class="mobile-menu-text">Contact</a></li>
-        </ul>
-      </div>
-    </nav>
-
-    <header class="header">
-      <h1><a href="/" aria-label="Prannay Hebbar"><img src="/assets/images/logo.svg" alt="Prannay Hebbar" /></a></h1>
-      <ul>
-        <li><a href="/">TLDR</a></li>
-        <li><a href="/blog">Blogs</a></li>
-        <li><a href="/principles">Principles</a></li>
-        <li><a href="/more">Other Stuff</a></li>
-        <li><a href="/contact">Contact</a></li>
-      </ul>
-    </header>
-
-    <main>
-      <article class="article">
-        <a href="/blog" class="back-link">← Blogs</a>
-
-        <p class="eyebrow rise">Field notes · Physics for frontier models</p>
-        <h1 class="rise r2">1976</h1>
-        <p class="subtitle rise r3">A frontier model meets a fifty-year-old spring.</p>
-        <div class="meta rise r3">July 2026<span class="dot">·</span>Prannay Hebbar<span class="dot">·</span>14 min read</div>
-
-        <p class="lead rise r4">
-          I build CAD and simulation environments that frontier models train against, for Anthropic. The model passes 100% of its runs on my hardest geometry task, a B-rep retrieval problem where half the part has been torn away. Against a mass-spring model published in 1976, it fails 85% of the time.
-        </p>
-
-        <p class="rise r5">
-          That is not a cute anomaly. Across 1,758 scored rollouts I pulled from our training infrastructure, the pattern is a staircase, and the thing the staircase measures is precise: <strong>how much machinery is hidden between what the model sees and what generated it.</strong> Each rung down, one more layer of hiding. This post walks the ladder rung by rung, with the actual tasks, the actual reward code, and the actual physics, until we reach the spring at the bottom and the empty rung below it.
-        </p>
-
-        <div class="plate wide rise r5">
-          <img src="assets/staircase.png" alt="Bar chart of pass rates across five task types: see 50%, advance 42%, produce 18%, invert 15%, design absent from the corpus." />
-          <div class="plate__cap">
-            The ladder, measured. Every scored rollout in the environment, July 2026, grouped by what the task asks the model to do. Pass = final reward at or above 0.50, which in our grading scheme is calibrated to mean <b>matched the reference solution</b>. The fifth rung has no bar because the corpus cannot afford to grade it, which is the subject of the last section.
+    <figure class="fig fig--wide" id="fig-ladder" aria-labelledby="fig-ladder-t">
+      <div class="fig__plate">
+        <div class="lad" role="img" aria-label="Bar chart. Pass rate by task family: see 50%, advance 42%, produce 18%, invert 15%. Design has no bar: it is absent from the corpus.">
+          <div class="lad__plot">
+            <span class="lab lad__unit">% of runs</span>
+            <div class="lad__grid"></div>
+            <div class="lad__axis lab">
+              <span style="--t:0">0</span><span style="--t:20">20</span><span style="--t:40">40</span><span style="--t:60">60</span>
+            </div>
+            <div class="lad__col" style="--v:50; --d:0ms"><span class="lad__pct">50%</span><div class="lad__bar"></div></div>
+            <div class="lad__col" style="--v:42; --d:60ms"><span class="lad__pct">42%</span><div class="lad__bar"></div></div>
+            <div class="lad__col" style="--v:18; --d:120ms"><span class="lad__pct">18%</span><div class="lad__bar"></div></div>
+            <div class="lad__col" style="--v:15; --d:180ms"><span class="lad__pct">15%</span><div class="lad__bar"></div></div>
+            <div class="lad__col"><div class="lad__ghost"><span class="lab">absent from the corpus</span></div></div>
           </div>
+          <div class="lad__names">
+            <div class="lad__name"><span class="lab lab--ink"><span class="lad__no">1 · </span>See</span><span class="lab lad__n">119 / 240 runs<br>24 problems</span><span class="lab lad__d">classify, retrieve, rank geometry</span></div>
+            <div class="lad__name"><span class="lab lab--ink"><span class="lad__no">2 · </span>Advance</span><span class="lab lad__n">34 / 80 runs<br>14 problems</span><span class="lab lad__d">forecast a field you can watch</span></div>
+            <div class="lad__name"><span class="lab lab--ink"><span class="lad__no">3 · </span>Produce</span><span class="lab lad__n">37 / 203 runs<br>19 problems</span><span class="lab lad__d">predict the solver's output from geometry</span></div>
+            <div class="lad__name"><span class="lab lab--ink"><span class="lad__no">4 · </span>Invert</span><span class="lab lad__n">76 / 520 runs<br>20 problems</span><span class="lab lad__d">recover the mechanism from its response</span></div>
+            <div class="lad__name"><span class="lab lab--ink"><span class="lad__no">5 · </span>Design</span><span class="lab lad__n">no runs<br>no problems</span><span class="lab lad__d">produce the part itself</span></div>
+          </div>
+          <ul class="lad__key" aria-hidden="true">
+            <li><span class="lab lab--ink">1 · See</span><span class="lab">119 / 240 runs<br>24 problems<br>classify, retrieve, rank geometry</span></li>
+            <li><span class="lab lab--ink">2 · Advance</span><span class="lab">34 / 80 runs<br>14 problems<br>forecast a field you can watch</span></li>
+            <li><span class="lab lab--ink">3 · Produce</span><span class="lab">37 / 203 runs<br>19 problems<br>predict the solver's output from geometry</span></li>
+            <li><span class="lab lab--ink">4 · Invert</span><span class="lab">76 / 520 runs<br>20 problems<br>recover the mechanism from its response</span></li>
+            <li><span class="lab lab--ink">5 · Design</span><span class="lab">absent from the corpus<br>produce the part itself</span></li>
+          </ul>
         </div>
+      </div>
+      <figcaption class="fig__cap">
+        <span class="fig__t" id="fig-ladder-t">Pass rate by task family, runs scoring at or above 0.50</span>
+        <span class="fig__meta">Fig. 01 · 1,043 runs</span>
+        <span class="fig__note">The four task families that make up the ladder, every scored rollout of each, July 2026, grouped by what the task asks of the model. Pass means final reward at or above 0.50, which our grading calibrates to mean matched the reference solution. The fifth rung has no bar because the corpus cannot afford to grade it.</span>
+      </figcaption>
+    </figure>
 
-        <div class="rung-label">Rung 1 · See <span class="rate">50% pass</span></div>
+    <p>This essay walks the ladder rung by rung, with the actual tasks, the actual reward code and the actual physics, down to the spring at the bottom and the empty rung below it.</p>
 
-        <h2>The answer is a property of what you can look at</h2>
+    <h2 id="see"><span class="h-n">01</span> See</h2>
 
-        <p>
-          Start at the top, where models are frighteningly good. The tasks on this rung hand the model geometry and ask a question whose answer is a function of that geometry: classify the surface type, rank the catalog, find the part. The hardest task I personally built lives here. Take a real CAD body from the Autodesk Fusion 360 Gallery, rotate it randomly in SO(3), rescale it, jitter every surface point, tear away up to 55% of its faces, shuffle what remains, and ask the model to find the original in a gallery of 180 bodies.
-        </p>
+    <p class="rung"><strong>The answer is a property of what you can look at.</strong> <span class="rung__rate">50% pass</span></p>
 
-        <p>
-          The model never sees a solid. It sees each face downsampled to a 5×5 grid of surface samples, stacked into a tensor, plus an adjacency graph saying which faces touch:
-        </p>
+    <p>Start at the top, where models are frighteningly good. These tasks hand the model geometry and ask a question whose answer is a function of that geometry: classify the surface type, rank the catalog, find the part.</p>
 
-        <div class="codeblock">
-          <div class="codeblock__head"><span>environment/corrupt.py · shipped to the agent in full</span><span class="lang">python</span></div>
-          <pre><span class="kw">def</span> <span class="nm">corrupt</span>(graph, *, seed, dropout_low, dropout_high):
-    <span class="st">"""Return an independently corrupted view of ``graph``.
+    <p>My retrieval task lives here. Take a real CAD body from the Autodesk Fusion 360 Gallery. Rotate it randomly in SO(3), rescale it by a factor drawn from U(0.5, 2.0), jitter every surface point, tear away up to 55% of its faces keeping only the largest connected piece, shuffle what remains. Then ask the model to find the original in a gallery of 180 bodies.</p>
+
+    <p>The model never sees a solid. Each face is downsampled to a 5×5 grid of surface samples<sup id="fnref-2"><a href="#fn-2" aria-label="Note 2">2</a></sup>, stacked into a tensor, with an adjacency graph saying which faces touch:</p>
+
+<pre><code><span class="cm"># environment/corrupt.py · shipped to the agent in full</span>
+<span class="kw">def</span> corrupt(graph, *, seed, dropout_low, dropout_high):
+    <span class="cm">"""Return an independently corrupted view of ``graph``.
 
     Applies, in order: a uniform random SO(3) rotation of surface
     points and normals, a global rescale in U(0.5, 2.0), masked
     Gaussian jitter of points and normals, connectivity-grown face
     dropout keeping the largest connected component, and a random
     face permutation with shuffled edges."""</span>
-    <span class="cm"># uv_grid: [F, 5, 5, 7]  (xyz, unit normals, coverage mask)</span>
-    <span class="cm"># edge_index: [2, E]     (face adjacency)</span></pre>
-        </div>
+    <span class="cm"># uv_grid:    [F, 5, 5, 7]  (xyz, unit normals, coverage mask)</span>
+    <span class="cm"># edge_index: [2, E]        (face adjacency)</span></code></pre>
 
-        <div class="plate wide">
-          <img src="assets/corruption-real.png" alt="A real Fusion 360 body as a point cloud, then the same body after light corruption with 20 to 35 percent of faces torn away, then heavy corruption with 40 to 55 percent gone." />
-          <div class="plate__cap">
-            A real gallery body and two real corrupted queries, generated by the shipped operator. The heavy query on the right has lost roughly half its faces and all of its orientation and scale. The model matches it back to the original anyway.
-          </div>
-        </div>
+    <figure class="fig" id="fig-corruption" aria-labelledby="fig-corruption-t">
+      <div class="fig__plate">
+        <img class="plate" src="/blog/cad-reward-design/assets/corruption-real.png" width="1888" height="708" loading="lazy" alt="A CAD body drawn as sparse face samples, beside two torn and rotated copies of itself.">
+      </div>
+      <figcaption class="fig__cap">
+        <span class="fig__t" id="fig-corruption-t">One gallery body, two corrupted queries</span>
+        <span class="fig__meta">Fig. 02 · Fusion 360 Gallery</span>
+        <span class="fig__note">One gallery body and two corrupted queries generated by the shipped operator. The light query keeps 73 of 94 faces; the heavy query on the right keeps 43, and has lost its orientation and scale entirely. The model matches it back to the original anyway.</span>
+      </figcaption>
+    </figure>
 
-        <p>
-          This should be hard. It is not. Fable 5 passes <strong>14 of 14 runs</strong> on this task, mean reward 0.95, and the whole rung sits at 50% with the failures concentrated in a few pathological ranking tasks. The reason is worth stating plainly, because it defines everything below: the answer here is a <em>stable function of visible structure</em>. Invariance to rotation, scale and occlusion is exactly the kind of regularity a large model extracts from data without ever needing to know what a face or a solid is.
-        </p>
+    <p>This should be hard. It is not. Fable 5 passes 14 of 14 runs on this task with a mean reward of 0.95, and the whole rung sits at 50%, with the failures concentrated in a few pathological ranking tasks. The reason defines everything below: the answer here is a stable function of visible structure. Invariance to rotation, scale and occlusion is exactly the regularity a large model extracts from data without ever needing to know what a face or a solid is.</p>
 
-        <p>
-          So the corpus takes the first thing away. What if the answer is not a property of the shape, but a field that lives on it, produced by machinery the model can watch but not touch?
-        </p>
+    <p>So the corpus takes the first thing away. What if the answer is not a property of the shape but a field that lives on it, produced by machinery the model can watch but not touch?</p>
 
-        <div class="rung-label">Rung 2 · Advance <span class="rate">42% pass</span></div>
+    <h2 id="advance"><span class="h-n">02</span> Advance</h2>
 
-        <h2>You can watch the mechanism run. Continue it.</h2>
+    <p class="rung"><strong>You can watch the mechanism run. Continue it.</strong> <span class="rung__rate">42% pass</span></p>
 
-        <p>
-          The forecasting tasks give the model frames of a physical field, buoyancy and velocity in a convecting fluid, density and magnetic field in a turbulent plasma, and ask it to advance the state several steps in one shot. The mechanism is fully visible: every frame is the mechanism operating. The model just has to continue what it can already see.
-        </p>
+    <p>The forecasting tasks give the model frames of a physical field, buoyancy and velocity in a convecting fluid, density and magnetic field in a turbulent plasma, and ask it to advance the state several steps in one shot. The mechanism is fully visible; every frame is the mechanism operating. The model has to continue what it can already see.</p>
 
-        <div class="plate wide">
-          <img src="assets/convection.png" alt="A Rayleigh-Benard convection simulation with hot plumes rising and cold plumes sinking, velocity arrows overlaid, next to a plot of the convective heat flux profile against height comparing the true profile to a blurry surrogate." />
-          <div class="plate__cap">
-            Rayleigh–Bénard convection at Ra = 1.2×10⁶, integrated from a noisy initial condition until the plumes organise. The graded quantity is on the right: the vertical convective heat flux <b>⟨v<sub>y</sub>·b⟩</b>. Note how the blurry surrogate tracks the field while flattening the flux.
-          </div>
-        </div>
+    <figure class="fig fig--wide" id="fig-convection" aria-labelledby="fig-convection-t">
+      <div class="fig__plate">
+        <img class="plate" src="/blog/cad-reward-design/assets/convection.webp" width="2174" height="786" loading="lazy" alt="A convection cell with hot plumes rising from the bottom plate, beside a heat-flux profile where a dashed surrogate curve undershoots every peak of the true curve.">
+      </div>
+      <figcaption class="fig__cap">
+        <span class="fig__t" id="fig-convection-t">Rayleigh–Bénard convection and the quantity that is graded</span>
+        <span class="fig__meta">Fig. 03 · Boussinesq integration</span>
+        <span class="fig__note">Rayleigh–Bénard convection at Ra = 1.2×10⁶, integrated from a noisy initial condition until the plumes organise. The graded quantity is the profile on the right, the vertical convective heat flux ⟨v<sub>y</sub>·b⟩. The blurry surrogate tracks the field and flattens the flux.</span>
+      </figcaption>
+    </figure>
 
-        <p>
-          Pass rate: 42%. The dominant failure is the one every pixel-loss model commits: <strong>blur</strong>. Averaging over plausible futures minimises mean squared error and produces a fluid that has stopped obeying physics, plumes smeared into gradients, sharp fronts gone. The graded numbers can still look respectable, which is why these tasks do not grade the field alone. They grade a <em>derived invariant</em> the physics must satisfy, one a blurry field gets wrong:
-        </p>
+    <p>Pass rate: 42%. The dominant failure is the one every pixel-loss model commits: blur. Averaging over plausible futures minimises mean squared error and produces a fluid that has stopped obeying physics, plumes smeared into gradients, sharp fronts gone. The per-pixel numbers still look respectable. That is why these tasks never grade the field alone. They also grade a derived invariant the physics must satisfy, one a blurry field gets wrong:</p>
 
-        <div class="codeblock">
-          <div class="codeblock__head"><span>rb-nusselt-forecast · the reward gate</span><span class="lang">python</span></div>
-          <pre><span class="cm"># F(y) = &lt;v_y * buoyancy&gt;_x   -- the convective heat flux profile.</span>
-<span class="cm"># A nonlinear diagnostic of the *coupling* between fields: blurring</span>
-<span class="cm"># v_y and b separately destroys their correlation, so MSE-minimising</span>
-<span class="cm"># forecasts fail here even when per-pixel error looks fine.</span>
-reward = <span class="nm">min</span>(gate(field_rel_l2), gate(heatflux_rel_err))</pre>
-        </div>
+<pre><code><span class="cm"># rb-nusselt-forecast · the reward gate
+# F(y) = &lt;v_y * buoyancy&gt;_x -- the convective heat flux profile.
+# A nonlinear diagnostic of the *coupling* between fields: blurring
+# v_y and b separately destroys their correlation, so MSE-minimising
+# forecasts fail here even when per-pixel error looks fine.</span>
+reward = min(gate(field_rel_l2), gate(heatflux_rel_err))</code></pre>
 
-        <p>
-          The <code>min</code> is not a detail; it is the house style of the entire corpus, and we will meet it again. But notice what still makes this rung passable at 42%: the model is shown the operator in action. Two context frames of a convection cell contain an enormous amount of what it needs. The next rung deletes those frames.
-        </p>
+    <p>The <code>min</code> is the house style of the entire corpus and we will meet it again. Notice what still makes this rung passable: the model is shown the operator in action. Two context frames of a convection cell carry an enormous amount of what it needs. The next rung deletes those frames.</p>
 
-        <div class="rung-label">Rung 3 · Produce <span class="rate">18% pass</span></div>
+    <h2 id="produce"><span class="h-n">03</span> Produce</h2>
 
-        <h2>Now you never see the field. Produce what the solver would say.</h2>
+    <p class="rung"><strong>You never see the field. Produce what the solver would say.</strong> <span class="rung__rate">18% pass</span></p>
 
-        <p>
-          Here the model receives only geometry, a jet-engine bracket as a point cloud or a voxel grid, and must output what a finite-element solver would compute on it: the von Mises stress field under load, the displacement field, the first vibration mode. It has training pairs, geometry in, field out, but it never observes the operator that connects them. The physics has moved behind a curtain.
-        </p>
+    <p>Here the model receives only geometry, a jet-engine bracket as a point cloud or a voxel grid, and must output what a finite-element solver would compute on it: the von Mises stress<sup id="fnref-3"><a href="#fn-3" aria-label="Note 3">3</a></sup> field under load, the displacement field, the first vibration mode. It has training pairs, geometry in and field out, but it never observes the operator connecting them. The physics has moved behind a curtain.</p>
 
-        <div class="plate wide">
-          <img src="assets/modeshapes.png" alt="Four vibration mode shapes of a bracket section in blue and red, each crossed by dark nodal lines where the structure does not move. The lines migrate and curve from mode to mode." />
-          <div class="plate__cap">
-            What the model must produce: the first four vibration modes of a bracket section, from an eigenvalue solve. The dark curves are <b>nodal lines</b>, where the part does not move at all. Their position is set by ribs and cut-outs, they migrate as the design changes, and a model that blurs them has produced a physically meaningless answer that still scores well on mean squared error.
-          </div>
-        </div>
+    <p>Take the first four vibration modes of a bracket section, out of an eigenvalue solve. The dark curves are nodal lines<sup id="fnref-4"><a href="#fn-4" aria-label="Note 4">4</a></sup>, where the part does not move at all. Ribs and cut-outs set their position, they migrate as the design changes, and a model that blurs them has produced a physically meaningless answer that still scores well on mean squared error.</p>
 
-        <p>
-          Pass rate: 18%, less than half the rung above. And the failures now come in a second flavor beyond blur: <strong>degenerate specialisation</strong>. Predict the easy component of the answer perfectly, abandon the rest, collect partial credit. On one bracket task, mass is nearly a linear function of occupied volume, so a model can nail it from the voxel count alone while ignoring stress and frequency entirely, and an averaged reward would pay it for that.
-        </p>
+    <figure class="fig fig--wide" id="fig-modeshapes" aria-labelledby="fig-modeshapes-t">
+      <div class="fig__plate">
+        <img class="plate" src="/blog/cad-reward-design/assets/modeshapes.png" width="2075" height="455" loading="lazy" alt="Four vibration mode shapes of a bracket section in red and blue, each crossed by dark nodal lines where the structure does not move. The lines migrate and curve from mode to mode.">
+      </div>
+      <figcaption class="fig__cap">
+        <span class="fig__t" id="fig-modeshapes-t">Four vibration modes of one bracket</span>
+        <span class="fig__meta">Fig. 04 · Eigensolve</span>
+        <span class="fig__note">What the model must produce: the first four vibration modes of the same bracket, from an eigenvalue solve. The dark curves are the nodal lines. Modes 2 and 3 are a quarter of a percent apart in frequency and differ by a single nodal line; a blurred average of the two is a mode of nothing.</span>
+      </figcaption>
+    </figure>
 
-        <p>
-          This is why every task on this rung grades several metrics and takes the minimum, with each metric mapped through four measured anchors. This is the actual scoring function from my retrieval task's verifier, and it is the same shape everywhere in the corpus:
-        </p>
+    <p>Pass rate 18%, less than half the rung above. The failures now come in a second flavor beyond blur: degenerate specialisation. Predict the easy component of the answer perfectly, abandon the rest, collect partial credit. On one bracket task, mass is nearly a linear function of occupied volume, so a model can nail it from the voxel count alone while ignoring stress and frequency, and an averaged reward would pay it for that.</p>
 
-        <div class="codeblock">
-          <div class="codeblock__head"><span>tests/verify.py · the reward, verbatim</span><span class="lang">python</span></div>
-          <pre><span class="kw">def</span> <span class="nm">_metric_reward</span>(value, baseline, threshold, target, strong):
-    <span class="kw">if</span> value &lt;= baseline:   <span class="kw">return</span> 0.0
-    <span class="kw">if</span> value &lt; threshold:   <span class="kw">return</span> 0.2 * _smoothstep((value - baseline) / (threshold - baseline))
-    <span class="kw">if</span> value &lt; target:      <span class="kw">return</span> 0.2 + 0.3 * _smoothstep((value - threshold) / (target - threshold))
-    <span class="kw">if</span> value &lt; strong:      <span class="kw">return</span> 0.5 + 0.5 * _smoothstep((value - target) / (strong - target))
+    <p>This is why every task on the rung grades several metrics and takes the minimum, with each metric mapped through four measured anchors. Here is the scoring function from my retrieval task's verifier, verbatim, and it is the same shape everywhere in the corpus:</p>
+
+<pre class="pre--wide"><code><span class="cm"># tests/verify.py · the reward</span>
+<span class="kw">def</span> _metric_reward(value, baseline, threshold, target, strong):
+    <span class="kw">if</span> value &lt;= baseline:  <span class="kw">return</span> 0.0
+    <span class="kw">if</span> value &lt; threshold:  <span class="kw">return</span> 0.2 * _smoothstep((value - baseline) / (threshold - baseline))
+    <span class="kw">if</span> value &lt; target:     <span class="kw">return</span> 0.2 + 0.3 * _smoothstep((value - threshold) / (target - threshold))
+    <span class="kw">if</span> value &lt; strong:     <span class="kw">return</span> 0.5 + 0.5 * _smoothstep((value - target) / (strong - target))
     <span class="kw">return</span> 1.0
 
-<span class="cm"># reward = the WORST metric, not the average. A model that solves</span>
-<span class="cm"># one third of the problem perfectly scores zero, not one third.</span>
-reward = <span class="nm">max</span>(0.0, <span class="nm">min</span>(1.0, <span class="nm">min</span>(scores.values())))</pre>
-        </div>
+<span class="cm"># reward = the WORST metric, not the average. A model that solves
+# one third of the problem perfectly scores zero, not one third.</span>
+reward = max(0.0, min(1.0, min(scores.values())))</code></pre>
 
-        <p>
-          The anchors are not aspirations, they are measurements: <em>baseline</em> is what an untrained network actually scores, <em>target</em> is where the trained reference solution actually lands. Here is that scoring function running live, with the real anchors shipped in my task. Try to find a setting where being excellent at two of three metrics pays.
-        </p>
+    <p>The anchors are measurements, not aspirations. <code>baseline</code> is what an untrained network actually scores. <code>target</code> is where the trained reference solution actually lands. Below is that function running on the real anchors shipped in my task. Try to find a setting where being excellent at two of three metrics pays.</p>
 
-        <div class="console">
-          <div class="console__head">reward.json · corruption-invariant body retrieval</div>
-          <div class="console__body">
-            <div class="slider-row">
-              <div class="slider-top">
-                <span class="name">recall_at_1</span>
-                <span class="val">value <b id="v0">0.840</b> · score <b id="s0">0.50</b></span>
+    <figure class="fig" id="fig-reward-gate" aria-labelledby="fig-reward-gate-t">
+      <div class="fig__plate">
+        <div class="inst rg">
+          <div class="rg__rows">
+            <div class="rg__row" data-k="recall_at_1" data-base="0.05" data-thr="0.60" data-tgt="0.84">
+              <div class="rg__head"><label class="lab lab--ink" for="rg-0">recall_at_1</label><span class="lab">value <span class="rg__val">0.840</span> · score <span class="rg__score">0.50</span></span></div>
+              <div class="rg__track">
+                <div class="rg__line"></div>
+                <span class="rg__tick rg__tick--l" style="left:5%"><span class="lab">base 0.05</span></span>
+                <span class="rg__tick" style="left:60%"><span class="lab">thr 0.60</span></span>
+                <span class="rg__tick" style="left:84%"><span class="lab">tgt 0.84</span></span>
+                <span class="rg__tick rg__tick--r" style="left:100%"><span class="lab">1.00</span></span>
+                <input class="range" id="rg-0" type="range" min="0" max="1" step="0.005" value="0.84" aria-describedby="rg-help">
               </div>
-              <input type="range" id="m0" min="0" max="1000" value="840" aria-label="recall at 1" />
-              <div class="slider-scale"><span class="lim" style="left:5%">base .05</span><span class="lim" style="left:60%">thr .60</span><span class="lim" style="left:84%">tgt .84</span><span style="left:100%">1.00</span></div>
             </div>
-            <div class="slider-row">
-              <div class="slider-top">
-                <span class="name">heavy_recall_at_1</span>
-                <span class="val">value <b id="v1">0.740</b> · score <b id="s1">0.50</b></span>
+            <div class="rg__row" data-k="heavy_recall_at_1" data-base="0.03" data-thr="0.45" data-tgt="0.74">
+              <div class="rg__head"><label class="lab lab--ink" for="rg-1">heavy_recall_at_1</label><span class="lab">value <span class="rg__val">0.740</span> · score <span class="rg__score">0.50</span></span></div>
+              <div class="rg__track">
+                <div class="rg__line"></div>
+                <span class="rg__tick rg__tick--l" style="left:3%"><span class="lab">base 0.03</span></span>
+                <span class="rg__tick" style="left:45%"><span class="lab">thr 0.45</span></span>
+                <span class="rg__tick" style="left:74%"><span class="lab">tgt 0.74</span></span>
+                <span class="rg__tick rg__tick--r" style="left:100%"><span class="lab">1.00</span></span>
+                <input class="range" id="rg-1" type="range" min="0" max="1" step="0.005" value="0.74" aria-describedby="rg-help">
               </div>
-              <input type="range" id="m1" min="0" max="1000" value="740" aria-label="heavy recall at 1" />
-              <div class="slider-scale"><span class="lim" style="left:3%">base .03</span><span class="lim" style="left:45%">thr .45</span><span class="lim" style="left:74%">tgt .74</span><span style="left:100%">1.00</span></div>
             </div>
-            <div class="slider-row">
-              <div class="slider-top">
-                <span class="name">neardup_mrr_at_5</span>
-                <span class="val">value <b id="v2">0.820</b> · score <b id="s2">0.50</b></span>
-              </div>
-              <input type="range" id="m2" min="0" max="1000" value="820" aria-label="near-duplicate MRR at 5" />
-              <div class="slider-scale"><span class="lim" style="left:8%">base .08</span><span class="lim" style="left:55%">thr .55</span><span class="lim" style="left:82%">tgt .82</span><span style="left:100%">1.00</span></div>
-            </div>
-            <div class="verdict">
-              <div class="verdict__num" id="reward">0.50</div>
-              <div class="verdict__text" id="verdictText">Exactly at the reference solution.</div>
-              <span class="badge" id="badge">PASS</span>
-            </div>
-            <div class="presets">
-              <button class="preset" data-p="840,740,820">reference solution</button>
-              <button class="preset" data-p="960,910,940">strong on all three</button>
-              <button class="preset" data-p="950,220,930">easy queries only</button>
-              <button class="preset" data-p="880,800,300">can't split near-duplicates</button>
-              <button class="preset" data-p="50,30,80">untrained network</button>
-            </div>
-          </div>
-        </div>
-
-        <p>
-          So far the hidden thing has been an output: a field the model must reproduce. But the operator producing that field was at least fixed and universal, the same elasticity everywhere, the same heat equation. One rung further down, the hidden thing is the operator itself.
-        </p>
-
-        <div class="rung-label">Rung 4 · Invert <span class="rate">15% pass</span></div>
-
-        <h2>The spring</h2>
-
-        <p>
-          In 1967, Robert Bouc wrote down a differential equation for hysteresis, the property by which a material's restoring force depends not on where it is but on where it has been. In 1976, Yi-Kwei Wen extended it into the form every earthquake and vibration engineer now knows, and the Bouc–Wen oscillator became one of the standard benchmarks for nonlinear system identification. It is five lines of physics:
-        </p>
-
-        <div class="codeblock">
-          <div class="codeblock__head"><span>the Bouc–Wen hysteretic oscillator · from the task's reference solution</span><span class="lang">python</span></div>
-          <pre><span class="cm"># m*y'' + c*y' + k*y + z = u(t)</span>
-<span class="cm"># z'   = a*y' - bg*|y'|*|z|**(nu-1)*z - bd*y'*|z|**nu</span>
-<span class="cm">#</span>
-<span class="cm"># z is the hysteretic force: an unmeasurable internal state whose</span>
-<span class="cm"># value depends on the entire history of the motion. Identified</span>
-<span class="cm"># benchmark parameters: m=2, k=5e4, a=5e4, bg=800, bd=-1100, nu=1.</span>
-<span class="kw">def</span> <span class="nm">drv</span>(y1, y2, z, uv):
-    dz = a*y2 - bg*<span class="nm">abs</span>(y2)*<span class="nm">abs</span>(z)**(nu-1)*z - bd*y2*<span class="nm">abs</span>(z)**nu
-    <span class="kw">return</span> y2, (uv - c*y2 - k*y1 - z)/m, dz</pre>
-        </div>
-
-        <p>
-          The tasks on this rung hand the model one recording, force in, displacement out, sampled at 750 Hz, and ask it to predict the displacement for a new force record. Nothing else. To do that you must recover the mechanism: not fit the wiggle, but figure out what kind of machine is wiggling. There are twenty variants in the corpus, contaminated sensors, closed-loop feedback, asymmetric stiffness, thermal drift, and across <strong>520 rollouts the pass rate is 15%</strong>, the worst of any family. The single hardest variant, identification from outlier-contaminated data, has a mean reward of 0.04.
-        </p>
-
-        <p>
-          Why does this kill a model that shrugs off half-destroyed CAD bodies? Because the training record genuinely does not pin down the mechanism, and pattern-matching has nothing to grab. I can show you. I fit a second oscillator, an impostor whose hysteresis parameters differ from the true ones by a factor of nine, whose exponent is 1.5 instead of 1.0, a physically different machine, so that its response to the training force matches to within 3.5%:
-        </p>
-
-        <div class="plate wide">
-          <img src="assets/two-springs.png" alt="Left: displacement traces of two Bouc-Wen oscillators with radically different parameters, overlapping almost exactly at training amplitude. Right: the same two springs driven 3.5 times harder, with visible divergence shaded between the curves." />
-          <div class="plate__cap">
-            Spring A is the benchmark mechanism. Spring B has <b>bg = 91 instead of 800, bd = −117 instead of −1100, ν = 1.5 instead of 1.0</b>. At the training amplitude their responses are 3.5% apart, within the task's measurement-noise floor. Drive the same two springs 3.5× harder and they disagree by 16%, because the hysteresis terms that were barely excited at small amplitude now dominate.
-          </div>
-        </div>
-
-        <p>
-          Every fit that stops at "matches the training data" has a large family of impostors to choose from, and gradient descent will happily pick one. The graders on this rung are built to drive the system into the regime where impostors die: held-out records at higher amplitudes, different spectral content, reversed sweeps. That is not adversarial cruelty. It is the definition of having identified a system.
-        </p>
-
-        <p>
-          You can do the experiment yourself. Both springs below are simulated live in your browser, RK4 on the equations above. At drive level 1.0× they are the same spring for all you can tell. Turn it up.
-        </p>
-
-        <div class="console">
-          <div class="console__head">two springs · live Bouc–Wen simulation</div>
-          <div class="console__body">
-            <div class="bw-canvas-wrap">
-              <canvas id="bwCanvas" width="1080" height="360" aria-label="Live simulation of two Bouc-Wen oscillators, displacement against time"></canvas>
-            </div>
-            <div class="bw-legend">
-              <span><span class="sw" style="background:#1a1915"></span>spring A · the true mechanism</span>
-              <span><span class="sw" style="background:#c25e3f"></span>spring B · the impostor (hysteresis 9× weaker, ν = 1.5)</span>
-            </div>
-            <div class="bw-grid">
-              <div class="slider-row" style="margin-bottom:0">
-                <div class="slider-top">
-                  <span class="name">drive amplitude</span>
-                  <span class="val"><b id="bwAmpLabel">1.0×</b> the training level</span>
-                </div>
-                <input type="range" id="bwAmp" min="100" max="400" value="100" aria-label="drive amplitude multiplier" />
-                <div class="slider-scale"><span class="lim" style="left:0%">1.0× = training data</span><span style="left:100%">4.0×</span></div>
-              </div>
-              <div class="bw-stat">
-                <span class="big ok" id="bwErr">–</span>
-                disagreement between the two springs
-                <span id="bwNote" style="display:block; margin-top:0.3rem"></span>
+            <div class="rg__row" data-k="neardup_mrr_at_5" data-base="0.08" data-thr="0.55" data-tgt="0.82">
+              <div class="rg__head"><label class="lab lab--ink" for="rg-2">neardup_mrr_at_5</label><span class="lab">value <span class="rg__val">0.820</span> · score <span class="rg__score">0.50</span></span></div>
+              <div class="rg__track">
+                <div class="rg__line"></div>
+                <span class="rg__tick rg__tick--l" style="left:8%"><span class="lab">base 0.08</span></span>
+                <span class="rg__tick" style="left:55%"><span class="lab">thr 0.55</span></span>
+                <span class="rg__tick" style="left:82%"><span class="lab">tgt 0.82</span></span>
+                <span class="rg__tick rg__tick--r" style="left:100%"><span class="lab">1.00</span></span>
+                <input class="range" id="rg-2" type="range" min="0" max="1" step="0.005" value="0.82" aria-describedby="rg-help">
               </div>
             </div>
           </div>
-        </div>
-
-        <p>
-          This is what "the model must reason about mechanism" means, concretely. There is no invariance to learn, no smooth map from input to output. The information that separates the true spring from the impostor <em>is not in the training data</em>, it is in knowing which experiment would separate them, which is a physicist's move, not a pattern-matcher's. That is the skill these 520 rollouts are teaching, one failed attempt at a time, and the per-variant scores say the teaching is uneven: the model already passes half its runs on the thermal-drift variant, and almost none on the contaminated one.
-        </p>
-
-        <p class="pull-quote">
-          The spring is not hard because it is complicated. It is hard because it keeps its mechanism where the data cannot see it.
-        </p>
-
-        <div class="rung-label">Rung 5 · Design <span class="rate">absent</span></div>
-
-        <h2>The rung that is not there</h2>
-
-        <p>
-          Follow the ladder's logic one step further. Rung 3 hides the field, rung 4 hides the mechanism. Rung 5 hides the artifact itself: here is a load case, a material budget, a manufacturing process, <em>produce the part</em>. That is the job a mechanical engineer is actually paid for, and it is almost completely absent from the corpus. Not because we cannot grade it, but because we cannot afford to.
-        </p>
-
-        <p>
-          We have known how to solve the toy version without any learning at all since the nineties. I ran one while writing this: topology optimisation of a beam, nothing given but a load, a support, and permission to use half the material.
-        </p>
-
-        <div class="plate wide">
-          <img src="assets/topopt.png" alt="Five frames of a grey rectangle resolving into a truss structure over ninety iterations, a log-scale compliance curve falling from 1038 to 188, and the final thresholded part outline." />
-          <div class="plate__cap">
-            SIMP topology optimisation, 180×60 elements. Compliance falls from <b>1038 to 188</b>, matching the published benchmark for this problem, and the truss is discovered, not designed. The price is on the curve: <b>90 finite-element solves</b>, every point one full stiffness solve.
+          <p class="vh" id="rg-help">Arrow keys move the metric. The reward below is the lowest of the three scores.</p>
+          <div class="rg__out" aria-live="polite" aria-atomic="true">
+            <span class="rg__num"><span class="rg__r">0.50</span><span class="lab rg__verdict">pass</span></span>
+            <div class="rg__bar" aria-hidden="true">
+              <div class="rg__line"></div>
+              <div class="rg__fill" style="width:50%"></div>
+              <span class="rg__pass"><span class="lab">pass</span></span>
+              <span class="rg__mark dot" style="left:50%"></span>
+            </div>
+            <p class="rg__why">Exactly at the reference solution: every metric on its target anchor.</p>
+          </div>
+          <div class="rg__presets" role="group" aria-label="Presets">
+            <button class="pill" type="button" data-p="0.84,0.74,0.82" aria-pressed="true">reference solution</button>
+            <button class="pill" type="button" data-p="0.95,0.90,0.95" aria-pressed="false">strong on all three</button>
+            <button class="pill" type="button" data-p="0.95,0.20,0.90" aria-pressed="false">easy queries only</button>
+            <button class="pill" type="button" data-p="0.90,0.80,0.30" aria-pressed="false">can't split near-duplicates</button>
+            <button class="pill" type="button" data-p="0.05,0.03,0.08" aria-pressed="false">untrained network</button>
           </div>
         </div>
+      </div>
+      <figcaption class="fig__cap">
+        <span class="fig__t" id="fig-reward-gate-t">The reward gate, on the shipped anchors</span>
+        <span class="fig__meta">Fig. 05 · tests/verify.py</span>
+        <span class="fig__note">The scoring function from tests/verify.py, running live on the anchors shipped in the retrieval task. Drag any metric. The reward is the worst of the three, never the average.</span>
+      </figcaption>
+    </figure>
 
-        <div class="codeblock">
-          <div class="codeblock__head"><span>the whole generative-design loop, in one update</span><span class="lang">python</span></div>
-          <pre><span class="kw">for</span> it <span class="kw">in</span> <span class="nm">range</span>(90):
-    U  = solve(K(x), F)                  <span class="cm"># one finite-element solve</span>
+    <p>So far the hidden thing has been an output: a field the model must reproduce. The operator producing that field was fixed and universal, the same elasticity everywhere, the same heat equation. One rung further down, the hidden thing is the operator itself.</p>
+
+    <h2 id="invert"><span class="h-n">04</span> Invert</h2>
+
+    <p class="rung"><strong>The spring.</strong> <span class="rung__rate">15% pass</span></p>
+
+    <p>In 1967 Robert Bouc wrote down a differential equation for hysteresis<sup id="fnref-5"><a href="#fn-5" aria-label="Note 5">5</a></sup>, the property by which a material's restoring force depends not on where it is but on where it has been. In 1976 Yi-Kwei Wen extended it into the form every earthquake and vibration engineer now knows, and the Bouc–Wen oscillator became one of the standard benchmarks for nonlinear system identification<sup id="fnref-6"><a href="#fn-6" aria-label="Note 6">6</a></sup>. It is five lines of physics:</p>
+
+<pre><code><span class="cm"># the Bouc–Wen hysteretic oscillator · from the task's reference solution
+# m*y'' + c*y' + k*y + z = u(t)
+# z'  = a*y' - bg*|y'|*|z|**(nu-1)*z - bd*y'*|z|**nu
+#
+# z is the hysteretic force: an unmeasurable internal state whose
+# value depends on the entire history of the motion. Identified
+# benchmark parameters: m=2, k=5e4, a=5e4, bg=800, bd=-1100, nu=1.</span>
+<span class="kw">def</span> drv(y1, y2, z, uv):
+    dz = a*y2 - bg*abs(y2)*abs(z)**(nu-1)*z - bd*y2*abs(z)**nu
+    <span class="kw">return</span> y2, (uv - c*y2 - k*y1 - z)/m, dz</code></pre>
+
+    <figure class="fig" id="fig-boucwen-machine" aria-labelledby="fig-boucwen-machine-t">
+      <div class="fig__plate bw">
+        <svg viewBox="32 26 640 320" role="img" aria-label="Schematic of the Bouc–Wen oscillator: a wall on the left; a spring, a damper and a dashed hysteretic element in parallel attach to a mass on rollers; a force u(t) enters from the right; the displacement y(t) is read along the ground. The model sees only u(t) and y(t).">
+            <!-- wall + ground hatch -->
+            <path class="hl" d="M60 42 V232"/>
+            <path class="hl2" d="M60 52 L48 64 M60 68 L48 80 M60 84 L48 96 M60 100 L48 112 M60 116 L48 128 M60 132 L48 144 M60 148 L48 160 M60 164 L48 176 M60 180 L48 192 M60 196 L48 208 M60 212 L48 224"/>
+            <!-- spring k·y -->
+            <path class="hl" d="M60 88 H120 L132 76 L156 100 L180 76 L204 100 L228 76 L252 100 L276 76 L300 100 L324 76 L348 100 L360 88 H400"/>
+            <text x="230" y="64" text-anchor="middle">k·y</text>
+            <!-- damper c·ẏ -->
+            <path class="hl" d="M60 140 H210 M210 126 H300 M210 154 H300 M210 126 V154 M262 128 V152 M262 140 H400"/>
+            <text x="255" y="116" text-anchor="middle">c·ẏ</text>
+            <!-- hysteretic element z(t) -->
+            <path class="hl" d="M60 192 H205 M305 192 H400"/>
+            <rect class="z" x="205" y="176" width="100" height="32"/>
+            <path class="hl" d="M228 200 C240 184 262 180 282 184 C270 200 248 204 228 200 Z"/>
+            <text x="255" y="168" text-anchor="middle">z(t)</text>
+            <text class="ash" x="255" y="230" text-anchor="middle">internal state · unmeasured</text>
+            <!-- mass on rollers -->
+            <rect class="mass" x="400" y="62" width="100" height="164"/>
+            <text class="m" x="450" y="154" text-anchor="middle">m</text>
+            <circle class="hl" cx="424" cy="234" r="8"/>
+            <circle class="hl" cx="476" cy="234" r="8"/>
+            <path class="hl" d="M380 242 H580"/>
+            <!-- u(t) force in -->
+            <path class="hl" d="M640 144 H504"/>
+            <path class="ink" d="M500 144 L512 138.5 V149.5 Z"/>
+            <text x="640" y="132" text-anchor="end">u(t) · force in</text>
+            <!-- y(t) displacement out -->
+            <path class="hl" d="M400 256 V276 M400 266 H468"/>
+            <path class="ink" d="M472 266 L461 261 V271 Z"/>
+            <text x="400" y="296">y(t) · displacement out</text>
+            <!-- the two records the model is given -->
+            <path class="hl2 br" d="M646 122 H652 V302 H646"/>
+            <text class="ash br" x="652" y="330" text-anchor="end">the model sees only these two records</text>
+        </svg>
+        <ul class="bw__key" aria-hidden="true">
+          <li><span class="lab lab--ink">k·y</span><span class="lab">spring</span></li>
+          <li><span class="lab lab--ink">c·ẏ</span><span class="lab">damper</span></li>
+          <li><span class="lab lab--ink">z(t)</span><span class="lab">hysteretic element · internal state, unmeasured</span></li>
+          <li><span class="lab lab--ink">u(t)</span><span class="lab">force in, from the right</span></li>
+          <li><span class="lab lab--ink">y(t)</span><span class="lab">displacement out, along the ground</span></li>
+        </ul>
+      </div>
+      <figcaption class="fig__cap">
+        <span class="fig__t" id="fig-boucwen-machine-t">The machine behind the equation</span>
+        <span class="fig__meta">Fig. 06 · Schematic</span>
+        <span class="fig__note">The machine behind the equation, drawn to its terms. Spring, damper and mass are textbook parts. The whole difficulty is the fourth element: z(t) produces a force that depends on the entire history of the motion and can never be measured directly. The model sees only u(t) going in and y(t) coming out.</span>
+      </figcaption>
+    </figure>
+
+    <p>The tasks on this rung hand the model one recording, force in and displacement out, sampled at 750 Hz, and ask it to predict the displacement for a new force record. Nothing else. To do that you have to recover the mechanism: not fit the wiggle, but figure out what kind of machine is wiggling. There are twenty variants in the corpus, contaminated sensors, closed-loop feedback, asymmetric stiffness, thermal drift, and across 520 rollouts the pass rate is 15%, the worst of any family. The single hardest variant, identification from outlier-contaminated data, has a mean reward of 0.04.</p>
+
+    <p>Why does this kill a model that shrugs off half-destroyed CAD bodies? Because the training record genuinely does not pin down the mechanism, and pattern-matching has nothing to grab. I can show you. I fit a second oscillator, an impostor whose hysteresis parameters differ from the true ones by a factor of nine and whose exponent is 1.5 instead of 1.0, a physically different machine, so that its response to the training force matches to within 3.5%. Spring A is the benchmark mechanism. Spring B has bg = 91 instead of 800, bd = −117 instead of −1100, ν = 1.5 instead of 1.0. At the training amplitude their responses are 3.5% apart, inside the task's measurement-noise floor. Drive the same two springs 3.5× harder and they disagree by 16%, because the hysteresis terms that were barely excited at small amplitude now dominate.</p>
+
+    <p>Every fit that stops at "matches the training data" has a large family of impostors to choose from, and gradient descent will happily pick one. The graders on this rung are built to drive the system into the regime where impostors die: held-out records at higher amplitudes, different spectral content, reversed sweeps. That is not adversarial cruelty. It is the definition of having identified a system.</p>
+
+    <p>You can run the experiment yourself. Both springs below are integrated live in your browser with RK4<sup id="fnref-7"><a href="#fn-7" aria-label="Note 7">7</a></sup> on the equations above. At drive level 1.0× they are the same spring for all you can tell. Turn it up.</p>
+
+    <figure class="fig fig--wide" id="fig-two-springs" aria-labelledby="fig-two-springs-t">
+      <div class="fig__plate">
+        <div class="inst sp">
+          <div class="sp__legend lab">
+            <span><i></i>spring A · the true mechanism</span>
+            <span><i class="b"></i>spring B · the impostor, hysteresis 9× weaker, ν = 1.5</span>
+            <span><i class="gap"></i>where they disagree</span>
+          </div>
+          <div class="sp__plot" role="img" aria-label="Displacement of spring A and spring B over the same 0.6 second window of the steady response, both driven by the same force. At the training amplitude the two traces lie on top of each other." id="sp-plot"></div>
+          <div class="sp__ctl">
+            <div class="sp__drive">
+              <div class="rg__head"><label class="lab lab--ink" for="sp-amp">drive amplitude</label><span class="lab"><span class="sp__amp">1.0</span>× the training level</span></div>
+              <div class="rg__track" style="height:40px">
+                <div class="rg__line"></div>
+                <span class="rg__tick rg__tick--l" style="left:0"><span class="lab">1.0× = training data</span></span>
+                <span class="rg__tick rg__tick--r" style="left:100%"><span class="lab">4.0×</span></span>
+                <input class="range" id="sp-amp" type="range" min="1" max="4" step="0.1" value="1" aria-describedby="sp-help">
+              </div>
+              <p class="vh" id="sp-help">Arrow keys change the drive amplitude. Both springs are re-simulated and the disagreement below updates.</p>
+            </div>
+            <div class="sp__read" aria-live="polite" aria-atomic="true">
+              <span class="lab">disagreement between the two springs</span>
+              <span class="sp__pct">–</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <figcaption class="fig__cap">
+        <span class="fig__t" id="fig-two-springs-t">Two Bouc–Wen oscillators, simulated live</span>
+        <span class="fig__meta">Fig. 07 · RK4, 6,000 steps/s</span>
+        <span class="fig__note">Two Bouc–Wen oscillators simulated live, RK4 at 6,000 steps per second, same forcing record, driven by a stand-in multisine in the record's 5–40 Hz band rather than the task's own record. Spring A is the true mechanism; spring B is the impostor with hysteresis 9× weaker and ν = 1.5. The disagreement is computed from the two traces on screen.</span>
+      </figcaption>
+    </figure>
+
+    <p>This is what "the model must reason about mechanism" means, concretely. There is no invariance to learn and no smooth map from input to output. The information that separates the true spring from the impostor is not in the training data. It is in knowing which experiment would separate them, which is a physicist's move, not a pattern-matcher's. That is the skill these 520 rollouts are teaching, one failed attempt at a time, and the per-variant scores say the teaching is uneven: the model already passes half its runs on the thermal-drift variant, and almost none on the contaminated one.</p>
+
+    <blockquote class="pull"><p>The spring is not hard because it is complicated. It is hard because it keeps its mechanism where the data cannot see it.</p></blockquote>
+
+    <h2 id="design"><span class="h-n">05</span> Design</h2>
+
+    <p class="rung"><strong>The rung that is not there.</strong> <span class="rung__rate">absent</span></p>
+
+    <p>Follow the ladder's logic one step further. Rung 3 hides the field. Rung 4 hides the mechanism. Rung 5 hides the artifact itself: here is a load case, a material budget and a manufacturing process, produce the part. That is the job a mechanical engineer is actually paid for, and it is almost completely absent from the corpus. Not because we cannot grade it. Because we cannot afford to.</p>
+
+    <p>We have known how to solve the toy version without any learning since the nineties. I ran one while writing this: topology optimisation<sup id="fnref-8"><a href="#fn-8" aria-label="Note 8">8</a></sup> of a beam, nothing given but a load, a support, and permission to use half the material.</p>
+
+    <figure class="fig fig--wide" id="fig-topopt" aria-labelledby="fig-topopt-t">
+      <div class="fig__plate">
+        <img class="plate" src="/blog/cad-reward-design/assets/topopt.png" width="2270" height="911" loading="lazy" alt="Five snapshots of a beam resolving from a grey smear into a black truss, above a compliance curve that drops steeply over the first twenty finite-element solves and flattens by ninety.">
+      </div>
+      <figcaption class="fig__cap">
+        <span class="fig__t" id="fig-topopt-t">Topology optimisation of a beam, ninety solves</span>
+        <span class="fig__meta">Fig. 08 · SIMP, 180×60</span>
+        <span class="fig__note">SIMP topology optimisation, 180×60 elements. Compliance falls from 1038 to 188, matching the published benchmark for this problem, and the truss is discovered, not designed. The price is on the curve: 90 finite-element solves, every point one full stiffness solve.</span>
+      </figcaption>
+    </figure>
+
+<pre class="pre--wide"><code><span class="cm"># the whole generative-design loop, in one update</span>
+<span class="kw">for</span> it <span class="kw">in</span> range(90):
+    U  = solve(K(x), F)                                  <span class="cm"># one finite-element solve</span>
     dc = -penal * x**(penal-1) * strain_energy(U)
-    x  = optimality_criteria(x, filter(dc), volfrac)  <span class="cm"># move material toward strain</span></pre>
-        </div>
+    x  = optimality_criteria(x, filter(dc), volfrac)     <span class="cm"># move material toward strain</span></code></pre>
 
-        <p>
-          Ninety solves for a two-dimensional, linear-elastic, single-load, compliance-only toy, each solve a few milliseconds. The real version, a 3D bracket, four load cases, a stress constraint, a modal floor, a machinability check, is thousands of solves at minutes each. Grading one design attempt costs more than training on ten thousand prediction tasks, so the prediction tasks are what exist. The one place a live solver does sit inside a task, a PCB layout problem with a thermal FEA in the container, is the exception that shows what the rung would feel like:
-        </p>
+    <p>Ninety solves for a two-dimensional, linear-elastic, single-load, compliance-only toy, each solve a few milliseconds. The real version, a 3D bracket, four load cases, a stress constraint, a modal floor, a machinability check, is thousands of solves at minutes each. Grading one design attempt costs more than training on ten thousand prediction tasks, so the prediction tasks are what exist.</p>
 
-        <div class="plate wide">
-          <img src="assets/pcb-thermal.png" alt="Two heat maps of a printed circuit board. The clustered layout produces a 106.9 degree hotspot and fails. The optimised layout spreads components and passes at 75 degrees." />
-          <div class="plate__cap">
-            The exception on the rung: a task whose container ships a real heat-equation solver. Six components, 16.5 W, a 78 °C ceiling. Left, the obvious layout fails at 106.9 °C; right, a placement found by optimising against the same solver passes at 75.0 °C. The agent lives the loop an engineer lives: place, solve, read the peak, move, solve again.
-          </div>
-        </div>
+    <p>There is one place in the corpus where a live solver does sit inside a task: a PCB layout problem whose container ships a real heat-equation solver. It is the exception that shows what the rung would feel like.</p>
 
-        <p>
-          This is why I think the most important number in this field is not a benchmark score but solver latency. Every order of magnitude off the solve time, GPU-native FEM, reduced-order models, surrogates audited by the real solver, moves tasks from "we grade one checkpoint at the end" toward "the agent checks itself a thousand times before submitting," and moves the corpus from prediction toward design. The models are learning physics from rungs 1 through 4 precisely so that they can eventually be trusted as the fast solvers inside rung 5. The ladder eats itself, in the good way.
-        </p>
+    <figure class="fig fig--wide" id="fig-pcb" aria-labelledby="fig-pcb-t">
+      <div class="fig__plate">
+        <img class="plate" src="/blog/cad-reward-design/assets/pcb-thermal.webp" width="2140" height="887" loading="lazy" alt="Two heat maps of a printed circuit board. The clustered layout produces a 106.9 degree hotspot and fails. The optimised layout spreads the six components apart and passes at 75 degrees.">
+      </div>
+      <figcaption class="fig__cap">
+        <span class="fig__t" id="fig-pcb-t">A PCB layout graded by a live solver</span>
+        <span class="fig__meta">Fig. 09 · Heat equation, in-container</span>
+        <span class="fig__note">The exception on the rung. Six components, 16.5 W, a 78 °C ceiling, a steady-state heat equation solved inside the task container. Left, the obvious clustered layout fails at 106.9 °C. Right, a placement found over 600 generations against the same solver passes at 75.0 °C. The agent lives the loop an engineer lives: place, solve, read the peak, move, solve again.</span>
+      </figcaption>
+    </figure>
 
-        <hr />
+    <p>This is why I think the most important number in this field is not a benchmark score but solver latency. Every order of magnitude off the solve time, GPU-native FEM, reduced-order models, surrogates audited by the real solver, moves tasks from "we grade one checkpoint at the end" toward "the agent checks itself a thousand times before submitting", and moves the corpus from prediction toward design. The models are learning physics on rungs 1 through 4 so that they can eventually be trusted as the fast solvers inside rung 5. The ladder eats itself, in the good way.</p>
 
-        <div class="rung-label" style="margin-top:3.4rem">What the ladder is for</div>
+    <h2 id="for">What the ladder is for</h2>
 
-        <h2>Failure modes are the curriculum</h2>
+    <p>One honest caveat, two hard numbers, then the point.</p>
 
-        <p>
-          One honest caveat and two hard numbers, and then the point.
-        </p>
+    <p>The caveat: pass rates measure the tasks as much as the model. Task authors set difficulty anchors by hand, and about a third of the variance in per-problem scores traces to which family the task belongs to rather than anything about physics. My own retrieval task is the cautionary example. I calibrated its targets against the frontier in May; by July the model passes every run at a mean of 0.95. The anchors did not get easier. The model got better, which is the entire purpose, and it means the staircase in Fig. 01 is a photograph of a moving object.</p>
 
-        <p>
-          The caveat: pass rates measure the tasks as much as the model. Task authors set difficulty anchors by hand, and about a third of the variance in per-problem scores traces to which family the task belongs to rather than anything about physics. My own retrieval task is the cautionary example: I calibrated its targets against the frontier in May, and by July the model passes every run at a mean of 0.95. The anchors did not get easier. The model got better, which is the entire purpose, and it means the staircase you saw is a photograph of a moving object.
-        </p>
+    <figure class="fig fig--wide" id="fig-signal" aria-labelledby="fig-signal-t">
+      <div class="fig__plate">
+        <img class="plate" src="/blog/cad-reward-design/assets/score-distribution.png" width="2526" height="792" loading="lazy" alt="Left: a U-shaped histogram of 1,758 rollout rewards, with 236 runs at exactly zero and 207 at exactly one and a dashed pass line at 0.50. Right: 85 problems sorted by pass rate, 19 at zero and 16 at one hundred percent.">
+      </div>
+      <figcaption class="fig__cap">
+        <span class="fig__t" id="fig-signal-t">The training signal itself</span>
+        <span class="fig__meta">Fig. 10 · 1,758 rollouts</span>
+        <span class="fig__note">Left, the reward distribution across all 1,758 scored rollouts is U-shaped: 236 runs score exactly 0 and 207 score exactly 1.0, and the mass piles at both ends, solved or not at all. Right, the 85 problems with six or more attempts sorted by pass rate: 19 are solved by nobody and 16 by everybody, so roughly 41% of the corpus currently produces no gradient. Tasks are born on the right and die on the left, and the author's job is to keep restocking the middle.</span>
+      </figcaption>
+    </figure>
 
-        <div class="plate wide">
-          <img src="assets/score-distribution.png" alt="Left: a U-shaped histogram of 1,758 rollout rewards with 236 runs at exactly zero and 207 at exactly one. Right: 85 problems sorted by pass rate, 19 at zero percent, 16 at one hundred percent." />
-          <div class="plate__cap">
-            The training signal itself. The reward distribution is U-shaped: <b>236 runs score exactly 0 and 207 score exactly 1.0</b>. Of 85 problems with six or more attempts, 19 are solved by nobody and 16 by everybody, which means roughly 41% of this corpus currently produces no gradient at all. Tasks are born on the right side of the staircase and die on the left, and the job of the author is to keep restocking the middle.
-          </div>
-        </div>
+    <p>The two numbers. Across all scored rollouts, the correlation between the turns an agent spends and the reward it earns is −0.08. Thrashing is not progress; whatever separates a 0 from a 1 on these tasks is decided early, in whether the model recognises which rung it is standing on. And 23% of runs never produce a score at all, which is a reminder that before any of this gets philosophical, it is infrastructure.</p>
 
-        <p>
-          The two numbers: across all scored rollouts, the correlation between the turns an agent spends and the reward it earns is <strong>−0.08</strong>. Thrashing is not progress; whatever separates a 0 from a 1 on these tasks is decided early, in whether the model recognises which rung it is standing on. And 23% of runs never produce a score at all, which is a reminder that before any of this gets philosophical, it is infrastructure.
-        </p>
+    <p>The point. Software taught models to code by giving them a compiler: a verifier that is instant, deterministic, and impossible to argue with. Engineering has something better, physics itself, but its verifiers are slow, so the first generation of physics training looks like this ladder: verify cheap things about expensive simulations. The staircase shows that the cheap-to-verify skills are nearly saturated and the expensive ones, mechanism, inversion, design, are where the frontier actually is. The model that closes the gap on rung 4 will not do it by fitting wiggles better. It will do it the way Wen did in 1976, by knowing what the inside of the machine must look like for the outside to behave the way it does.</p>
 
-        <p>
-          The point. Software taught models to code by giving them a compiler: a verifier that is instant, deterministic, and impossible to argue with. Engineering has something better, physics itself, but its verifiers are slow, so the first generation of physics training looks like this ladder: verify cheap things about expensive simulations. What the staircase shows is that the cheap-to-verify skills are nearly saturated and the expensive ones, mechanism, inversion, design, are where the frontier actually is. The model that closes the gap on rung 4 will not do it by fitting wiggles better. It will do it the way Wen did in 1976, by knowing what the inside of the machine must look like for the outside to behave the way it does.
-        </p>
+    <blockquote class="pull"><p>Fifty years is a long time for a spring to stay undefeated. I do not think it gets another ten.</p></blockquote>
 
-        <p>
-          Fifty years is a long time for a spring to stay undefeated. I do not think it gets another ten.
-        </p>
+  </div>
 
-        <div class="footer-note">
-          Built for Anthropic as RL training environments for the Claude models; rollout statistics pulled from the training infrastructure in July 2026 (2,293 problem runs, 140 problems, almost all Fable 5). Every figure was computed for this post: the corruption and retrieval data from the shipped task, the convection panel by explicit Boussinesq integration, the mode shapes by eigensolve, the impostor spring by simulation-error least squares on the Bouc–Wen equations (RK4, 750 Hz record, band-limited forcing), the topology run by SIMP validated against the published MBB benchmark, and the in-browser springs integrate the same ODE live. Datasets: <a href="https://github.com/AutodeskAILab/Fusion360GalleryDataset" target="_blank" rel="noopener">Fusion 360 Gallery</a>, <a href="https://www.narnia.ai/dataset/deepjeb" target="_blank" rel="noopener">DeepJEB</a>, the <a href="https://www.nonlinearbenchmark.org" target="_blank" rel="noopener">Bouc–Wen identification benchmark</a>; encoding after <a href="https://github.com/AutodeskAILab/UV-Net" target="_blank" rel="noopener">UV-Net</a>. R. Bouc, 1967; Y.-K. Wen, <em>Method for random vibration of hysteretic systems</em>, J. Eng. Mech. Div., 1976. Most tasks referenced are other authors' work in the same corpus.
-        </div>
-      </article>
-    </main>
+  <section class="fn" aria-labelledby="notes-h">
+    <h2 id="notes-h">Notes</h2>
+    <ol>
+      <li id="fn-1">B-rep: boundary representation, the native format of CAD kernels. A solid described by its faces, edges and vertices and the analytic surfaces they lie on, rather than by a mesh or a voxel grid. <a class="back" href="#fnref-1" aria-label="Back to the text">↩</a></li>
+      <li id="fn-2">UV-grid: a fixed-size sampling of a CAD face, surface points and normals evaluated on a regular grid in the face's own parameter space, so that every face becomes the same-shaped tensor regardless of its geometry. <a class="back" href="#fnref-2" aria-label="Back to the text">↩</a></li>
+      <li id="fn-3">von Mises stress: a scalar summary of the full stress tensor used to predict yielding. It is the quantity engineers actually contour-plot when they ask whether a part will fail. <a class="back" href="#fnref-3" aria-label="Back to the text">↩</a></li>
+      <li id="fn-4">Nodal line: a curve on a vibrating structure that does not move in a given mode. Its position is set by ribs, cut-outs and boundary conditions, and it migrates when the design changes. <a class="back" href="#fnref-4" aria-label="Back to the text">↩</a></li>
+      <li id="fn-5">Hysteresis: memory in a mechanical system. The restoring force depends on the deformation history rather than the current displacement alone, so the force-displacement curve encloses a loop instead of retracing a line. <a class="back" href="#fnref-5" aria-label="Back to the text">↩</a></li>
+      <li id="fn-6">System identification: recovering a dynamical model, both its structure and its parameters, from measured input-output records. The Bouc–Wen benchmark is a standard test case for the nonlinear version of the problem. <a class="back" href="#fnref-6" aria-label="Back to the text">↩</a></li>
+      <li id="fn-7">RK4: the classical fourth-order Runge–Kutta integrator, four derivative evaluations per time step. The in-browser springs integrate the oscillator with it at 6,000 steps per second. <a class="back" href="#fnref-7" aria-label="Back to the text">↩</a></li>
+      <li id="fn-8">Topology optimisation: finding where material should exist at all, not just how to size it. SIMP, the standard scheme, gives every element a density between 0 and 1 and penalises the in-between values until the layout resolves into solid and void. <a class="back" href="#fnref-8" aria-label="Back to the text">↩</a></li>
+    </ol>
+    <p class="colophon">Built for Anthropic as RL training environments for the Claude models; rollout statistics pulled from the training infrastructure in July 2026 (2,293 problem runs, 140 problems, almost all Fable 5). Every figure was computed for this essay: the corruption and retrieval data from the shipped task, the convection panel by explicit Boussinesq integration, the mode shapes by eigensolve, the impostor spring by simulation-error least squares on the Bouc–Wen equations (RK4, 750 Hz record, band-limited forcing), the topology run by SIMP validated against the published MBB benchmark, and the in-browser springs integrate the same ODE live. Datasets: <a href="https://github.com/AutodeskAILab/Fusion360GalleryDataset" target="_blank" rel="noopener">Fusion 360 Gallery<span class="vh"> (opens in a new tab)</span></a>, <a href="https://arxiv.org/abs/2406.09047" target="_blank" rel="noopener">DeepJEB<span class="vh"> (opens in a new tab)</span></a>, the <a href="https://www.nonlinearbenchmark.org" target="_blank" rel="noopener">Bouc–Wen identification benchmark<span class="vh"> (opens in a new tab)</span></a>; encoding after <a href="https://github.com/AutodeskAILab/UV-Net" target="_blank" rel="noopener">UV-Net<span class="vh"> (opens in a new tab)</span></a>. R. Bouc, 1967; Y.-K. Wen, <em>Method for random vibration of hysteretic systems</em>, J. Eng. Mech. Div., 1976. Most tasks referenced are other authors' work in the same corpus.</p>
+  </section>
 
-    <script>
-      // ---- reward console (real v3_50pass policy) ----
-      (function () {
-        const ANCHORS = [
-          { name: 'recall_at_1',       base: 0.05, thr: 0.60, tgt: 0.84, strong: 0.90 },
-          { name: 'heavy_recall_at_1', base: 0.03, thr: 0.45, tgt: 0.74, strong: 0.82 },
-          { name: 'neardup_mrr_at_5',  base: 0.08, thr: 0.55, tgt: 0.82, strong: 0.89 }
-        ];
-        const sliders = [0, 1, 2].map((i) => document.getElementById('m' + i));
-        if (sliders.some((s) => !s)) return;
-        const vals = [0, 1, 2].map((i) => document.getElementById('v' + i));
-        const scores = [0, 1, 2].map((i) => document.getElementById('s' + i));
-        const rewardEl = document.getElementById('reward');
-        const textEl = document.getElementById('verdictText');
-        const badgeEl = document.getElementById('badge');
-        const ss = (v) => { v = Math.max(0, Math.min(1, v)); return v * v * (3 - 2 * v); };
-        function metricScore(v, a) {
-          if (v <= a.base) return 0;
-          if (v < a.thr) return 0.2 * ss((v - a.base) / (a.thr - a.base));
-          if (v < a.tgt) return 0.2 + 0.3 * ss((v - a.thr) / (a.tgt - a.thr));
-          if (v < a.strong) return 0.5 + 0.5 * ss((v - a.tgt) / (a.strong - a.tgt));
-          return 1;
-        }
-        function render() {
-          const values = sliders.map((s) => Number(s.value) / 1000);
-          const s = values.map((v, i) => metricScore(v, ANCHORS[i]));
-          values.forEach((v, i) => {
-            vals[i].textContent = v.toFixed(3);
-            scores[i].textContent = s[i].toFixed(2);
-          });
-          const reward = Math.max(0, Math.min(1, Math.min.apply(null, s)));
-          const weakest = s.indexOf(Math.min.apply(null, s));
-          const passed = values.every((v, i) => v >= ANCHORS[i].tgt);
-          rewardEl.textContent = reward.toFixed(2);
-          rewardEl.className = 'verdict__num ' + (passed ? 'pass' : 'fail');
-          badgeEl.textContent = passed ? 'PASS' : 'FAIL';
-          badgeEl.className = 'badge' + (passed ? ' ok' : '');
-          if (passed && reward >= 0.99) {
-            textEl.innerHTML = 'Strong on every metric: past the strong anchor on all three.';
-          } else if (passed) {
-            textEl.innerHTML = 'Every metric cleared its target. Reward is still capped by <b>' + ANCHORS[weakest].name + '</b>.';
-          } else if (reward === 0) {
-            textEl.innerHTML = 'Zero. <b>' + ANCHORS[weakest].name + '</b> is at its baseline, and the minimum does not care how good the others are.';
-          } else {
-            textEl.innerHTML = 'Held down entirely by <b>' + ANCHORS[weakest].name + '</b>. The only way up is the weakest metric.';
-          }
-        }
-        sliders.forEach((s) => s.addEventListener('input', render));
-        document.querySelectorAll('.preset').forEach((b) => {
-          b.addEventListener('click', () => {
-            b.dataset.p.split(',').forEach((v, i) => { sliders[i].value = v; });
-            render();
-          });
-        });
-        render();
-      })();
+  <nav class="pn" aria-label="Previous and next essay">
+    <a class="pn--next" href="/blog/designing-agent-systems">
+      <span class="pn__k">Next essay</span>
+      <span class="pn__t">It Forgets Everything. It Sometimes Lies. Build Around It.</span>
+    </a>
+  </nav>
 
-      // ---- live Bouc-Wen: two springs, one wiggle ----
-      (function () {
-        const cv = document.getElementById('bwCanvas');
-        if (!cv) return;
-        const ctx = cv.getContext('2d');
-        const amp = document.getElementById('bwAmp');
-        const ampLabel = document.getElementById('bwAmpLabel');
-        const errEl = document.getElementById('bwErr');
-        const noteEl = document.getElementById('bwNote');
+</article>
+</div>
 
-        // [m, c, k, a, bg, bd, nu] -- A: benchmark; B: impostor fit to match A at 1.0x
-        const A = [2.0, 10.0, 5e4, 5e4, 800.0, -1100.0, 1.0];
-        const B = [2.0, 18.77, 54749.34, 53168.41, 90.72, -117.02, 1.5];
-        // the same multisine family as the task data (5-40 Hz)
-        const FR = [5.83, 9.71, 14.36, 19.9, 24.53, 29.07, 33.2, 38.64];
-        const PH = [0.61, 4.9, 2.53, 1.13, 5.75, 3.3, 0.24, 4.1];
-        const BASE = 60 / Math.sqrt(FR.length);
-        const T = 1.1, FS = 6000, N = Math.floor(T * FS);
+<script type="module" data-page>
+/* essay: cad-reward-design — two instruments. No timers; everything derives from the reader's input.
+   fig 05: _metric_reward from tests/verify.py on the shipped anchors; reward = min of the three.
+   fig 07: two Bouc–Wen oscillators, classical RK4 at 6,000 steps/s, redrawn on slider input. */
+const root = document.querySelector('main[data-page="essay"]');
+const cleanups = [];
+window.addEventListener('white:navigate', () => cleanups.splice(0).forEach(fn => { try { fn(); } catch {} }), { once: true });
 
-        function force(t, scale) {
-          let u = 0;
-          for (let i = 0; i < FR.length; i++) u += Math.sin(2 * Math.PI * FR[i] * t + PH[i]);
-          return BASE * scale * u;
-        }
-        function simulate(p, scale) {
-          const m = p[0], c = p[1], k = p[2], a = p[3], bg = p[4], bd = p[5], nu = p[6];
-          const im = 1 / m, h = 1 / FS, h2 = h / 2, h6 = h / 6;
-          let y1 = 0, y2 = 0, z = 0;
-          const out = new Float64Array(N);
-          function d(y1, y2, z, uv, out3) {
-            const az = Math.abs(z);
-            const azn1 = az > 0 ? Math.pow(az, nu - 1) : 0;
-            out3[0] = y2;
-            out3[1] = (uv - c * y2 - k * y1 - z) * im;
-            out3[2] = a * y2 - bg * Math.abs(y2) * azn1 * z - bd * y2 * azn1 * az;
-          }
-          const k1 = [0, 0, 0], k2 = [0, 0, 0], k3 = [0, 0, 0], k4 = [0, 0, 0];
-          for (let i = 0; i < N; i++) {
-            out[i] = y1;
-            const t = i * h, u0 = force(t, scale), um = force(t + h2, scale), u1 = force(t + h, scale);
-            d(y1, y2, z, u0, k1);
-            d(y1 + h2 * k1[0], y2 + h2 * k1[1], z + h2 * k1[2], um, k2);
-            d(y1 + h2 * k2[0], y2 + h2 * k2[1], z + h2 * k2[2], um, k3);
-            d(y1 + h * k3[0], y2 + h * k3[1], z + h * k3[2], u1, k4);
-            y1 += h6 * (k1[0] + 2 * k2[0] + 2 * k3[0] + k4[0]);
-            y2 += h6 * (k1[1] + 2 * k2[1] + 2 * k3[1] + k4[1]);
-            z  += h6 * (k1[2] + 2 * k2[2] + 2 * k3[2] + k4[2]);
-          }
-          return out;
-        }
-        function draw(scale) {
-          const ya = simulate(A, scale), yb = simulate(B, scale);
-          let num = 0, den = 0, peak = 1e-12;
-          for (let i = 0; i < N; i++) {
-            num += (ya[i] - yb[i]) ** 2; den += ya[i] ** 2;
-            const m = Math.max(Math.abs(ya[i]), Math.abs(yb[i]));
-            if (m > peak) peak = m;
-          }
-          const err = Math.sqrt(num / den);
-          const W = cv.width, H = cv.height, pad = 14;
-          ctx.clearRect(0, 0, W, H);
-          ctx.strokeStyle = '#e2ddd0'; ctx.lineWidth = 1;
-          ctx.beginPath(); ctx.moveTo(pad, H / 2); ctx.lineTo(W - pad, H / 2); ctx.stroke();
-          const step = Math.max(1, Math.floor(N / (W - 2 * pad)) );
-          function trace(y, color, width, dash) {
-            ctx.strokeStyle = color; ctx.lineWidth = width;
-            ctx.setLineDash(dash);
-            ctx.beginPath();
-            for (let i = 0, px = 0; i < N; i += step, px++) {
-              const X = pad + (W - 2 * pad) * (i / N);
-              const Y = H / 2 - (y[i] / peak) * (H / 2 - pad);
-              if (i === 0) ctx.moveTo(X, Y); else ctx.lineTo(X, Y);
-            }
-            ctx.stroke(); ctx.setLineDash([]);
-          }
-          trace(ya, '#1a1915', 2.0, []);
-          trace(yb, '#c25e3f', 1.8, [7, 4]);
-          const pct = err * 100;
-          errEl.textContent = pct.toFixed(1) + '%';
-          errEl.className = 'big ' + (pct < 6 ? 'ok' : 'bad');
-          if (scale <= 1.05) {
-            noteEl.textContent = 'This is the training regime. The impostor is inside the noise floor: indistinguishable.';
-          } else if (pct < 8) {
-            noteEl.textContent = 'Still close. The hysteresis terms are only beginning to be excited.';
-          } else {
-            noteEl.textContent = 'The mechanisms have come apart. No amount of fitting at 1.0× could have predicted this.';
-          }
-        }
-        let raf = null;
-        function onInput() {
-          const scale = Number(amp.value) / 100;
-          ampLabel.textContent = scale.toFixed(1) + '×';
-          if (raf) cancelAnimationFrame(raf);
-          raf = requestAnimationFrame(() => draw(scale));
-        }
-        amp.addEventListener('input', onInput);
-        onInput();
-      })();
-    </script>
-  </body>
+/* ------------------------------------------------------------ fig 05 · the reward gate */
+(() => {
+  const rg = root && root.querySelector('.rg'); if (!rg) return;
+  const rows = [...rg.querySelectorAll('.rg__row')].map(el => ({
+    el, key: el.dataset.k, base: +el.dataset.base, thr: +el.dataset.thr, tgt: +el.dataset.tgt, strong: 1,
+    input: el.querySelector('input'), val: el.querySelector('.rg__val'), score: el.querySelector('.rg__score'),
+  }));
+  const ss = t => { t = Math.max(0, Math.min(1, t)); return t * t * (3 - 2 * t); };
+  const metric = (v, a) =>
+    v <= a.base ? 0 :
+    v < a.thr ? .2 * ss((v - a.base) / (a.thr - a.base)) :
+    v < a.tgt ? .2 + .3 * ss((v - a.thr) / (a.tgt - a.thr)) :
+    v < a.strong ? .5 + .5 * ss((v - a.tgt) / (a.strong - a.tgt)) : 1;
+  const out = { r: rg.querySelector('.rg__r'), verdict: rg.querySelector('.rg__verdict'), fill: rg.querySelector('.rg__fill'), mark: rg.querySelector('.rg__mark'), why: rg.querySelector('.rg__why') };
+  const presets = [...rg.querySelectorAll('.pill')];
+  const set = (el, v) => { if (el.textContent !== v) el.textContent = v; };
+  const render = () => {
+    const values = rows.map(r => +r.input.value);
+    const scores = rows.map((r, i) => metric(values[i], r));
+    values.forEach((v, i) => { set(rows[i].val, v.toFixed(3)); set(rows[i].score, scores[i].toFixed(2)); });
+    const reward = Math.max(0, Math.min(1, Math.min(...scores)));
+    const weakest = rows[scores.indexOf(Math.min(...scores))].key;
+    const onTarget = rows.every((r, i) => Math.abs(values[i] - r.tgt) < 1e-9);
+    set(out.r, reward.toFixed(2));
+    set(out.verdict, reward >= .5 ? 'pass' : 'fail');
+    out.fill.style.width = out.mark.style.left = (reward * 100).toFixed(1) + '%';
+    set(out.why,
+      onTarget ? 'Exactly at the reference solution: every metric on its target anchor.' :
+      reward >= 1 ? 'Past the strong anchor on all three.' :
+      reward === 0 ? `${weakest} is at or below its baseline; the minimum does not care about the other two.` :
+      `Limited by ${weakest}.`);
+    presets.forEach(b => {
+      const p = b.dataset.p.split(',').map(Number);
+      b.setAttribute('aria-pressed', p.every((v, i) => Math.abs(v - values[i]) < 1e-9) ? 'true' : 'false');
+    });
+  };
+  rows.forEach(r => r.input.addEventListener('input', render));
+  presets.forEach(b => b.addEventListener('click', () => { b.dataset.p.split(',').forEach((v, i) => { rows[i].input.value = v; }); render(); }));
+  render();
+})();
+
+/* ------------------------------------------------------------ fig 07 · two springs */
+(() => {
+  const sp = root && root.querySelector('.sp'); if (!sp) return;
+  const plot = sp.querySelector('.sp__plot'), amp = sp.querySelector('#sp-amp'), ampV = sp.querySelector('.sp__amp'), pct = sp.querySelector('.sp__pct');
+  // [m, c, k, a, bg, bd, nu]. A is the identified benchmark; B is the impostor fitted to match A at 1.0×
+  const A = [2.0, 10.0, 5e4, 5e4, 800.0, -1100.0, 1.0];
+  const B = [2.0, 18.77, 54749.34, 53168.41, 90.72, -117.02, 1.5];
+  // the band-limited multisine forcing family of the task record, 5–40 Hz
+  const FR = [5.83, 9.71, 14.36, 19.9, 24.53, 29.07, 33.2, 38.64];
+  const PH = [0.61, 4.9, 2.53, 1.13, 5.75, 3.3, 0.24, 4.1];
+  const BASE = 60 / Math.sqrt(FR.length);
+  const FS = 6000, T = 1.1, N = Math.floor(T * FS), W0 = 0.4, W1 = 1.0, I0 = Math.round(W0 * FS), I1 = Math.round(W1 * FS);
+  const force = (t, s) => { let u = 0; for (let i = 0; i < FR.length; i++) u += Math.sin(2 * Math.PI * FR[i] * t + PH[i]); return BASE * s * u; };
+  function simulate(p, s) {
+    const [m, c, k, a, bg, bd, nu] = p, im = 1 / m, h = 1 / FS, h2 = h / 2, h6 = h / 6;
+    let y1 = 0, y2 = 0, z = 0;
+    const out = new Float64Array(N);
+    const d = (y1, y2, z, u, o) => { const az = Math.abs(z), azn1 = az > 0 ? Math.pow(az, nu - 1) : 0; o[0] = y2; o[1] = (u - c * y2 - k * y1 - z) * im; o[2] = a * y2 - bg * Math.abs(y2) * azn1 * z - bd * y2 * azn1 * az; };
+    const k1 = [0, 0, 0], k2 = [0, 0, 0], k3 = [0, 0, 0], k4 = [0, 0, 0];
+    for (let i = 0; i < N; i++) {
+      out[i] = y1;
+      const t = i * h, u0 = force(t, s), um = force(t + h2, s), u1 = force(t + h, s);
+      d(y1, y2, z, u0, k1);
+      d(y1 + h2 * k1[0], y2 + h2 * k1[1], z + h2 * k1[2], um, k2);
+      d(y1 + h2 * k2[0], y2 + h2 * k2[1], z + h2 * k2[2], um, k3);
+      d(y1 + h * k3[0], y2 + h * k3[1], z + h * k3[2], u1, k4);
+      y1 += h6 * (k1[0] + 2 * k2[0] + 2 * k3[0] + k4[0]);
+      y2 += h6 * (k1[1] + 2 * k2[1] + 2 * k3[1] + k4[1]);
+      z += h6 * (k1[2] + 2 * k2[2] + 2 * k3[2] + k4[2]);
+    }
+    return out;
+  }
+  const NS = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(NS, 'svg');
+  svg.setAttribute('aria-hidden', 'true');
+  plot.appendChild(svg);
+  const el = (tag, attrs, text) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (text != null) e.textContent = text; return e; };
+  let ya = null, yb = null;
+  const f2 = v => v.toFixed(2).replace(/\.?0+$/, m => m === '.00' ? '' : m.replace(/0+$/, ''));
+  function draw() {
+    const W = plot.clientWidth, H = plot.clientHeight; if (!W || !H || !ya) return;
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    svg.textContent = '';
+    const L = 44, R = 12, Tm = 18, Bm = 30, pw = W - L - R, ph = H - Tm - Bm;
+    let peak = 1e-9; for (let i = I0; i < I1; i++) peak = Math.max(peak, Math.abs(ya[i]), Math.abs(yb[i]));
+    peak *= 1000;                                            // mm
+    const step = [0.5, 1, 2, 5, 10].find(s => peak / s <= 2.6) || 20;
+    const top = Math.ceil(peak / step) * step;
+    const X = i => L + ((i - I0) / (I1 - I0)) * pw;
+    const Y = v => Tm + ph / 2 - (v * 1000 / top) * (ph / 2);
+    // axes
+    svg.appendChild(el('path', { class: 'ax', d: `M${L} ${Tm} V${Tm + ph} H${L + pw}` }));
+    svg.appendChild(el('path', { class: 'ax0', d: `M${L} ${Y(0)} H${L + pw}` }));
+    for (let t = W0; t <= W1 + 1e-9; t += 0.1) {
+      const x = L + ((t - W0) / (W1 - W0)) * pw;
+      svg.appendChild(el('path', { class: 'ax', d: `M${x} ${Tm + ph} v4` }));
+      svg.appendChild(el('text', { class: 'tk', x, y: Tm + ph + 16, 'text-anchor': 'middle' }, t.toFixed(1)));
+    }
+    for (let v = -top; v <= top + 1e-9; v += step) {
+      svg.appendChild(el('path', { class: 'ax', d: `M${L - 4} ${Y(v / 1000)} h4` }));
+      svg.appendChild(el('text', { class: 'tk', x: L - 8, y: Y(v / 1000) + 4, 'text-anchor': 'end' }, f2(v)));
+    }
+    svg.appendChild(el('text', { class: 'tk', x: L + pw, y: Tm + ph + 28, 'text-anchor': 'end' }, 'time, s'));
+    svg.appendChild(el('text', { class: 'tk', x: L + 6, y: Tm + 10 }, 'displacement, mm'));
+    // traces, downsampled to about two points per pixel
+    const k = Math.max(1, Math.floor((I1 - I0) / (pw * 2)));
+    let dA = '', dB = '', gap = '';
+    for (let i = I0; i <= I1; i += k) { const x = X(i).toFixed(1); dA += `${dA ? 'L' : 'M'}${x} ${Y(ya[i]).toFixed(2)}`; dB += `${dB ? 'L' : 'M'}${x} ${Y(yb[i]).toFixed(2)}`; }
+    gap = dA;
+    for (let i = I1; i >= I0; i -= k) gap += `L${X(i).toFixed(1)} ${Y(yb[i]).toFixed(2)}`;
+    svg.appendChild(el('path', { class: 'gap', d: gap + 'Z' }));
+    svg.appendChild(el('path', { class: 'tA', d: dA }));
+    svg.appendChild(el('path', { class: 'tB', d: dB }));
+  }
+  function run() {
+    const s = +amp.value;
+    ya = simulate(A, s); yb = simulate(B, s);
+    let num = 0, den = 0;
+    for (let i = I0; i < I1; i++) { num += (ya[i] - yb[i]) ** 2; den += ya[i] ** 2; }
+    const e = Math.sqrt(num / den) * 100;
+    pct.textContent = e.toFixed(1) + '%';
+    plot.setAttribute('aria-label', `Displacement of spring A and spring B over the same 0.6 second window, driven ${s.toFixed(1)} times the training amplitude. The traces disagree by ${e.toFixed(1)} percent.`);
+    draw();
+  }
+  let raf = 0;
+  amp.addEventListener('input', () => {
+    ampV.textContent = (+amp.value).toFixed(1);
+    if (raf) cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(() => { raf = 0; run(); });
+  });
+  if ('ResizeObserver' in window) { const ro = new ResizeObserver(() => draw()); ro.observe(plot); cleanups.push(() => ro.disconnect()); }
+  else { const onR = () => draw(); addEventListener('resize', onR); cleanups.push(() => removeEventListener('resize', onR)); }
+  run();
+})();
+</script>
+</main>
+
+<footer class="foot">
+  <div class="wrap grid">
+    <ul class="foot__links">
+      <li><a href="https://x.com/Pran_Ker" target="_blank" rel="noopener">X</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://github.com/Pran-Ker" target="_blank" rel="noopener">GitHub</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://www.linkedin.com/in/prannay/" target="_blank" rel="noopener">LinkedIn</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://scholar.google.com/citations?user=Y3jw_UgAAAAJ" target="_blank" rel="noopener">Scholar</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://www.goodreads.com/user/show/193930535-prannay-hebbar" target="_blank" rel="noopener">Goodreads</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://medium.com/@Pran-Ker" target="_blank" rel="noopener">Medium</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://huggingface.co/Pran-Ker" target="_blank" rel="noopener">Hugging Face</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://openreview.net/profile?id=%7EPrannay_Hebbar1" target="_blank" rel="noopener">OpenReview</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://calendly.com/prannay/consulting" target="_blank" rel="noopener">Calendly</a><span aria-hidden="true">↗</span></li>
+    </ul>
+    <div class="foot__base">
+      <span>© 2026 Prannay Hebbar</span>
+      <span>San Francisco</span>
+    </div>
+  </div>
+</footer>
+
+</body>
 </html>

@@ -1,8 +1,7 @@
 # Books That Changed My Thinking
 
-*Reading List | Updated regularly*
+*Reading List*
 
-![Books](/content/images/books-stack.jpg)
 
 ## The Books That Shaped Me
 

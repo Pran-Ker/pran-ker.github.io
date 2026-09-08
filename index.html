@@ -1,344 +1,290 @@
-<!DOCTYPE html>
-<html lang="en" class="is-signal">
-  <head>
-    <title>Prannay Hebbar</title>
+<!doctype html>
+<html lang="en" data-page="home">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prannay Hebbar</title>
+  <meta name="description" content="Prannay Hebbar. Founder, San Francisco. Before this: agents that run the research loop themselves, at Hexo Labs and AGI Inc. The long bet is program synthesis.">
+  <link rel="canonical" href="https://prannayh.com/">
+  <meta property="og:site_name" content="Prannay Hebbar">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Prannay Hebbar">
+  <meta property="og:description" content="Founder, San Francisco. Agents that run the research loop themselves. The long bet is program synthesis.">
+  <meta property="og:url" content="https://prannayh.com/">
+  <meta property="og:image" content="https://prannayh.com/assets/images/opengraph.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@Pran_Ker">
+  <meta name="twitter:creator" content="@Pran_Ker">
+  <meta name="twitter:title" content="Prannay Hebbar">
+  <meta name="twitter:description" content="Founder, San Francisco. Agents that run the research loop themselves. The long bet is program synthesis.">
+  <meta name="twitter:image" content="https://prannayh.com/assets/images/opengraph.png">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="color-scheme" content="light">
+  <link rel="icon" href="/assets/images/favicon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+  <link rel="preload" href="/assets/fonts/LabGrotesque-Light.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/LabGrotesque-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/LabGrotesqueMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/SourceSerif4-Variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="modulepreload" href="/assets/vendor/three.module.min.js">
+  <link rel="modulepreload" href="/assets/js/cubes.js">
+  <link rel="stylesheet" href="/assets/css/white.css">
+  <script>try{if(sessionStorage.getItem('white.entered')==='1')document.documentElement.dataset.entered=''}catch(e){}</script>
+  <script type="module" src="/assets/js/white.js"></script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Prannay Hebbar","url":"https://prannayh.com/","image":"https://prannayh.com/assets/images/opengraph.png","jobTitle":"Founder","address":{"@type":"PostalAddress","addressLocality":"San Francisco","addressRegion":"CA","addressCountry":"US"},"sameAs":["https://x.com/Pran_Ker","https://github.com/Pran-Ker","https://www.linkedin.com/in/prannay/","https://scholar.google.com/citations?user=Y3jw_UgAAAAJ","https://www.goodreads.com/user/show/193930535-prannay-hebbar","https://medium.com/@Pran-Ker","https://huggingface.co/Pran-Ker","https://openreview.net/profile?id=%7EPrannay_Hebbar1","https://calendly.com/prannay/consulting"]}</script>
+  <noscript><style>#gate{display:none}.ice-fallback{display:block}body[data-state="gate"] .ice--b,body[data-state="gate"] .ice--c{display:block}body[data-state="gate"] .ice--a{right:12vw;top:16vh}body[data-state="gate"]{overflow:auto}.hud,#main,.foot,.floor{opacity:1!important}.reveal,.rise{opacity:1;transform:none;animation:none}.fig__plate>img,.fig__plate>video{opacity:1;filter:none}.fig__plate::after{display:none}</style></noscript>
+</head>
+<body data-state="gate">
 
-    <meta charset="utf-8" />
-    <meta content="ie=edge" http-equiv="x-ua-compatible" />
-    <meta name="handheldfriendly" content="true" />
-    <meta name="viewport" content="initial-scale=1, width=device-width" />
-    <meta
-      name="description"
-      content="Prannay Hebbar. AI researcher. Post-training, RL for agents, program synthesis. NeurIPS 2025. San Francisco."
-    />
-    <meta name="theme-color" content="#05060a" />
-    <meta name="color-scheme" content="dark" />
+<a class="skip" href="#main" data-no-router>Skip to content</a>
 
-    <meta property="og:site_name" content="Prannay Hebbar" />
-    <meta property="og:title" content="Prannay Hebbar" />
-    <meta
-      property="og:description"
-      content="AI researcher · post-training · RL for agents · program synthesis."
-    />
-    <meta property="og:image" content="/assets/images/opengraph.png" />
-    <meta property="og:url" content="https://prannayh.com/" />
-    <meta property="og:type" content="website" />
+<canvas id="cubes" aria-hidden="true"></canvas>
+<div class="floor" aria-hidden="true"></div>
+<div class="ice-fallback" aria-hidden="true">
+  <div class="ice ice--a"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="ice ice--b"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="ice ice--c"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+</div>
 
-    <meta name="twitter:title" content="Prannay Hebbar" />
-    <meta
-      name="twitter:description"
-      content="AI researcher · post-training · RL for agents · program synthesis."
-    />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:creator" content="@Pran_Ker" />
+<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-cta" aria-describedby="gate-sub">
+  <span class="gate__name">Prannay Hebbar</span>
+  <div class="gate__center">
+    <button class="gate__cta" id="gate-cta" type="button"><span class="mark" aria-hidden="true"></span>Press to enter</button>
+    <p class="gate__sub" id="gate-sub">Sound on. One track, on loop. Nothing autoplays without you.</p>
+  </div>
+  <span class="gate__hint mono">Enter · Space · Click</span>
+</div>
 
-    <link rel="canonical" href="/" />
-    <link rel="icon" href="/assets/images/favicon-32.png" />
-    <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png" />
+<header class="hud">
+  <a class="wordmark" href="/" aria-label="Prannay Hebbar, home">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 21 7v10l-9 5-9-5V7z"/><path d="M3 7l9 5 9-5M12 12v10"/></svg>
+    <span>Prannay Hebbar</span>
+  </a>
+  <nav class="nav" aria-label="Primary">
+    <a href="/" aria-current="page">Home</a>
+    <a href="/blog">Writing</a>
+    <a href="/principles">Principles</a>
+    <a href="/gallery">Gallery</a>
+    <a href="/more">More</a>
+    <a href="/contact">Contact</a>
+  </nav>
+  <div class="transport" role="group" aria-label="Music">
+    <span class="tp-track"><span class="tp-title">Little Voices</span><span class="tp-artist">Lane 8</span></span>
+    <button class="tp-tap" type="button" hidden>Tap for sound</button>
+    <button class="tp-btn tp-mute" type="button" data-on="false" aria-label="Mute">
+      <svg class="ico-off" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5h1.8L6 1.5v7L3.3 6.5H1.5z" fill="currentColor"/><path d="M7.2 3.3a2.4 2.4 0 0 1 0 3.4" stroke="currentColor" stroke-width=".9" fill="none"/></svg>
+      <svg class="ico-on" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5h1.8L6 1.5v7L3.3 6.5H1.5z" fill="currentColor"/><path d="M7 3.8l2 2.4M9 3.8l-2 2.4" stroke="currentColor" stroke-width=".9"/></svg>
+    </button>
+    <span class="tp-time"><span class="vh">Elapsed </span><span class="tp-time__v">00:00</span></span>
+    <span class="beat" aria-hidden="true"></span>
+    <span class="tp-status vh" aria-live="polite"></span>
+  </div>
+</header>
 
-    <link rel="preload" href="/assets/fonts/LabGrotesque-Regular.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/assets/fonts/LabGrotesque-Medium.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/assets/fonts/LabGrotesque-Bold.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="/assets/css/style.css?v=20260610" />
-    <link rel="stylesheet" href="/assets/css/print.css" media="print" />
+<main id="main" data-page="home" tabindex="-1">
 
-    <script defer src="/assets/js/script.js?v=20260610" type="module"></script>
+  <section class="hero wrap" aria-labelledby="name">
+    <h1 id="name" class="display hero__name rise" style="--i:0"><span>Prannay</span> <span>Hebbar</span></h1>
+    <p class="lede hero__lede rise" style="--i:2">Founder, San Francisco. Before this I built agents that run the research loop themselves. <em>The long bet is program synthesis.</em></p>
+  </section>
 
-    <style>
-      /* Homepage-only ambient background. html keeps the solid black fallback,
-         so body must go transparent for the video layer to show through. */
-      body { background: transparent; }
-      .bg-video {
-        position: fixed;
-        inset: 0;
-        z-index: -2;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        opacity: 0.34;
-        filter: saturate(1.1) brightness(1.7);
-        pointer-events: none;
-      }
-      .bg-scrim {
-        position: fixed;
-        inset: 0;
-        z-index: -1;
-        pointer-events: none;
-        background: linear-gradient(
-          180deg,
-          rgba(var(--rgb-black), 0.45) 0%,
-          rgba(var(--rgb-black), 0.15) 30%,
-          rgba(var(--rgb-black), 0.15) 100%
-        );
-      }
-      @media (prefers-reduced-motion: reduce) {
-        .bg-video { display: none; }
-      }
-    </style>
-  </head>
+  <section class="section wrap haze" aria-labelledby="work-h">
+    <div class="sh reveal">
+      <h2 id="work-h">Selected work</h2>
+      <span class="sh__meta">2025 — 2026</span>
+    </div>
+    <ul class="rows reveal">
+      <li class="row row--work">
+        <span class="row__yr">2026</span>
+        <span class="row__what">SIA, a self-improving autoresearcher<span class="row__deck">Agents rewrite their own scaffolds between generations, with no human in between. Deployed at Lawrence Livermore National Laboratory.</span></span>
+        <span class="row__num">80.81%<span class="row__unit">GPQA Diamond</span></span>
+        <span class="row__where">Hexo Labs</span>
+      </li>
+      <li class="row row--work">
+        <span class="row__yr">2026</span>
+        <span class="row__what">Socrates, a critique-and-revision ML agent<span class="row__deck">8.67% lower log loss than the baseline agent. Two papers submitted to COLM.</span></span>
+        <span class="row__num">6×<span class="row__unit">faster convergence</span></span>
+        <span class="row__where">Hexo Labs</span>
+      </li>
+      <li class="row row--work">
+        <span class="row__yr">2025</span>
+        <span class="row__what"><a href="https://arxiv.org/abs/2504.11543" target="_blank" rel="noopener">REAL benchmark<span class="vh"> (opens in a new tab)</span></a>, NeurIPS 2025<span class="row__deck">Deterministic replicas of eleven real websites. Frontier models top out around 41%.</span></span>
+        <span class="row__num">112<span class="row__unit">tasks · 11 sites</span></span>
+        <span class="row__where">AGI Inc</span>
+      </li>
+      <li class="row row--work">
+        <span class="row__yr">2025</span>
+        <span class="row__what">AGI-0, computer-use agent<span class="row__deck">#1 on OSWorld in October 2025. GRPO and VerL pipelines underneath.</span></span>
+        <span class="row__num">76.26%<span class="row__unit">OSWorld</span></span>
+        <span class="row__where">AGI Inc</span>
+      </li>
+      <li class="row row--work">
+        <span class="row__yr">2025</span>
+        <span class="row__what"><a href="https://github.com/agi-inc/agisdk" target="_blank" rel="noopener">agisdk<span class="vh"> (opens in a new tab)</span></a><span class="row__deck">Web agent, harness, sandbox sites, benchmarking. Every major model and framework has been run through it.</span></span>
+        <span class="row__num">17k<span class="row__unit">downloads · 398 stars</span></span>
+        <span class="row__where">Open source</span>
+      </li>
+      <li class="row row--work">
+        <span class="row__yr">2026</span>
+        <span class="row__what"><a href="/blog/cad-reward-design">CAD and simulation RL environments</a> for frontier models<span class="row__deck">Reward design for parts that have to exist in the physical world. A frontier model against a spring from 1976.</span></span>
+        <span class="row__num">1,758<span class="row__unit">scored rollouts</span></span>
+        <span class="row__where">Essay</span>
+      </li>
+    </ul>
+  </section>
 
-  <body>
-    <!-- Decorative background. Sources are held in data-src and swapped in
-         once the page is idle, so the ~1 MB clip never competes with fonts/CSS
-         on first paint (McMaster-Carr "send less up front" principle). -->
-    <video
-      class="bg-video"
-      loop
-      muted
-      playsinline
-      preload="none"
-      poster="/assets/images/lumen-glyphs-poster.jpg"
-      aria-hidden="true"
-    >
-      <source data-src="/assets/images/lumen-glyphs.webm" type="video/webm" />
-      <source data-src="/assets/images/lumen-glyphs.mp4" type="video/mp4" />
-    </video>
-    <div class="bg-scrim" aria-hidden="true"></div>
+  <section class="section wrap" aria-labelledby="runs-h">
+    <div class="sh reveal">
+      <h2 id="runs-h">Recent runs</h2>
+    </div>
+    <div class="media reveal">
+      <figure class="fig" style="--ar: 1.6">
+        <div class="fig__plate">
+          <video autoplay muted loop playsinline preload="metadata" width="800" height="503" poster="/assets/images/mine-rl-poster.jpg" aria-label="RL agents moving through a Minecraft-like simulation on PufferLib">
+            <source src="/assets/images/mine-rl.webm" type="video/webm">
+            <source src="/assets/images/mine-rl.mp4" type="video/mp4">
+          </video>
+        </div>
+        <figcaption class="fig__cap">
+          <span class="fig__t">RL agents in a Minecraft-like sim, PufferLib</span>
+          <span class="fig__note">Policies learning to survive in a voxel world.</span>
+        </figcaption>
+      </figure>
+      <figure class="fig" style="--ar: 1.143">
+        <div class="fig__plate">
+          <img src="/assets/images/trimul-cuda.png" alt="Dashboard for a TriMul CUDA kernel optimisation showing a 1185 microsecond result" loading="lazy" width="1502" height="1314">
+        </div>
+        <figcaption class="fig__cap">
+          <span class="fig__t">TriMul CUDA kernel, 1185 µs</span>
+          <span class="fig__note">Triangle multiplicative update, hand-tuned. <a href="https://trimul-deploy.vercel.app/" target="_blank" rel="noopener">Live dashboard<span class="ext" aria-hidden="true">↗</span><span class="vh"> (opens in a new tab)</span></a></span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
 
-    <script>
-      // Load + play the decorative background video only once the page is idle,
-      // and only if the visitor hasn't asked for reduced motion.
-      (function () {
-        var v = document.querySelector('.bg-video');
-        if (!v || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-        var start = function () {
-          v.querySelectorAll('source[data-src]').forEach(function (s) {
-            s.src = s.dataset.src;
-          });
-          v.load();
-          var p = v.play();
-          if (p && p.catch) p.catch(function () {});
-        };
-        var idle = window.requestIdleCallback || function (fn) { return setTimeout(fn, 200); };
-        if (document.readyState === 'complete') idle(start);
-        else window.addEventListener('load', function () { idle(start); });
-      })();
-    </script>
-
-    <input class="nav-active" id="nav-active" type="checkbox" />
-
-    <label class="nav-underlay" for="nav-active"></label>
-
-    <nav class="nav">
-      <div class="nav__logo">
-        <a href="/" aria-label="Home"
-          ><img src="/assets/images/logo-black.svg" alt="Prannay Hebbar"
-        /></a>
+  <section class="section wrap haze" aria-labelledby="traj-h">
+    <div class="sh reveal">
+      <h2 id="traj-h">Trajectory</h2>
+      <span class="sh__meta">Dallas, Jan 2023 → San Francisco, Jul 2026</span>
+    </div>
+    <div class="trajectory reveal">
+      <!-- montage.js renders the map frames into [data-montage] and marks the stop the frames are at on the list -->
+      <div class="montage" data-montage data-montage-stops="traj-stops" title="Map data © OpenStreetMap contributors">
+        <noscript><img src="/assets/images/trajectory.gif" alt="Map sequence of the route from Dallas, January 2023, to San Francisco, July 2026" width="1200" height="900" loading="lazy"></noscript>
       </div>
+      <ol class="montage__stops" id="traj-stops" data-montage-stops aria-label="The seven stops">
+        <li><span>Jan 2023</span><span><b>Dallas.</b> One month's notice, a forex card, no savings. Consulting for Bread Financial and California Lawyers for the Arts.</span></li>
+        <li><span>2024</span><span><b>Dallas → San Francisco.</b> Deadline set by the Stanford Codex hackathon. Hostels, East Coast hours, every event in the city.</span></li>
+        <li><span>2024</span><span><b>Stanford.</b> Convex Optimization under Stephen Boyd. High-performance computing.</span></li>
+        <li><span>2024 – 2025</span><span><b>Palo Alto.</b> Mister Sparky: FDD signed, lease settled, then the numbers stopped fitting. Loan cancelled. Clean exit.</span></li>
+        <li><span>Mar 2025</span><span><b>San Francisco, AGI Inc.</b> Scouted at a hackathon. REAL benchmark to NeurIPS. AGI-0 to #1 on OSWorld.</span></li>
+        <li><span>Dec 2025</span><span><b>Santa Clara, Hexo Labs.</b> SIA reaches 80.81% on GPQA Diamond.</span></li>
+        <li aria-current="step"><span>Jul 2026</span><span><b>San Francisco. Founder.</b></span></li>
+      </ol>
+    </div>
+  </section>
 
-      <div class="nav__toggle">
-        <label for="nav-active">
-          <span>Menu</span>
-        </label>
-      </div>
+  <section class="section wrap haze" aria-labelledby="papers-h">
+    <div class="sh reveal">
+      <h2 id="papers-h">Papers</h2>
+      <span class="sh__meta"><a href="https://scholar.google.com/citations?user=Y3jw_UgAAAAJ" target="_blank" rel="noopener">Google Scholar<span class="ext" aria-hidden="true">↗</span><span class="vh"> (opens in a new tab)</span></a></span>
+    </div>
+    <ul class="rows reveal">
+      <li class="row--featured">
+        <a class="row row--essay row--nonum" href="https://arxiv.org/abs/2606.07682" target="_blank" rel="noopener">
+          <span class="row__what">SWE-Marathon: Can Agents Autonomously Complete Ultra-Long-Horizon Software Work?<span class="ext" aria-hidden="true">↗</span><span class="vh"> (opens in a new tab)</span><span class="row__deck">Twenty software tasks that take agents 27 million tokens on average. Frontier coding agents finish fewer than 30%.</span></span>
+          <span class="row__meta">2026 · arXiv · Co-author</span>
+        </a>
+      </li>
+      <li>
+        <a class="row row--essay row--nonum" href="https://arxiv.org/abs/2605.27276" target="_blank" rel="noopener">
+          <span class="row__what">SIA: Self Improving AI with Harness &amp; Weight Updates<span class="ext" aria-hidden="true">↗</span><span class="vh"> (opens in a new tab)</span><span class="row__deck">One agent updates both the scaffold and the weights of another. 25.1% over prior state of the art on LawBench, 12.4% faster GPU kernels, 20.4% better single-cell RNA denoising.</span></span>
+          <span class="row__meta">2026 · arXiv · First author</span>
+        </a>
+      </li>
+      <li>
+        <a class="row row--essay row--nonum" href="https://arxiv.org/abs/2607.19056" target="_blank" rel="noopener">
+          <span class="row__what">Vector-Bench: Can Models Surgically Edit SVG Code?<span class="ext" aria-hidden="true">↗</span><span class="vh"> (opens in a new tab)</span><span class="row__deck">Forty dense SVG repair tasks with a binary specification reward. The best of 34 model endpoints passes 15% of them.</span></span>
+          <span class="row__meta">2026 · arXiv · Co-first author</span>
+        </a>
+      </li>
+      <li>
+        <a class="row row--essay row--nonum" href="https://arxiv.org/abs/2504.11543" target="_blank" rel="noopener">
+          <span class="row__what">REAL: Benchmarking Autonomous Agents on Deterministic Simulations of Real Websites<span class="ext" aria-hidden="true">↗</span><span class="vh"> (opens in a new tab)</span><span class="row__deck">Eleven real websites, replicated deterministically, 112 tasks. Frontier models top out around 41%.</span></span>
+          <span class="row__meta">2025 · NeurIPS · Co-author</span>
+        </a>
+      </li>
+      <li>
+        <a class="row row--essay row--nonum" href="https://scholar.google.com/citations?user=Y3jw_UgAAAAJ" target="_blank" rel="noopener">
+          <span class="row__what">Socrates: Structured Questioning Unlocks Latent Knowledge in AI Research Agents<span class="ext" aria-hidden="true">↗</span><span class="vh"> (opens in a new tab)</span><span class="row__deck">A critique-and-revision loop for ML agents. 8.67% lower log loss and 6× faster convergence than the baseline agent.</span></span>
+          <span class="row__meta">2026 · ICML workshop · Second author</span>
+        </a>
+      </li>
+      <li>
+        <a class="row row--essay row--nonum" href="https://scholar.google.com/citations?user=Y3jw_UgAAAAJ" target="_blank" rel="noopener">
+          <span class="row__what">SIA-W: Self-Improving Agents with Test-Time Weight Updates<span class="ext" aria-hidden="true">↗</span><span class="vh"> (opens in a new tab)</span><span class="row__deck">The weight-update half of SIA as a standalone result.</span></span>
+          <span class="row__meta">2026 · ICML workshop · Second author</span>
+        </a>
+      </li>
+      <li>
+        <a class="row row--essay row--nonum" href="https://scholar.google.com/citations?user=Y3jw_UgAAAAJ" target="_blank" rel="noopener">
+          <span class="row__what">Adaptive Proxy Evaluation for Autonomously Improving ML Agents<span class="ext" aria-hidden="true">↗</span><span class="vh"> (opens in a new tab)</span><span class="row__deck">Cheaper evaluation for agents that improve themselves.</span></span>
+          <span class="row__meta">2026 · ICML workshop · Co-author</span>
+        </a>
+      </li>
+      <li>
+        <a class="row row--essay row--nonum" href="https://scholar.google.com/citations?user=Y3jw_UgAAAAJ" target="_blank" rel="noopener">
+          <span class="row__what">AIE-Bench: Benchmarking Agents That Build Agents<span class="ext" aria-hidden="true">↗</span><span class="vh"> (opens in a new tab)</span><span class="row__deck">A benchmark for meta-agents.</span></span>
+          <span class="row__meta">2026 · ICML workshop · Co-author</span>
+        </a>
+      </li>
+    </ul>
+  </section>
 
-      <div class="nav__options">
-        <ul>
-          <li>
-            <a href="/" class="mobile-menu-text" aria-label="TLDR"
-              >TLDR</a
-            >
-          </li>
-          <li>
-            <a href="/blog" class="mobile-menu-text" aria-label="Blogs"
-              >Blogs</a
-            >
-          </li>
-          <li>
-            <a
-              href="/principles"
-              class="mobile-menu-text"
-              aria-label="Principles"
-              >Principles</a
-            >
-          </li>
-          <li>
-            <a
-              href="/more"
-              class="mobile-menu-text"
-              aria-label="Other Stuff"
-              >Other Stuff</a
-            >
-          </li>
-          <li>
-            <a href="/contact" class="mobile-menu-text" aria-label="Contact"
-              >Contact</a
-            >
-          </li>
-        </ul>
-        <div class="social-bar">
-          <div class="social-icons">
-            <div>
-              <a href="https://x.com/Pran_Ker" target="_blank" rel="noopener"
-                ><svg viewBox="0 0 512 512" width="1em" height="1em" fill="currentColor"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/></svg
-              ></a>
-            </div>
-            <div>
-              <a
-                href="https://github.com/Pran-Ker"
-                target="_blank"
-                rel="noopener"
-                ><svg viewBox="0 0 496 512" width="1em" height="1em" fill="currentColor"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.8-14.9-112.8-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg
-              ></a>
-            </div>
-            <div>
-              <a
-                href="https://www.linkedin.com/in/prannay/"
-                target="_blank"
-                rel="noopener"
-                ><svg viewBox="0 0 448 512" width="1em" height="1em" fill="currentColor"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg
-              ></a>
-            </div>
-            <div>
-              <a
-                href="https://www.instagram.com/prannay.hebbar/"
-                target="_blank"
-                rel="noopener"
-                ><svg viewBox="0 0 448 512" width="1em" height="1em" fill="currentColor"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg
-              ></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
+  <section class="section wrap haze" aria-labelledby="writing-h">
+    <div class="sh reveal">
+      <h2 id="writing-h">Writing</h2>
+      <span class="sh__meta"><a href="/blog">All essays →</a></span>
+    </div>
+    <ul class="rows reveal">
+      <li>
+        <a class="row row--essay row--nonum" href="/blog/cad-reward-design">
+          <span class="row__what">1976<span class="row__deck">A frontier model meets a fifty-year-old spring. Reward design for CAD and simulation, rung by rung.</span></span>
+          <span class="row__meta">Jul 2026 · 13 min · Physics environments</span>
+        </a>
+      </li>
+      <li>
+        <a class="row row--essay row--nonum" href="/blog/designing-agent-systems">
+          <span class="row__what">It Forgets Everything. It Sometimes Lies. Build Around It.<span class="row__deck">The model is the most reliable part of your agent. Everything you wrap around it is where the failures live.</span></span>
+          <span class="row__meta">Jun 2026 · 14 min · Agent systems</span>
+        </a>
+      </li>
+    </ul>
+  </section>
 
-    <header class="header">
-      <h1>
-        <a href="/" aria-label="Prannay Hebbar"
-          ><img src="/assets/images/logo.svg" alt="Prannay Hebbar"
-        /></a>
-      </h1>
+</main>
 
-      <ul>
-        <li><a href="/" aria-label="TLDR">TLDR</a></li>
-        <li><a href="/blog" aria-label="Blogs">Blogs</a></li>
-        <li>
-          <a href="/principles" aria-label="Principles">Principles</a>
-        </li>
-        <li>
-          <a href="/more" aria-label="Other Stuff">Other Stuff</a>
-        </li>
-        <li><a href="/contact" aria-label="Contact">Contact</a></li>
-      </ul>
-    </header>
+<footer class="foot">
+  <div class="wrap grid">
+    <ul class="foot__links">
+      <li><a href="https://x.com/Pran_Ker" target="_blank" rel="noopener">X</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://github.com/Pran-Ker" target="_blank" rel="noopener">GitHub</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://www.linkedin.com/in/prannay/" target="_blank" rel="noopener">LinkedIn</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://scholar.google.com/citations?user=Y3jw_UgAAAAJ" target="_blank" rel="noopener">Scholar</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://www.goodreads.com/user/show/193930535-prannay-hebbar" target="_blank" rel="noopener">Goodreads</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://medium.com/@Pran-Ker" target="_blank" rel="noopener">Medium</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://huggingface.co/Pran-Ker" target="_blank" rel="noopener">Hugging Face</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://openreview.net/profile?id=%7EPrannay_Hebbar1" target="_blank" rel="noopener">OpenReview</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://calendly.com/prannay/consulting" target="_blank" rel="noopener">Calendly</a><span aria-hidden="true">↗</span></li>
+    </ul>
+    <div class="foot__base">
+      <span>© 2026 Prannay Hebbar</span>
+      <span>San Francisco</span>
+    </div>
+  </div>
+</footer>
 
-    <main>
-      <section class="page">
-        <div class="page__headline">
-          <h1>Prannay Hebbar</h1>
-          <small>AI Researcher · Stanford · AGI Inc</small>
-        </div>
-        <div class="page__content">
-          <ul>
-            <li>
-              Primarily researched RL for agents, dedicating the next decade
-              to program synthesis and inference.
-            </li>
-            <li>
-              Studied at Stanford under Stephen Boyd (convex optimization),
-              alongside HPC and a handful of other subjects.
-            </li>
-            <li>
-              Off-screen: soccer, singing, jiu-jitsu, poker.
-            </li>
-          </ul>
-        </div>
-
-        <div class="page__showcase">
-          <div class="showcase-rule">
-            <h4>Selected Work</h4>
-            <span class="showcase-rule__count">02</span>
-          </div>
-          <!-- Horizontal scroller; add more <figure> cards inside the track. -->
-          <div class="showcase-clip">
-            <div class="showcase-track" tabindex="0" role="region" aria-label="Projects, scroll horizontally">
-              <figure class="showcase-card">
-                <div class="showcase-card__media">
-                  <video
-                    autoplay
-                    loop
-                    muted
-                    playsinline
-                    preload="none"
-                    aria-label="RL agent training on a Minecraft-like simulation with PufferLib"
-                  >
-                    <source src="/assets/images/mine-rl.webm" type="video/webm" />
-                    <source src="/assets/images/mine-rl.mp4" type="video/mp4" />
-                  </video>
-                </div>
-                <figcaption>
-                  An RL training run on agents playing a Minecraft simulation, done on
-                  <a href="https://github.com/pufferai/pufferlib" target="_blank" rel="noopener">PufferLib</a>.
-                </figcaption>
-              </figure>
-              <figure class="showcase-card showcase-card--chart">
-                <a class="showcase-card__media" href="https://trimul-deploy.vercel.app/" target="_blank" rel="noopener">
-                  <img
-                    src="/assets/images/trimul-cuda.png"
-                    loading="lazy"
-                    alt="TriMul outgoing CUDA kernel optimization run: kernel latency and reward over training steps"
-                  />
-                </a>
-                <figcaption>
-                  CUDA kernel optimization for an AlphaFold-3 style TriMul kernel, reaching 1185&micro;s latency
-                  <a href="https://trimul-deploy.vercel.app/" target="_blank" rel="noopener">live dashboard</a>
-                </figcaption>
-              </figure>
-            </div>
-          </div>
-          <div class="showcase-dots"></div>
-        </div>
-
-        <div class="scroll-cue" aria-hidden="true">
-          <span>Scroll</span>
-          <i></i>
-        </div>
-      </section>
-    </main>
-
-    <footer class="footer">
-      <ul class="social-icons">
-        <li>
-          <a
-            href="https://x.com/Pran_Ker"
-            target="_blank"
-            rel="noopener"
-            aria-label="Twitter"
-          >
-            <svg viewBox="0 0 512 512" width="1em" height="1em" fill="currentColor"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/></svg>
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://github.com/Pran-Ker"
-            target="_blank"
-            rel="noopener"
-            aria-label="GitHub"
-          >
-            <svg viewBox="0 0 496 512" width="1em" height="1em" fill="currentColor"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.8-14.9-112.8-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://www.linkedin.com/in/prannay/"
-            target="_blank"
-            rel="noopener"
-            aria-label="LinkedIn"
-          >
-            <svg viewBox="0 0 448 512" width="1em" height="1em" fill="currentColor"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://www.instagram.com/prannay.hebbar/"
-            target="_blank"
-            rel="noopener"
-            aria-label="Instagram"
-          >
-            <svg viewBox="0 0 448 512" width="1em" height="1em" fill="currentColor"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg>
-          </a>
-        </li>
-      </ul>
-    </footer>
-  </body>
+</body>
 </html>

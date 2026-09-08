@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /post
+
+Sitemap: https://prannayh.com/sitemap.xml

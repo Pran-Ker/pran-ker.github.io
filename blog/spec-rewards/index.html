@@ -1,1396 +1,719 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Specifications Are Decision Boundaries · Prannay Hebbar</title>
-
-    <meta charset="utf-8" />
-    <meta content="ie=edge" http-equiv="x-ua-compatible" />
-    <meta name="handheldfriendly" content="true" />
-    <meta name="viewport" content="initial-scale=1, width=device-width" />
-    <meta name="description" content="Mutation testing, CEGIS, version-space algebras, fifty years of program-synthesis ideas rearranged into a way to train agents that know what not to change." />
-    <meta name="theme-color" content="#F2EFE7" />
-
-    <meta property="og:site_name" content="Prannay Hebbar" />
-    <meta property="og:title" content="Specifications Are Decision Boundaries" />
-    <meta property="og:description" content="Fifty years of program-synthesis ideas, mutation testing, CEGIS, version-space algebras, rearranged into a way to train agents." />
-    <meta property="og:type" content="article" />
-
-    <link rel="icon" href="/assets/images/favicon-32.png" />
-    <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png" />
-
-    <link rel="preload" href="/assets/fonts/LabGrotesque-Regular.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/assets/fonts/LabGrotesque-Bold.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/assets/fonts/LabGrotesqueMono-Regular.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/assets/fonts/SourceSerif4-Variable.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/assets/fonts/SourceSerif4-VariableItalic.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="/assets/css/style.css" />
-
-    <style>
-      @font-face {
-        font-family: 'Source Serif 4';
-        src: url('/assets/fonts/SourceSerif4-Variable.woff2') format('woff2');
-        font-weight: 200 900;
-        font-style: normal;
-        font-display: swap;
-      }
-      @font-face {
-        font-family: 'Source Serif 4';
-        src: url('/assets/fonts/SourceSerif4-VariableItalic.woff2') format('woff2');
-        font-weight: 200 900;
-        font-style: italic;
-        font-display: swap;
-      }
-
-      :root {
-        --paper: #f2efe7;
-        --card: #fbfaf5;
-        --ink: #1a1915;
-        --soft: #3d3a31;
-        --muted: #6e6859;
-        --faint: #a39d8c;
-        --rule: #e2ddd0;
-        --clay: #c25e3f;
-        --clay-bright: #d97757;
-        --clay-dim: rgba(194, 94, 63, 0.08);
-        --olive: #69793f;
-        --olive-dim: rgba(105, 121, 63, 0.1);
-        --sans: 'Lab Grotesque', -apple-system, sans-serif;
-        --serif: 'Source Serif 4', 'Iowan Old Style', Georgia, serif;
-        --mono: 'Lab Grotesque Mono', 'SF Mono', Monaco, monospace;
-        --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
-        /* house illustration palette */
-        --wall: #e8d8b8;
-        --roof: #a85a3a;
-        --door-base: #7a5a3a;
-        --win: #c8e8f0;
-      }
-
-      body { background: var(--paper); color: var(--ink); }
-      ::selection { background: rgba(217, 119, 87, 0.28); }
-
-      .article {
-        max-width: 680px;
-        margin: 0 auto;
-        padding: 7.5rem 1.4rem 6rem;
-        font-family: var(--serif);
-        font-size: 1.075rem;
-        line-height: 1.72;
-        color: var(--soft);
-        font-optical-sizing: auto;
-      }
-      @media (min-width: 64em) { .article { font-size: 1.14rem; } }
-
-      .back-link {
-        display: inline-block;
-        margin-bottom: 3rem;
-        color: var(--faint);
-        font-family: var(--mono);
-        font-size: 0.72rem;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        text-decoration: none;
-        transition: color 150ms ease;
-      }
-      @media (hover: hover) and (pointer: fine) {
-        .back-link:hover { color: var(--clay); }
-      }
-
-      .eyebrow {
-        font-family: var(--mono);
-        font-size: 0.72rem;
-        letter-spacing: 0.22em;
-        text-transform: uppercase;
-        color: var(--clay);
-        margin: 0 0 1.2rem;
-      }
-      .article h1 {
-        font-family: var(--sans);
-        font-size: clamp(2.1rem, 5.4vw, 3.2rem);
-        line-height: 1.05;
-        font-weight: 700;
-        letter-spacing: -0.026em;
-        color: var(--ink);
-        margin: 0 0 1.4rem;
-      }
-      .article .meta {
-        font-family: var(--sans);
-        color: var(--muted);
-        font-size: 0.92rem;
-        letter-spacing: 0.01em;
-        padding-bottom: 2rem;
-        border-bottom: 1px solid var(--rule);
-        margin-bottom: 2.4rem;
-      }
-      .meta .dot { color: var(--faint); margin: 0 0.45em; }
-
-      .lead {
-        font-size: 1.3rem;
-        line-height: 1.52;
-        color: var(--ink);
-        margin: 0 0 1.8rem;
-        font-weight: 430;
-        letter-spacing: -0.005em;
-      }
-
-      .article p { margin: 0 0 1.25rem; }
-      .article strong { font-weight: 640; color: var(--ink); }
-      .article em { font-style: italic; }
-      .article code {
-        font-family: var(--mono);
-        background: rgba(26, 25, 21, 0.055);
-        padding: 0.08em 0.34em;
-        border-radius: 4px;
-        font-size: 0.82em;
-        color: var(--ink);
-      }
-      .article a {
-        color: var(--ink);
-        text-decoration: none;
-        border-bottom: 1px solid var(--rule);
-        transition: color 150ms ease, border-color 150ms ease;
-      }
-      @media (hover: hover) and (pointer: fine) {
-        .article a:hover { color: var(--clay); border-color: var(--clay); }
-      }
-      .ref {
-        font-family: var(--mono);
-        font-size: 0.72em;
-        color: var(--faint);
-        white-space: nowrap;
-      }
-
-      /* page-load orchestration */
-      .rise { opacity: 0; transform: translateY(12px); animation: rise 0.6s var(--ease-out) forwards; }
-      .rise.r2 { animation-delay: 0.06s; }
-      .rise.r3 { animation-delay: 0.12s; }
-      .rise.r4 { animation-delay: 0.2s; }
-      .rise.r5 { animation-delay: 0.3s; }
-      @keyframes rise { to { opacity: 1; transform: none; } }
-      @media (prefers-reduced-motion: reduce) { .rise { animation: none; opacity: 1; transform: none; } }
-
-      .article h2 {
-        font-family: var(--sans);
-        font-size: 1.42rem;
-        font-weight: 700;
-        letter-spacing: -0.014em;
-        color: var(--ink);
-        margin: 3.4rem 0 1rem;
-        line-height: 1.22;
-      }
-      .article h2 .num {
-        display: block;
-        font-family: var(--mono);
-        font-size: 0.7rem;
-        font-weight: 400;
-        color: var(--clay);
-        letter-spacing: 0.26em;
-        margin-bottom: 0.5rem;
-      }
-
-      .pull-quote {
-        font-size: 1.36rem;
-        line-height: 1.48;
-        font-style: italic;
-        font-weight: 420;
-        margin: 2.6rem 0;
-        padding-left: 1.4rem;
-        border-left: 2px solid var(--clay-bright);
-        color: var(--ink);
-      }
-
-      /* figures */
-      .figure {
-        margin: 2.8rem -1rem;
-        padding: 2rem 1.4rem 1.5rem;
-        background: var(--card);
-        border: 1px solid var(--rule);
-        border-radius: 12px;
-        box-shadow: 0 1px 2px rgba(26, 25, 21, 0.03), 0 10px 30px rgba(26, 25, 21, 0.04);
-      }
-      @media (min-width: 56em) {
-        .figure { margin: 2.8rem -3.5rem; padding: 2.4rem 2.8rem 1.8rem; }
-      }
-      .figure__caption {
-        font-family: var(--sans);
-        font-size: 0.85rem;
-        color: var(--muted);
-        line-height: 1.55;
-        margin: 1.4rem auto 0;
-        max-width: 58ch;
-        text-align: center;
-      }
-      .figure__caption b { font-weight: 640; color: var(--ink); }
-      .figure__caption .ok { color: var(--olive); }
-      .figure__caption .bad { color: var(--clay); }
-
-      /* scroll reveal: initial hidden state only when JS is present */
-      body.js .reveal { opacity: 0; transform: translateY(18px); }
-      body.js .reveal.in-view {
-        opacity: 1;
-        transform: none;
-        transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
-      }
-      @media (prefers-reduced-motion: reduce) {
-        body.js .reveal { opacity: 1; transform: none; transition: none; }
-      }
-
-      /* ---------- Hero strip ---------- */
-      .hero-strip {
-        display: grid;
-        grid-template-columns: repeat(9, 1fr);
-        gap: 6px;
-        margin: 0 0 2.6rem;
-      }
-      .hero__cell {
-        position: relative;
-        border-radius: 6px;
-        overflow: hidden;
-        border: 1px solid var(--rule);
-        background: #fff;
-        aspect-ratio: 1 / 1;
-      }
-      .hero__cell svg { width: 100%; height: 100%; display: block; }
-      .hero__cell.pos { border-color: var(--olive); background: linear-gradient(180deg, #fff, var(--olive-dim)); }
-      .hero__cell.neg { border-color: var(--clay-bright); background: linear-gradient(180deg, #fff, var(--clay-dim)); opacity: 0.85; }
-      .hero__cell.focus {
-        border-color: var(--ink);
-        box-shadow: 0 0 0 3px rgba(26, 25, 21, 0.07);
-        transform: translateY(-4px);
-        z-index: 2;
-      }
-      .hero__cell .tag {
-        position: absolute;
-        bottom: 4px; left: 4px;
-        font-family: var(--mono);
-        font-size: 0.55rem;
-        letter-spacing: 0.06em;
-        padding: 0.1rem 0.3rem;
-        border-radius: 3px;
-        color: var(--muted);
-        background: rgba(255, 255, 255, 0.88);
-      }
-      .hero__cell.pos .tag { color: var(--olive); }
-      .hero__cell.neg .tag { color: var(--clay); }
-      .hero__cell.focus .tag { background: var(--ink); color: var(--paper); }
-
-      /* ---------- SVG diff figure ---------- */
-      .svg-row {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 1rem;
-      }
-      @media (min-width: 48em) {
-        .svg-row { grid-template-columns: repeat(3, 1fr); gap: 0.9rem; }
-      }
-      .svg-card {
-        border: 1px solid var(--rule);
-        border-radius: 8px;
-        padding: 0.9rem;
-        background: #fff;
-        display: flex;
-        flex-direction: column;
-        gap: 0.6rem;
-        transition: border-color 300ms ease;
-      }
-      .svg-card svg { width: 100%; height: auto; display: block; }
-      .svg-card__title {
-        font-size: 0.66rem;
-        text-transform: uppercase;
-        letter-spacing: 0.16em;
-        color: var(--faint);
-        font-family: var(--mono);
-      }
-      .svg-card__verdict {
-        font-family: var(--mono);
-        font-size: 0.7rem;
-        display: flex;
-        justify-content: space-between;
-        padding-top: 0.5rem;
-        border-top: 1px dashed var(--rule);
-        color: var(--muted);
-      }
-      .svg-card__verdict .ok { color: var(--olive); }
-      .svg-card__verdict .bad { color: var(--clay); }
-      .svg-card.silent { border-color: rgba(194, 94, 63, 0.4); }
-      .svg-card.silent.diff-on .roof {
-        transform: translateY(-2px);
-        stroke: var(--clay);
-        stroke-dasharray: 3 2;
-        transition: transform 0.5s var(--ease-out), stroke 0.5s ease;
-      }
-      .svg-card.silent.diff-on .win-right {
-        fill: #b8d8e0;
-        stroke: var(--clay);
-        stroke-dasharray: 3 2;
-        transition: fill 0.5s ease, stroke 0.5s ease;
-      }
-      .svg-card.clean { border-color: rgba(105, 121, 63, 0.45); }
-
-      .toggle-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.6rem;
-        margin-top: 1.4rem;
-        padding: 0.55rem 1.05rem;
-        border: 1px solid var(--ink);
-        background: var(--ink);
-        color: var(--paper);
-        border-radius: 999px;
-        font-family: var(--mono);
-        font-size: 0.74rem;
-        cursor: pointer;
-        letter-spacing: 0.08em;
-        transition: transform 160ms var(--ease-out), background-color 160ms ease, border-color 160ms ease;
-      }
-      .toggle-btn:active { transform: scale(0.97); }
-      @media (hover: hover) and (pointer: fine) {
-        .toggle-btn:hover { background: var(--clay); border-color: var(--clay); color: #fff; }
-      }
-      .toggle-btn .dot {
-        width: 7px; height: 7px; border-radius: 50%;
-        background: var(--faint); transition: background-color 300ms ease;
-      }
-      .toggle-btn.on .dot { background: #e89272; }
-
-      /* ---------- CEGIS loop figure ---------- */
-      .cegis {
-        display: grid;
-        grid-template-columns: 1fr 0.4fr 1fr;
-        gap: 0.8rem;
-        align-items: stretch;
-      }
-      .cegis__node {
-        border: 1px solid var(--rule);
-        border-radius: 10px;
-        padding: 1rem 1.1rem;
-        background: #fff;
-        display: flex;
-        flex-direction: column;
-        gap: 0.4rem;
-        min-height: 110px;
-        transition: border-color 400ms ease, box-shadow 400ms ease;
-      }
-      .cegis__node h4 {
-        margin: 0;
-        font-size: 0.68rem;
-        text-transform: uppercase;
-        letter-spacing: 0.14em;
-        color: var(--faint);
-        font-weight: 400;
-        font-family: var(--mono);
-      }
-      .cegis__node p {
-        margin: 0;
-        font-family: var(--sans);
-        font-size: 0.88rem;
-        line-height: 1.5;
-        color: var(--soft);
-      }
-      .cegis__arrow {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 0.3rem;
-        font-family: var(--mono);
-        font-size: 0.62rem;
-        color: var(--muted);
-        letter-spacing: 0.06em;
-      }
-      .cegis__arrow svg {
-        width: 28px; height: 12px;
-        stroke: var(--ink);
-        fill: none;
-        stroke-width: 1.4;
-      }
-      .cegis__back {
-        margin-top: 0.7rem;
-        text-align: center;
-        font-family: var(--mono);
-        font-size: 0.72rem;
-        color: var(--muted);
-        padding-top: 0.8rem;
-        border-top: 1px dashed var(--rule);
-      }
-      .cegis__back b { color: var(--ink); font-weight: 500; }
-      .cegis__node.active {
-        border-color: var(--clay);
-        box-shadow: 0 0 0 3px var(--clay-dim);
-      }
-      @media (max-width: 47.99em) {
-        .cegis { grid-template-columns: 1fr; }
-        .cegis__arrow svg { transform: rotate(90deg); }
-      }
-
-      /* ---------- Mutant lattice ---------- */
-      .lattice {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 1.4rem;
-      }
-      @media (min-width: 40em) {
-        .lattice { grid-template-columns: 1fr auto 1fr; gap: 1.2rem; align-items: center; }
-      }
-      .lattice__set { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; }
-      .lattice__mid {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 0.6rem;
-        padding: 0.5rem 0;
-      }
-      @media (min-width: 40em) { .lattice__mid { padding: 0 0.4rem; } }
-      .lattice__prompt {
-        background: var(--ink);
-        color: var(--paper);
-        padding: 0.55rem 0.9rem;
-        border-radius: 999px;
-        font-family: var(--mono);
-        font-size: 0.72rem;
-        white-space: nowrap;
-      }
-      .lattice__arrow {
-        font-family: var(--mono);
-        font-size: 0.62rem;
-        color: var(--muted);
-        text-align: center;
-        letter-spacing: 0.08em;
-        line-height: 1.4;
-      }
-      .lattice__arrow.up { color: var(--olive); }
-      .lattice__arrow.down { color: var(--clay); }
-      .mini {
-        position: relative;
-        aspect-ratio: 1 / 1;
-        border-radius: 6px;
-        border: 1px solid var(--rule);
-        background: #fff;
-        overflow: hidden;
-        transition: transform 200ms var(--ease-out);
-      }
-      @media (hover: hover) and (pointer: fine) {
-        .mini:hover { transform: scale(1.08); z-index: 2; }
-      }
-      .mini.pos { border-color: var(--olive); background: linear-gradient(180deg, #fff, var(--olive-dim)); }
-      .mini.neg { border-color: var(--clay-bright); background: linear-gradient(180deg, #fff, var(--clay-dim)); }
-      .mini svg { width: 100%; height: 100%; display: block; }
-      .mini .lbl {
-        position: absolute;
-        top: 3px; right: 4px;
-        font-family: var(--mono);
-        font-size: 0.55rem;
-        padding: 0.05rem 0.3rem;
-        background: rgba(255, 255, 255, 0.9);
-        border-radius: 3px;
-        color: var(--muted);
-      }
-      .mini.pos .lbl { color: var(--olive); }
-      .mini.neg .lbl { color: var(--clay); }
-
-      /* ---------- Version space figure ---------- */
-      .vspace {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 1.2rem;
-      }
-      @media (min-width: 48em) {
-        .vspace { grid-template-columns: 0.9fr 1.4fr; gap: 1.8rem; align-items: start; }
-      }
-      .vspace__prompt {
-        font-family: var(--mono);
-        font-size: 0.85rem;
-        line-height: 1.6;
-        background: #fff;
-        border: 1px solid var(--rule);
-        border-radius: 8px;
-        padding: 1rem 1.1rem;
-        border-left: 3px solid var(--clay-bright);
-      }
-      .vspace__prompt .in { color: var(--faint); }
-      .vspace__prompt .out { color: var(--ink); font-weight: 500; }
-      .vspace__candidates {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-      .vcand {
-        display: flex;
-        align-items: center;
-        gap: 0.8rem;
-        padding: 0.55rem 0.8rem;
-        border: 1px solid var(--rule);
-        border-radius: 6px;
-        background: #fff;
-        font-family: var(--mono);
-        font-size: 0.76rem;
-        transition: opacity 400ms ease, border-color 400ms ease, background-color 400ms ease;
-      }
-      .vcand .pill {
-        font-size: 0.6rem;
-        letter-spacing: 0.1em;
-        padding: 0.15rem 0.45rem;
-        border-radius: 999px;
-        border: 1px solid var(--rule);
-        color: var(--muted);
-        text-transform: uppercase;
-        white-space: nowrap;
-      }
-      .vcand .desc { flex: 1; color: var(--ink); }
-      .vcand.killed { opacity: 0.45; text-decoration: line-through; text-decoration-color: var(--clay); }
-      .vcand.killed .pill { color: var(--clay); border-color: var(--clay-bright); background: var(--clay-dim); }
-      .vcand.kept { border-color: var(--olive); background: var(--olive-dim); }
-      .vcand.kept .pill { color: var(--olive); border-color: var(--olive); }
-
-      /* ---------- Reward hacking ---------- */
-      .hacking-row {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 1rem;
-      }
-      @media (min-width: 48em) { .hacking-row { grid-template-columns: 1fr 1fr; } }
-      .hacking-card {
-        border: 1px solid var(--rule);
-        border-radius: 10px;
-        padding: 1rem 1.1rem;
-        background: #fff;
-      }
-      .hacking-card h4 {
-        margin: 0 0 0.7rem;
-        font-size: 0.66rem;
-        text-transform: uppercase;
-        letter-spacing: 0.16em;
-        color: var(--faint);
-        font-weight: 400;
-        font-family: var(--mono);
-      }
-      .plot {
-        position: relative;
-        height: 170px;
-        border-radius: 8px;
-        background: var(--card);
-        overflow: hidden;
-        border: 1px solid var(--rule);
-      }
-      .plot__band {
-        position: absolute;
-        left: 0; right: 0;
-        top: 0; height: 50%;
-        background: rgba(105, 121, 63, 0.06);
-        border-bottom: 1px dashed rgba(105, 121, 63, 0.5);
-      }
-      .plot__band::after {
-        content: 'spec-satisfying region';
-        position: absolute;
-        right: 6px;
-        bottom: 4px;
-        font-family: var(--mono);
-        font-size: 0.6rem;
-        color: var(--olive);
-        opacity: 0.8;
-        letter-spacing: 0.04em;
-      }
-      .plot__dot {
-        position: absolute;
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        transform: translate(-50%, -50%);
-        opacity: 0;
-      }
-      .hacking-card.naive .plot__dot { background: var(--clay-bright); }
-      .hacking-card.fixed .plot__dot { background: var(--olive); }
-      .hacking-card .verdict {
-        margin-top: 0.8rem;
-        font-family: var(--mono);
-        font-size: 0.72rem;
-        color: var(--muted);
-      }
-      .hacking-card .verdict b { color: var(--ink); font-weight: 500; }
-
-      /* ---------- GRPO ---------- */
-      .grpo {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 0.5rem;
-      }
-      @media (min-width: 40em) { .grpo { grid-template-columns: repeat(8, 1fr); } }
-      .grpo__cell {
-        padding: 0.65rem 0.3rem 0.5rem;
-        border: 1px solid var(--rule);
-        border-radius: 8px;
-        background: #fff;
-        text-align: center;
-        font-family: var(--mono);
-        font-size: 0.64rem;
-        color: var(--muted);
-        transition: border-color 500ms ease, background-color 500ms ease, opacity 500ms ease;
-      }
-      .grpo__cell .r {
-        display: block;
-        font-size: 0.95rem;
-        color: var(--ink);
-        margin-bottom: 0.2rem;
-      }
-      .grpo__cell .arrow {
-        display: block;
-        margin-top: 0.3rem;
-        font-size: 0.85rem;
-        opacity: 0;
-        transition: opacity 600ms ease;
-      }
-      .grpo.go .grpo__cell .arrow { opacity: 1; }
-      .grpo__cell.up { border-color: var(--olive); background: var(--olive-dim); }
-      .grpo__cell.up .arrow { color: var(--olive); }
-      .grpo__cell.down { border-color: var(--clay-bright); background: var(--clay-dim); opacity: 0.65; }
-      .grpo__cell.down .arrow { color: var(--clay); }
-      .grpo-baseline {
-        margin-top: 1rem;
-        text-align: center;
-        font-family: var(--mono);
-        font-size: 0.74rem;
-        color: var(--muted);
-      }
-      .grpo-baseline b { color: var(--ink); font-weight: 500; }
-
-      /* ---------- Timeline ---------- */
-      .timeline {
-        position: relative;
-        padding: 0.5rem 0;
-      }
-      .timeline::before {
-        content: '';
-        position: absolute;
-        left: 9px; top: 0; bottom: 0;
-        width: 1px;
-        background: var(--rule);
-      }
-      .tl-item {
-        position: relative;
-        padding: 0.5rem 0 0.9rem 2.2rem;
-      }
-      .tl-item::before {
-        content: '';
-        position: absolute;
-        left: 5px; top: 0.85rem;
-        width: 9px; height: 9px;
-        border-radius: 50%;
-        background: #fff;
-        border: 2px solid var(--ink);
-      }
-      .tl-item.us::before { background: var(--clay-bright); border-color: var(--clay-bright); }
-      .tl-item .yr {
-        font-family: var(--mono);
-        font-size: 0.7rem;
-        color: var(--clay);
-        letter-spacing: 0.08em;
-      }
-      .tl-item h5 {
-        margin: 0.15rem 0 0.2rem;
-        font-family: var(--sans);
-        font-size: 0.98rem;
-        font-weight: 640;
-        color: var(--ink);
-      }
-      .tl-item p {
-        margin: 0;
-        font-family: var(--sans);
-        font-size: 0.88rem;
-        color: var(--muted);
-        line-height: 1.5;
-      }
-
-      /* ---------- Generalisation table ---------- */
-      .gen-table {
-        margin: 0.4rem 0 0;
-        border: 1px solid var(--rule);
-        border-radius: 10px;
-        overflow: hidden;
-        background: var(--card);
-      }
-      .gen-row {
-        display: grid;
-        grid-template-columns: 1fr 1.4fr 1.4fr;
-        gap: 1rem;
-        padding: 0.95rem 1.2rem;
-        border-top: 1px solid var(--rule);
-        font-family: var(--sans);
-        font-size: 0.88rem;
-        line-height: 1.5;
-        align-items: start;
-      }
-      .gen-row:first-child {
-        border-top: 0;
-        background: var(--ink);
-        color: var(--paper);
-        font-size: 0.66rem;
-        text-transform: uppercase;
-        letter-spacing: 0.18em;
-        font-family: var(--mono);
-      }
-      .gen-row .pos { color: var(--olive); }
-      .gen-row .neg { color: var(--clay); }
-      .gen-row b { color: var(--ink); font-weight: 640; }
-
-      .footer-note {
-        margin-top: 4.5rem;
-        padding-top: 2rem;
-        border-top: 1px solid var(--rule);
-        color: var(--muted);
-        font-size: 0.92rem;
-        line-height: 1.65;
-      }
-    </style>
-  </head>
-
-  <body>
-    <input class="nav-active" id="nav-active" type="checkbox" />
-    <label class="nav-underlay" for="nav-active"></label>
-
-    <nav class="nav">
-      <div class="nav__logo">
-        <a href="/" aria-label="Home"><img src="/assets/images/logo-black.svg" alt="Prannay Hebbar" /></a>
-      </div>
-      <div class="nav__toggle"><label for="nav-active"><span>Menu</span></label></div>
-      <div class="nav__options">
-        <ul>
-          <li><a href="/" class="mobile-menu-text">TLDR</a></li>
-          <li><a href="/blog" class="mobile-menu-text">Blogs</a></li>
-          <li><a href="/principles" class="mobile-menu-text">Principles</a></li>
-          <li><a href="/more" class="mobile-menu-text">Other Stuff</a></li>
-          <li><a href="/contact" class="mobile-menu-text">Contact</a></li>
-        </ul>
-      </div>
-    </nav>
-
-    <header class="header">
-      <h1><a href="/" aria-label="Prannay Hebbar"><img src="/assets/images/logo.svg" alt="Prannay Hebbar" /></a></h1>
-      <ul>
-        <li><a href="/">TLDR</a></li>
-        <li><a href="/blog">Blogs</a></li>
-        <li><a href="/principles">Principles</a></li>
-        <li><a href="/more">Other Stuff</a></li>
-        <li><a href="/contact">Contact</a></li>
-      </ul>
-    </header>
-
-    <main>
-      <article class="article">
-        <a href="/blog" class="back-link">← Blogs</a>
-
-        <p class="eyebrow rise">Field notes · Research</p>
-        <h1 class="rise r2">Specifications Are Decision Boundaries</h1>
-        <div class="meta rise r3">May 2026<span class="dot">·</span>Prannay Hebbar<span class="dot">·</span>10 min read</div>
-
-        <div class="hero-strip rise r4" id="heroStrip" aria-hidden="true"></div>
-
-        <p class="lead rise r5">
-          A model that &ldquo;makes the door blue&rdquo; can also silently rewrite three other paths in your SVG. Pixel metrics won't catch it. RLHF won't catch it. But fifty years of program-synthesis ideas, mutation testing, counterexample-guided induction, version-space algebras, rearrange neatly into a way to train agents that know what <em>not</em> to change.
-        </p>
-
-        <p>
-          This is a short essay on the load-bearing idea behind a paper I am working on: SVGym, a benchmark for surgical SVG editing, and SCALPEL, the RL recipe that trains a 7B open model on it. The idea generalises far past SVGs.
-        </p>
-
-        <h2><span class="num">01</span>The silent rewrite</h2>
-
-        <p>
-          Consider the instruction: <em>&ldquo;make only the door blue.&rdquo;</em> Below are three outputs. The raster looks identical. The XML does not.
-        </p>
-
-        <div class="figure reveal" data-fig="svg">
-          <div class="svg-row">
-            <div class="svg-card">
-              <div class="svg-card__title">Original</div>
-              <svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <rect x="40" y="70" width="120" height="80" fill="#e8d8b8" stroke="#1a1915" stroke-width="2"/>
-                <polygon class="roof" points="30,70 100,20 170,70" fill="#a85a3a" stroke="#1a1915" stroke-width="2"/>
-                <rect class="door" x="88" y="100" width="24" height="50" fill="#7a5a3a" stroke="#1a1915" stroke-width="2"/>
-                <rect class="win-left" x="55" y="85" width="22" height="22" fill="#c8e8f0" stroke="#1a1915" stroke-width="2"/>
-                <rect class="win-right" x="123" y="85" width="22" height="22" fill="#c8e8f0" stroke="#1a1915" stroke-width="2"/>
-              </svg>
-              <div class="svg-card__verdict"><span>raster</span><span>spec</span></div>
-            </div>
-            <div class="svg-card silent" id="silentCard">
-              <div class="svg-card__title">&ldquo;Looks correct&rdquo;</div>
-              <svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <rect x="40" y="70" width="120" height="80" fill="#e8d8b8" stroke="#1a1915" stroke-width="2"/>
-                <polygon class="roof" points="30,70 100,20 170,70" fill="#a85a3a" stroke="#1a1915" stroke-width="2"/>
-                <rect class="door" x="88" y="100" width="24" height="50" fill="#3a7ad9" stroke="#1a1915" stroke-width="2"/>
-                <rect class="win-left" x="55" y="85" width="22" height="22" fill="#c8e8f0" stroke="#1a1915" stroke-width="2"/>
-                <rect class="win-right" x="123" y="85" width="22" height="22" fill="#c8e8f0" stroke="#1a1915" stroke-width="2"/>
-              </svg>
-              <div class="svg-card__verdict"><span class="ok">raster pass</span><span class="bad">spec fail</span></div>
-            </div>
-            <div class="svg-card clean">
-              <div class="svg-card__title">Spec-correct</div>
-              <svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <rect x="40" y="70" width="120" height="80" fill="#e8d8b8" stroke="#1a1915" stroke-width="2"/>
-                <polygon points="30,70 100,20 170,70" fill="#a85a3a" stroke="#1a1915" stroke-width="2"/>
-                <rect x="88" y="100" width="24" height="50" fill="#3a7ad9" stroke="#1a1915" stroke-width="2"/>
-                <rect x="55" y="85" width="22" height="22" fill="#c8e8f0" stroke="#1a1915" stroke-width="2"/>
-                <rect x="123" y="85" width="22" height="22" fill="#c8e8f0" stroke="#1a1915" stroke-width="2"/>
-              </svg>
-              <div class="svg-card__verdict"><span class="ok">raster pass</span><span class="ok">spec pass</span></div>
-            </div>
-          </div>
-          <button class="toggle-btn" id="diffToggle"><span class="dot"></span><span id="diffLabel">REVEAL THE DIFF</span></button>
-          <div class="figure__caption">
-            <b>Figure 1:</b> Three outputs, one passes the spec. The middle output drifted the roof up a pixel and re-rendered the right window with subtly different path data. <b>CLIP similarity, FID, and pixel-IoU all say &ldquo;pass.&rdquo;</b> Anyone reading the SVG diff says &ldquo;no.&rdquo;
-          </div>
-        </div>
-
-        <p>
-          This is the visual analogue of a unit test that passes while corrupting an invariant nobody wrote a test for. <strong>Surface metrics reward the picture; specifications care about the diff.</strong>
-        </p>
-
-        <h2><span class="num">02</span>Specification leakage</h2>
-
-        <p>
-          This is one failure mode wearing many costumes. The unit test passes; the migration corrupted a column. The lint is clean; the refactor renamed a public symbol. The render looks right; the SVG tree is unrecognisable. In every case the agent satisfied what was <em>measured</em>, not what was <em>meant</em>.
-        </p>
-
-        <p>
-          Call this <strong>specification leakage</strong>. It is the bottleneck on every agent domain with structured outputs, code, UI trees, CAD scripts, robot policies. Pixels are simply the easiest place to see it bite.
-        </p>
-
-        <h2><span class="num">03</span>An old idea: counterexample-guided induction</h2>
-
-        <p>
-          The trick of grading a candidate against a structured set of accept/reject examples is not new. It's the central loop of program synthesis since the 2000s.
-        </p>
-
-        <p>
-          Armando Solar-Lezama's <em>Sketch</em> system <span class="ref">[Solar-Lezama 2006]</span> introduced what is now the dominant pattern in the field: <strong>counterexample-guided inductive synthesis (CEGIS)</strong>. A <em>synthesiser</em> proposes a candidate program. A <em>verifier</em>, typically an SMT solver, checks it against a logical spec. If the verifier finds a violation, it returns a concrete counterexample input. The synthesiser refines on the expanded example set. Loop until the verifier signs off.
-        </p>
-
-        <div class="figure reveal" data-fig="cegis">
-          <div class="cegis">
-            <div class="cegis__node" id="cegisSyn">
-              <h4>Synthesiser</h4>
-              <p>Proposes candidate <em>π(x)</em> from current example set</p>
-            </div>
-            <div class="cegis__arrow">
-              <svg viewBox="0 0 28 12"><path d="M2 6 H22 M18 2 L24 6 L18 10"/></svg>
-              <span>candidate</span>
-            </div>
-            <div class="cegis__node" id="cegisVer">
-              <h4>Verifier</h4>
-              <p>Checks against spec; returns a <em>counterexample</em> if any</p>
-            </div>
-          </div>
-          <div class="cegis__back">
-            <b>← counterexample expands example set →</b> &nbsp; repeat until no violation found
-          </div>
-          <div class="figure__caption">
-            <b>Figure 2:</b> The CEGIS loop, played twice a second on a single A100. Sketch <span class="ref">[2006]</span>, BRAHMA <span class="ref">[Gulwani 2011]</span>, Rosette <span class="ref">[Torlak &amp; Bodík 2013]</span>, synthesis-style superoptimisers, all CEGIS underneath. The verifier is the only sharp tool in the toolkit.
-          </div>
-        </div>
-
-        <p>
-          What we are doing has the same shape, with two substitutions. The verifier becomes a <strong>mutant generator</strong>: it does not solve constraints, it pre-computes a family of accept/reject artifacts per task. The synthesiser becomes a neural <strong>policy</strong>: it does not search over programs symbolically, it samples from a distribution and gets gradient updates. Negative mutants are exactly what CEGIS calls counterexamples, concrete artifacts the policy must learn not to produce. Positive mutants are <em>witnesses</em>, the synthesis literature's name for &ldquo;this also satisfies the spec.&rdquo;
-        </p>
-
-        <p>
-          The reason this works at all is the same reason CEGIS works: a small set of well-chosen accept/reject examples nails down a specification much more precisely than any single reference output ever could.
-        </p>
-
-        <h2><span class="num">04</span>Where the mutants come from</h2>
-
-        <p>
-          CEGIS needs a verifier. Ours comes from a fifty-year-old idea on the test-quality side of the same field: <em>mutation testing</em> <span class="ref">[Lipton 1971; DeMillo, Lipton, Sayward 1978]</span>. Originally a tool to <em>grade test suites</em>, programmatically perturb a function, then ask whether the tests notice, we flip its role entirely.
-        </p>
-
-        <p>
-          <strong>Use mutants as labels, not as adversaries.</strong> For every editing task, the same code that generates the task also generates two structured sets of nearby artifacts.
-        </p>
-
-        <div class="figure reveal" data-fig="lattice">
-          <div class="lattice">
-            <div class="lattice__set" id="posSet"></div>
-            <div class="lattice__mid">
-              <div class="lattice__arrow up">M⁺ &nbsp;▲<br>satisfy</div>
-              <div class="lattice__prompt">door = blue</div>
-              <div class="lattice__arrow down">violate<br>M⁻ &nbsp;▼</div>
-            </div>
-            <div class="lattice__set" id="negSet"></div>
-          </div>
-          <div class="figure__caption">
-            <b>Figure 3:</b> The mutant lattice: same prompt, two sides of the spec. <b>Left (M⁺):</b> different valid blues. The door is the door; only the colour varies. <b>Right (M⁻):</b> a window has been deleted, the roof has shifted, the door has moved, or the wrong object was recoloured. The specification is the line drawn between the two sets.
-          </div>
-        </div>
-
-        <p>
-          You now have ground truth without humans, without a learned judge, without a single canonical reference output. The mutants are produced by the same family-specific code that defines the task. They are free.
-        </p>
-
-        <h2><span class="num">05</span>Specifications as decision boundaries</h2>
-
-        <p class="pull-quote">
-          A specification is the boundary that separates M⁺ from M⁻, not a reference answer, but a region of program space defined by what it is closer to than to its alternatives.
-        </p>
-
-        <p>
-          This is the load-bearing idea. The type-theoretic name for it already exists: a <strong>refinement type</strong> <span class="ref">[Freeman &amp; Pfenning 1991; Liquid Haskell]</span> is a base type sharpened by a predicate that carves out a subset of inhabitants. <code>{ door : Colour | door = blue ∧ ∀o ≠ door. o = o₀ }</code> is the spec. The mutant lattice is a sampled view of that subset and its complement. Mutation-consistency RL is, in this view, learning to produce refinement-typed outputs without ever writing the refinement down as a logical formula.
-        </p>
-
-        <h2><span class="num">06</span>Version spaces, or why one example isn't enough</h2>
-
-        <p>
-          When Sumit Gulwani's <em>FlashFill</em> <span class="ref">[Gulwani 2011]</span> shipped inside Excel, it solved a deeper problem than its UI suggested: given one or two input-output examples, find a program that generalises the way the user actually meant. The mechanism was a <strong>version-space algebra</strong>, a compact representation of <em>every</em> program in some DSL consistent with the examples seen so far.
-        </p>
-
-        <p>
-          What FlashFill teaches is structural: <strong>one example is almost always ambiguous</strong>. The instruction &ldquo;door = blue&rdquo; alone is consistent with at least the following programs:
-        </p>
-
-        <div class="figure reveal" data-fig="vspace">
-          <div class="vspace">
-            <div class="vspace__prompt">
-              <span class="in">prompt</span><br>
-              <span class="out">&ldquo;door = blue&rdquo;</span>
-            </div>
-            <div class="vspace__candidates" id="vcands">
-              <div class="vcand" data-id="exact"><span class="pill">π₁</span><span class="desc">door.fill ← #3a7ad9 (one specific blue)</span></div>
-              <div class="vcand" data-id="any"><span class="pill">π₂</span><span class="desc">door.fill ← <em>any</em> blue from BLUES</span></div>
-              <div class="vcand" data-id="alldoors"><span class="pill">π₃</span><span class="desc">∀ d ∈ doors: d.fill ← blue</span></div>
-              <div class="vcand" data-id="repaint"><span class="pill">π₄</span><span class="desc">door.fill ← blue; door.stroke ← blue</span></div>
-              <div class="vcand" data-id="overwrite"><span class="pill">π₅</span><span class="desc">delete door; insert new blue door at same coords</span></div>
-              <div class="vcand" data-id="globalblue"><span class="pill">π₆</span><span class="desc">tint entire scene with blue overlay</span></div>
-            </div>
-          </div>
-          <div class="figure__caption">
-            <b>Figure 4:</b> The version space for &ldquo;door = blue&rdquo;; every program shown is consistent with the prompt alone. Negative mutants kill <span class="bad">π₅</span> and <span class="bad">π₆</span> (preservation violations) and <span class="bad">π₄</span> (stroke change). What survives, <span class="ok">π₁, π₂, π₃</span>, <em>is</em> the spec.
-          </div>
-        </div>
-
-        <p>
-          The negative-mutant set is the disambiguator. It carves the version space down to the programs the instruction <em>actually</em> meant. Modern PBE systems do this with example expansion; we do it with one shot of counterexamples per task. Same primitive, different optimiser.
-        </p>
-
-        <h2><span class="num">07</span>Why SFT can't learn this</h2>
-
-        <p>
-          Supervised fine-tuning is imitation: here is the right output, copy it. To teach &ldquo;leave everything you weren't asked about alone,&rdquo; you would need a label for every <em>non-change</em>. There are infinitely many of those. The space of things to preserve is unboundedly larger than the space of things to edit, and SFT scales with example count.
-        </p>
-
-        <p>
-          RL with a counterfactual reward sidesteps the asymmetry. The reward says &ldquo;you lost points for moving anything I didn't mention,&rdquo; and gradient descent does the rest. <strong>Preservation is the structurally hard part of editing, and it is precisely the part SFT is incapable of cheap supervision for.</strong>
-        </p>
-
-        <h2><span class="num">08</span>The copy trap</h2>
-
-        <p>
-          Our first reward was naive: <em>+1 for matching any positive mutant.</em> Within a few hundred GRPO steps, the policy converged on something technically optimal and obviously wrong. It learned to <strong>copy a positive mutant verbatim, ignoring the prompt entirely.</strong> Maximum reward, zero understanding. A textbook reward hack.
-        </p>
-
-        <div class="figure reveal" data-fig="hack">
-          <div class="hacking-row">
-            <div class="hacking-card naive">
-              <h4>Naive reward (M⁺ only)</h4>
-              <div class="plot" id="plotNaive"><div class="plot__band"></div></div>
-              <div class="verdict">policy → <b>copies a single M⁺</b></div>
-            </div>
-            <div class="hacking-card fixed">
-              <h4>Mutation-consistency reward</h4>
-              <div class="plot" id="plotFixed"><div class="plot__band"></div></div>
-              <div class="verdict">policy → <b>spans the spec region</b></div>
-            </div>
-          </div>
-          <div class="figure__caption">
-            <b>Figure 5:</b> A reward that is only attractive collapses to a single point. Each dot is one rollout from the trained policy after 1k GRPO steps. Left: pure attraction collapses every rollout to a single copied artifact. Right: adding repulsion to M⁻ and a preservation gate spreads rollouts across the valid region, which is exactly what the spec permits.
-          </div>
-        </div>
-
-        <p>
-          The fix is the geometry of the spec itself: subtract similarity to negative mutants (repulsion), and gate on a preservation term that requires non-referenced objects to remain bit-equivalent. <strong>Any reward that is only attractive is gameable. You need repulsion.</strong> This is Goodhart's law in its ML form, and it shows up the moment your reward stops being a comparison.
-        </p>
-
-        <h2><span class="num">09</span>GRPO matches the geometry</h2>
-
-        <p>
-          We train with GRPO <span class="ref">[Shao et al. 2024, DeepSeekMath]</span>, group-relative policy optimisation. Sample K=8 rollouts per prompt, score each, normalise advantages within the group, reinforce the above-average ones, push away the below-average ones. No value function. No critic. Just relative ranking inside a group.
-        </p>
-
-        <div class="figure reveal" data-fig="grpo">
-          <div class="grpo" id="grpoGrid">
-            <div class="grpo__cell" data-r="0.91"><span class="r">0.91</span>rollout 1<span class="arrow">▲</span></div>
-            <div class="grpo__cell" data-r="0.84"><span class="r">0.84</span>rollout 2<span class="arrow">▲</span></div>
-            <div class="grpo__cell" data-r="0.78"><span class="r">0.78</span>rollout 3<span class="arrow">▲</span></div>
-            <div class="grpo__cell" data-r="0.62"><span class="r">0.62</span>rollout 4<span class="arrow">·</span></div>
-            <div class="grpo__cell" data-r="0.55"><span class="r">0.55</span>rollout 5<span class="arrow">·</span></div>
-            <div class="grpo__cell" data-r="0.41"><span class="r">0.41</span>rollout 6<span class="arrow">▼</span></div>
-            <div class="grpo__cell" data-r="0.28"><span class="r">0.28</span>rollout 7<span class="arrow">▼</span></div>
-            <div class="grpo__cell" data-r="0.12"><span class="r">0.12</span>rollout 8<span class="arrow">▼</span></div>
-          </div>
-          <div class="grpo-baseline">
-            group mean <b id="grpoMean">0.56</b> &nbsp;·&nbsp; advantage = reward − mean &nbsp;·&nbsp; <b>no critic needed</b>
-          </div>
-          <div class="figure__caption">
-            <b>Figure 6:</b> Eight rollouts; the group is the baseline. The match is not accidental. <b>The reward is already group-relative</b>, better than negatives, worse than positives. An algorithm that ranks within groups is the geometrically natural choice. PPO with a critic would be wasted machinery, predicting a baseline we can read directly off the mutant set.
-          </div>
-        </div>
-
-        <h2><span class="num">10</span>The lineage on one page</h2>
-
-        <p>
-          To place this in context: the timeline below is roughly the sequence of ideas this paper rearranges. None of the pieces are new. The arrangement is.
-        </p>
-
-        <div class="figure reveal" data-fig="timeline">
-          <div class="timeline">
-            <div class="tl-item">
-              <div class="yr">1971</div>
-              <h5>Mutation testing (Lipton)</h5>
-              <p>Programmatic mutants as a measure of test-suite adequacy. The mutator is the primitive.</p>
-            </div>
-            <div class="tl-item">
-              <div class="yr">1980</div>
-              <h5>Inductive synthesis from examples (Summers, Shaw)</h5>
-              <p>Learn a recursive program from input-output pairs. The first version-space ideas.</p>
-            </div>
-            <div class="tl-item">
-              <div class="yr">2006</div>
-              <h5>Sketch / CEGIS (Solar-Lezama)</h5>
-              <p>Synthesiser proposes, SMT verifier returns counterexamples, repeat. The dominant pattern since.</p>
-            </div>
-            <div class="tl-item">
-              <div class="yr">2011</div>
-              <h5>FlashFill (Gulwani)</h5>
-              <p>Version-space algebras for string transformations from one or two examples. Ships in Excel.</p>
-            </div>
-            <div class="tl-item">
-              <div class="yr">2017</div>
-              <h5>RobustFill, DeepCoder (Balog, Devlin et al.)</h5>
-              <p>Neural policies learn to propose; symbolic verifiers still close the loop.</p>
-            </div>
-            <div class="tl-item">
-              <div class="yr">2024</div>
-              <h5>GRPO / verifiable rewards (Shao et al.)</h5>
-              <p>RL with executable reward functions overtakes RLHF on math and code. Critic-free, group-relative.</p>
-            </div>
-            <div class="tl-item us">
-              <div class="yr">2026</div>
-              <h5>Mutation-consistency RL (this work)</h5>
-              <p>Mutators replace solvers; policy gradients replace candidate search; the spec is implicit in the lattice.</p>
-            </div>
-          </div>
-          <div class="figure__caption">
-            <b>Figure 7:</b> Sixty years of synthesis-by-example. The same primitive, &ldquo;a small set of structured examples grounds a specification&rdquo;, applied at every level of the stack, from test quality to type theory to optimiser design.
-          </div>
-        </div>
-
-        <h2><span class="num">11</span>The result that matters</h2>
-
-        <p>
-          Prompting matches pictures. SFT matches pictures. Only RL with counterfactual rewards matches the <em>spec</em>. The gap is largest exactly where you'd expect, on the Unintended Change Rate, the fraction of unmentioned objects that drift, because that's the metric the other two regimes were never trained to optimise.
-        </p>
-
-        <p>
-          What is more telling than the headline number is <em>where</em> SFT fails: on the long tail of small, plausible, locally-invisible mutations. A minor recolor of an unmentioned object. Path data drifting under reformatting. An ID renamed in a way that breaks downstream tooling. Each of these would slip past a human reviewer glancing at the render. Mutation rewards catch them because the output measurably drifts toward a known M⁻.
-        </p>
-
-        <h2><span class="num">12</span>The recipe in five other domains</h2>
-
-        <p>
-          The recipe transfers wherever you have a structured program and a mutator. Here is the same idea in five languages.
-        </p>
-
-        <div class="figure reveal" data-fig="gen">
-          <div class="gen-table">
-            <div class="gen-row">
-              <div>Domain</div><div>Positive mutant (M⁺)</div><div>Negative mutant (M⁻)</div>
-            </div>
-            <div class="gen-row">
-              <div><b>SVG edit</b></div>
-              <div class="pos">a different valid shade of blue</div>
-              <div class="neg">a window silently deleted</div>
-            </div>
-            <div class="gen-row">
-              <div><b>Code refactor</b></div>
-              <div class="pos">α-equivalent rename, tests pass</div>
-              <div class="neg">public type signature changed</div>
-            </div>
-            <div class="gen-row">
-              <div><b>UI edit</b></div>
-              <div class="pos">ARIA label updated, focus order intact</div>
-              <div class="neg">tabindex shuffled, focus broken</div>
-            </div>
-            <div class="gen-row">
-              <div><b>CAD script</b></div>
-              <div class="pos">hole moved, parent feature preserved</div>
-              <div class="neg">parent feature reparented</div>
-            </div>
-            <div class="gen-row">
-              <div><b>Robot policy</b></div>
-              <div class="pos">grasp succeeds, end-effector pose matches</div>
-              <div class="neg">grasp succeeds but knocks over object B</div>
-            </div>
-          </div>
-          <div class="figure__caption">
-            <b>Figure 8:</b> One primitive, five programs. SVG is the cleanest demo. The unifying claim: <b>every domain with a structured output has a mutator, and every mutator is a free oracle</b>.
-          </div>
-        </div>
-
-        <h2><span class="num">13</span>The recipe</h2>
-
-        <p class="pull-quote">
-          If you want to train an agent that respects a specification, don't show it the right answer, show it a small set of right answers and a small set of plausibly-wrong answers, and let RL learn the boundary. The right answer is rarely unique; the boundary almost always is.
-        </p>
-
-        <p>
-          Two predictions I would be willing to defend in print. First, agent benchmarks will move from &ldquo;one reference output&rdquo; to &ldquo;set of acceptable outputs plus set of forbidden ones,&rdquo; because that is how you actually measure preservation. Second, RL on agents will look less like RLHF, learned reward models that inherit the same surface-metric hacks they were meant to fix, and more like this: executable counterfactual oracles, written once per task family, free to call a million times during training.
-        </p>
-
-        <p>
-          The pivot is philosophical, not algorithmic. Once you stop thinking of the spec as an answer key and start thinking of it as a boundary, almost every interesting agent-training problem rearranges itself around the same ancient idea: <strong>that meaning is operationalised by what you can distinguish from it</strong>.
-        </p>
-
-        <div class="footer-note">
-          The benchmark (SVGym) and the training results (SCALPEL) live in the paper; this essay is the idea that makes them work.
-        </div>
-      </article>
-    </main>
-
-    <script>
-      document.body.classList.add('js');
-      const REDUCE = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-      // Tiny helpers: vanilla CSS animations, no deps
-      function stagger(els, fn, step = 60, startDelay = 0) {
-        if (REDUCE) { els.forEach((el) => fn(el)); return; }
-        els.forEach((el, i) => setTimeout(() => fn(el, i), startDelay + i * step));
-      }
-      function fadeIn(el) {
-        el.style.transition = 'opacity 0.5s ease, transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)';
-        el.style.opacity = '1';
-        el.style.transform = 'none';
-      }
-      function prep(el, axis = 'y', amount = 10) {
-        if (REDUCE) return;
-        el.style.opacity = '0';
-        el.style.transform = axis === 'y' ? `translateY(${amount}px)` : `translateX(${amount}px)`;
-      }
-
-      // ---------- Hero strip: synthesis lineup ----------
-      (function () {
-        const strip = document.getElementById('heroStrip');
-        if (!strip) return;
-
-        // 9 candidate "houses": 4 negative (left), 1 focus center, 4 positive (right)
-        const cells = [
-          { kind: 'neg', tag: 'M⁻', door: '#c25e3f', mutate: 'wrongColor' },
-          { kind: 'neg', tag: 'M⁻', door: '#7a5a3a', mutate: 'noChange' },
-          { kind: 'neg', tag: 'M⁻', door: '#3a7ad9', mutate: 'deleteWin' },
-          { kind: 'neg', tag: 'M⁻', door: '#3a7ad9', mutate: 'shiftRoof' },
-          { kind: 'focus', tag: 'π', door: '#3a7ad9', mutate: null },
-          { kind: 'pos', tag: 'M⁺', door: '#2b6fcf', mutate: null },
-          { kind: 'pos', tag: 'M⁺', door: '#3a7ad9', mutate: null },
-          { kind: 'pos', tag: 'M⁺', door: '#4a88e6', mutate: null },
-          { kind: 'pos', tag: 'M⁺', door: '#1f5fbd', mutate: null },
-        ];
-
-        cells.forEach((c) => {
-          const cell = document.createElement('div');
-          cell.className = `hero__cell ${c.kind === 'focus' ? 'focus' : c.kind}`;
-          const winLR = c.mutate === 'deleteWin' ? '' : `<rect x="123" y="86" width="20" height="20" fill="#c8e8f0" stroke="#1a1915" stroke-width="2"/>`;
-          const roofY = c.mutate === 'shiftRoof' ? '-3' : '0';
-          cell.innerHTML = `
-            <svg viewBox="0 0 200 160" preserveAspectRatio="xMidYMid meet">
-              <g transform="translate(0, ${roofY})">
-                <polygon points="30,70 100,20 170,70" fill="#a85a3a" stroke="#1a1915" stroke-width="2"/>
-              </g>
-              <rect x="40" y="70" width="120" height="80" fill="#e8d8b8" stroke="#1a1915" stroke-width="2"/>
-              <rect x="88" y="100" width="24" height="50" fill="${c.door}" stroke="#1a1915" stroke-width="2"/>
-              <rect x="56" y="86" width="20" height="20" fill="#c8e8f0" stroke="#1a1915" stroke-width="2"/>
-              ${winLR}
+<!doctype html>
+<html lang="en" data-page="essay">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Specifications Are Decision Boundaries · Prannay Hebbar</title>
+  <meta name="description" content="An agent told to make only the door blue can silently rewrite three other paths in your SVG. Pixel metrics will not catch it; program synthesis will.">
+  <link rel="canonical" href="https://prannayh.com/blog/spec-rewards">
+  <meta property="og:site_name" content="Prannay Hebbar">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Specifications Are Decision Boundaries">
+  <meta property="og:description" content="An agent told to make only the door blue can silently rewrite three other paths in your SVG. Pixel metrics will not catch it; program synthesis will.">
+  <meta property="og:url" content="https://prannayh.com/blog/spec-rewards">
+  <meta property="og:image" content="https://prannayh.com/assets/images/opengraph.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@Pran_Ker">
+  <meta name="twitter:creator" content="@Pran_Ker">
+  <meta name="twitter:title" content="Specifications Are Decision Boundaries">
+  <meta name="twitter:description" content="An agent told to make only the door blue can silently rewrite three other paths in your SVG. Pixel metrics will not catch it; program synthesis will.">
+  <meta name="twitter:image" content="https://prannayh.com/assets/images/opengraph.png">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="color-scheme" content="light">
+  <link rel="icon" href="/assets/images/favicon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+  <link rel="preload" href="/assets/fonts/LabGrotesque-Light.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/LabGrotesque-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/LabGrotesqueMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/SourceSerif4-Variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="modulepreload" href="/assets/vendor/three.module.min.js">
+  <link rel="modulepreload" href="/assets/js/cubes.js">
+  <link rel="stylesheet" href="/assets/css/white.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Specifications Are Decision Boundaries",
+    "description": "An agent told to make only the door blue can silently rewrite three other paths in your SVG. Pixel metrics will not catch it. Fifty years of program synthesis, rearranged, will.",
+    "datePublished": "2026-05",
+    "dateModified": "2026-09-06",
+    "author": { "@type": "Person", "name": "Prannay Hebbar", "url": "https://prannayh.com/" },
+    "publisher": { "@type": "Person", "name": "Prannay Hebbar", "url": "https://prannayh.com/" },
+    "mainEntityOfPage": "https://prannayh.com/blog/spec-rewards",
+    "image": "https://prannayh.com/assets/images/opengraph.png",
+    "keywords": ["Program synthesis", "Reinforcement learning", "Mutation testing", "Reward design"],
+    "timeRequired": "PT10M",
+    "inLanguage": "en"
+  }
+  </script>
+  <script>try{if(sessionStorage.getItem('white.entered')==='1')document.documentElement.dataset.entered=''}catch(e){}</script>
+  <script type="module" src="/assets/js/white.js"></script>
+  <noscript><style>#gate{display:none}.ice-fallback{display:block}body[data-state="gate"] .ice--b,body[data-state="gate"] .ice--c{display:block}body[data-state="gate"] .ice--a{right:12vw;top:16vh}body[data-state="gate"]{overflow:auto}.hud,#main,.foot,.floor{opacity:1!important}.reveal,.rise{opacity:1;transform:none;animation:none}.fig__plate>img,.fig__plate>video{opacity:1;filter:none}.fig__plate::after{display:none}</style></noscript>
+</head>
+<body data-state="gate">
+
+<a class="skip" href="#main" data-no-router>Skip to content</a>
+
+<canvas id="cubes" aria-hidden="true"></canvas>
+<div class="floor" aria-hidden="true"></div>
+<div class="ice-fallback" aria-hidden="true">
+  <div class="ice ice--a"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="ice ice--b"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="ice ice--c"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+</div>
+
+<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-cta" aria-describedby="gate-sub">
+  <span class="gate__name">Prannay Hebbar</span>
+  <div class="gate__center">
+    <button class="gate__cta" id="gate-cta" type="button"><span class="mark" aria-hidden="true"></span>Press to enter</button>
+    <p class="gate__sub" id="gate-sub">Sound on. One track, on loop. Nothing autoplays without you.</p>
+  </div>
+  <span class="gate__hint mono">Enter · Space · Click</span>
+</div>
+
+<header class="hud">
+  <a class="wordmark" href="/" aria-label="Prannay Hebbar, home">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 21 7v10l-9 5-9-5V7z"/><path d="M3 7l9 5 9-5M12 12v10"/></svg>
+    <span>Prannay Hebbar</span>
+  </a>
+  <nav class="nav" aria-label="Primary">
+    <a href="/">Home</a>
+    <a href="/blog" aria-current="page">Writing</a>
+    <a href="/principles">Principles</a>
+    <a href="/gallery">Gallery</a>
+    <a href="/more">More</a>
+    <a href="/contact">Contact</a>
+  </nav>
+  <div class="transport" role="group" aria-label="Music">
+    <span class="tp-track"><span class="tp-title">Little Voices</span><span class="tp-artist">Lane 8</span></span>
+    <button class="tp-tap" type="button" hidden>Tap for sound</button>
+    <button class="tp-btn tp-mute" type="button" data-on="false" aria-label="Mute">
+      <svg class="ico-off" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5h1.8L6 1.5v7L3.3 6.5H1.5z" fill="currentColor"/><path d="M7.2 3.3a2.4 2.4 0 0 1 0 3.4" stroke="currentColor" stroke-width=".9" fill="none"/></svg>
+      <svg class="ico-on" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5h1.8L6 1.5v7L3.3 6.5H1.5z" fill="currentColor"/><path d="M7 3.8l2 2.4M9 3.8l-2 2.4" stroke="currentColor" stroke-width=".9"/></svg>
+    </button>
+    <span class="tp-time"><span class="vh">Elapsed </span><span class="tp-time__v">00:00</span></span>
+    <span class="beat" aria-hidden="true"></span>
+    <span class="tp-status vh" aria-live="polite"></span>
+  </div>
+</header>
+
+<main id="main" data-page="essay" tabindex="-1">
+<style data-page>
+  /* essay: Specifications Are Decision Boundaries. Figure vocabulary for this page only.
+     The only chroma is --fig-blue, and it means one thing: the door is blue. Dashed --ash means
+     "where the element should have been". Filled --graphite dots mean "rollouts from the trained policy". */
+  main[data-page="essay"] { --fig-blue: #3a7ad9; --blue-75: #6b9be3; --blue-50: #9dbdec; --blue-30: #c4d7f4; }
+  main[data-page="essay"] .f-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+  main[data-page="essay"] .f { padding: var(--s3); }
+  main[data-page="essay"] .prose .f ul, main[data-page="essay"] .prose .f ol { list-style: none; padding-left: 0; }
+  main[data-page="essay"] .prose .f li + li { margin-top: 0; }
+  /* two or three plates side by side: one hairline between them, every plate the same width */
+  main[data-page="essay"] .f-panel, main[data-page="essay"] .f-two__p { position: relative; }
+  main[data-page="essay"] .f-panel + .f-panel::before, main[data-page="essay"] .f-two__p + .f-two__p::before { content: ''; position: absolute; top: 0; bottom: 0; left: calc(var(--s3) / -2); width: 1px; background: var(--hair); }
+
+  /* the house: one shape vocabulary reused across the essay */
+  main[data-page="essay"] .house { width: 100%; height: auto; fill: var(--paper); stroke: var(--ink); stroke-width: 1; stroke-linejoin: round; }
+  main[data-page="essay"] .house .door { fill: var(--graphite); }
+  main[data-page="essay"] .house .door--blue { fill: var(--fig-blue); }
+  main[data-page="essay"] .house .door--75 { fill: var(--blue-75); }
+  main[data-page="essay"] .house .door--50 { fill: var(--blue-50); }
+  main[data-page="essay"] .house .door--30 { fill: var(--blue-30); }
+  main[data-page="essay"] .house .win--blue { fill: var(--fig-blue); }
+  main[data-page="essay"] .house .ghost { fill: none; stroke: var(--ash); stroke-dasharray: 3 3; }
+  main[data-page="essay"] .house .node { fill: var(--paper); stroke: var(--ash); stroke-dasharray: none; }
+
+  /* fig: the silent rewrite (interactive) */
+  main[data-page="essay"] .f-houses { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s3); }
+  main[data-page="essay"] .f-panel { display: grid; gap: 10px; align-content: start; }
+  main[data-page="essay"] .f-panel .house { margin: 4px 0; }
+  main[data-page="essay"] .f-tags { display: flex; gap: 14px; }
+  main[data-page="essay"] .f-tags .f-tag--fail { color: var(--ink); text-decoration: line-through; text-decoration-thickness: 1px; }
+  main[data-page="essay"] .f-houses .f-btn { grid-column: 1 / -1; justify-self: center; margin-top: 4px; }
+  main[data-page="essay"] .f-houses .diff { opacity: 0; transition: opacity .2s linear; }
+  main[data-page="essay"] .f-houses.is-diff .diff { opacity: 1; }
+
+  /* fig: two loops (CEGIS / this work) */
+  main[data-page="essay"] .f-loops { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s4); }
+  main[data-page="essay"] .f-loop__t { font-family: var(--sans); font-size: var(--t0); letter-spacing: -.01em; line-height: 1.3; margin: 0 0 var(--s2) 104px; }   /* titles sit over the box column */
+  main[data-page="essay"] .f-loop__g { display: grid; grid-template-columns: 104px minmax(0, 1fr) 112px; grid-template-rows: 1fr 44px 1fr 44px 1fr; }
+  main[data-page="essay"] .f-node { grid-column: 2; border: 1px solid var(--ink); padding: 10px 12px; display: grid; gap: 3px; align-content: center; background: var(--paper); }
+  main[data-page="essay"] .f-node.is-new { background: var(--fig-accent); }
+  main[data-page="essay"] .f-node.is-new span { color: var(--graphite); }   /* --ash on the tint is 4.6:1; graphite keeps a margin */   /* this work: the family's one accent, under the ink hairline */
+  main[data-page="essay"] .f-node b { font-family: var(--sans); font-weight: 400; font-size: .875rem; line-height: 1.25; letter-spacing: -.01em; }
+  main[data-page="essay"] .f-node span { font-family: var(--sans); font-size: var(--t-1); line-height: 1.35; color: var(--ash); }
+  main[data-page="essay"] .f-arrow { position: relative; }
+  main[data-page="essay"] .f-arrow span { position: absolute; font-family: var(--sans); font-size: var(--t-1); line-height: 1.3; color: var(--graphite); }
+  main[data-page="essay"] .f-arrow i { position: absolute; display: block; }
+  main[data-page="essay"] .f-arrow i::after { content: ''; position: absolute; width: 6px; height: 6px; border: 0 solid var(--ink); }
+  main[data-page="essay"] .f-arrow--down { grid-column: 2; }
+  main[data-page="essay"] .f-arrow--down i { left: 50%; top: 0; bottom: 0; width: 1px; background: var(--ink); }
+  main[data-page="essay"] .f-arrow--down i::after { left: -3px; bottom: 1px; border-right-width: 1px; border-bottom-width: 1px; transform: rotate(45deg); }
+  main[data-page="essay"] .f-arrow--down span { left: calc(50% + 12px); top: 50%; transform: translateY(-50%); white-space: nowrap; }
+  main[data-page="essay"] .f-arrow--back { grid-column: 1; grid-row: 1 / 6; }
+  main[data-page="essay"] .f-arrow--back i { left: 84px; right: 0; top: calc((100% - 88px) / 6); bottom: calc((100% - 88px) / 6); border: 1px solid var(--ink); border-right: 0; }
+  main[data-page="essay"] .f-arrow--back i::after { right: -1px; top: -3.5px; border-top-width: 1px; border-right-width: 1px; transform: rotate(45deg); }
+  main[data-page="essay"] .f-arrow--back span { right: calc(100% - 76px); top: 50%; width: 72px; transform: translateY(-50%); text-align: right; }
+  main[data-page="essay"] .f-arrow--exit { grid-column: 3; grid-row: 3; }
+  main[data-page="essay"] .f-arrow--exit i { left: 0; top: 50%; width: 26px; height: 1px; background: var(--ink); }
+  main[data-page="essay"] .f-arrow--exit i::after { right: 0; top: -3px; border-top-width: 1px; border-right-width: 1px; transform: rotate(45deg); }
+  main[data-page="essay"] .f-arrow--exit span { left: 34px; top: 50%; width: 76px; transform: translateY(-50%); }
+  main[data-page="essay"] .f-loop .f-m { margin-top: var(--s2); }
+  main[data-page="essay"] .f-anim .f-arrow--down i { clip-path: inset(0 0 100% 0); }
+  main[data-page="essay"] .f-anim .f-arrow--back i { clip-path: inset(100% 0 0 0); }
+  main[data-page="essay"] .f-anim .f-arrow--exit i { clip-path: inset(0 100% 0 0); }
+  main[data-page="essay"] .f-anim .f-arrow span { opacity: 0; }
+  main[data-page="essay"] .f-anim.is-on .f-arrow i { clip-path: inset(0); transition: clip-path .25s linear var(--d, 0s); }
+  main[data-page="essay"] .f-anim.is-on .f-arrow span { opacity: 1; transition: opacity .2s linear calc(var(--d, 0s) + .15s); }
+
+  /* fig: the mutant lattice */
+  main[data-page="essay"] .f-lat__row { display: grid; grid-template-columns: 12ch minmax(0, 1fr); column-gap: var(--s3); align-items: start; }
+  main[data-page="essay"] .f-lat__k { padding-top: 6px; white-space: nowrap; }   /* the sign is the information: sans 13px ink, never 11px mono */
+  main[data-page="essay"] .f-lat__h { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--s2); }
+  main[data-page="essay"] .f-lat__rule { border-top: 1px solid var(--ink); margin: var(--s3) 0; line-height: 0; }
+  main[data-page="essay"] .f-lat__rule .mono { display: inline-block; position: relative; top: -.5em; line-height: 1; background: var(--paper); padding: 0 8px 0 0; }
+
+  /* fig: the version space */
+  main[data-page="essay"] .f-vs { position: relative; }
+  main[data-page="essay"] .f-vs__h { font-size: .75rem; padding-bottom: 10px; border-bottom: 1px solid var(--hair); text-transform: none; letter-spacing: .02em; }   /* the plate header is an annotation: the family's sentence case */
+  main[data-page="essay"] .f-vs__sweep .mono { text-transform: none; letter-spacing: .02em; }
+  main[data-page="essay"] .f-vs__body { position: relative; }
+  main[data-page="essay"] .prose .f-vs__body ol { margin: 0; }
+  main[data-page="essay"] .f-vs__r { display: grid; grid-template-columns: 32px 3ch minmax(0, 1fr) 17ch; column-gap: 12px; align-items: baseline; padding: 7px 0; }
+  main[data-page="essay"] .f-vs__r + .f-vs__r { border-top: 1px solid var(--hair-2); }
+  main[data-page="essay"] .f-vs__g { position: relative; align-self: stretch; }
+  main[data-page="essay"] .f-vs__i, main[data-page="essay"] .f-vs__why { font-family: var(--mono); font-size: .75rem; line-height: 1.6; color: var(--ash); font-variant-numeric: tabular-nums; }
+  main[data-page="essay"] .prose .f-vs__p { display: block; font-family: var(--mono); font-size: .75rem; line-height: 1.6; color: var(--ink); background: none; border: 0; padding: 0; text-decoration: line-through; text-decoration-thickness: 1px; text-decoration-color: transparent; }
+  main[data-page="essay"] .f-vs__p i { font-style: normal; color: var(--ash); }
+  main[data-page="essay"] .is-kill .f-vs__p { color: var(--ash); text-decoration-color: var(--ink); }
+  main[data-page="essay"] .is-keep .f-vs__g::before { content: ''; position: absolute; left: 20px; top: -8px; bottom: -8px; width: 1px; background: var(--ink); }
+  main[data-page="essay"] .is-keep--first .f-vs__g::before { top: 0; }
+  main[data-page="essay"] .is-keep--last .f-vs__g::before { bottom: 0; }
+  main[data-page="essay"] .is-keep--first .f-vs__g::after, main[data-page="essay"] .is-keep--last .f-vs__g::after { content: ''; position: absolute; left: 20px; width: 8px; height: 1px; background: var(--ink); }
+  main[data-page="essay"] .is-keep--first .f-vs__g::after { top: 0; }
+  main[data-page="essay"] .is-keep--last .f-vs__g::after { bottom: 0; }
+  main[data-page="essay"] .f-vs__bl { position: absolute; left: 0; top: 50%; transform: translateY(-50%) rotate(180deg); writing-mode: vertical-rl; font-family: var(--mono); font-size: var(--t-mono); letter-spacing: .02em; color: var(--ash); white-space: nowrap; line-height: 1; }
+  main[data-page="essay"] .f-vs__sweep { display: none; position: absolute; left: 0; right: 0; height: 1px; background: var(--ink); pointer-events: none; }
+  main[data-page="essay"] .f-vs__sweep .mono { position: absolute; right: var(--s2); bottom: 4px; color: var(--ink); }
+  /* the sweep waits, invisible, on the header rule; on entry it travels the six rows and fades out at the bottom */
+  main[data-page="essay"] .f-anim .f-vs__sweep { display: block; top: 0; opacity: 0; }
+  main[data-page="essay"] .f-anim .is-kill .f-vs__p { color: var(--ink); text-decoration-color: transparent; }
+  main[data-page="essay"] .f-anim .f-vs__why, main[data-page="essay"] .f-anim .is-keep .f-vs__g::before, main[data-page="essay"] .f-anim .is-keep .f-vs__g::after, main[data-page="essay"] .f-anim .f-vs__bl { opacity: 0; }
+  main[data-page="essay"] .f-anim.is-on .f-vs__sweep { animation: sr-vs-sweep 1.35s linear forwards; }
+  /* the label rides the line but only shows once the line has cleared the first row, so a paused animation never leaves it over π₁ */
+  main[data-page="essay"] .f-anim .f-vs__sweep .mono { opacity: 0; }
+  main[data-page="essay"] .f-anim.is-on .f-vs__sweep .mono { animation: sr-vs-label 1.35s linear forwards; }
+  @keyframes sr-vs-label { 0%, 22% { opacity: 0; } 30%, 100% { opacity: 1; } }
+  @keyframes sr-vs-sweep { 0% { top: 0; opacity: 0; } 6% { opacity: 1; } 89% { top: 100%; opacity: 1; } 100% { top: 100%; opacity: 0; } }
+  main[data-page="essay"] .f-anim.is-on .is-kill .f-vs__p { color: var(--ash); text-decoration-color: var(--ink); transition: color .2s linear var(--d, 0s), text-decoration-color .2s linear var(--d, 0s); }
+  main[data-page="essay"] .f-anim.is-on .f-vs__why { opacity: 1; transition: opacity .25s linear var(--d, 0s); }
+  main[data-page="essay"] .f-anim.is-on .is-keep .f-vs__g::before, main[data-page="essay"] .f-anim.is-on .is-keep .f-vs__g::after, main[data-page="essay"] .f-anim.is-on .f-vs__bl { opacity: 1; transition: opacity .25s linear 1.25s; }
+
+  /* fig: two rewards, two policies */
+  main[data-page="essay"] .f-two { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s3); }
+  main[data-page="essay"] .f-two__p { display: grid; gap: 10px; align-content: start; }
+  main[data-page="essay"] .f-space { width: 100%; height: auto; }
+  main[data-page="essay"] .f-space .region { fill: var(--paper-2); stroke: var(--ink); stroke-width: 1; }
+  main[data-page="essay"] .f-space .minus { fill: var(--paper); stroke: var(--ink); stroke-width: 1; }
+  main[data-page="essay"] .f-space .plus { fill: var(--paper); stroke: var(--ink); stroke-width: 1; }
+  main[data-page="essay"] .f-space .roll { fill: var(--graphite); }
+  main[data-page="essay"] .f-space text { font-family: var(--mono); font-size: 12px; letter-spacing: .02em; fill: var(--graphite); }
+
+  /* fig: eight rollouts on one ruler */
+  main[data-page="essay"] .f-ruler { position: relative; height: 360px; width: 280px; max-width: calc(100% - 60px); margin: 14px auto; border-left: 1px solid var(--ink); }
+  main[data-page="essay"] .f-ruler__tick { position: absolute; right: calc(100% + 12px); top: calc((1 - var(--v)) * 100%); transform: translateY(-50%); font-family: var(--mono); font-size: var(--t-mono); letter-spacing: .06em; color: var(--ash); font-variant-numeric: tabular-nums; line-height: 1; }
+  main[data-page="essay"] .f-ruler__tick::after { content: ''; position: absolute; left: calc(100% + 6px); top: 50%; width: 6px; height: 1px; background: var(--ink); }
+  main[data-page="essay"] .f-ruler__mean { position: absolute; left: 128px; right: 0; top: calc((1 - var(--v)) * 100%); border-top: 1px dashed var(--ash); }
+  main[data-page="essay"] .f-ruler__mean .mono { position: absolute; right: 0; bottom: 5px; line-height: 1; white-space: nowrap; }
+  main[data-page="essay"] .f-ruler__rolls li { position: absolute; left: -4.5px; top: calc((1 - var(--v)) * 100%); transform: translateY(-50%); display: flex; align-items: center; gap: 12px; }
+  main[data-page="essay"] .f-ruler__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--graphite); flex: none; }
+  main[data-page="essay"] .f-ruler__lab { font-family: var(--mono); font-size: var(--t-mono); letter-spacing: .06em; color: var(--graphite); font-variant-numeric: tabular-nums; line-height: 1.6; white-space: nowrap; background: var(--paper); padding: 0 6px 0 2px; }
+  main[data-page="essay"] .f-ruler__rolls li::before { content: ''; position: absolute; right: calc(100% + 14px); top: 50%; width: 6px; height: 6px; border: 0 solid var(--ink); }
+  main[data-page="essay"] .f-ruler__rolls li[data-dir="up"]::before { border-left-width: 1px; border-top-width: 1px; transform: translateY(-35%) rotate(45deg); }
+  main[data-page="essay"] .f-ruler__rolls li[data-dir="down"]::before { border-left-width: 1px; border-top-width: 1px; transform: translateY(-65%) rotate(225deg); }
+  main[data-page="essay"] .f-ruler__rolls li[data-dir="mid"]::before { width: 3px; height: 3px; border-radius: 50%; background: var(--ink); transform: translate(-1.5px, -50%); }
+  main[data-page="essay"] .f-anim .f-ruler__rolls li { opacity: 0; }
+  main[data-page="essay"] .f-anim .f-ruler__rolls li::before { opacity: 0; }
+  main[data-page="essay"] .f-anim .f-ruler__mean { clip-path: inset(-24px 100% -2px 0); }   /* negative insets keep the label above the line inside the clip */
+  main[data-page="essay"] .f-anim.is-on .f-ruler__rolls li { opacity: 1; transition: opacity .2s linear var(--d, 0s); }
+  main[data-page="essay"] .f-anim.is-on .f-ruler__mean { clip-path: inset(-24px 0 -2px 0); transition: clip-path .3s linear .64s; }
+  main[data-page="essay"] .f-anim.is-on .f-ruler__rolls li::before { opacity: 1; transition: opacity .2s linear .96s; }
+
+  /* fig: fifty-five years on one page */
+  main[data-page="essay"] .f-line li { position: relative; display: grid; grid-template-columns: 44px 24px minmax(0, 1fr); column-gap: 10px; padding-bottom: 22px; }
+  main[data-page="essay"] .f-line li:last-child { padding-bottom: 0; }
+  main[data-page="essay"] .f-line li::before { content: ''; position: absolute; left: 65.5px; top: 0; bottom: 0; width: 1px; background: var(--hair); }
+  main[data-page="essay"] .f-line li:first-child::before { top: 12px; }
+  main[data-page="essay"] .f-line li:last-child::before { bottom: auto; height: 12px; }
+  main[data-page="essay"] .f-line__y { font-family: var(--mono); font-size: var(--t-mono); letter-spacing: .06em; color: var(--ash); font-variant-numeric: tabular-nums; line-height: 1; padding-top: 5px; }
+  main[data-page="essay"] .f-line__d { position: relative; z-index: 1; width: 9px; height: 9px; border-radius: 50%; border: 1px solid var(--ink); background: var(--paper); justify-self: center; margin-top: 4px; }
+  main[data-page="essay"] .f-line li:last-child .f-line__d { background: var(--ink); }
+  main[data-page="essay"] .f-line__b { display: grid; gap: 3px; }
+  main[data-page="essay"] .f-line__b b { font-family: var(--sans); font-weight: 400; font-size: .9375rem; line-height: 1.25; letter-spacing: -.01em; }
+  main[data-page="essay"] .f-line__b span { font-family: var(--sans); font-size: var(--t-1); line-height: 1.4; color: var(--ash); }
+
+  main[data-page="essay"] .fn__back { margin-left: 6px; border-bottom: 0 !important; color: var(--ash); font-family: var(--mono); }
+
+  @media (min-width: 1001px) and (max-width: 1240px) {
+    main[data-page="essay"] .f-node { min-height: 78px; }   /* room for a wrapped subtitle, so the two loops' rows stay level */
+  }
+  @media (max-width: 1000px) {
+    main[data-page="essay"] .f-loops { grid-template-columns: 1fr; }   /* white.css drops .fig--wide to the column here */
+  }
+  @media (max-width: 900px) {
+    main[data-page="essay"] .prose .fig--mid { width: 100%; margin-left: 0; transform: none; }
+  }
+  @media (max-width: 640px) {
+    main[data-page="essay"] .f { padding: var(--s2); }
+    main[data-page="essay"] .f-houses { grid-template-columns: 1fr; }
+    main[data-page="essay"] .f-panel + .f-panel::before, main[data-page="essay"] .f-two__p + .f-two__p::before { left: 0; right: 0; bottom: auto; top: calc(var(--s3) / -2); width: auto; height: 1px; }
+    main[data-page="essay"] .f-panel .house { max-width: 240px; margin: 4px auto; }
+    main[data-page="essay"] .f-houses .f-btn { order: 2; justify-self: start; margin: 0 0 4px; }
+    main[data-page="essay"] .f-houses .f-panel:last-of-type { order: 3; }
+    main[data-page="essay"] .f-loop__t { margin-left: 56px; }
+    main[data-page="essay"] .f-loop__g { grid-template-columns: 56px minmax(0, 1fr) 112px; }
+    main[data-page="essay"] .f-arrow--back i { left: 38px; }
+    /* the return label runs up the arrow's own stroke, one line, the way "the spec" does in the version space */
+    main[data-page="essay"] .f-arrow--back span { right: calc(100% - 30px); width: auto; writing-mode: vertical-rl; transform: translateY(-50%) rotate(180deg); text-align: center; white-space: nowrap; }
+    main[data-page="essay"] .f-arrow--exit i { width: 18px; }
+    main[data-page="essay"] .f-arrow--exit span { left: 26px; width: 86px; }
+    main[data-page="essay"] .f-lat__row { grid-template-columns: 1fr; row-gap: 10px; }
+    main[data-page="essay"] .f-lat__k { padding-top: 0; }
+    main[data-page="essay"] .f-lat__h { grid-template-columns: 1fr 1fr; }
+    main[data-page="essay"] .f-vs__r { grid-template-columns: 32px 3ch minmax(0, 1fr); }
+    main[data-page="essay"] .f-vs__why { grid-column: 3; }
+    main[data-page="essay"] .f-vs__why:empty { display: none; }
+    main[data-page="essay"] .f-two { grid-template-columns: 1fr; }
+    main[data-page="essay"] .f-space { max-width: 280px; margin: 0 auto; }
+    main[data-page="essay"] .f-ruler { width: auto; max-width: none; margin: 14px 0 14px 60px; }
+  }
+</style>
+
+<div class="wrap">
+<article class="essay haze" aria-labelledby="title">
+
+  <svg class="f-defs" aria-hidden="true" focusable="false">
+    <defs>
+      <g id="h-body"><rect x="50" y="70" width="100" height="70" vector-effect="non-scaling-stroke"/></g>
+      <g id="h-roof"><path d="M40 70 L100 30 L160 70 Z" vector-effect="non-scaling-stroke"/></g>
+      <g id="h-lwin"><rect x="64" y="86" width="20" height="20" vector-effect="non-scaling-stroke"/></g>
+      <g id="h-rwin"><rect x="116" y="86" width="20" height="20" vector-effect="non-scaling-stroke"/></g>
+      <g id="h-door"><rect x="90" y="106" width="20" height="34" vector-effect="non-scaling-stroke"/></g>
+    </defs>
+  </svg>
+
+  <header class="essay__head">
+    <p class="essay__meta"><span>Program synthesis</span><span><time datetime="2026-05">May 2026</time></span><span>10 min read</span></p>
+    <h1 id="title" class="essay__title">Specifications Are Decision Boundaries</h1>
+    <p class="essay__deck">An agent told to “make only the door blue” can silently rewrite three other paths in your SVG. Pixel metrics will not catch it. Fifty years of program synthesis, rearranged, will.</p>
+  </header>
+
+  <div class="prose">
+
+    <p>“Make only the door blue.” Give that instruction to a model along with an SVG of a house and you get back a house with a blue door. The render is identical to the one you wanted. Open the XML and the roof has moved up one pixel, and the right window has been re-rendered with different path data. CLIP similarity says pass. FID says pass. Pixel IoU says pass. Anyone who reads the diff says no.</p>
+
+    <p>That gap is the subject of this essay, and of the paper that grew out of it: SVGym, a benchmark for surgical SVG editing, and SCALPEL, the RL recipe that trains a 7B open model on it. Pixel metrics will not close the gap. RLHF will not close it. Four old ideas from program synthesis will: mutation testing, counterexample-guided induction, version-space algebras, refinement types. Put together the right way they become a way to train agents that know what not to change. The idea generalises far past SVGs.</p>
+
+    <h2 id="the-silent-rewrite">The silent rewrite</h2>
+
+    <p>Here is the instruction and three outputs. The rasters are indistinguishable. The XML is not:</p>
+
+    <figure class="fig fig--mid" id="fig-silent-rewrite">
+      <div class="fig__plate">
+        <div class="f f-houses" data-fig="silent">
+          <div class="f-panel">
+            <p class="f-lab">Original</p>
+            <svg class="house" viewBox="0 0 200 160" role="img" aria-label="The original house: grey door, two windows, roof">
+              <use href="#h-body"/><use href="#h-roof"/><use href="#h-lwin"/><use href="#h-rwin"/><use href="#h-door" class="door"/>
             </svg>
-            <span class="tag">${c.tag}</span>
-          `;
-          strip.appendChild(cell);
-        });
+            <p class="f-tags mono"><span>raster</span><span>spec</span></p>
+          </div>
+          <div class="f-panel" id="panel-looks">
+            <p class="f-lab">Looks correct</p>
+            <svg class="house" viewBox="0 0 200 160" role="img" aria-label="Blue door, but the roof has drifted up and the right window was re-rendered with extra path nodes">
+              <use href="#h-body"/><use href="#h-roof" transform="translate(0 -4)"/><use href="#h-lwin"/><use href="#h-rwin"/><use href="#h-door" class="door door--blue"/>
+              <g class="diff">
+                <use href="#h-roof" class="ghost"/>
+                <g class="node">
+                  <rect x="114.5" y="84.5" width="3" height="3" vector-effect="non-scaling-stroke"/><rect x="124.5" y="84.5" width="3" height="3" vector-effect="non-scaling-stroke"/><rect x="134.5" y="84.5" width="3" height="3" vector-effect="non-scaling-stroke"/>
+                  <rect x="114.5" y="104.5" width="3" height="3" vector-effect="non-scaling-stroke"/><rect x="124.5" y="104.5" width="3" height="3" vector-effect="non-scaling-stroke"/><rect x="134.5" y="104.5" width="3" height="3" vector-effect="non-scaling-stroke"/>
+                </g>
+              </g>
+            </svg>
+            <p class="f-tags mono"><span>raster pass</span><span class="f-tag--fail">spec fail</span></p>
+          </div>
+          <div class="f-panel">
+            <p class="f-lab">Spec-correct</p>
+            <svg class="house" viewBox="0 0 200 160" role="img" aria-label="Blue door; everything else exactly as it was">
+              <use href="#h-body"/><use href="#h-roof"/><use href="#h-lwin"/><use href="#h-rwin"/><use href="#h-door" class="door door--blue"/>
+            </svg>
+            <p class="f-tags mono"><span>raster pass</span><span>spec pass</span></p>
+          </div>
+          <button class="f-btn" type="button" aria-pressed="false" aria-controls="panel-looks" data-diff hidden>Reveal the diff</button>
+        </div>
+      </div>
+      <figcaption class="fig__cap">
+        <span class="fig__t">One prompt, three outputs</span>
+        <span class="fig__meta">Fig. 01 · Interactive</span>
+        <span class="fig__note">One prompt, three outputs. The middle one drifted the roof up a pixel and re-rendered the right window. CLIP, FID and pixel IoU all pass it. The diff does not.</span></figcaption>
+    </figure>
 
-        [...strip.children].forEach((el) => prep(el));
-        stagger([...strip.children], fadeIn, 60, 350);
-      })();
+    <p>Notice that the third panel and the second panel render to the same pixels. The only thing that separates them is a tree diff. This is the visual analogue of a unit test that passes while corrupting an invariant nobody wrote a test for. Surface metrics reward the picture. Specifications care about the diff.</p>
 
-      // ---------- Reveal on scroll ----------
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach((e) => {
-          if (!e.isIntersecting) return;
-          e.target.classList.add('in-view');
-          const f = e.target.dataset.fig;
-          if (f === 'hack') startHack();
-          if (f === 'grpo') startGrpo();
-          if (f === 'cegis') startCegis();
-          if (f === 'vspace') startVspace();
-          if (f === 'lattice') startLattice();
-          if (f === 'timeline') startTimeline(e.target);
-          io.unobserve(e.target);
-        });
-      }, { threshold: 0.2 });
-      document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+    <h2 id="specification-leakage">Specification leakage</h2>
 
-      // ---------- SVG diff toggle ----------
-      (function () {
-        const btn = document.getElementById('diffToggle');
-        const card = document.getElementById('silentCard');
-        const label = document.getElementById('diffLabel');
-        if (!btn || !card) return;
-        let on = false;
-        btn.addEventListener('click', () => {
-          on = !on;
-          card.classList.toggle('diff-on', on);
-          btn.classList.toggle('on', on);
-          label.textContent = on ? 'DIFF SHOWN' : 'REVEAL THE DIFF';
-        });
-      })();
+    <p>This is one failure mode wearing many costumes. The unit test passes and the migration corrupted a column. The lint is clean and the refactor renamed a public symbol. The render looks right and the SVG tree is unrecognisable. In every case the agent satisfied what was measured, not what was meant.</p>
 
-      // ---------- CEGIS loop pulse ----------
-      function startCegis() {
-        if (REDUCE) return;
-        const syn = document.getElementById('cegisSyn');
-        const ver = document.getElementById('cegisVer');
-        if (!syn || !ver) return;
-        let active = syn;
-        active.classList.add('active');
-        setInterval(() => {
-          active.classList.remove('active');
-          active = active === syn ? ver : syn;
-          active.classList.add('active');
-        }, 1100);
-      }
+    <p>Call it specification leakage. It is the bottleneck on every agent domain with structured outputs: code, UI trees, CAD scripts, robot policies. Pixels are just the easiest place to watch it bite.</p>
 
-      // ---------- Mutant lattice with mini-SVGs ----------
-      function startLattice() {
-        const pos = document.getElementById('posSet');
-        const neg = document.getElementById('negSet');
-        if (!pos || !neg) return;
+    <h2 id="a-verifier-that-hands-back-counterexamples">A verifier that hands back counterexamples</h2>
 
-        const posMutants = [
-          { door: '#2b6fcf', lbl: '#2b6fcf' },
-          { door: '#3a7ad9', lbl: '#3a7ad9' },
-          { door: '#4a88e6', lbl: '#4a88e6' },
-          { door: '#1f5fbd', lbl: '#1f5fbd' },
-        ];
-        const negMutants = [
-          { door: '#c25e3f', lbl: 'wrong colour', mut: null },
-          { door: '#3a7ad9', lbl: 'no window', mut: 'noWin' },
-          { door: '#3a7ad9', lbl: 'roof shifted', mut: 'shift' },
-          { door: '#3a7ad9', lbl: 'door moved', mut: 'moveDoor' },
-        ];
+    <p>Grading a candidate against a structured set of accept and reject examples is not new. It has been the central loop of program synthesis since the 2000s.</p>
 
-        function houseSVG(c) {
-          const winR = c.mut === 'noWin' ? '' : `<rect x="123" y="86" width="20" height="20" fill="#c8e8f0" stroke="#1a1915" stroke-width="2"/>`;
-          const roofDY = c.mut === 'shift' ? -4 : 0;
-          const doorX = c.mut === 'moveDoor' ? 60 : 88;
-          return `<svg viewBox="0 0 200 160" preserveAspectRatio="xMidYMid meet">
-            <g transform="translate(0, ${roofDY})">
-              <polygon points="30,70 100,20 170,70" fill="#a85a3a" stroke="#1a1915" stroke-width="2"/>
-            </g>
-            <rect x="40" y="70" width="120" height="80" fill="#e8d8b8" stroke="#1a1915" stroke-width="2"/>
-            <rect x="${doorX}" y="100" width="24" height="50" fill="${c.door}" stroke="#1a1915" stroke-width="2"/>
-            <rect x="56" y="86" width="20" height="20" fill="#c8e8f0" stroke="#1a1915" stroke-width="2"/>
-            ${winR}
-          </svg>`;
-        }
+    <p>Armando Solar-Lezama's Sketch system [Solar-Lezama 2006] introduced what is now the dominant pattern in the field: counterexample-guided inductive synthesis, CEGIS.<sup><a href="#fn1" id="fnref1">1</a></sup> A synthesiser proposes a candidate program. A verifier, typically an SMT solver,<sup><a href="#fn2" id="fnref2">2</a></sup> checks it against a logical spec. If the verifier finds a violation it returns a concrete counterexample input. The synthesiser refines on the expanded example set. Loop until the verifier signs off. Sketch, BRAHMA [Gulwani 2011], Rosette [Torlak and Bodík 2013], the synthesis-style superoptimisers: all CEGIS underneath. The verifier is the only sharp tool in the toolkit.</p>
 
-        posMutants.forEach((m) => {
-          const d = document.createElement('div');
-          d.className = 'mini pos';
-          d.innerHTML = houseSVG(m) + `<span class="lbl">${m.lbl}</span>`;
-          pos.appendChild(d);
-        });
-        negMutants.forEach((m) => {
-          const d = document.createElement('div');
-          d.className = 'mini neg';
-          d.innerHTML = houseSVG(m) + `<span class="lbl">${m.lbl}</span>`;
-          neg.appendChild(d);
-        });
+    <p>What we are doing has the same shape with two substitutions:</p>
 
-        const all = [...pos.children, ...neg.children];
-        all.forEach((el) => prep(el));
-        stagger(all, fadeIn, 50);
-      }
+    <figure class="fig fig--wide" id="fig-cegis" data-anim>
+      <div class="fig__plate">
+        <div class="f f-loops">
+          <div class="f-loop">
+            <p class="f-loop__t">CEGIS, 2006</p>
+            <div class="f-loop__g">
+              <div class="f-node"><b>Synthesiser</b><span>proposes a program</span></div>
+              <div class="f-arrow f-arrow--down" style="--d:0s"><i aria-hidden="true"></i><span>candidate</span></div>
+              <div class="f-node"><b>Verifier (SMT)</b><span>checks it against a logical spec</span></div>
+              <div class="f-arrow f-arrow--down" style="--d:.25s"><i aria-hidden="true"></i><span>violation</span></div>
+              <div class="f-node"><b>Counterexample</b><span>a concrete input that breaks it</span></div>
+              <div class="f-arrow f-arrow--back" style="--d:.5s"><i aria-hidden="true"></i><span>add to example set</span></div>
+              <div class="f-arrow f-arrow--exit" style="--d:.75s"><i aria-hidden="true"></i><span>no violation: done</span></div>
+            </div>
+          </div>
+          <div class="f-loop">
+            <p class="f-loop__t">This work, 2026</p>
+            <div class="f-loop__g">
+              <div class="f-node is-new"><b>Neural policy (7B)</b><span>samples an edit</span></div>
+              <div class="f-arrow f-arrow--down" style="--d:.9s"><i aria-hidden="true"></i><span>rollout</span></div>
+              <div class="f-node is-new"><b>Mutant generator</b><span>precomputed M⁺ / M⁻ per task</span></div>
+              <div class="f-arrow f-arrow--down" style="--d:1.15s"><i aria-hidden="true"></i><span>score</span></div>
+              <div class="f-node"><b>Reward</b><span>closer to M⁺, farther from M⁻</span></div>
+              <div class="f-arrow f-arrow--back" style="--d:1.4s"><i aria-hidden="true"></i><span>gradient update</span></div>
+            </div>
+            <p class="f-m">negative mutants = counterexamples · positive mutants = witnesses</p>
+          </div>
+        </div>
+      </div>
+      <figcaption class="fig__cap">
+        <span class="fig__t">CEGIS, and this work</span>
+        <span class="fig__meta">Fig. 02 · Two loops</span>
+        <span class="fig__note">CEGIS, and the same loop with a neural policy proposing and a mutant generator refuting. The verifier stops solving constraints and starts precomputing accept/reject artifacts.</span></figcaption>
+    </figure>
 
-      // ---------- Version space candidate kill ----------
-      function startVspace() {
-        const cands = [...document.querySelectorAll('#vcands .vcand')];
-        if (!cands.length) return;
-        const killed = ['repaint', 'overwrite', 'globalblue'];
-        const kept = ['exact', 'any', 'alldoors'];
-        cands.forEach((c) => prep(c, 'x', -12));
-        stagger(cands, fadeIn, 70);
-        setTimeout(() => {
-          cands.forEach((c) => {
-            if (killed.includes(c.dataset.id)) c.classList.add('killed');
-            if (kept.includes(c.dataset.id)) c.classList.add('kept');
-          });
-        }, REDUCE ? 0 : 1200);
-      }
+    <p>The verifier becomes a mutant generator: it does not solve constraints, it precomputes a family of accept and reject artifacts for each task. The synthesiser becomes a neural policy: it does not search over programs symbolically, it samples from a distribution and takes gradient updates. Negative mutants are exactly what CEGIS calls counterexamples, concrete artifacts the policy must learn not to produce. Positive mutants are witnesses, the synthesis literature's name for “this also satisfies the spec.”</p>
 
-      // ---------- Reward-hacking plots ----------
-      function startHack() {
-        const naive = document.getElementById('plotNaive');
-        const fixed = document.getElementById('plotFixed');
-        if (!naive || !fixed) return;
+    <p>The reason this works is the reason CEGIS works. A small set of well-chosen accept and reject examples nails down a specification much more precisely than any single reference output ever could.</p>
 
-        const cx = 28, cy = 22;
-        const naiveDots = [];
-        for (let i = 0; i < 28; i++) {
-          const d = document.createElement('div');
-          d.className = 'plot__dot';
-          const jx = cx + (Math.random() - 0.5) * 7;
-          const jy = cy + (Math.random() - 0.5) * 6;
-          d.style.left = jx + '%';
-          d.style.top = jy + '%';
-          naive.appendChild(d);
-          naiveDots.push(d);
-        }
-        naiveDots.forEach((d) => { d.style.transform = 'translate(-50%, -50%) scale(0.4)'; });
-        stagger(naiveDots, (el) => { el.style.transition = 'opacity 0.4s ease, transform 0.4s ease'; el.style.opacity = '1'; el.style.transform = 'translate(-50%, -50%) scale(1)'; }, 30);
+    <h2 id="where-the-mutants-come-from">Where the mutants come from</h2>
 
-        const fixedDots = [];
-        for (let i = 0; i < 28; i++) {
-          const d = document.createElement('div');
-          d.className = 'plot__dot';
-          const jx = 10 + Math.random() * 78;
-          const jy = 8 + Math.random() * 34;
-          d.style.left = jx + '%';
-          d.style.top = jy + '%';
-          fixed.appendChild(d);
-          fixedDots.push(d);
-        }
-        fixedDots.forEach((d) => { d.style.transform = 'translate(-50%, -50%) scale(0.4)'; });
-        stagger(fixedDots, (el) => { el.style.transition = 'opacity 0.4s ease, transform 0.4s ease'; el.style.opacity = '1'; el.style.transform = 'translate(-50%, -50%) scale(1)'; }, 30, 200);
-      }
+    <p>CEGIS needs a verifier. Ours comes from a fifty-year-old idea on the test-quality side of the same field: mutation testing<sup><a href="#fn3" id="fnref3">3</a></sup> [Lipton 1971; DeMillo, Lipton and Sayward 1978]. The original tool grades a test suite by programmatically perturbing a function and asking whether the tests notice. We flip its role entirely. Mutants are labels, not adversaries.</p>
 
-      // ---------- GRPO group ----------
-      function startGrpo() {
-        const grid = document.getElementById('grpoGrid');
-        if (!grid) return;
-        const cells = [...grid.children];
-        const rs = cells.map((c) => parseFloat(c.dataset.r));
-        const mean = rs.reduce((a, b) => a + b, 0) / rs.length;
-        document.getElementById('grpoMean').textContent = mean.toFixed(2);
+    <p>For every editing task, the same code that generates the task also generates two structured sets of nearby artifacts:</p>
 
-        cells.forEach((el) => prep(el));
-        stagger(cells, fadeIn, 50);
-        setTimeout(() => {
-          grid.classList.add('go');
-          cells.forEach((c, i) => {
-            const adv = rs[i] - mean;
-            if (adv > 0.08) c.classList.add('up');
-            else if (adv < -0.08) c.classList.add('down');
-          });
-        }, REDUCE ? 0 : 700);
-      }
+    <figure class="fig fig--mid" id="fig-mutant-lattice">
+      <div class="fig__plate">
+        <div class="f f-lat">
+          <div class="f-lat__row">
+            <p class="f-lab f-lat__k">M⁺ · satisfy</p>
+            <ul class="f-lat__h">
+              <li><svg class="house" viewBox="0 0 200 160" role="img" aria-label="Door in the full blue"><use href="#h-body"/><use href="#h-roof"/><use href="#h-lwin"/><use href="#h-rwin"/><use href="#h-door" class="door door--blue"/></svg></li>
+              <li><svg class="house" viewBox="0 0 200 160" role="img" aria-label="Door in a lighter blue, three-quarter strength"><use href="#h-body"/><use href="#h-roof"/><use href="#h-lwin"/><use href="#h-rwin"/><use href="#h-door" class="door door--75"/></svg></li>
+              <li><svg class="house" viewBox="0 0 200 160" role="img" aria-label="Door in a half-strength blue"><use href="#h-body"/><use href="#h-roof"/><use href="#h-lwin"/><use href="#h-rwin"/><use href="#h-door" class="door door--50"/></svg></li>
+              <li><svg class="house" viewBox="0 0 200 160" role="img" aria-label="Door in a pale blue"><use href="#h-body"/><use href="#h-roof"/><use href="#h-lwin"/><use href="#h-rwin"/><use href="#h-door" class="door door--30"/></svg></li>
+            </ul>
+          </div>
+          <p class="f-lat__rule"><span class="mono">door = blue</span></p>
+          <div class="f-lat__row">
+            <p class="f-lab f-lat__k">M⁻ · violate</p>
+            <ul class="f-lat__h">
+              <li><svg class="house" viewBox="0 0 200 160" role="img" aria-label="Blue door, right window missing; a dashed ghost marks where it was"><use href="#h-body"/><use href="#h-roof"/><use href="#h-lwin"/><use href="#h-rwin" class="ghost"/><use href="#h-door" class="door door--blue"/></svg></li>
+              <li><svg class="house" viewBox="0 0 200 160" role="img" aria-label="Blue door, roof shifted up; a dashed ghost marks where it was"><use href="#h-body"/><use href="#h-roof" class="ghost"/><use href="#h-roof" transform="translate(0 -6)"/><use href="#h-lwin"/><use href="#h-rwin"/><use href="#h-door" class="door door--blue"/></svg></li>
+              <li><svg class="house" viewBox="0 0 200 160" role="img" aria-label="Blue door moved to the right; a dashed ghost marks where it was"><use href="#h-body"/><use href="#h-roof"/><use href="#h-lwin"/><use href="#h-rwin"/><use href="#h-door" class="ghost"/><use href="#h-door" class="door door--blue" transform="translate(10 0)"/></svg></li>
+              <li><svg class="house" viewBox="0 0 200 160" role="img" aria-label="Door unchanged, left window painted blue instead; a dashed ring marks the wrong object"><use href="#h-body"/><use href="#h-roof"/><use href="#h-lwin" class="win--blue"/><use href="#h-rwin"/><use href="#h-door" class="door"/><circle class="ghost" cx="74" cy="96" r="17" vector-effect="non-scaling-stroke"/></svg></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <figcaption class="fig__cap">
+        <span class="fig__t">The mutant lattice for “door = blue”</span>
+        <span class="fig__meta">Fig. 03 · M⁺ above, M⁻ below</span>
+        <span class="fig__note">The mutant lattice for “door = blue”. Above the line, valid blues; the door is the door and only the colour varies. Below it, a window deleted, the roof shifted, the door moved, the wrong object recoloured. The spec is the line between the rows.</span></figcaption>
+    </figure>
 
-      // ---------- Timeline reveal ----------
-      function startTimeline(root) {
-        const items = [...root.querySelectorAll('.tl-item')];
-        items.forEach((el) => prep(el, 'x', -8));
-        stagger(items, fadeIn, 80);
-      }
-    </script>
-  </body>
+    <p>You now have ground truth without humans, without a learned judge, without a single canonical reference output. The mutants come from the same family-specific code that defines the task. They are free.</p>
+
+    <h2 id="specifications-as-decision-boundaries">Specifications as decision boundaries</h2>
+
+    <p>This is the load-bearing idea. A specification is a decision boundary: the line that separates M⁺ from M⁻. It is not a reference answer. It is a region of program space defined by what it is closer to than to its alternatives.</p>
+
+    <p>The type-theoretic name for this already exists. A refinement type<sup><a href="#fn4" id="fnref4">4</a></sup> [Freeman and Pfenning 1991; Liquid Haskell] is a base type sharpened by a predicate that carves out a subset of inhabitants. <code>{ door : Colour | door = blue ∧ ∀o ≠ door. o = o₀ }</code> is the spec. The mutant lattice is a sampled view of that subset and its complement. Mutation-consistency RL, seen this way, is learning to produce refinement-typed outputs without ever writing the refinement down as a logical formula.</p>
+
+    <h2 id="one-example-is-never-enough">One example is never enough</h2>
+
+    <p>When Sumit Gulwani's FlashFill [Gulwani 2011] shipped inside Excel it solved a deeper problem than its UI suggested: given one or two input-output examples, find the program that generalises the way the user actually meant. The mechanism was a version-space algebra,<sup><a href="#fn5" id="fnref5">5</a></sup> a compact representation of every program in some DSL consistent with the examples seen so far.</p>
+
+    <p>What FlashFill teaches is structural. One example is almost always ambiguous. The instruction “door = blue” on its own is consistent with at least six programs:</p>
+
+    <figure class="fig" id="fig-version-space" data-anim>
+      <div class="fig__plate">
+        <div class="f f-vs">
+          <p class="f-vs__h mono">prompt · door = blue</p>
+          <div class="f-vs__body">
+          <ol>
+            <li class="f-vs__r is-keep is-keep--first"><span class="f-vs__g" aria-hidden="true"></span><span class="f-vs__i">π₁</span><code class="f-vs__p">door.fill ← #3a7ad9 <i>(one specific blue)</i></code><span class="f-vs__why"></span></li>
+            <li class="f-vs__r is-keep"><span class="f-vs__g" aria-hidden="true"><span class="f-vs__bl">the spec</span></span><span class="f-vs__i">π₂</span><code class="f-vs__p">door.fill ← any blue from BLUES</code><span class="f-vs__why"></span></li>
+            <li class="f-vs__r is-keep is-keep--last"><span class="f-vs__g" aria-hidden="true"></span><span class="f-vs__i">π₃</span><code class="f-vs__p">∀ d ∈ doors: d.fill ← blue</code><span class="f-vs__why"></span></li>
+            <li class="f-vs__r is-kill" style="--d:.75s"><span class="f-vs__g" aria-hidden="true"></span><span class="f-vs__i">π₄</span><code class="f-vs__p">door.fill ← blue; door.stroke ← blue</code><span class="f-vs__why">stroke changed</span></li>
+            <li class="f-vs__r is-kill" style="--d:.93s"><span class="f-vs__g" aria-hidden="true"></span><span class="f-vs__i">π₅</span><code class="f-vs__p">delete door; insert new blue door at same coords</code><span class="f-vs__why">preservation violated</span></li>
+            <li class="f-vs__r is-kill" style="--d:1.1s"><span class="f-vs__g" aria-hidden="true"></span><span class="f-vs__i">π₆</span><code class="f-vs__p">tint entire scene with blue overlay</code><span class="f-vs__why">preservation violated</span></li>
+          </ol>
+          <span class="f-vs__sweep" aria-hidden="true"><span class="mono">M⁻ arrives</span></span>
+          </div>
+        </div>
+      </div>
+      <figcaption class="fig__cap">
+        <span class="fig__t">The version space for “door = blue”</span>
+        <span class="fig__meta">Fig. 04 · Six programs</span>
+        <span class="fig__note">The version space for “door = blue”. Every program listed is consistent with the prompt alone. The negative mutants kill three of them; the three that survive are the spec.</span></figcaption>
+    </figure>
+
+    <p>The negative-mutant set is the disambiguator. It carves the version space down to the programs the instruction meant. Modern programming-by-example systems do this with example expansion. We do it with one shot of counterexamples per task. Same primitive, different optimiser.</p>
+
+    <h2 id="why-imitation-cannot-learn-preservation">Why imitation cannot learn preservation</h2>
+
+    <p>Supervised fine-tuning is imitation: here is the right output, copy it. To teach “leave everything you weren't asked about alone” you would need a label for every non-change, and there are infinitely many of those. The space of things to preserve is unboundedly larger than the space of things to edit, and SFT scales with example count.</p>
+
+    <p>RL with a counterfactual reward sidesteps the asymmetry. The reward says “you lost points for moving anything I didn't mention,” and gradient descent does the rest. Preservation is the structurally hard part of editing, and it is precisely the part SFT cannot supervise cheaply.</p>
+
+    <h2 id="the-copy-trap">The copy trap</h2>
+
+    <p>Our first reward was naive: +1 for matching any positive mutant. Within a few hundred GRPO steps the policy converged on something technically optimal and obviously wrong. It learned to copy a positive mutant verbatim and ignore the prompt entirely. Maximum reward, zero understanding. A textbook reward hack.<sup><a href="#fn6" id="fnref6">6</a></sup></p>
+
+    <p>The fix is the geometry of the spec itself: subtract similarity to the negative mutants (repulsion), and gate on a preservation term that requires every object the prompt did not mention to remain bit-equivalent to the original.</p>
+
+    <figure class="fig" id="fig-copy-trap">
+      <div class="fig__plate">
+        <div class="f f-two">
+          <div class="f-two__p">
+            <p class="f-lab">Naive reward · M⁺ only</p>
+            <svg class="f-space" viewBox="0 0 240 240" role="img" aria-label="An abstract similarity space. Twenty-eight rollouts piled on a single positive mutant inside the valid region">
+              <path class="region" vector-effect="non-scaling-stroke" d="M193.3 132.0 C194.9 135.7 196.2 139.8 196.6 143.8 C197.0 147.8 196.9 152.1 195.9 156.0 C195.0 159.9 193.3 163.9 191.1 167.2 C188.9 170.6 185.9 173.7 182.7 176.1 C179.5 178.6 175.7 180.5 171.9 181.9 C168.2 183.4 164.1 184.1 160.3 184.7 C156.5 185.2 152.6 185.2 149.1 185.1 C145.5 185.1 142.2 184.6 139.0 184.4 C135.9 184.2 133.0 183.8 130.2 183.7 C127.4 183.7 124.8 183.7 122.0 183.9 C119.2 184.1 116.6 184.5 113.6 184.9 C110.7 185.3 107.6 185.9 104.4 186.2 C101.2 186.5 97.7 186.8 94.2 186.6 C90.7 186.4 86.9 186.1 83.4 185.1 C79.9 184.2 76.3 182.8 73.1 180.9 C70.0 179.0 66.9 176.5 64.5 173.8 C62.1 171.0 60.0 167.7 58.5 164.4 C57.0 161.0 56.1 157.2 55.6 153.6 C55.1 149.9 55.2 146.1 55.5 142.5 C55.9 138.9 56.8 135.4 57.7 132.0 C58.6 128.6 59.8 125.4 61.0 122.3 C62.2 119.2 63.5 116.3 64.7 113.4 C66.0 110.5 67.2 107.6 68.4 104.7 C69.7 101.8 70.9 98.9 72.3 95.9 C73.7 92.9 75.1 89.8 76.9 86.9 C78.6 83.9 80.5 80.8 82.8 78.1 C85.1 75.3 87.7 72.6 90.6 70.4 C93.5 68.2 96.8 66.3 100.2 64.9 C103.6 63.6 107.4 62.8 111.0 62.5 C114.6 62.3 118.5 62.7 122.0 63.5 C125.5 64.4 129.0 65.9 132.2 67.6 C135.3 69.4 138.3 71.7 140.9 73.9 C143.5 76.2 145.7 78.8 147.9 81.2 C150.0 83.6 151.8 86.1 153.7 88.4 C155.5 90.7 157.2 92.9 159.1 94.9 C161.0 97.0 162.9 98.8 165.0 100.8 C167.1 102.7 169.5 104.5 171.9 106.6 C174.3 108.7 177.0 110.8 179.6 113.3 C182.1 115.8 184.9 118.6 187.2 121.7 C189.5 124.8 191.8 128.3 193.3 132.0Z"/>
+              <text x="122" y="54" text-anchor="middle">M⁺ region</text>
+              <g class="minus"><rect x="24.5" y="44.5" width="7" height="7" vector-effect="non-scaling-stroke"/><rect x="208.5" y="36.5" width="7" height="7" vector-effect="non-scaling-stroke"/><rect x="18.5" y="204.5" width="7" height="7" vector-effect="non-scaling-stroke"/><rect x="210.5" y="208.5" width="7" height="7" vector-effect="non-scaling-stroke"/></g>
+              <text x="36" y="51">M⁻</text>
+              <g class="plus"><circle cx="92" cy="112" r="4" vector-effect="non-scaling-stroke"/><circle cx="148" cy="104" r="4" vector-effect="non-scaling-stroke"/><circle cx="108" cy="160" r="4" vector-effect="non-scaling-stroke"/><circle cx="150" cy="156" r="4" vector-effect="non-scaling-stroke"/></g>
+              <g class="roll"><circle cx="149.5" cy="103.6" r="2.2"/><circle cx="147.9" cy="104.1" r="2.2"/><circle cx="147.2" cy="105.2" r="2.2"/><circle cx="147.7" cy="102.9" r="2.2"/><circle cx="149.2" cy="103.7" r="2.2"/><circle cx="148.1" cy="104.4" r="2.2"/><circle cx="148.0" cy="103.8" r="2.2"/><circle cx="149.1" cy="103.4" r="2.2"/><circle cx="147.2" cy="103.1" r="2.2"/><circle cx="147.3" cy="103.8" r="2.2"/><circle cx="148.6" cy="103.4" r="2.2"/><circle cx="148.3" cy="103.7" r="2.2"/><circle cx="147.7" cy="103.4" r="2.2"/><circle cx="147.8" cy="104.2" r="2.2"/><circle cx="147.7" cy="103.8" r="2.2"/><circle cx="149.1" cy="103.2" r="2.2"/><circle cx="147.4" cy="104.9" r="2.2"/><circle cx="148.1" cy="103.9" r="2.2"/><circle cx="147.5" cy="105.4" r="2.2"/><circle cx="148.2" cy="104.0" r="2.2"/><circle cx="148.0" cy="104.0" r="2.2"/><circle cx="147.5" cy="102.7" r="2.2"/><circle cx="148.2" cy="104.3" r="2.2"/><circle cx="149.1" cy="103.6" r="2.2"/><circle cx="148.1" cy="104.2" r="2.2"/><circle cx="148.0" cy="104.0" r="2.2"/><circle cx="148.4" cy="103.1" r="2.2"/><circle cx="148.0" cy="103.8" r="2.2"/></g>
+            </svg>
+            <p class="mono">policy copies one M⁺</p>
+          </div>
+          <div class="f-two__p">
+            <p class="f-lab">Mutation-consistency reward</p>
+            <svg class="f-space" viewBox="0 0 240 240" role="img" aria-label="The same space. Twenty-eight rollouts spread through the valid region, none outside it, none copying a positive mutant">
+              <path class="region" vector-effect="non-scaling-stroke" d="M193.3 132.0 C194.9 135.7 196.2 139.8 196.6 143.8 C197.0 147.8 196.9 152.1 195.9 156.0 C195.0 159.9 193.3 163.9 191.1 167.2 C188.9 170.6 185.9 173.7 182.7 176.1 C179.5 178.6 175.7 180.5 171.9 181.9 C168.2 183.4 164.1 184.1 160.3 184.7 C156.5 185.2 152.6 185.2 149.1 185.1 C145.5 185.1 142.2 184.6 139.0 184.4 C135.9 184.2 133.0 183.8 130.2 183.7 C127.4 183.7 124.8 183.7 122.0 183.9 C119.2 184.1 116.6 184.5 113.6 184.9 C110.7 185.3 107.6 185.9 104.4 186.2 C101.2 186.5 97.7 186.8 94.2 186.6 C90.7 186.4 86.9 186.1 83.4 185.1 C79.9 184.2 76.3 182.8 73.1 180.9 C70.0 179.0 66.9 176.5 64.5 173.8 C62.1 171.0 60.0 167.7 58.5 164.4 C57.0 161.0 56.1 157.2 55.6 153.6 C55.1 149.9 55.2 146.1 55.5 142.5 C55.9 138.9 56.8 135.4 57.7 132.0 C58.6 128.6 59.8 125.4 61.0 122.3 C62.2 119.2 63.5 116.3 64.7 113.4 C66.0 110.5 67.2 107.6 68.4 104.7 C69.7 101.8 70.9 98.9 72.3 95.9 C73.7 92.9 75.1 89.8 76.9 86.9 C78.6 83.9 80.5 80.8 82.8 78.1 C85.1 75.3 87.7 72.6 90.6 70.4 C93.5 68.2 96.8 66.3 100.2 64.9 C103.6 63.6 107.4 62.8 111.0 62.5 C114.6 62.3 118.5 62.7 122.0 63.5 C125.5 64.4 129.0 65.9 132.2 67.6 C135.3 69.4 138.3 71.7 140.9 73.9 C143.5 76.2 145.7 78.8 147.9 81.2 C150.0 83.6 151.8 86.1 153.7 88.4 C155.5 90.7 157.2 92.9 159.1 94.9 C161.0 97.0 162.9 98.8 165.0 100.8 C167.1 102.7 169.5 104.5 171.9 106.6 C174.3 108.7 177.0 110.8 179.6 113.3 C182.1 115.8 184.9 118.6 187.2 121.7 C189.5 124.8 191.8 128.3 193.3 132.0Z"/>
+              <text x="122" y="54" text-anchor="middle">M⁺ region</text>
+              <g class="minus"><rect x="24.5" y="44.5" width="7" height="7" vector-effect="non-scaling-stroke"/><rect x="208.5" y="36.5" width="7" height="7" vector-effect="non-scaling-stroke"/><rect x="18.5" y="204.5" width="7" height="7" vector-effect="non-scaling-stroke"/><rect x="210.5" y="208.5" width="7" height="7" vector-effect="non-scaling-stroke"/></g>
+              <text x="36" y="51">M⁻</text>
+              <g class="plus"><circle cx="92" cy="112" r="4" vector-effect="non-scaling-stroke"/><circle cx="148" cy="104" r="4" vector-effect="non-scaling-stroke"/><circle cx="108" cy="160" r="4" vector-effect="non-scaling-stroke"/><circle cx="150" cy="156" r="4" vector-effect="non-scaling-stroke"/></g>
+              <g class="roll"><circle cx="89.2" cy="85.8" r="2.2"/><circle cx="164.0" cy="140.6" r="2.2"/><circle cx="96.0" cy="177.8" r="2.2"/><circle cx="103.6" cy="170.3" r="2.2"/><circle cx="156.3" cy="129.5" r="2.2"/><circle cx="103.3" cy="107.0" r="2.2"/><circle cx="112.8" cy="100.1" r="2.2"/><circle cx="135.3" cy="136.5" r="2.2"/><circle cx="111.6" cy="82.8" r="2.2"/><circle cx="127.5" cy="78.1" r="2.2"/><circle cx="102.0" cy="122.1" r="2.2"/><circle cx="96.5" cy="140.4" r="2.2"/><circle cx="147.8" cy="137.8" r="2.2"/><circle cx="125.8" cy="167.1" r="2.2"/><circle cx="117.7" cy="150.8" r="2.2"/><circle cx="136.1" cy="165.5" r="2.2"/><circle cx="75.5" cy="145.9" r="2.2"/><circle cx="159.1" cy="171.4" r="2.2"/><circle cx="170.0" cy="121.3" r="2.2"/><circle cx="82.2" cy="173.7" r="2.2"/><circle cx="79.9" cy="118.8" r="2.2"/><circle cx="124.6" cy="144.8" r="2.2"/><circle cx="169.5" cy="152.2" r="2.2"/><circle cx="74.4" cy="164.7" r="2.2"/><circle cx="81.4" cy="127.6" r="2.2"/><circle cx="86.4" cy="159.9" r="2.2"/><circle cx="124.5" cy="134.1" r="2.2"/><circle cx="114.5" cy="132.8" r="2.2"/></g>
+            </svg>
+            <p class="mono">policy spans the spec region</p>
+          </div>
+        </div>
+      </div>
+      <figcaption class="fig__cap">
+        <span class="fig__t">Two rewards, two policies</span>
+        <span class="fig__meta">Fig. 05 · 28 rollouts each</span>
+        <span class="fig__note">Two rewards, two policies, 28 rollouts each after 1k GRPO steps. Pure attraction collapses every rollout onto one copied artifact. Repulsion from M⁻ plus a preservation gate spreads them across the valid region, which is exactly what the spec permits.</span></figcaption>
+    </figure>
+
+    <p>Any reward that is only attractive is gameable. You need repulsion. This is Goodhart's law<sup><a href="#fn7" id="fnref7">7</a></sup> in its ML form, and it shows up the moment your reward stops being a comparison.</p>
+
+    <h2 id="the-group-is-the-baseline">The group is the baseline</h2>
+
+    <p>We train with GRPO<sup><a href="#fn8" id="fnref8">8</a></sup> [Shao et al. 2024, DeepSeekMath], group-relative policy optimisation. Sample K = 8 rollouts per prompt, score each one, normalise advantages within the group, reinforce the above-average rollouts and push away the below-average ones. No value function. No critic. Just relative ranking inside a group:</p>
+
+    <figure class="fig" id="fig-group-of-eight" data-anim>
+      <div class="fig__plate">
+        <div class="f">
+          <div class="f-ruler">
+            <span class="f-ruler__tick" style="--v:1" aria-hidden="true">1</span>
+            <span class="f-ruler__tick" style="--v:.5" aria-hidden="true">0.5</span>
+            <span class="f-ruler__tick" style="--v:0" aria-hidden="true">0</span>
+            <div class="f-ruler__mean" style="--v:.564"><span class="mono">group mean 0.56</span></div>
+            <ol class="f-ruler__rolls" aria-label="Eight rollouts by score">
+              <li style="--v:.91;--d:0s" data-dir="up"><span class="f-ruler__dot" aria-hidden="true"></span><span class="f-ruler__lab">rollout 1 · 0.91</span></li>
+              <li style="--v:.84;--d:.08s" data-dir="up"><span class="f-ruler__dot" aria-hidden="true"></span><span class="f-ruler__lab">rollout 2 · 0.84</span></li>
+              <li style="--v:.78;--d:.16s" data-dir="up"><span class="f-ruler__dot" aria-hidden="true"></span><span class="f-ruler__lab">rollout 3 · 0.78</span></li>
+              <li style="--v:.62;--d:.24s" data-dir="mid"><span class="f-ruler__dot" aria-hidden="true"></span><span class="f-ruler__lab">rollout 4 · 0.62</span></li>
+              <li style="--v:.55;--d:.32s" data-dir="mid"><span class="f-ruler__dot" aria-hidden="true"></span><span class="f-ruler__lab">rollout 5 · 0.55</span></li>
+              <li style="--v:.41;--d:.40s" data-dir="down"><span class="f-ruler__dot" aria-hidden="true"></span><span class="f-ruler__lab">rollout 6 · 0.41</span></li>
+              <li style="--v:.28;--d:.48s" data-dir="down"><span class="f-ruler__dot" aria-hidden="true"></span><span class="f-ruler__lab">rollout 7 · 0.28</span></li>
+              <li style="--v:.12;--d:.56s" data-dir="down"><span class="f-ruler__dot" aria-hidden="true"></span><span class="f-ruler__lab">rollout 8 · 0.12</span></li>
+            </ol>
+          </div>
+        </div>
+      </div>
+      <figcaption class="fig__cap">
+        <span class="fig__t">Eight rollouts on one ruler</span>
+        <span class="fig__meta">Fig. 06 · GRPO</span>
+        <span class="fig__note">Eight rollouts on one ruler. The group mean is the whole baseline; the rollouts above it are reinforced, the ones below it are suppressed, and no critic had to predict anything.</span></figcaption>
+    </figure>
+
+    <p>The match between GRPO and this reward is not accidental. The reward is already group-relative: better than the negatives, worse than the positives. PPO with a critic would be wasted machinery, learning to predict a number we can read directly off the mutant set.</p>
+
+    <h2 id="fifty-five-years-on-one-page">Fifty-five years on one page</h2>
+
+    <p>To place this in context, this is the sequence of ideas the paper rearranges. None of the pieces are new. The arrangement is:</p>
+
+    <figure class="fig" id="fig-lineage">
+      <div class="fig__plate">
+        <div class="f">
+          <ol class="f-line">
+            <li><span class="f-line__y">1971</span><span class="f-line__d" aria-hidden="true"></span><span class="f-line__b"><b>Mutation testing (Lipton)</b><span>Programmatic mutants as a measure of test-suite adequacy. The mutator is the primitive.</span></span></li>
+            <li><span class="f-line__y">1980</span><span class="f-line__d" aria-hidden="true"></span><span class="f-line__b"><b>Inductive synthesis from examples (Summers, Shaw)</b><span>Learn a recursive program from input-output pairs. The first version-space ideas.</span></span></li>
+            <li><span class="f-line__y">2006</span><span class="f-line__d" aria-hidden="true"></span><span class="f-line__b"><b>Sketch / CEGIS (Solar-Lezama)</b><span>Synthesiser proposes, SMT verifier returns counterexamples, repeat. The dominant pattern since.</span></span></li>
+            <li><span class="f-line__y">2011</span><span class="f-line__d" aria-hidden="true"></span><span class="f-line__b"><b>FlashFill (Gulwani)</b><span>Version-space algebras for string transformations from one or two examples. Ships in Excel.</span></span></li>
+            <li><span class="f-line__y">2017</span><span class="f-line__d" aria-hidden="true"></span><span class="f-line__b"><b>RobustFill, DeepCoder (Balog, Devlin et al.)</b><span>Neural policies learn to propose; symbolic verifiers still close the loop.</span></span></li>
+            <li><span class="f-line__y">2024</span><span class="f-line__d" aria-hidden="true"></span><span class="f-line__b"><b>GRPO / verifiable rewards (Shao et al.)</b><span>RL with executable reward functions overtakes RLHF on math and code. Critic-free, group-relative.</span></span></li>
+            <li><span class="f-line__y">2026</span><span class="f-line__d" aria-hidden="true"></span><span class="f-line__b"><b>Mutation-consistency RL (this work)</b><span>Mutators replace solvers; policy gradients replace candidate search; the spec is implicit in the lattice.</span></span></li>
+          </ol>
+        </div>
+      </div>
+      <figcaption class="fig__cap">
+        <span class="fig__t">Fifty-five years of synthesis by example</span>
+        <span class="fig__meta">Fig. 07 · Timeline</span>
+        <span class="fig__note">Fifty-five years of synthesis-by-example. The same primitive, a small set of structured examples grounds a specification, applied at every level of the stack, from test quality to type theory to optimiser design.</span></figcaption>
+    </figure>
+
+    <p>Read the descriptions in a column and the pattern is one sentence long: somebody finds a cheap way to generate structured accept/reject examples, and somebody else uses them to pin down what a program is supposed to mean.</p>
+
+    <h2 id="the-result-that-matters">The result that matters</h2>
+
+    <p>Prompting matches pictures. SFT matches pictures. Only RL with counterfactual rewards matches the spec. The gap is largest exactly where you would expect it, on the Unintended Change Rate, the fraction of unmentioned objects that drift, because that is the metric the other two regimes were never trained to optimise.</p>
+
+    <p>More telling than the headline number is where SFT fails: on the long tail of small, plausible, locally invisible mutations. A minor recolour of an unmentioned object. Path data drifting under reformatting. An ID renamed in a way that breaks downstream tooling. Each of these slips past a human reviewer glancing at the render. Mutation rewards catch them because the output measurably drifts toward a known M⁻.</p>
+
+    <h2 id="five-other-domains">Five other domains</h2>
+
+    <p>The recipe transfers wherever you have a structured program and a mutator. The same idea in five languages:</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th scope="col">Domain</th><th scope="col">Positive mutant, M⁺</th><th scope="col">Negative mutant, M⁻</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>SVG edit</td><td>a different valid shade of blue</td><td>a window silently deleted</td></tr>
+          <tr><td>Code refactor</td><td>α-equivalent rename, tests pass</td><td>public type signature changed</td></tr>
+          <tr><td>UI edit</td><td>ARIA label updated, focus order intact</td><td>tabindex shuffled, focus broken</td></tr>
+          <tr><td>CAD script</td><td>hole moved, parent feature preserved</td><td>parent feature reparented</td></tr>
+          <tr><td>Robot policy</td><td>grasp succeeds, end-effector pose matches</td><td>grasp succeeds but knocks over object B</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>SVG is the cleanest demo. The unifying claim is stronger: every domain with a structured output has a mutator, and every mutator is a free oracle.</p>
+
+    <h2 id="the-recipe">The recipe</h2>
+
+    <p>If you want to train an agent that respects a specification, do not show it the right answer. Show it a small set of right answers and a small set of plausibly wrong answers, and let RL learn the boundary. The right answer is rarely unique; the boundary almost always is.</p>
+
+    <p>Two predictions I would defend in print. First, agent benchmarks will move from “one reference output” to “a set of acceptable outputs plus a set of forbidden ones,” because that is how you actually measure preservation. Second, RL on agents will look less like RLHF, with learned reward models that inherit the same surface-metric hacks they were meant to fix, and more like this: executable counterfactual oracles, written once per task family, free to call a million times during training.</p>
+
+    <p>The pivot is philosophical, not algorithmic. Once you stop treating the spec as an answer key and start treating it as a boundary, almost every interesting agent-training problem rearranges itself around the same ancient idea: meaning is operationalised by what you can distinguish from it. Two of the three houses at the top of this essay have a blue door. Only one of them is still the house you started with.</p>
+
+    <p>The benchmark (SVGym) and the training results (SCALPEL) live in the paper, published as <a href="https://arxiv.org/abs/2607.19056" target="_blank" rel="noopener">Vector-Bench<span class="vh"> (opens in a new tab)</span></a>. This essay is the idea that makes them work.</p>
+
+  </div>
+
+  <aside class="fn" aria-labelledby="fn-h">
+    <h2 id="fn-h" class="vh">Footnotes</h2>
+    <ol>
+      <li id="fn1">CEGIS, counterexample-guided inductive synthesis. A synthesiser proposes a program, a verifier tries to refute it, and each refutation becomes a new training example. The dominant loop in program synthesis since 2006. <a class="fn__back" href="#fnref1" aria-label="Back to the text">↩</a></li>
+      <li id="fn2">SMT solver, a satisfiability-modulo-theories engine. Given a logical formula over integers, arrays or bit-vectors, it either proves the formula holds or hands back a concrete input that breaks it. <a class="fn__back" href="#fnref2" aria-label="Back to the text">↩</a></li>
+      <li id="fn3">Mutation testing: grading a test suite by programmatically injecting small faults into the code and counting how many the tests catch. A mutant the tests miss marks a hole in the spec. <a class="fn__back" href="#fnref3" aria-label="Back to the text">↩</a></li>
+      <li id="fn4">Refinement type: a base type sharpened by a logical predicate, like “an integer that is positive.” The predicate carves the type's inhabitants down to the ones the spec permits. <a class="fn__back" href="#fnref4" aria-label="Back to the text">↩</a></li>
+      <li id="fn5">Version-space algebra: a compact data structure holding every program in a DSL consistent with the examples seen so far. Each new example shrinks the space; the survivors are the meaning. <a class="fn__back" href="#fnref5" aria-label="Back to the text">↩</a></li>
+      <li id="fn6">Reward hacking: a policy maximising the literal reward while defeating its intent. The optimiser is not wrong; the reward was underspecified. <a class="fn__back" href="#fnref6" aria-label="Back to the text">↩</a></li>
+      <li id="fn7">Goodhart's law: when a measure becomes a target, it ceases to be a good measure. In RL, any proxy reward optimised hard enough stops correlating with the thing it proxied. <a class="fn__back" href="#fnref7" aria-label="Back to the text">↩</a></li>
+      <li id="fn8">GRPO, group-relative policy optimisation. Score a group of rollouts, subtract the group mean, reinforce what beat it, suppress what didn't. No learned value function. <a class="fn__back" href="#fnref8" aria-label="Back to the text">↩</a></li>
+    </ol>
+  </aside>
+
+  <nav class="pn" aria-label="Previous and next essay">
+    <a class="pn--prev" href="/blog/designing-agent-systems"><span class="pn__k">Previous</span><span class="pn__t">It Forgets Everything. It Sometimes Lies. Build Around It.</span></a>
+    <a class="pn--next" href="/blog/model-watermarking"><span class="pn__k">Next</span><span class="pn__t">You Trained It. Someone Stole It. Now What?</span></a>
+  </nav>
+
+</article>
+</div>
+
+<script type="module" data-page>
+  const main = document.querySelector('main#main');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // the silent rewrite: one button, one toggled overlay on the middle panel
+  const houses = main.querySelector('[data-fig="silent"]');
+  const btn = houses && houses.querySelector('[data-diff]');
+  if (btn) btn.hidden = false;   /* the toggle ships hidden so no dead control renders without JS */
+  if (btn) btn.addEventListener('click', () => {
+    const on = btn.getAttribute('aria-pressed') !== 'true';
+    btn.setAttribute('aria-pressed', String(on));
+    houses.classList.toggle('is-diff', on);
+    btn.textContent = on ? 'Hide the diff' : 'Reveal the diff';
+  });
+
+  // the three animated figures draw once, when they enter view, and once per session: a figure that has already
+  // drawn (the visitor came back through the router) shows its final state. Without JS, under reduced motion,
+  // or without IntersectionObserver the final state is what is in the markup.
+  const KEY = 'white.drawn.spec-rewards';
+  const drawn = (() => { try { return new Set(JSON.parse(sessionStorage.getItem(KEY) || '[]')); } catch (e) { return new Set(); } })();
+  const figs = [...main.querySelectorAll('[data-anim]')].filter(f => !drawn.has(f.id));
+  if (figs.length && !reduced && 'IntersectionObserver' in window) {
+    figs.forEach(f => f.classList.add('f-anim'));
+    const pending = new Set(figs);
+    const remember = f => { drawn.add(f.id); try { sessionStorage.setItem(KEY, JSON.stringify([...drawn])); } catch (e) {} };
+    const on = f => { f.classList.add('is-on'); pending.delete(f); io.unobserve(f); remember(f); };
+    const io = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) on(en.target); }), { threshold: .3 });
+    figs.forEach(f => io.observe(f));
+    // belt and braces: a late observer report never leaves a figure blank once it is on screen
+    const sweep = () => { pending.forEach(f => { const r = f.getBoundingClientRect(); if (r.top < innerHeight * .8 && r.bottom > innerHeight * .2) on(f); }); if (!pending.size) removeEventListener('scroll', sweep); };
+    addEventListener('scroll', sweep, { passive: true });
+    addEventListener('white:navigate', () => { io.disconnect(); removeEventListener('scroll', sweep); }, { once: true });
+  }
+</script>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap grid">
+    <ul class="foot__links">
+      <li><a href="https://x.com/Pran_Ker" target="_blank" rel="noopener">X</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://github.com/Pran-Ker" target="_blank" rel="noopener">GitHub</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://www.linkedin.com/in/prannay/" target="_blank" rel="noopener">LinkedIn</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://scholar.google.com/citations?user=Y3jw_UgAAAAJ" target="_blank" rel="noopener">Scholar</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://www.goodreads.com/user/show/193930535-prannay-hebbar" target="_blank" rel="noopener">Goodreads</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://medium.com/@Pran-Ker" target="_blank" rel="noopener">Medium</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://huggingface.co/Pran-Ker" target="_blank" rel="noopener">Hugging Face</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://openreview.net/profile?id=%7EPrannay_Hebbar1" target="_blank" rel="noopener">OpenReview</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://calendly.com/prannay/consulting" target="_blank" rel="noopener">Calendly</a><span aria-hidden="true">↗</span></li>
+    </ul>
+    <div class="foot__base">
+      <span>© 2026 Prannay Hebbar</span>
+      <span>San Francisco</span>
+    </div>
+  </div>
+</footer>
+
+</body>
 </html>

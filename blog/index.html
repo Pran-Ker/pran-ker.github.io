@@ -1,405 +1,157 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Prannay</title>
+<!doctype html>
+<html lang="en" data-page="writing">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Writing · Prannay Hebbar</title>
+  <meta name="description" content="Essays by Prannay Hebbar on building agents and the environments that train them: reward design for physics, agent systems, program synthesis, model security.">
+  <link rel="canonical" href="https://prannayh.com/blog">
+  <meta property="og:site_name" content="Prannay Hebbar">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Writing · Prannay Hebbar">
+  <meta property="og:description" content="Essays on building agents and the environments that train them: reward design, agent systems, program synthesis, model security.">
+  <meta property="og:url" content="https://prannayh.com/blog">
+  <meta property="og:image" content="https://prannayh.com/assets/images/opengraph.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@Pran_Ker">
+  <meta name="twitter:creator" content="@Pran_Ker">
+  <meta name="twitter:title" content="Writing · Prannay Hebbar">
+  <meta name="twitter:description" content="Essays on building agents and the environments that train them: reward design, agent systems, program synthesis, model security.">
+  <meta name="twitter:image" content="https://prannayh.com/assets/images/opengraph.png">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="color-scheme" content="light">
+  <link rel="icon" href="/assets/images/favicon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+  <link rel="preload" href="/assets/fonts/LabGrotesque-Light.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/LabGrotesque-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/LabGrotesqueMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/SourceSerif4-Variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="modulepreload" href="/assets/vendor/three.module.min.js">
+  <link rel="modulepreload" href="/assets/js/cubes.js">
+  <link rel="stylesheet" href="/assets/css/white.css">
+  <script>try{if(sessionStorage.getItem('white.entered')==='1')document.documentElement.dataset.entered=''}catch(e){}</script>
+  <script type="module" src="/assets/js/white.js"></script>
+  <noscript><style>#gate{display:none}.ice-fallback{display:block}body[data-state="gate"] .ice--b,body[data-state="gate"] .ice--c{display:block}body[data-state="gate"] .ice--a{right:12vw;top:16vh}body[data-state="gate"]{overflow:auto}.hud,#main,.foot,.floor{opacity:1!important}.reveal,.rise{opacity:1;transform:none;animation:none}.fig__plate>img,.fig__plate>video{opacity:1;filter:none}.fig__plate::after{display:none}</style></noscript>
+</head>
+<body data-state="gate">
 
-    <meta charset="utf-8" />
-    <meta content="ie=edge" http-equiv="x-ua-compatible" />
-    <meta name="handheldfriendly" content="true" />
-    <meta name="viewport" content="initial-scale=1, width=device-width" />
-    <meta
-      name="description"
-      content="Blog posts and articles by Prannay Hebbar"
-    />
-    <meta name="theme-color" content="#000000" />
+<a class="skip" href="#main" data-no-router>Skip to content</a>
 
-    <meta property="og:site_name" content="Prannay Hebbar" />
-    <meta property="og:title" content="Blogs by Prannay Hebbar" />
-    <meta
-      property="og:description"
-      content="Blog posts and articles by Prannay Hebbar"
-    />
-    <meta property="og:url" content="/blog" />
-    <meta property="og:type" content="website" />
+<canvas id="cubes" aria-hidden="true"></canvas>
+<div class="floor" aria-hidden="true"></div>
+<div class="ice-fallback" aria-hidden="true">
+  <div class="ice ice--a"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="ice ice--b"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="ice ice--c"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+</div>
 
-    <link rel="canonical" href="/blog" />
-    <link rel="icon" href="/assets/images/favicon-32.png" />
-    <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png" />
+<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-cta" aria-describedby="gate-sub">
+  <span class="gate__name">Prannay Hebbar</span>
+  <div class="gate__center">
+    <button class="gate__cta" id="gate-cta" type="button"><span class="mark" aria-hidden="true"></span>Press to enter</button>
+    <p class="gate__sub" id="gate-sub">Sound on. One track, on loop. Nothing autoplays without you.</p>
+  </div>
+  <span class="gate__hint mono">Enter · Space · Click</span>
+</div>
 
-    <link rel="preload" href="/assets/fonts/LabGrotesque-Regular.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/assets/fonts/LabGrotesque-Medium.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/assets/fonts/LabGrotesque-Bold.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="/assets/css/style.css" />
-    <link rel="stylesheet" href="/assets/css/print.css" media="print" />
+<header class="hud">
+  <a class="wordmark" href="/" aria-label="Prannay Hebbar, home">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 21 7v10l-9 5-9-5V7z"/><path d="M3 7l9 5 9-5M12 12v10"/></svg>
+    <span>Prannay Hebbar</span>
+  </a>
+  <nav class="nav" aria-label="Primary">
+    <a href="/">Home</a>
+    <a href="/blog" aria-current="page">Writing</a>
+    <a href="/principles">Principles</a>
+    <a href="/gallery">Gallery</a>
+    <a href="/more">More</a>
+    <a href="/contact">Contact</a>
+  </nav>
+  <div class="transport" role="group" aria-label="Music">
+    <span class="tp-track"><span class="tp-title">Little Voices</span><span class="tp-artist">Lane 8</span></span>
+    <button class="tp-tap" type="button" hidden>Tap for sound</button>
+    <button class="tp-btn tp-mute" type="button" data-on="false" aria-label="Mute">
+      <svg class="ico-off" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5h1.8L6 1.5v7L3.3 6.5H1.5z" fill="currentColor"/><path d="M7.2 3.3a2.4 2.4 0 0 1 0 3.4" stroke="currentColor" stroke-width=".9" fill="none"/></svg>
+      <svg class="ico-on" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5h1.8L6 1.5v7L3.3 6.5H1.5z" fill="currentColor"/><path d="M7 3.8l2 2.4M9 3.8l-2 2.4" stroke="currentColor" stroke-width=".9"/></svg>
+    </button>
+    <span class="tp-time"><span class="vh">Elapsed </span><span class="tp-time__v">00:00</span></span>
+    <span class="beat" aria-hidden="true"></span>
+    <span class="tp-status vh" aria-live="polite"></span>
+  </div>
+</header>
 
-    <script defer src="/assets/js/script.js" type="module"></script>
-  </head>
+<main id="main" data-page="writing" tabindex="-1">
+  <style data-page>
+    /* Writing index: the system's page head, then one list. Nothing page-specific is left to style. */
+  </style>
 
-  <body>
-    <input class="nav-active" id="nav-active" type="checkbox" />
+  <section class="page-head wrap" aria-labelledby="writing-h">
+    <div class="page-head__copy">
+      <h1 id="writing-h" class="rise" style="--i:0">Writing</h1>
+      <p class="lede rise" style="--i:2">On building agents and the environments that train them: reward design, program synthesis, what breaks in production, and who owns the weights.</p>
+    </div>
+  </section>
 
-    <label class="nav-underlay" for="nav-active"></label>
+  <section class="section wrap haze" aria-labelledby="essays-h">
+    <div class="sh reveal">
+      <h2 id="essays-h">Four essays</h2>
+      <span class="sh__meta">Newest first</span>
+    </div>
+    <ul class="rows reveal">
+      <li>
+        <a class="row row--essay" href="/blog/cad-reward-design">
+          <span class="row__n">04</span>
+          <span class="row__what">1976<span class="row__deck">A frontier model passes every run on my hardest geometry task and loses to a spring written down fifty years ago; the distance between the two is a ladder, and every rung hides one more layer of machinery.</span></span>
+          <span class="row__meta"><time datetime="2026-07">Jul 2026</time> · 13 min · Physics environments</span>
+        </a>
+      </li>
+      <li>
+        <a class="row row--essay" href="/blog/designing-agent-systems">
+          <span class="row__n">03</span>
+          <span class="row__what">It Forgets Everything. It Sometimes Lies. Build Around It.<span class="row__deck">The model is the most reliable part of your agent; the two defects that actually break it live in the system you own, and both can be designed for.</span></span>
+          <span class="row__meta"><time datetime="2026-06">Jun 2026</time> · 14 min · Agent systems</span>
+        </a>
+      </li>
+      <li>
+        <a class="row row--essay" href="/blog/spec-rewards">
+          <span class="row__n">02</span>
+          <span class="row__what">Specifications Are Decision Boundaries<span class="row__deck">An agent told to “make only the door blue” can silently rewrite three other paths in your SVG. Pixel metrics will not catch it. Fifty years of program synthesis, rearranged, will.</span></span>
+          <span class="row__meta"><time datetime="2026-05">May 2026</time> · 10 min · Program synthesis</span>
+        </a>
+      </li>
+      <li>
+        <a class="row row--essay" href="/blog/model-watermarking">
+          <span class="row__n">01</span>
+          <span class="row__what">You Trained It. Someone Stole It. Now What?<span class="row__deck">Six ways to prove a model is yours, and why the strong ones stop collecting evidence and make the model stop working without you.</span></span>
+          <span class="row__meta"><time datetime="2026-04">Apr 2026</time> · 10 min · Model security</span>
+        </a>
+      </li>
+    </ul>
+  </section>
 
-    <nav class="nav">
-      <div class="nav__logo">
-        <a href="/" aria-label="Home"
-          ><img src="/assets/images/logo-black.svg" alt="Prannay Hebbar"
-        /></a>
-      </div>
+</main>
 
-      <div class="nav__toggle">
-        <label for="nav-active">
-          <span>Menu</span>
-        </label>
-      </div>
+<footer class="foot">
+  <div class="wrap grid">
+    <ul class="foot__links">
+      <li><a href="https://x.com/Pran_Ker" target="_blank" rel="noopener">X</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://github.com/Pran-Ker" target="_blank" rel="noopener">GitHub</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://www.linkedin.com/in/prannay/" target="_blank" rel="noopener">LinkedIn</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://scholar.google.com/citations?user=Y3jw_UgAAAAJ" target="_blank" rel="noopener">Scholar</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://www.goodreads.com/user/show/193930535-prannay-hebbar" target="_blank" rel="noopener">Goodreads</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://medium.com/@Pran-Ker" target="_blank" rel="noopener">Medium</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://huggingface.co/Pran-Ker" target="_blank" rel="noopener">Hugging Face</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://openreview.net/profile?id=%7EPrannay_Hebbar1" target="_blank" rel="noopener">OpenReview</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://calendly.com/prannay/consulting" target="_blank" rel="noopener">Calendly</a><span aria-hidden="true">↗</span></li>
+    </ul>
+    <div class="foot__base">
+      <span>© 2026 Prannay Hebbar</span>
+      <span>San Francisco</span>
+    </div>
+  </div>
+</footer>
 
-      <div class="nav__options">
-        <ul>
-          <li>
-            <a href="/" class="mobile-menu-text" aria-label="TLDR"
-              >TLDR</a
-            >
-          </li>
-          <li>
-            <a href="/blog" class="mobile-menu-text" aria-label="Blogs"
-              >Blogs</a
-            >
-          </li>
-          <li>
-            <a
-              href="/principles"
-              class="mobile-menu-text"
-              aria-label="Principles"
-              >Principles</a
-            >
-          </li>
-          <li>
-            <a
-              href="/more"
-              class="mobile-menu-text"
-              aria-label="Other Stuff"
-              >Other Stuff</a
-            >
-          </li>
-          <li>
-            <a href="/contact" class="mobile-menu-text" aria-label="Contact"
-              >Contact</a
-            >
-          </li>
-        </ul>
-        <div class="social-bar">
-          <div class="social-icons">
-            <div>
-              <a href="https://x.com/Pran_Ker" target="_blank" rel="noopener"
-                ><svg viewBox="0 0 512 512" width="1em" height="1em" fill="currentColor"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/></svg
-              ></a>
-            </div>
-            <div>
-              <a
-                href="https://github.com/Pran-Ker"
-                target="_blank"
-                rel="noopener"
-                ><svg viewBox="0 0 496 512" width="1em" height="1em" fill="currentColor"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.8-14.9-112.8-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg
-              ></a>
-            </div>
-            <div>
-              <a
-                href="https://www.linkedin.com/in/prannay/"
-                target="_blank"
-                rel="noopener"
-                ><svg viewBox="0 0 448 512" width="1em" height="1em" fill="currentColor"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg
-              ></a>
-            </div>
-            <div>
-              <a
-                href="https://www.instagram.com/prannay.hebbar/"
-                target="_blank"
-                rel="noopener"
-                ><svg viewBox="0 0 448 512" width="1em" height="1em" fill="currentColor"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg
-              ></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
-
-    <header class="header">
-      <h1>
-        <a href="/" aria-label="Prannay Hebbar"
-          ><img src="/assets/images/logo.svg" alt="Prannay Hebbar"
-        /></a>
-      </h1>
-
-      <ul>
-        <li><a href="/" aria-label="TLDR">TLDR</a></li>
-        <li><a href="/blog" aria-label="Blogs">Blogs</a></li>
-        <li>
-          <a href="/principles" aria-label="Principles">Principles</a>
-        </li>
-        <li>
-          <a href="/more" aria-label="Other Stuff">Other Stuff</a>
-        </li>
-        <li><a href="/contact" aria-label="Contact">Contact</a></li>
-      </ul>
-    </header>
-
-    <main>
-      <section class="page">
-        <div class="page__headline">
-          <h4>Blog</h4>
-        </div>
-
-        <div class="thoughts">
-          <div class="thoughts__container">
-            <article class="thoughts__thought thoughts__thought--card">
-              <div class="thought-bg">
-                <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid meet" aria-hidden="true" fill="none">
-                  <g stroke="currentColor" stroke-width="1" opacity="0.35" stroke-dasharray="3 4">
-                    <line x1="18" y1="132.4" x2="300" y2="132.4"/>
-                    <line x1="18" y1="94" x2="300" y2="94"/>
-                    <line x1="18" y1="30" x2="300" y2="30"/>
-                  </g>
-                  <rect x="254.9" y="26" width="45" height="132" fill="#9db069" opacity="0.12"/>
-                  <polyline
-                    points="18.0,158.0 26.1,158.0 34.1,158.0 42.2,157.7 50.2,157.0 58.3,156.1 66.3,154.8 74.4,153.3 82.5,151.7 90.5,149.8 98.6,147.9 106.6,145.9 114.7,144.0 122.7,142.0 130.8,140.1 138.9,138.3 146.9,136.7 155.0,135.3 163.0,134.1 171.1,133.2 179.1,132.6 187.2,132.4 195.3,130.9 203.3,126.9 211.4,121.2 219.4,114.6 227.5,107.8 235.5,101.6 243.6,96.8 251.7,94.3 259.7,81.3 263.7,59.7 267.8,39.2 271.8,30.0 283.9,30.0 296.0,30.0 300.0,30.0"
-                    stroke="#d97757" stroke-width="1.7" stroke-linejoin="round"/>
-                  <g fill="#d97757">
-                    <circle class="thought-art__cell" style="--op:1;--delay:0ms"    cx="32.1"  cy="158" r="3.4"/>
-                    <circle class="thought-art__cell" style="--op:1;--delay:500ms"  cx="187.2" cy="132.4" r="3.4"/>
-                    <circle class="thought-art__cell" style="--op:1;--delay:1000ms" cx="254.9" cy="94" r="4.4" fill="#9db069"/>
-                    <circle class="thought-art__cell" style="--op:1;--delay:1500ms" cx="271.8" cy="30" r="3.4"/>
-                  </g>
-                  <line x1="18" y1="158" x2="300" y2="158" stroke="currentColor" stroke-width="1" opacity="0.45"/>
-                  <text class="thought-art__label" x="18" y="182">the spring wins</text>
-                </svg>
-              </div>
-              <div class="thought-content">
-                <span class="thought-date">Jul 2026</span>
-                <h3>
-                  <a href="/blog/cad-reward-design"
-                    >1976: A Frontier Model Meets a Fifty-Year-Old Spring</a
-                  >
-                </h3>
-                <p class="common-description">
-                  The model passes 100% of runs on my hardest CAD task and 15% against a 1976 hysteresis benchmark. A walk down the ladder of physics tasks training frontier models, with live simulations.
-                </p>
-              </div>
-            </article>
-
-            <article class="thoughts__thought thoughts__thought--card">
-              <div class="thought-bg">
-                <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid meet" aria-hidden="true" fill="none">
-                  <g stroke="currentColor" stroke-width="1.3" opacity="0.5">
-                    <rect x="14" y="40" width="80" height="50" rx="7" stroke-dasharray="5 4"/>
-                    <rect x="120" y="40" width="80" height="50" rx="7" stroke-dasharray="5 4"/>
-                    <rect x="226" y="40" width="80" height="50" rx="7" stroke-dasharray="5 4"/>
-                  </g>
-                  <g font-family="Lab Grotesque Mono, monospace" font-size="13" fill="#d97757">
-                    <text class="thought-art__cell" style="--op:0.9;--delay:300ms" x="102" y="70">×</text>
-                    <text class="thought-art__cell" style="--op:0.9;--delay:900ms" x="208" y="70">×</text>
-                  </g>
-                  <g stroke="#d97757" stroke-width="1.4">
-                    <line x1="54" y1="94" x2="54" y2="118"/>
-                    <line x1="160" y1="126" x2="160" y2="100" stroke-dasharray="4 3"/>
-                    <line x1="266" y1="126" x2="266" y2="100" stroke-dasharray="4 3"/>
-                  </g>
-                  <path d="M50 113 L54 121 L58 113 Z" fill="#d97757"/>
-                  <path d="M156 105 L160 97 L164 105 Z" fill="#d97757"/>
-                  <path d="M262 105 L266 97 L270 105 Z" fill="#d97757"/>
-                  <line x1="14" y1="138" x2="294" y2="138" stroke="#d97757" stroke-width="1.6"/>
-                  <path d="M292 133 L304 138 L292 143 Z" fill="#d97757"/>
-                  <g stroke="#d97757" stroke-width="1">
-                    <line class="thought-art__cell" style="--op:0.5;--delay:0ms"    x1="44"  y1="134" x2="44"  y2="142"/>
-                    <line class="thought-art__cell" style="--op:0.5;--delay:400ms"  x1="84"  y1="134" x2="84"  y2="142"/>
-                    <line class="thought-art__cell" style="--op:0.5;--delay:800ms"  x1="124" y1="134" x2="124" y2="142"/>
-                    <line class="thought-art__cell" style="--op:0.5;--delay:1200ms" x1="164" y1="134" x2="164" y2="142"/>
-                    <line class="thought-art__cell" style="--op:0.5;--delay:1600ms" x1="204" y1="134" x2="204" y2="142"/>
-                    <line class="thought-art__cell" style="--op:0.5;--delay:2000ms" x1="244" y1="134" x2="244" y2="142"/>
-                  </g>
-                  <text class="thought-art__label" x="14" y="168">the log persists</text>
-                </svg>
-              </div>
-              <div class="thought-content">
-                <span class="thought-date">Jun 2026</span>
-                <h3>
-                  <a href="/blog/designing-agent-systems"
-                    >It Forgets Everything. It Sometimes Lies. Build Around It.</a
-                  >
-                </h3>
-                <p class="common-description">
-                  An agent is an unreliable, amnesiac worker in a distributed system. Two old books, on databases and on doorknobs, already wrote the design manual.
-                </p>
-              </div>
-            </article>
-
-            <article class="thoughts__thought thoughts__thought--card">
-              <div class="thought-bg">
-                <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid meet" aria-hidden="true" fill="none">
-                  <path d="M30 184 C 120 156, 156 62, 304 26" stroke="#d97757" stroke-width="9" opacity="0.1"/>
-                  <path d="M30 184 C 120 156, 156 62, 304 26" stroke="#d97757" stroke-width="1.6"/>
-                  <circle class="thought-art__cell" style="--op:0.85;--delay:0ms" cx="60" cy="48" r="4.5" fill="#9db069"/>
-                  <circle class="thought-art__cell" style="--op:0.85;--delay:500ms" cx="104" cy="70" r="4.5" fill="#9db069"/>
-                  <circle class="thought-art__cell" style="--op:0.85;--delay:1000ms" cx="70" cy="108" r="4.5" fill="#9db069"/>
-                  <circle class="thought-art__cell" style="--op:0.85;--delay:1500ms" cx="132" cy="42" r="4.5" fill="#9db069"/>
-                  <circle class="thought-art__cell" style="--op:0.85;--delay:2000ms" cx="148" cy="86" r="4.5" fill="#9db069"/>
-                  <path class="thought-art__cell" style="--op:0.85;--delay:250ms" d="M192 144 L200 152 M200 144 L192 152" stroke="#d97757" stroke-width="1.6"/>
-                  <path class="thought-art__cell" style="--op:0.85;--delay:750ms" d="M232 114 L240 122 M240 114 L232 122" stroke="#d97757" stroke-width="1.6"/>
-                  <path class="thought-art__cell" style="--op:0.85;--delay:1250ms" d="M264 154 L272 162 M272 154 L264 162" stroke="#d97757" stroke-width="1.6"/>
-                  <path class="thought-art__cell" style="--op:0.85;--delay:1750ms" d="M208 172 L216 180 M216 172 L208 180" stroke="#d97757" stroke-width="1.6"/>
-                  <path class="thought-art__cell" style="--op:0.85;--delay:2250ms" d="M250 74 L258 82 M258 74 L250 82" stroke="#d97757" stroke-width="1.6"/>
-                  <text class="thought-art__label" x="44" y="26" fill="#9db069">M⁺</text>
-                  <text class="thought-art__label" x="282" y="192" fill="#d97757">M⁻</text>
-                </svg>
-              </div>
-              <div class="thought-content">
-                <span class="thought-date">May 2026</span>
-                <h3>
-                  <a href="/blog/spec-rewards"
-                    >Specifications Are Decision Boundaries</a
-                  >
-                </h3>
-                <p class="common-description">
-                  Mutation testing, CEGIS, version-space algebras: fifty years of program-synthesis ideas rearranged into a way to train agents that know what not to change.
-                </p>
-              </div>
-            </article>
-
-            <article class="thoughts__thought thoughts__thought--card">
-              <div class="thought-bg">
-                <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-                  <rect class="thought-art__cell" style="--op:0.14;--delay:0ms" x="70" y="18" width="22" height="22" rx="4" fill="currentColor"/>
-                  <rect class="thought-art__cell" style="--op:0.88;--delay:97ms" x="98" y="18" width="22" height="22" rx="4" fill="#d97757"/>
-                  <rect class="thought-art__cell" style="--op:0.2;--delay:346ms" x="126" y="18" width="22" height="22" rx="4" fill="currentColor"/>
-                  <rect class="thought-art__cell" style="--op:0.42;--delay:519ms" x="154" y="18" width="22" height="22" rx="4" fill="currentColor"/>
-                  <rect class="thought-art__cell" style="--op:0.18;--delay:692ms" x="182" y="18" width="22" height="22" rx="4" fill="currentColor"/>
-                  <rect class="thought-art__cell" style="--op:0.88;--delay:485ms" x="210" y="18" width="22" height="22" rx="4" fill="#d97757"/>
-                  <rect class="thought-art__cell" style="--op:0.36;--delay:1038ms" x="238" y="18" width="22" height="22" rx="4" fill="currentColor"/>
-                  <rect class="thought-art__cell" style="--op:0.16;--delay:1211ms" x="266" y="18" width="22" height="22" rx="4" fill="currentColor"/>
-                  <rect class="thought-art__cell" style="--op:0.14;--delay:1384ms" x="70" y="46" width="22" height="22" rx="4" fill="currentColor"/>
-                  <rect class="thought-art__cell" style="--op:0.88;--delay:873ms" x="98" y="46" width="22" height="22" rx="4" fill="#d97757"/>
-                  <rect class="thought-art__cell" style="--op:0.2;--delay:1730ms" x="126" y="46" width="22" height="22" rx="4" fill="currentColor"/>
-                  <rect class="thought-art__cell" style="--op:0.42;--delay:1903ms" x="154" y="46" width="22" height="22" rx="4" fill="currentColor"/>
-                  <rect class="thought-art__cell" style="--op:0.18;--delay:2076ms" x="182" y="46" width="22" height="22" rx="4" fill="currentColor"/>
-                  <rect class="thought-art__cell" style="--op:0.88;--delay:1261ms" x="210" y="46" width="22" height="22" rx="4" fill="#d97757"/>
-                  <rect class="thought-art__cell" style="--op:0.36;--delay:2422ms" x="238" y="46" width="22" height="22" rx="4" fill="currentColor"/>
-                  <rect class="thought-art__cell" style="--op:0.16;--delay:2595ms" x="266" y="46" width="22" height="22" rx="4" fill="currentColor"/>
-                  <rect class="thought-art__cell" style="--op:0.14;--delay:2768ms" x="70" y="74" width="22" height="22" rx="4" fill="currentColor"/>
-                  <rect class="thought-art__cell" style="--op:0.88;--delay:1649ms" x="98" y="74" width="22" height="22" rx="4" fill="#d97757"/>
-                  <rect class="thought-art__cell" style="--op:0.2;--delay:3114ms" x="126" y="74" width="22" height="22" rx="4" fill="currentColor"/>
-                  <rect class="thought-art__cell" style="--op:0.88;--delay:1843ms" x="154" y="74" width="22" height="22" rx="4" fill="#d97757"/>
-                  <rect class="thought-art__cell" style="--op:0.18;--delay:3460ms" x="182" y="74" width="22" height="22" rx="4" fill="currentColor"/>
-                  <rect class="thought-art__cell" style="--op:0.88;--delay:2037ms" x="210" y="74" width="22" height="22" rx="4" fill="#d97757"/>
-                  <rect class="thought-art__cell" style="--op:0.36;--delay:3806ms" x="238" y="74" width="22" height="22" rx="4" fill="currentColor"/>
-                  <rect class="thought-art__cell" style="--op:0.16;--delay:3979ms" x="266" y="74" width="22" height="22" rx="4" fill="currentColor"/>
-                  <rect class="thought-art__cell" style="--op:0.14;--delay:4152ms" x="70" y="102" width="22" height="22" rx="4" fill="currentColor"/>
-                  <rect class="thought-art__cell" style="--op:0.88;--delay:25ms" x="98" y="102" width="22" height="22" rx="4" fill="#d97757"/>
-                  <rect class="thought-art__cell" style="--op:0.2;--delay:298ms" x="126" y="102" width="22" height="22" rx="4" fill="currentColor"/>
-                  <rect class="thought-art__cell" style="--op:0.88;--delay:219ms" x="154" y="102" width="22" height="22" rx="4" fill="#d97757"/>
-                  <rect class="thought-art__cell" style="--op:0.18;--delay:644ms" x="182" y="102" width="22" height="22" rx="4" fill="currentColor"/>
-                  <rect class="thought-art__cell" style="--op:0.88;--delay:413ms" x="210" y="102" width="22" height="22" rx="4" fill="#d97757"/>
-                  <rect class="thought-art__cell" style="--op:0.36;--delay:990ms" x="238" y="102" width="22" height="22" rx="4" fill="currentColor"/>
-                  <rect class="thought-art__cell" style="--op:0.16;--delay:1163ms" x="266" y="102" width="22" height="22" rx="4" fill="currentColor"/>
-                  <rect class="thought-art__cell" style="--op:0.14;--delay:1336ms" x="70" y="130" width="22" height="22" rx="4" fill="currentColor"/>
-                  <rect class="thought-art__cell" style="--op:0.32;--delay:1509ms" x="98" y="130" width="22" height="22" rx="4" fill="currentColor"/>
-                  <rect class="thought-art__cell" style="--op:0.88;--delay:898ms" x="126" y="130" width="22" height="22" rx="4" fill="#d97757"/>
-                  <rect class="thought-art__cell" style="--op:0.42;--delay:1855ms" x="154" y="130" width="22" height="22" rx="4" fill="currentColor"/>
-                  <rect class="thought-art__cell" style="--op:0.88;--delay:1092ms" x="182" y="130" width="22" height="22" rx="4" fill="#d97757"/>
-                  <rect class="thought-art__cell" style="--op:0.28;--delay:2201ms" x="210" y="130" width="22" height="22" rx="4" fill="currentColor"/>
-                  <rect class="thought-art__cell" style="--op:0.36;--delay:2374ms" x="238" y="130" width="22" height="22" rx="4" fill="currentColor"/>
-                  <rect class="thought-art__cell" style="--op:0.16;--delay:2547ms" x="266" y="130" width="22" height="22" rx="4" fill="currentColor"/>
-                  <rect class="thought-art__cell" style="--op:0.14;--delay:2720ms" x="70" y="158" width="22" height="22" rx="4" fill="currentColor"/>
-                  <rect class="thought-art__cell" style="--op:0.32;--delay:2893ms" x="98" y="158" width="22" height="22" rx="4" fill="currentColor"/>
-                  <rect class="thought-art__cell" style="--op:0.2;--delay:3066ms" x="126" y="158" width="22" height="22" rx="4" fill="currentColor"/>
-                  <rect class="thought-art__cell" style="--op:0.42;--delay:3239ms" x="154" y="158" width="22" height="22" rx="4" fill="currentColor"/>
-                  <rect class="thought-art__cell" style="--op:0.18;--delay:3412ms" x="182" y="158" width="22" height="22" rx="4" fill="currentColor"/>
-                  <rect class="thought-art__cell" style="--op:0.28;--delay:3585ms" x="210" y="158" width="22" height="22" rx="4" fill="currentColor"/>
-                  <rect class="thought-art__cell" style="--op:0.36;--delay:3758ms" x="238" y="158" width="22" height="22" rx="4" fill="currentColor"/>
-                  <rect class="thought-art__cell" style="--op:0.16;--delay:3931ms" x="266" y="158" width="22" height="22" rx="4" fill="currentColor"/>
-                  <text class="thought-art__label" x="262" y="196">ε · N</text>
-                </svg>
-              </div>
-              <div class="thought-content">
-                <span class="thought-date">Apr 2026</span>
-                <h3>
-                  <a href="/blog/model-watermarking"
-                    >You Trained It. Someone Stole It. Now What?</a
-                  >
-                </h3>
-                <p class="common-description">
-                  Output watermarks, weight watermarks, backdoors, LoRA keys, and the gap between research-stage and deployed.
-                </p>
-              </div>
-            </article>
-
-            <!-- hidden for now: Code Is All You Need (Mar 15, 2024)
-            <article class="thoughts__thought thoughts__thought--card">
-              <div
-                class="thought-bg"
-                data-art="lines"
-                data-seed="code-is-all"
-              ></div>
-              <div class="thought-content">
-                <span class="thought-date">Mar 15, 2024</span>
-                <h3>
-                  <a href="/post#coding-agents-is-all-you-need"
-                    >Code Is All You Need</a
-                  >
-                </h3>
-                <p class="common-description">
-                  Allowing agents to create code creates deterministic outcomes.
-                </p>
-              </div>
-            </article>
-            -->
-
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <footer class="footer">
-      <ul class="social-icons">
-        <li>
-          <a
-            href="https://x.com/Pran_Ker"
-            target="_blank"
-            rel="noopener"
-            aria-label="Twitter"
-          >
-            <svg viewBox="0 0 512 512" width="1em" height="1em" fill="currentColor"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/></svg>
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://github.com/Pran-Ker"
-            target="_blank"
-            rel="noopener"
-            aria-label="GitHub"
-          >
-            <svg viewBox="0 0 496 512" width="1em" height="1em" fill="currentColor"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.8-14.9-112.8-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://www.linkedin.com/in/prannay/"
-            target="_blank"
-            rel="noopener"
-            aria-label="LinkedIn"
-          >
-            <svg viewBox="0 0 448 512" width="1em" height="1em" fill="currentColor"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://www.instagram.com/prannay.hebbar/"
-            target="_blank"
-            rel="noopener"
-            aria-label="Instagram"
-          >
-            <svg viewBox="0 0 448 512" width="1em" height="1em" fill="currentColor"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg>
-          </a>
-        </li>
-      </ul>
-    </footer>
-  </body>
+</body>
 </html>

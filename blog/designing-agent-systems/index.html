@@ -1,1089 +1,1036 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>It Forgets Everything. It Sometimes Lies. Build Around It. · Prannay Hebbar</title>
+<!doctype html>
+<html lang="en" data-page="essay">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>It Forgets Everything. It Sometimes Lies. Build Around It. · Prannay Hebbar</title>
+  <meta name="description" content="The model is the most reliable part of your agent; the two defects that actually break it live in the system you own, and both can be designed for.">
+  <link rel="canonical" href="https://prannayh.com/blog/designing-agent-systems">
+  <meta property="og:site_name" content="Prannay Hebbar">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="It Forgets Everything. It Sometimes Lies. Build Around It.">
+  <meta property="og:description" content="The model is the most reliable part of your agent; the two defects that actually break it live in the system you own, and both can be designed for.">
+  <meta property="og:url" content="https://prannayh.com/blog/designing-agent-systems">
+  <meta property="og:image" content="https://prannayh.com/assets/images/opengraph.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="article:published_time" content="2026-06">
+  <meta property="article:author" content="https://prannayh.com/">
+  <meta property="article:section" content="Agent systems">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@Pran_Ker">
+  <meta name="twitter:creator" content="@Pran_Ker">
+  <meta name="twitter:title" content="It Forgets Everything. It Sometimes Lies. Build Around It.">
+  <meta name="twitter:description" content="The model is the most reliable part of your agent; the two defects that actually break it live in the system you own, and both can be designed for.">
+  <meta name="twitter:image" content="https://prannayh.com/assets/images/opengraph.png">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="color-scheme" content="light">
+  <link rel="icon" href="/assets/images/favicon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+  <link rel="preload" href="/assets/fonts/LabGrotesque-Light.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/LabGrotesque-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/LabGrotesqueMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/SourceSerif4-Variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="modulepreload" href="/assets/vendor/three.module.min.js">
+  <link rel="modulepreload" href="/assets/js/cubes.js">
+  <link rel="stylesheet" href="/assets/css/white.css">
+  <script>try{if(sessionStorage.getItem('white.entered')==='1')document.documentElement.dataset.entered=''}catch(e){}</script>
+  <script type="module" src="/assets/js/white.js"></script>
+  <noscript><style>#gate{display:none}.ice-fallback{display:block}body[data-state="gate"] .ice--b,body[data-state="gate"] .ice--c{display:block}body[data-state="gate"] .ice--a{right:12vw;top:16vh}body[data-state="gate"]{overflow:auto}.hud,#main,.foot,.floor{opacity:1!important}.reveal,.rise{opacity:1;transform:none;animation:none}.fig__plate>img,.fig__plate>video{opacity:1;filter:none}.fig__plate::after{display:none}</style></noscript>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "It Forgets Everything. It Sometimes Lies. Build Around It.",
+    "description": "The model is the most reliable part of your agent; the two defects that actually break it live in the system you own, and both can be designed for.",
+    "datePublished": "2026-06",
+    "dateModified": "2026-09",
+    "timeRequired": "PT14M",
+    "articleSection": "Agent systems",
+    "keywords": ["agent systems", "distributed systems", "idempotency", "fencing token", "append-only log", "Designing Data-Intensive Applications", "The Design of Everyday Things"],
+    "inLanguage": "en",
+    "image": "https://prannayh.com/assets/images/opengraph.png",
+    "url": "https://prannayh.com/blog/designing-agent-systems",
+    "mainEntityOfPage": "https://prannayh.com/blog/designing-agent-systems",
+    "isPartOf": { "@type": "Blog", "name": "Writing", "url": "https://prannayh.com/blog" },
+    "author": {
+      "@type": "Person",
+      "name": "Prannay Hebbar",
+      "url": "https://prannayh.com/",
+      "sameAs": ["https://x.com/Pran_Ker", "https://github.com/Pran-Ker", "https://www.linkedin.com/in/prannay/", "https://scholar.google.com/citations?user=Y3jw_UgAAAAJ"]
+    },
+    "publisher": { "@type": "Person", "name": "Prannay Hebbar", "url": "https://prannayh.com/" }
+  }
+  </script>
+</head>
+<body data-state="gate">
 
-    <meta charset="utf-8" />
-    <meta content="ie=edge" http-equiv="x-ua-compatible" />
-    <meta name="handheldfriendly" content="true" />
-    <meta name="viewport" content="initial-scale=1, width=device-width" />
-    <meta name="description" content="Designing AI agents and the systems they run in, drawn from two books written before LLMs existed: Kleppmann's Designing Data-Intensive Applications and Norman's The Design of Everyday Things." />
-    <meta name="theme-color" content="#F2EFE7" />
+<a class="skip" href="#main" data-no-router>Skip to content</a>
 
-    <meta property="og:site_name" content="Prannay Hebbar" />
-    <meta property="og:title" content="It Forgets Everything. It Sometimes Lies. Build Around It." />
-    <meta property="og:description" content="An agent is an unreliable, amnesiac worker in a distributed system. Two old books, on databases and on doorknobs, already wrote the design manual." />
-    <meta property="og:type" content="article" />
+<canvas id="cubes" aria-hidden="true"></canvas>
+<div class="floor" aria-hidden="true"></div>
+<div class="ice-fallback" aria-hidden="true">
+  <div class="ice ice--a"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="ice ice--b"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="ice ice--c"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+</div>
 
-    <link rel="icon" href="/assets/images/favicon-32.png" />
-    <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png" />
+<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-cta" aria-describedby="gate-sub">
+  <span class="gate__name">Prannay Hebbar</span>
+  <div class="gate__center">
+    <button class="gate__cta" id="gate-cta" type="button"><span class="mark" aria-hidden="true"></span>Press to enter</button>
+    <p class="gate__sub" id="gate-sub">Sound on. One track, on loop. Nothing autoplays without you.</p>
+  </div>
+  <span class="gate__hint mono">Enter · Space · Click</span>
+</div>
 
-    <link rel="preload" href="/assets/fonts/LabGrotesque-Regular.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/assets/fonts/LabGrotesque-Bold.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/assets/fonts/LabGrotesqueMono-Regular.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/assets/fonts/SourceSerif4-Variable.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/assets/fonts/SourceSerif4-VariableItalic.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="/assets/css/style.css" />
+<header class="hud">
+  <a class="wordmark" href="/" aria-label="Prannay Hebbar, home">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 21 7v10l-9 5-9-5V7z"/><path d="M3 7l9 5 9-5M12 12v10"/></svg>
+    <span>Prannay Hebbar</span>
+  </a>
+  <nav class="nav" aria-label="Primary">
+    <a href="/">Home</a>
+    <a href="/blog" aria-current="page">Writing</a>
+    <a href="/principles">Principles</a>
+    <a href="/gallery">Gallery</a>
+    <a href="/more">More</a>
+    <a href="/contact">Contact</a>
+  </nav>
+  <div class="transport" role="group" aria-label="Music">
+    <span class="tp-track"><span class="tp-title">Little Voices</span><span class="tp-artist">Lane 8</span></span>
+    <button class="tp-tap" type="button" hidden>Tap for sound</button>
+    <button class="tp-btn tp-mute" type="button" data-on="false" aria-label="Mute">
+      <svg class="ico-off" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5h1.8L6 1.5v7L3.3 6.5H1.5z" fill="currentColor"/><path d="M7.2 3.3a2.4 2.4 0 0 1 0 3.4" stroke="currentColor" stroke-width=".9" fill="none"/></svg>
+      <svg class="ico-on" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5h1.8L6 1.5v7L3.3 6.5H1.5z" fill="currentColor"/><path d="M7 3.8l2 2.4M9 3.8l-2 2.4" stroke="currentColor" stroke-width=".9"/></svg>
+    </button>
+    <span class="tp-time"><span class="vh">Elapsed </span><span class="tp-time__v">00:00</span></span>
+    <span class="beat" aria-hidden="true"></span>
+    <span class="tp-status vh" aria-live="polite"></span>
+  </div>
+</header>
 
-    <style>
-      @font-face {
-        font-family: 'Source Serif 4';
-        src: url('/assets/fonts/SourceSerif4-Variable.woff2') format('woff2');
-        font-weight: 200 900;
-        font-style: normal;
-        font-display: swap;
-      }
-      @font-face {
-        font-family: 'Source Serif 4';
-        src: url('/assets/fonts/SourceSerif4-VariableItalic.woff2') format('woff2');
-        font-weight: 200 900;
-        font-style: italic;
-        font-display: swap;
-      }
+<main id="main" data-page="essay" tabindex="-1">
+<style data-page>
+  /* essay: the 66ch column on a feathered white ground; figures on white with hairlines and one accent */
+  main[data-page="essay"] .essay { --line: rgba(11,13,16,.42); --line-2: rgba(11,13,16,.2); }
+  main[data-page="essay"] .essay__title { max-width: 18ch; }
 
-      :root {
-        --paper: #f2efe7;
-        --card: #fbfaf5;
-        --ink: #1a1915;
-        --soft: #3d3a31;
-        --muted: #6e6859;
-        --faint: #a39d8c;
-        --rule: #e2ddd0;
-        --clay: #c25e3f;
-        --clay-bright: #d97757;
-        --clay-dim: rgba(194, 94, 63, 0.08);
-        --olive: #69793f;
-        --olive-dim: rgba(105, 121, 63, 0.1);
-        --sans: 'Lab Grotesque', -apple-system, sans-serif;
-        --serif: 'Source Serif 4', 'Iowan Old Style', Georgia, serif;
-        --mono: 'Lab Grotesque Mono', 'SF Mono', Monaco, monospace;
-        --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
-      }
+  /* figures. Wide ones take the viewport minus gutters, capped at 800px: a 720-unit drawing lands its 12-unit
+     mono at 12–13px on a laptop and never under 11px, because the drawing keeps a 660px floor. Under ~740px the
+     plate scrolls sideways: the edge fades to white where there is more, and the scroller takes keyboard focus */
+  main[data-page="essay"] .prose .fig--wide { width: min(100vw - 2 * var(--gutter), 800px); margin-left: 50%; transform: translateX(-50%); }
+  /* the caption keeps the column: 66ch measured in the same font .essay measures its own width in */
+  main[data-page="essay"] .prose .fig--wide .fig__cap { width: 100%; max-width: var(--measure); margin: 0 auto; font-family: var(--sans); font-size: var(--t0); }
+  main[data-page="essay"] .fig__plate { overflow: hidden; }
+  main[data-page="essay"] .fig__scroll { overflow-x: auto; overflow-y: hidden; scrollbar-width: thin; }
+  main[data-page="essay"] .fig__scroll:focus-visible { outline-offset: -5px; box-shadow: inset 0 0 0 3px var(--signal); border-radius: 0; }
+  main[data-page="essay"] .fig__scroll > svg { display: block; width: 100%; min-width: 660px; height: auto; }
+  main[data-page="essay"] .fig__scroll > svg[data-min="700"] { min-width: 700px; }
+  /* two drawings of every wide figure: the 720-unit one would scroll on a phone, so under 720px a drawing
+     re-laid out for a narrow plate replaces it and never scrolls (sequence and timeline run downwards there) */
+  main[data-page="essay"] .fig__scroll > .fig__svg--phone { display: none; }
+  main[data-page="essay"] .fig__plate.is-scroll::before, main[data-page="essay"] .fig__plate.is-scroll::after {
+    content: ''; display: block; position: absolute; top: 0; bottom: 0; width: 40px; pointer-events: none; z-index: 1;
+    opacity: 0; transition: opacity var(--fast);
+  }
+  main[data-page="essay"] .fig__plate.is-scroll::before { left: 0; right: auto; background: linear-gradient(90deg, var(--paper), rgba(255,255,255,0)); }
+  main[data-page="essay"] .fig__plate.is-scroll::after  { right: 0; left: auto; background: linear-gradient(270deg, var(--paper), rgba(255,255,255,0)); }
+  main[data-page="essay"] .fig__plate.is-scroll[data-edge~="left"]::before, main[data-page="essay"] .fig__plate.is-scroll[data-edge~="right"]::after { opacity: 1; }
+  main[data-page="essay"] .fig__plate.is-html { padding: var(--s3); }
+  main[data-page="essay"] .fig svg { font-variant-numeric: tabular-nums; }
+  main[data-page="essay"] .fig svg text { user-select: none; }
+  main[data-page="essay"] .fig .m  { font-family: var(--mono); font-size: 12px; letter-spacing: .02em; fill: var(--ash); }   /* the family's annotation: sentence case, quiet tracking */
+  main[data-page="essay"] .fig .m--ink { fill: var(--graphite); }
+  main[data-page="essay"] .fig .t  { font-family: var(--sans); font-size: 13px; letter-spacing: -.01em; fill: var(--ink); }   /* node labels: sentence case, the family's .f-lab in SVG */
+  main[data-page="essay"] .fig .s  { font-family: var(--serif); font-size: 14px; fill: var(--ink); }
+  main[data-page="essay"] .fig .box  { fill: var(--paper); stroke: var(--line); stroke-width: 1; }
+  main[data-page="essay"] .fig .ln   { fill: none; stroke: var(--line); stroke-width: 1; }
+  main[data-page="essay"] .fig .ln--2 { stroke: var(--line-2); }
+  main[data-page="essay"] .fig .ln--hair { stroke: var(--hair); }
+  main[data-page="essay"] .fig .dash { stroke-dasharray: 3 4; }
+  main[data-page="essay"] .fig .mark { fill: var(--signal); stroke: var(--ink); stroke-width: 1; }
+  main[data-page="essay"] .fig .tint { fill: rgba(200,255,0,.55); }
+  main[data-page="essay"] .fig .cross { fill: none; stroke: var(--ink); stroke-width: 1.2; }
+  main[data-page="essay"] .fig .note { fill: var(--ink); }
+  main[data-page="essay"] .fig .head { fill: var(--line); }
+  main[data-page="essay"] .fig .slices rect { fill: rgba(11,13,16,.28); }   /* darker than the hairlines: the holes read as gaps in a barrier, not beads on a string */
 
-      body { background: var(--paper); color: var(--ink); }
-      ::selection { background: rgba(217, 119, 87, 0.28); }
+  /* fig 1 · two defects (HTML) */
+  main[data-page="essay"] .defects {
+    position: relative; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto 48px auto; column-gap: var(--s5);
+    grid-template-areas: "a1 a2" "b1 b2" "c1 c2";
+  }
+  main[data-page="essay"] .defects::before { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: var(--hair); }
+  main[data-page="essay"] .d-a1 { grid-area: a1; } main[data-page="essay"] .d-a2 { grid-area: a2; }
+  main[data-page="essay"] .d-b1 { grid-area: b1; } main[data-page="essay"] .d-b2 { grid-area: b2; }
+  main[data-page="essay"] .d-c1 { grid-area: c1; } main[data-page="essay"] .d-c2 { grid-area: c2; }
+  main[data-page="essay"] .dbox { border: 1px solid var(--line); border-radius: 3px; padding: 14px 16px; display: grid; gap: 6px; background: var(--paper); align-content: start; }
+  main[data-page="essay"] .dbox__t { font-family: var(--sans); font-size: var(--t-1); letter-spacing: -.01em; color: var(--ink); }
+  main[data-page="essay"] .dbox__m { font-family: var(--mono); font-size: var(--t-mono); letter-spacing: .02em; color: var(--ash); line-height: 1.6; }
+  main[data-page="essay"] .dbox ul { display: grid; gap: 2px; margin-top: 4px; }
+  main[data-page="essay"] .dbox li { font-family: var(--sans); font-size: var(--t-1); letter-spacing: -.01em; color: var(--graphite); line-height: 1.4; }   /* content, not annotation: the family's .f-lab */
+  main[data-page="essay"] .darrow { display: block; width: 12px; height: 48px; margin: 0 auto; }
+  main[data-page="essay"] .defects__mid {
+    grid-row: 2; grid-column: 1 / -1; place-self: center;
+    display: inline-flex; align-items: center; gap: 10px; padding: 0 6px; background: var(--paper);
+    font-family: var(--mono); font-size: var(--t-mono); letter-spacing: .02em; color: var(--graphite); white-space: nowrap;
+  }
+  main[data-page="essay"] .defects__mid::before, main[data-page="essay"] .defects__mid::after { content: ''; width: 14px; height: 1px; background: var(--line); }
+  main[data-page="essay"] .defects__mid u { text-decoration: none; border-bottom: 3px solid var(--signal); box-shadow: 0 1px 0 var(--ink); }
 
-      .article {
-        max-width: 680px;
-        margin: 0 auto;
-        padding: 7.5rem 1.4rem 6rem;
-        font-family: var(--serif);
-        font-size: 1.075rem;
-        line-height: 1.72;
-        color: var(--soft);
-        font-optical-sizing: auto;
-      }
-      @media (min-width: 64em) { .article { font-size: 1.14rem; } }
+  /* fig 6 · knowledge in the world (interactive) */
+  main[data-page="essay"] .world { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: var(--s3); align-items: stretch; }
+  main[data-page="essay"] .world__panel { border: 1px solid var(--line); border-radius: 3px; padding: 16px 20px 18px 24px; display: grid; gap: 10px; align-content: start; background: var(--paper); }
+  main[data-page="essay"] .world__h { font-family: var(--sans); font-size: var(--t-1); letter-spacing: -.01em; color: var(--ink); }
+  main[data-page="essay"] .world__p { font-family: var(--serif); font-size: var(--t-serif-s); line-height: 1.45; color: var(--ink); transition: opacity .2s; }
+  main[data-page="essay"] .world__result, main[data-page="essay"] .world__status { transition: opacity .2s; }
+  main[data-page="essay"] .fig__plate .is-fading { opacity: 0; }
+  main[data-page="essay"] .world__file { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: var(--t-mono); letter-spacing: .08em; color: var(--graphite); transition: opacity .2s; }
+  main[data-page="essay"] .world__file svg { width: 12px; height: 14px; flex: none; }
+  main[data-page="essay"] .world__file[hidden] { display: none; }
+  main[data-page="essay"] .world__wipe { display: grid; justify-items: center; align-content: center; gap: 8px; font-family: var(--mono); font-size: var(--t-mono); letter-spacing: .02em; color: var(--ash); text-align: center; }
+  main[data-page="essay"] .world__wipe svg { width: 56px; height: 12px; }
+  /* the tick hangs in the panel's left padding on the first line, so "Reads" aligns with "Discovers" opposite */
+  main[data-page="essay"] .world__result { display: flex; align-items: flex-start; gap: 6px; margin-left: -18px; }
+  main[data-page="essay"] .world__result svg { width: 12px; height: 12px; flex: none; margin-top: 5px; }
+  main[data-page="essay"] .world__result svg[hidden], main[data-page="essay"] .world__p[hidden] { display: none; }
+  main[data-page="essay"] .switch { display: inline-flex; align-items: center; gap: 12px; margin-top: 6px; font-family: var(--sans); font-size: var(--t-1); letter-spacing: -.01em; color: var(--graphite); }
+  main[data-page="essay"] .switch__pill { position: relative; width: 38px; height: 20px; border: 1px solid var(--ink); border-radius: 999px; background: var(--paper); flex: none; transition: background var(--fast); }
+  main[data-page="essay"] .switch__pill::after { content: ''; position: absolute; top: 3px; left: 3px; width: 12px; height: 12px; border-radius: 50%; background: var(--ink); transition: transform .2s var(--ease-out); }
+  main[data-page="essay"] .switch[aria-checked="true"] .switch__pill::after { transform: translateX(18px); background: var(--signal); box-shadow: 0 0 0 1px var(--ink); }
+  main[data-page="essay"] .switch:hover .switch__pill { background: var(--paper-2); }
+  main[data-page="essay"] .world__status { margin-top: var(--s3); padding-top: 12px; border-top: 1px solid var(--hair); font-family: var(--mono); font-size: var(--t-mono); letter-spacing: .02em; color: var(--ash); }
+  main[data-page="essay"] .world__status b { font-weight: 400; color: var(--graphite); }
 
-      .back-link {
-        display: inline-block;
-        margin-bottom: 3rem;
-        color: var(--faint);
-        font-family: var(--mono);
-        font-size: 0.72rem;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        text-decoration: none;
-        transition: color 150ms ease;
-      }
-      @media (hover: hover) and (pointer: fine) {
-        .back-link:hover { color: var(--clay); }
-      }
+  /* animated figures: the markup is the final frame; .is-play (added once, in view) runs it from the start */
+  main[data-page="essay"] .fig .fade { opacity: 1; }
+  main[data-page="essay"] .fig.is-play .fade { animation: figFade .5s var(--ease-out) both; animation-delay: var(--d, 0s); }
+  @keyframes figFade { from { opacity: 0; } to { opacity: 1; } }
+  main[data-page="essay"] .fig .note { opacity: 0; }
+  main[data-page="essay"] .fig.is-play .note { animation: noteRun .6s linear both; animation-delay: var(--d, 0s); }
+  main[data-page="essay"] .fig.is-play .note--lost { animation-name: noteLost; }
+  @keyframes noteRun  { 0% { transform: translate(var(--x0), var(--y0)); opacity: 0; } 8% { opacity: 1; } 92% { opacity: 1; } 100% { transform: translate(var(--x1), var(--y1)); opacity: 0; } }
+  @keyframes noteLost { 0% { transform: translate(var(--x0), var(--y0)); opacity: 0; } 8% { opacity: 1; } 50% { transform: translate(var(--x1), var(--y1)); opacity: 1; } 62% { transform: translate(var(--x1), var(--y1)); opacity: 0; } 100% { transform: translate(var(--x1), var(--y1)); opacity: 0; } }
+  main[data-page="essay"] .fig .draw { transform: scaleX(1); transform-box: fill-box; transform-origin: left; }
+  main[data-page="essay"] .fig.is-play .draw { animation: figDraw 1.2s var(--ease-io) both; animation-delay: var(--d, 0s); }
+  @keyframes figDraw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  main[data-page="essay"] .fig .draw--y { transform: scaleY(1); transform-origin: top; }
+  main[data-page="essay"] .fig.is-play .draw--y { animation-name: figDrawY; }
+  @keyframes figDrawY { from { transform: scaleY(0); } to { transform: scaleY(1); } }
 
-      .eyebrow {
-        font-family: var(--mono);
-        font-size: 0.72rem;
-        letter-spacing: 0.22em;
-        text-transform: uppercase;
-        color: var(--clay);
-        margin: 0 0 1.2rem;
-      }
-      .article h1 {
-        font-family: var(--sans);
-        font-size: clamp(2.1rem, 5.4vw, 3.4rem);
-        line-height: 1.05;
-        font-weight: 700;
-        letter-spacing: -0.026em;
-        color: var(--ink);
-        margin: 0 0 1.4rem;
-      }
-      .article .meta {
-        font-family: var(--sans);
-        color: var(--muted);
-        font-size: 0.92rem;
-        letter-spacing: 0.01em;
-        padding-bottom: 2rem;
-        border-bottom: 1px solid var(--rule);
-        margin-bottom: 2.4rem;
-      }
-      .meta .dot { color: var(--faint); margin: 0 0.45em; }
+  @media (prefers-reduced-motion: reduce) {
+    main[data-page="essay"] .fig .fade, main[data-page="essay"] .fig .note, main[data-page="essay"] .fig .draw { animation: none !important; }
+    main[data-page="essay"] .world__p, main[data-page="essay"] .world__file, main[data-page="essay"] .world__result, main[data-page="essay"] .world__status,
+    main[data-page="essay"] .switch__pill, main[data-page="essay"] .switch__pill::after, main[data-page="essay"] .fig__plate.is-scroll::before, main[data-page="essay"] .fig__plate.is-scroll::after { transition: none; }
+  }
+  /* white.css collapses .fig--wide to the column at 900px; this page keeps it wide until 720px on purpose (a
+     768 tablet fits the 660px drawing without scrolling), so both breakpoints are stated here explicitly */
+  @media (max-width: 900px) {
+    main[data-page="essay"] .prose .fig--wide { width: min(100vw - 2 * var(--gutter), 800px); margin-left: 50%; transform: translateX(-50%); }
+  }
+  @media (max-width: 720px) {
+    main[data-page="essay"] .prose .fig--wide { width: 100%; margin-left: 0; transform: none; }
+    main[data-page="essay"] .fig__scroll > .fig__svg--wide:not(:only-child) { display: none; }
+    main[data-page="essay"] .fig__scroll > .fig__svg--phone { display: block; min-width: 0; max-width: 380px; margin: 0 auto; }
+    main[data-page="essay"] .fig__svg--phone .t { font-size: 12px; }   /* "Orchestrator" fits its 112-unit box */
+    main[data-page="essay"] .fig__plate.is-html { padding: var(--s2); }
+    main[data-page="essay"] .defects { grid-template-columns: 1fr; grid-template-rows: auto 48px auto 64px auto 48px auto; grid-template-areas: "a1" "b1" "c1" "mid" "a2" "b2" "c2"; }
+    main[data-page="essay"] .defects::before { left: 0; right: 0; top: auto; bottom: auto; width: auto; height: 1px; grid-area: mid; align-self: center; position: static; }
+    main[data-page="essay"] .defects__mid { grid-area: mid; }
+    main[data-page="essay"] .world { grid-template-columns: 1fr; }
+    main[data-page="essay"] .world__wipe { padding: 4px 0; }
+    main[data-page="essay"] .world__wipe svg { transform: rotate(90deg); width: 40px; }
+  }
+</style>
 
-      .hero { margin: 0 0 2.6rem; }
-      .hero svg { display: block; width: 100%; height: auto; }
+<div class="wrap">
+<article class="essay haze" aria-labelledby="title">
 
-      .lead {
-        font-size: 1.34rem;
-        line-height: 1.52;
-        color: var(--ink);
-        margin: 0 0 2rem;
-        font-weight: 430;
-        letter-spacing: -0.005em;
-      }
+  <header class="essay__head">
+    <p class="essay__meta"><span>Agent systems</span><span><time datetime="2026-06">June 2026</time></span><span>14 min read</span></p>
+    <h1 id="title" class="essay__title">It Forgets Everything. It&nbsp;Sometimes&nbsp;Lies. Build&nbsp;Around&nbsp;It.</h1>
+    <p class="essay__deck">The model is the most reliable part of your agent; the two defects that actually break it live in the system you own, and both can be designed for.</p>
+  </header>
 
-      .article p { margin: 0 0 1.25rem; }
-      .article strong { font-weight: 640; color: var(--ink); }
-      .article em { font-style: italic; }
-      .article code {
-        font-family: var(--mono);
-        background: rgba(26, 25, 21, 0.055);
-        padding: 0.08em 0.34em;
-        border-radius: 4px;
-        font-size: 0.82em;
-        color: var(--ink);
-      }
+  <div class="prose">
 
-      /* page-load orchestration */
-      .rise { opacity: 0; transform: translateY(12px); animation: rise 0.6s var(--ease-out) forwards; }
-      .rise.r2 { animation-delay: 0.06s; }
-      .rise.r3 { animation-delay: 0.12s; }
-      .rise.r4 { animation-delay: 0.2s; }
-      .rise.r5 { animation-delay: 0.3s; }
-      @keyframes rise { to { opacity: 1; transform: none; } }
-      @media (prefers-reduced-motion: reduce) { .rise { animation: none; opacity: 1; transform: none; } }
+    <p>The email may have gone out. The confirmation never came back. Your agent is now holding a timeout and has to decide what happened, and there is no way to know from where it stands. Send again and the customer gets two emails. Do nothing and maybe nobody got one.</p>
 
-      /* figure choreography: initial states exist only under .fig-anim
-         (added by JS, skipped for reduced motion), so no-JS readers see everything */
-      .fig-anim .pop {
-        opacity: 0;
-        transform: translateY(8px) scale(0.97);
-        transform-box: fill-box;
-        transform-origin: center;
-        transition: opacity 450ms var(--ease-out), transform 450ms var(--ease-out);
-        transition-delay: var(--d, 0ms);
-      }
-      .fig-anim .fade { opacity: 0; transition: opacity 500ms ease; transition-delay: var(--d, 0ms); }
-      .fig-anim .draw {
-        stroke-dasharray: 1;
-        stroke-dashoffset: 1;
-        opacity: 0;
-        transition: stroke-dashoffset 650ms var(--ease-out), opacity 200ms ease;
-        transition-delay: var(--d, 0ms);
-      }
-      .fig-on .pop { opacity: 1; transform: translateY(0) scale(1); }
-      .fig-on .fade { opacity: 1; }
-      .fig-on .draw { stroke-dashoffset: 0; opacity: 1; }
+    <p>Nothing about that situation is the model's fault. The model did its job: it decided to send the email and asked for the tool. Everything that went wrong happened in the part you built.</p>
 
-      .fig-anim .bar-grow { transform: scaleX(0); transform-origin: left; transition: transform 850ms var(--ease-out); }
-      .fig-on .bar-grow { transform: scaleX(1); }
+    <h2 id="two-defects">Two defects</h2>
 
-      .part-label {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        margin: 4.6rem 0 0;
-        font-family: var(--mono);
-        font-size: 0.72rem;
-        text-transform: uppercase;
-        letter-spacing: 0.24em;
-        color: var(--clay);
-      }
-      .part-label::after { content: ""; flex: 1; height: 1px; background: var(--rule); }
+    <p>We keep talking about agents as if the work is making the model smarter. The frontier model is the one component you did not build and cannot fix, and it improves on its own schedule. What you own is the system around it: the memory, the tools, the orchestration, the files on disk. Reliability is won or lost there.</p>
 
-      .article h2 {
-        font-family: var(--sans);
-        font-size: 1.42rem;
-        font-weight: 700;
-        letter-spacing: -0.014em;
-        color: var(--ink);
-        margin: 3.4rem 0 1rem;
-        line-height: 1.22;
-      }
-      .article h2 .num {
-        display: block;
-        font-family: var(--mono);
-        font-size: 0.7rem;
-        font-weight: 400;
-        color: var(--clay);
-        letter-spacing: 0.26em;
-        margin-bottom: 0.5rem;
-      }
+    <p>Almost every failure traces back to two defects you can design for. The agent forgets everything between sessions, because its context window is wiped each time. And it sometimes acts with total confidence on something false, because a language model fails by lying, not by crashing.</p>
 
-      .pull-quote {
-        font-size: 1.36rem;
-        line-height: 1.48;
-        font-style: italic;
-        font-weight: 420;
-        margin: 2.6rem 0;
-        padding-left: 1.4rem;
-        border-left: 2px solid var(--clay-bright);
-        color: var(--ink);
-      }
-      .pull-quote cite {
-        display: block;
-        margin-top: 0.7rem;
-        font-family: var(--mono);
-        font-size: 0.72rem;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        color: var(--muted);
-        font-style: normal;
-      }
+    <p>Neither yields to a better prompt. Forgetting is beaten before the action, by designing the world the agent wakes up in. Lying is beaten after the action, by designing the system that catches what slips through. Every rule below is one of those two moves.</p>
 
-      /* figures */
-      .figure {
-        margin: 2.8rem -1rem;
-        padding: 2rem 1.4rem 1.5rem;
-        background: var(--card);
-        border: 1px solid var(--rule);
-        border-radius: 12px;
-        box-shadow: 0 1px 2px rgba(26, 25, 21, 0.03), 0 10px 30px rgba(26, 25, 21, 0.04);
-      }
-      @media (min-width: 56em) {
-        .figure { margin: 2.8rem -3.5rem; padding: 2.4rem 2.8rem 1.8rem; }
-      }
-      .figure svg { display: block; width: 100%; height: auto; }
-      .figure__caption {
-        font-family: var(--sans);
-        font-size: 0.85rem;
-        color: var(--muted);
-        line-height: 1.55;
-        margin: 1.4rem auto 0;
-        max-width: 58ch;
-        text-align: center;
-      }
-      .figure__caption b { font-weight: 640; color: var(--ink); }
-
-      /* svg type */
-      .f-t { font-family: var(--sans); font-weight: 600; font-size: 12px; letter-spacing: 0.02em; fill: #1a1915; }
-      .f-s { font-family: var(--sans); font-size: 11px; fill: #6e6859; }
-      .f-m { font-family: var(--mono); font-size: 10.5px; fill: #6e6859; }
-      .f-x { font-family: var(--mono); font-size: 10px; fill: #a39d8c; }
-
-      /* asides */
-      .aside {
-        margin: 2.2rem 0;
-        padding: 1.3rem 1.5rem 1.1rem;
-        background: var(--card);
-        border: 1px solid var(--rule);
-        border-radius: 10px;
-        font-size: 0.97em;
-      }
-      .aside__label {
-        font-family: var(--mono);
-        font-size: 0.66rem;
-        letter-spacing: 0.22em;
-        text-transform: uppercase;
-        color: var(--clay);
-        margin-bottom: 0.8rem;
-      }
-      .aside ol { margin: 0; padding-left: 1.4rem; list-style: decimal; }
-      .aside li { margin-bottom: 0.7rem; }
-      .aside li::marker { color: var(--clay); font-family: var(--sans); font-size: 0.88em; }
-      .aside li:last-child { margin-bottom: 0.2rem; }
-
-      /* constraints quad */
-      .quad {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 0.9rem;
-        margin: 2.2rem 0;
-      }
-      @media (min-width: 40em) { .quad { grid-template-columns: 1fr 1fr; } }
-      .quad-card {
-        border: 1px solid var(--rule);
-        border-radius: 10px;
-        background: var(--card);
-        padding: 1.1rem 1.25rem 1rem;
-        font-size: 0.94em;
-        line-height: 1.6;
-      }
-      .quad-card h4 {
-        margin: 0 0 0.45rem;
-        font-family: var(--mono);
-        font-size: 0.68rem;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        color: var(--clay);
-        font-weight: 400;
-      }
-      .quad-card p { margin: 0; color: var(--soft); }
-
-      /* interactive: knowledge in the world */
-      .kw { display: grid; grid-template-columns: 1fr; gap: 0.9rem; }
-      @media (min-width: 40em) { .kw { grid-template-columns: 1fr 1fr; } }
-      .kw-card {
-        border: 1px solid var(--rule);
-        border-radius: 10px;
-        padding: 1rem 1.15rem;
-        background: #fff;
-        min-height: 7.4rem;
-      }
-      .kw-card h4 {
-        margin: 0 0 0.55rem;
-        font-family: var(--mono);
-        font-size: 0.66rem;
-        text-transform: uppercase;
-        letter-spacing: 0.18em;
-        color: var(--faint);
-        font-weight: 400;
-      }
-      .kw-body { font-family: var(--sans); font-size: 0.9rem; line-height: 1.55; color: var(--soft); }
-      .kw-body.good { color: var(--olive); }
-      .kw-body.bad { color: var(--clay); }
-      .kw-disk {
-        margin-top: 1.1rem;
-        border: 1px dashed var(--rule);
-        border-radius: 8px;
-        padding: 0.7rem 1rem;
-        font-family: var(--mono);
-        font-size: 0.76rem;
-        letter-spacing: 0.04em;
-        color: var(--muted);
-        background: var(--card);
-        transition: background-color 250ms ease, border-color 250ms ease, color 250ms ease;
-      }
-      .kw-disk.on { border-color: var(--olive); color: var(--olive); background: var(--olive-dim); }
-      .kw-disk.off { border-color: var(--clay); color: var(--clay); background: var(--clay-dim); }
-      .kw-toggle {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.6rem;
-        margin-top: 1.1rem;
-        padding: 0.55rem 1.05rem;
-        border: 1px solid var(--ink);
-        background: var(--ink);
-        color: var(--paper);
-        border-radius: 999px;
-        font-family: var(--mono);
-        font-size: 0.74rem;
-        letter-spacing: 0.08em;
-        cursor: pointer;
-        transition: transform 160ms var(--ease-out), background-color 160ms ease, border-color 160ms ease;
-      }
-      .kw-toggle:active { transform: scale(0.97); }
-      @media (hover: hover) and (pointer: fine) {
-        .kw-toggle:hover { background: var(--clay); border-color: var(--clay); color: #fff; }
-      }
-      .kw-toggle .dot { width: 8px; height: 8px; border-radius: 50%; background: #9db069; transition: background-color 250ms ease; }
-      .kw-toggle.off .dot { background: #e89272; }
-
-      /* build sheet */
-      .sheet {
-        margin: 2.4rem 0;
-        border: 1px solid var(--rule);
-        border-radius: 12px;
-        overflow: hidden;
-        background: var(--card);
-        box-shadow: 0 1px 2px rgba(26, 25, 21, 0.03), 0 10px 30px rgba(26, 25, 21, 0.04);
-      }
-      .sheet__head {
-        background: var(--ink);
-        color: var(--paper);
-        padding: 0.95rem 1.3rem;
-        font-family: var(--mono);
-        font-size: 0.7rem;
-        text-transform: uppercase;
-        letter-spacing: 0.24em;
-      }
-      .sheet__row {
-        display: grid;
-        grid-template-columns: 104px 1fr;
-        gap: 1rem;
-        padding: 0.85rem 1.3rem;
-        border-top: 1px solid var(--rule);
-        align-items: baseline;
-        font-size: 0.93em;
-        line-height: 1.58;
-      }
-      @media (hover: hover) and (pointer: fine) {
-        .sheet__row { transition: background-color 150ms ease; }
-        .sheet__row:hover { background: #fff; }
-      }
-      .sheet__row span.k {
-        font-family: var(--mono);
-        font-size: 0.66rem;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        color: var(--clay);
-      }
-      .sheet__row b { font-weight: 640; color: var(--ink); }
-
-      .footer-note {
-        margin-top: 4.5rem;
-        padding-top: 2rem;
-        border-top: 1px solid var(--rule);
-        color: var(--muted);
-        font-size: 0.92rem;
-        line-height: 1.65;
-      }
-      .footer-note a { color: var(--ink); border-bottom: 1px solid var(--rule); text-decoration: none; transition: color 150ms ease, border-color 150ms ease; }
-      @media (hover: hover) and (pointer: fine) {
-        .footer-note a:hover { border-color: var(--clay); color: var(--clay); }
-      }
-    </style>
-  </head>
-
-  <body>
-    <input class="nav-active" id="nav-active" type="checkbox" />
-    <label class="nav-underlay" for="nav-active"></label>
-
-    <nav class="nav">
-      <div class="nav__logo">
-        <a href="/" aria-label="Home"><img src="/assets/images/logo-black.svg" alt="Prannay Hebbar" /></a>
+    <figure class="fig" id="fig-two-defects" aria-labelledby="cap-two-defects">
+      <div class="fig__plate is-html">
+        <div class="defects">
+          <div class="dbox d-a1">
+            <span class="dbox__t">It forgets</span>
+            <span class="dbox__m">context wiped every session</span>
+          </div>
+          <svg class="darrow d-b1" viewBox="0 0 12 48" aria-hidden="true"><path d="M6 0v42" class="ln"/><path d="M2 40l4 6 4-6" class="ln"/></svg>
+          <div class="dbox d-c1">
+            <span class="dbox__t">Prevent · before the action</span>
+            <ul>
+              <li>knowledge in the world</li>
+              <li>constraints</li>
+              <li>signifiers</li>
+            </ul>
+          </div>
+          <div class="dbox d-a2">
+            <span class="dbox__t">It sometimes lies</span>
+            <span class="dbox__m">fluent, confident, wrong</span>
+          </div>
+          <svg class="darrow d-b2" viewBox="0 0 12 48" aria-hidden="true"><path d="M6 0v42" class="ln"/><path d="M2 40l4 6 4-6" class="ln"/></svg>
+          <div class="dbox d-c2">
+            <span class="dbox__t">Tolerate · after the action</span>
+            <ul>
+              <li>idempotency</li>
+              <li>fencing token</li>
+              <li>end-to-end check</li>
+              <li>append-only log</li>
+            </ul>
+          </div>
+          <span class="defects__mid">one <u>action</u></span>
+        </div>
       </div>
-      <div class="nav__toggle"><label for="nav-active"><span>Menu</span></label></div>
-      <div class="nav__options">
-        <ul>
-          <li><a href="/" class="mobile-menu-text">TLDR</a></li>
-          <li><a href="/blog" class="mobile-menu-text">Blogs</a></li>
-          <li><a href="/principles" class="mobile-menu-text">Principles</a></li>
-          <li><a href="/more" class="mobile-menu-text">Other Stuff</a></li>
-          <li><a href="/contact" class="mobile-menu-text">Contact</a></li>
-        </ul>
+      <figcaption class="fig__cap" id="cap-two-defects">
+        <span class="fig__t">Two defects, two design answers</span>
+        <span class="fig__meta">Fig. 01 · Schematic</span>
+        <span class="fig__note">Two defects, two design answers. Forgetting is fixed before the action; lying is fixed after it. The rest of the essay is these two columns.</span></figcaption>
+    </figure>
+
+    <h2 id="part-one">Part one · Tolerate the failure you can't prevent</h2>
+
+    <h3 id="a-factory-not-a-brain">A factory, not a brain</h3>
+
+    <p>Stop picturing your agent as a brain you prompt. Picture a small factory of workers passing notes. The orchestrator hands a note to the model, the model asks for a tool, the tool writes to memory, a sub-agent reports back. Every note between workers can be lost, delayed, duplicated, or arrive out of order. And one worker, the model, can hand back a note that is fluent and wrong.</p>
+
+    <p>A multi-agent system is a distributed system, and it inherits every failure mode of one. This is the most useful reframe in agent engineering. The defining trait of distributed systems is partial failure, and partial failure is nondeterministic: you often cannot tell whether a step succeeded. Here is the factory with every place a note can go wrong:</p>
+
+    <figure class="fig fig--wide" id="fig-factory" data-anim aria-labelledby="cap-factory">
+      <div class="fig__plate is-scroll">
+        <div class="fig__scroll" data-focus-x="360">
+        <svg class="fig__svg--wide" viewBox="0 0 720 320" role="img" aria-label="Five boxes, orchestrator, model, tool, memory and sub-agent, joined by arrows. A note on the orchestrator-to-tool arrow vanishes halfway, marked with a cross: lost, or delivered and the reply lost. The model box is marked fluent, sometimes wrong.">
+            <defs>
+              <marker id="ah-factory" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0.5 7 4 0 7.5z" class="head"/></marker>
+            </defs>
+            <!-- boxes -->
+            <rect class="box" x="40" y="140" width="132" height="40" rx="2"/>
+            <text class="t" x="106" y="164" text-anchor="middle">Orchestrator</text>
+            <rect class="box" x="294" y="24" width="132" height="40" rx="2"/>
+            <text class="t" x="360" y="48" text-anchor="middle">Model</text>
+            <text class="m m--ink fade" style="--d:2.2s" x="360" y="84" text-anchor="middle">fluent, sometimes wrong</text>
+            <rect class="box" x="548" y="140" width="132" height="40" rx="2"/>
+            <text class="t" x="614" y="164" text-anchor="middle">Tool</text>
+            <rect class="box" x="548" y="256" width="132" height="40" rx="2"/>
+            <text class="t" x="614" y="280" text-anchor="middle">Memory</text>
+            <rect class="box" x="40" y="256" width="132" height="40" rx="2"/>
+            <text class="t" x="106" y="280" text-anchor="middle">Sub-agent</text>
+            <!-- arrows -->
+            <path class="ln" marker-end="url(#ah-factory)" d="M150 140 294 40"/>
+            <path class="ln" marker-end="url(#ah-factory)" d="M294 58 172 152"/>
+            <path class="ln" marker-end="url(#ah-factory)" d="M172 170 548 170"/>
+            <path class="ln" marker-end="url(#ah-factory)" d="M614 180 614 256"/>
+            <path class="ln" marker-end="url(#ah-factory)" d="M96 180 96 256"/>
+            <path class="ln" marker-end="url(#ah-factory)" d="M116 256 116 180"/>
+            <!-- notes: one per arrow, in reading order -->
+            <rect class="note" width="6" height="6" x="-3" y="-3" style="--x0:154px;--y0:137px;--x1:284px;--y1:47px;--d:0s"/>
+            <rect class="note" width="6" height="6" x="-3" y="-3" style="--x0:290px;--y0:61px;--x1:180px;--y1:146px;--d:.6s"/>
+            <rect class="note note--lost" width="6" height="6" x="-3" y="-3" style="--x0:178px;--y0:170px;--x1:360px;--y1:170px;--d:1.2s"/>
+            <rect class="note" width="6" height="6" x="-3" y="-3" style="--x0:614px;--y0:186px;--x1:614px;--y1:248px;--d:1.8s"/>
+            <rect class="note" width="6" height="6" x="-3" y="-3" style="--x0:96px;--y0:186px;--x1:96px;--y1:248px;--d:2.4s"/>
+            <rect class="note" width="6" height="6" x="-3" y="-3" style="--x0:116px;--y0:250px;--x1:116px;--y1:188px;--d:3s"/>
+            <!-- the loss -->
+            <g class="fade" style="--d:1.55s">
+              <rect class="mark" x="355" y="165" width="10" height="10"/>
+              <path class="cross" d="M357 167l6 6M363 167l-6 6"/>
+              <text class="m" x="360" y="198" text-anchor="middle">lost, or delivered and the reply lost</text>
+            </g>
+        </svg>
+        <svg class="fig__svg--phone" viewBox="0 0 340 330" role="img" aria-label="Five boxes, orchestrator, model, tool, memory and sub-agent, joined by arrows. A note on the orchestrator-to-tool arrow vanishes halfway, marked with a cross: lost, or delivered and the reply lost. The model box is marked fluent, sometimes wrong.">
+            <defs>
+              <marker id="ah-factory-p" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0.5 7 4 0 7.5z" class="head"/></marker>
+            </defs>
+            <!-- boxes -->
+            <text class="m m--ink fade" style="--d:2.2s" x="170" y="18" text-anchor="middle">fluent, sometimes wrong</text>
+            <rect class="box" x="120" y="30" width="100" height="36" rx="2"/>
+            <text class="t" x="170" y="53" text-anchor="middle">Model</text>
+            <rect class="box" x="10" y="150" width="112" height="36" rx="2"/>
+            <text class="t" x="66" y="173" text-anchor="middle">Orchestrator</text>
+            <rect class="box" x="218" y="150" width="112" height="36" rx="2"/>
+            <text class="t" x="274" y="173" text-anchor="middle">Tool</text>
+            <rect class="box" x="218" y="270" width="112" height="36" rx="2"/>
+            <text class="t" x="274" y="293" text-anchor="middle">Memory</text>
+            <rect class="box" x="10" y="270" width="112" height="36" rx="2"/>
+            <text class="t" x="66" y="293" text-anchor="middle">Sub-agent</text>
+            <!-- arrows -->
+            <path class="ln" marker-end="url(#ah-factory-p)" d="M90 150 142 68"/>
+            <path class="ln" marker-end="url(#ah-factory-p)" d="M126 68 74 150"/>
+            <path class="ln" marker-end="url(#ah-factory-p)" d="M122 168 218 168"/>
+            <path class="ln" marker-end="url(#ah-factory-p)" d="M274 186 274 270"/>
+            <path class="ln" marker-end="url(#ah-factory-p)" d="M56 186 56 270"/>
+            <path class="ln" marker-end="url(#ah-factory-p)" d="M78 270 78 186"/>
+            <!-- notes: one per arrow, in reading order -->
+            <rect class="note" width="6" height="6" x="-3" y="-3" style="--x0:94px;--y0:146px;--x1:138px;--y1:76px;--d:0s"/>
+            <rect class="note" width="6" height="6" x="-3" y="-3" style="--x0:122px;--y0:72px;--x1:78px;--y1:144px;--d:.6s"/>
+            <rect class="note note--lost" width="6" height="6" x="-3" y="-3" style="--x0:128px;--y0:168px;--x1:170px;--y1:168px;--d:1.2s"/>
+            <rect class="note" width="6" height="6" x="-3" y="-3" style="--x0:274px;--y0:192px;--x1:274px;--y1:262px;--d:1.8s"/>
+            <rect class="note" width="6" height="6" x="-3" y="-3" style="--x0:56px;--y0:192px;--x1:56px;--y1:262px;--d:2.4s"/>
+            <rect class="note" width="6" height="6" x="-3" y="-3" style="--x0:78px;--y0:264px;--x1:78px;--y1:194px;--d:3s"/>
+            <!-- the loss -->
+            <g class="fade" style="--d:1.55s">
+              <rect class="mark" x="165" y="163" width="10" height="10"/>
+              <path class="cross" d="M167 165l6 6M173 165l-6 6"/>
+              <text class="m" x="170" y="202" text-anchor="middle">lost, or delivered</text>
+              <text class="m" x="170" y="218" text-anchor="middle">and the reply lost</text>
+            </g>
+        </svg>
+        </div>
       </div>
-    </nav>
+      <figcaption class="fig__cap" id="cap-factory">
+        <span class="fig__t">Every arrow is a message that can be lost</span>
+        <span class="fig__meta">Fig. 02 · Animated</span>
+        <span class="fig__note">Every arrow is a place a note can go wrong. A tool call that times out is the canonical case: the request was lost, or it ran and the reply was lost. The absence of an answer tells you nothing.</span></figcaption>
+    </figure>
 
-    <header class="header">
-      <h1><a href="/" aria-label="Prannay Hebbar"><img src="/assets/images/logo.svg" alt="Prannay Hebbar" /></a></h1>
-      <ul>
-        <li><a href="/">TLDR</a></li>
-        <li><a href="/blog">Blogs</a></li>
-        <li><a href="/principles">Principles</a></li>
-        <li><a href="/more">Other Stuff</a></li>
-        <li><a href="/contact">Contact</a></li>
-      </ul>
-    </header>
+    <p>The reframe cuts the other way too. Architectures get rebuilt at every order of magnitude of load, and the systems crowd has a famous paper asking whether your cluster beats a single laptop. Do not fan out to five sub-agents what one context window holds. Every worker you add buys parallelism and pays for it in coordination, and coordination is where every bug in this part lives.</p>
 
-    <!-- shared arrow markers -->
-    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-      <defs>
-        <marker id="aInk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1a1915"/></marker>
-        <marker id="aClay" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c25e3f"/></marker>
-        <marker id="aOlive" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#69793f"/></marker>
-        <marker id="aMut" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#a39d8c"/></marker>
-      </defs>
-    </svg>
+    <h3 id="the-log-is-the-truth">The log is the truth</h3>
 
-    <main>
-      <article class="article">
-        <a href="/blog" class="back-link">← Blogs</a>
+    <p>The simplest database is a file you only append to. Every index on top of it is derived structure that makes reads faster and writes slower. The same holds for an agent's memory. The append-only trace of what happened is the source of truth. The summaries, the vector index and the entity graph are rebuildable caches sitting on top of it.</p>
 
-        <p class="eyebrow rise">Field notes · Agent systems</p>
-        <h1 class="rise r2">It Forgets Everything.<br />It Sometimes Lies.<br />Build Around It.</h1>
-        <div class="meta rise r3">June 2026<span class="dot">·</span>Prannay Hebbar<span class="dot">·</span>14 min read</div>
+    <p>The operational rule that falls out: never edit history in place. An agent learns the user lives in Berlin. Months later they move to Paris. Overwrite the Berlin fact and you have destroyed the history and the reason. Append "as of June, Paris" and you can still replay, debug, and rebuild every cache from scratch.</p>
 
-        <div class="hero rise r4" aria-hidden="true">
-          <svg viewBox="0 0 720 148">
-            <g class="fade"><rect x="56" y="16" width="148" height="56" rx="9" fill="none" stroke="#a39d8c" stroke-width="1.2" stroke-dasharray="5 4"/>
-            <text x="130" y="40" text-anchor="middle" class="f-m">session 1</text>
-            <text x="130" y="58" text-anchor="middle" class="f-x">full context</text></g>
-            <g class="fade" style="--d:140ms"><rect x="296" y="16" width="148" height="56" rx="9" fill="none" stroke="#a39d8c" stroke-width="1.2" stroke-dasharray="5 4"/>
-            <text x="370" y="40" text-anchor="middle" class="f-m">session 2</text>
-            <text x="370" y="58" text-anchor="middle" class="f-x">blank slate</text></g>
-            <g class="fade" style="--d:280ms"><rect x="536" y="16" width="148" height="56" rx="9" fill="none" stroke="#a39d8c" stroke-width="1.2" stroke-dasharray="5 4"/>
-            <text x="610" y="40" text-anchor="middle" class="f-m">session 3</text>
-            <text x="610" y="58" text-anchor="middle" class="f-x">blank slate</text></g>
+    <p>Deletion gets the same treatment. If two memory stores merge by keeping the record with the newest timestamp, acknowledged facts silently vanish. If they merge by union, deleted facts rise from the dead. Amazon hit exactly this with shopping carts: removed items kept reappearing because the merge had no record that the removal ever happened. A retraction has to be a first-class entry in the log, a tombstone<sup id="fnref-1"><a href="#fn-1" aria-label="Footnote 1">1</a></sup>, not merely the absence of a fact.</p>
 
-            <text x="250" y="48" text-anchor="middle" class="f-x fade" style="--d:620ms;fill:#c25e3f">× wiped</text>
-            <text x="490" y="48" text-anchor="middle" class="f-x fade" style="--d:720ms;fill:#c25e3f">× wiped</text>
-
-            <line class="draw" pathLength="1" style="--d:480ms" x1="130" y1="76" x2="130" y2="108" stroke="#c25e3f" stroke-width="1.4" marker-end="url(#aClay)"/>
-            <text x="142" y="98" class="f-x fade" style="--d:620ms;fill:#c25e3f">write</text>
-            <g class="fade" style="--d:780ms"><line x1="370" y1="112" x2="370" y2="80" stroke="#c25e3f" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#aClay)"/>
-            <text x="382" y="102" class="f-x" style="fill:#c25e3f">read</text></g>
-            <g class="fade" style="--d:920ms"><line x1="610" y1="112" x2="610" y2="80" stroke="#c25e3f" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#aClay)"/>
-            <text x="622" y="102" class="f-x" style="fill:#c25e3f">read</text></g>
-
-            <line class="draw" pathLength="1" style="--d:300ms;transition-duration:900ms,200ms" x1="36" y1="118" x2="694" y2="118" stroke="#c25e3f" stroke-width="1.6" marker-end="url(#aClay)"/>
-            <g class="fade" style="--d:820ms">
-              <g stroke="#c25e3f" stroke-width="1" opacity="0.45">
-                <line x1="80" y1="114" x2="80" y2="122"/><line x1="160" y1="114" x2="160" y2="122"/>
-                <line x1="240" y1="114" x2="240" y2="122"/><line x1="320" y1="114" x2="320" y2="122"/>
-                <line x1="400" y1="114" x2="400" y2="122"/><line x1="480" y1="114" x2="480" y2="122"/>
-                <line x1="560" y1="114" x2="560" y2="122"/><line x1="640" y1="114" x2="640" y2="122"/>
-              </g>
+    <figure class="fig fig--wide" id="fig-log" aria-labelledby="cap-log">
+      <div class="fig__plate is-scroll">
+        <div class="fig__scroll">
+        <svg class="fig__svg--wide" viewBox="0 0 720 290" role="img" aria-label="A row of nine log entries e36 to e44. e41 holds Berlin, e42 is a hatched tombstone that retracts e41, e43 holds Paris, as of June. Above, three caches, summary, vector index and entity graph, each derived from the log by an arrow, with a dashed arrow back down labelled rebuild from here.">
+            <defs>
+              <marker id="ah-log" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0.5 7 4 0 7.5z" class="head"/></marker>
+              <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0v6" stroke="#0b0d10" stroke-width="1"/></pattern>
+              <linearGradient id="fadeR" x1="0" x2="1"><stop offset="0" stop-color="#0b0d10" stop-opacity=".42"/><stop offset="1" stop-color="#0b0d10" stop-opacity="0"/></linearGradient>
+            </defs>
+            <!-- caches -->
+            <text class="m" x="96" y="38">caches · rebuildable</text>
+            <rect class="box" x="96" y="52" width="160" height="40" rx="2"/><text class="t" x="176" y="76" text-anchor="middle">Summary</text>
+            <rect class="box" x="280" y="52" width="160" height="40" rx="2"/><text class="t" x="360" y="76" text-anchor="middle">Vector index</text>
+            <rect class="box" x="464" y="52" width="160" height="40" rx="2"/><text class="t" x="544" y="76" text-anchor="middle">Entity graph</text>
+            <!-- derived arrows -->
+            <path class="ln" marker-end="url(#ah-log)" d="M176 176 176 98"/>
+            <path class="ln" marker-end="url(#ah-log)" d="M360 176 360 98"/>
+            <path class="ln" marker-end="url(#ah-log)" d="M544 176 544 98"/>
+            <text class="m" x="164" y="140" text-anchor="end">derived</text>
+            <!-- rebuild -->
+            <path class="ln dash" marker-end="url(#ah-log)" d="M452 98 452 176"/>
+            <text class="m" x="462" y="134">rebuild</text>
+            <text class="m" x="462" y="150">from here</text>
+            <!-- log -->
+            <text class="m" x="40" y="206">log · truth</text>
+            <g>
+              <rect class="box" x="160" y="180" width="44" height="44"/><text class="m" x="182" y="246" text-anchor="middle">e36</text>
+              <rect class="box" x="216" y="180" width="44" height="44"/><text class="m" x="238" y="246" text-anchor="middle">e37</text>
+              <rect class="box" x="272" y="180" width="44" height="44"/><text class="m" x="294" y="246" text-anchor="middle">e38</text>
+              <rect class="box" x="328" y="180" width="44" height="44"/><text class="m" x="350" y="246" text-anchor="middle">e39</text>
+              <rect class="box" x="384" y="180" width="44" height="44"/><text class="m" x="406" y="246" text-anchor="middle">e40</text>
+              <rect class="box" x="440" y="180" width="44" height="44"/><text class="s" x="462" y="207" text-anchor="middle">Berlin</text><text class="m" x="462" y="246" text-anchor="middle">e41</text>
+              <rect class="tint" x="496" y="180" width="44" height="44"/><rect x="496" y="180" width="44" height="44" style="fill:url(#hatch);stroke:var(--line)"/><text class="m" x="518" y="246" text-anchor="middle">e42</text>
+              <rect class="box" x="552" y="180" width="44" height="44"/><text class="s" x="574" y="195" text-anchor="middle">Paris</text><text class="s" x="574" y="208" text-anchor="middle" style="font-size:12px;font-style:italic">as of</text><text class="s" x="574" y="220" text-anchor="middle" style="font-size:12px;font-style:italic">June</text><text class="m" x="574" y="246" text-anchor="middle">e43</text>
+              <rect class="box" x="608" y="180" width="44" height="44"/><text class="m" x="630" y="246" text-anchor="middle">e44</text>
             </g>
-            <text x="36" y="140" class="f-x fade" style="--d:1050ms;fill:#c25e3f">the log persists</text>
-          </svg>
-        </div>
-
-        <p class="lead rise r5">
-          The model is the most reliable part of your agent. Everything you wrap around it is where the failures live, and almost every failure traces back to two defects you can design for.
-        </p>
-
-        <p>
-          We keep talking about agents as if the work is making the model smarter. It isn't. The frontier model is the one component you didn't build and can't fix, and it is improving on its own schedule. The part you actually own is the system around it: the memory, the tools, the orchestration, the files on disk. That is where reliability is won or lost.
-        </p>
-
-        <p>
-          The two defects: an agent <strong>forgets everything</strong> between sessions, because its context window is wiped each time. And it <strong>sometimes acts with total confidence on something false</strong>, because a language model fails by lying, not by crashing.
-        </p>
-
-        <p>
-          Neither defect yields to a better prompt. Forgetting is beaten <em>before</em> the action, by designing the world the agent wakes up in. Lying is beaten <em>after</em> the action, by designing the system that catches what slips through. Everything below is one of those two moves.
-        </p>
-
-        <div class="figure">
-          <svg viewBox="0 0 720 250" role="img" aria-label="An agent with two defects, forgetfulness and unreliability, mapped to two design answers: design the world to prevent failure, and design the system to tolerate it">
-            <g class="pop"><rect x="285" y="98" width="150" height="56" rx="10" fill="#1a1915"/>
-            <text x="360" y="122" text-anchor="middle" class="f-t" style="fill:#f2efe7">THE AGENT</text>
-            <text x="360" y="140" text-anchor="middle" class="f-s" style="fill:#a39d8c">one flaky component</text></g>
-
-            <g class="fade" style="--d:200ms"><text x="150" y="56" text-anchor="middle" class="f-t">DEFECT 1</text>
-            <text x="150" y="74" text-anchor="middle" class="f-s">it forgets everything</text></g>
-            <line class="draw" pathLength="1" style="--d:300ms" x1="285" y1="118" x2="232" y2="86" stroke="#6e6859" stroke-width="1.3" marker-end="url(#aInk)"/>
-            <line class="draw" pathLength="1" style="--d:520ms" x1="150" y1="84" x2="150" y2="148" stroke="#c25e3f" stroke-width="1.3" marker-end="url(#aClay)"/>
-            <g class="pop" style="--d:700ms"><rect x="40" y="150" width="220" height="64" rx="9" fill="#fff" stroke="#c25e3f" stroke-width="1.5"/>
-            <text x="150" y="174" text-anchor="middle" class="f-t" style="fill:#c25e3f">DESIGN THE WORLD</text>
-            <text x="150" y="192" text-anchor="middle" class="f-s">knowledge · constraints · cues</text>
-            <text x="150" y="207" text-anchor="middle" class="f-x" style="fill:#c25e3f">prevent failure before the action</text></g>
-
-            <g class="fade" style="--d:200ms"><text x="570" y="56" text-anchor="middle" class="f-t">DEFECT 2</text>
-            <text x="570" y="74" text-anchor="middle" class="f-s">it sometimes lies</text></g>
-            <line class="draw" pathLength="1" style="--d:300ms" x1="435" y1="118" x2="488" y2="86" stroke="#6e6859" stroke-width="1.3" marker-end="url(#aInk)"/>
-            <line class="draw" pathLength="1" style="--d:520ms" x1="570" y1="84" x2="570" y2="148" stroke="#1a1915" stroke-width="1.3" marker-end="url(#aInk)"/>
-            <g class="pop" style="--d:800ms"><rect x="460" y="150" width="220" height="64" rx="9" fill="#fff" stroke="#1a1915" stroke-width="1.5"/>
-            <text x="570" y="174" text-anchor="middle" class="f-t">DESIGN THE SYSTEM</text>
-            <text x="570" y="192" text-anchor="middle" class="f-s">logs · tokens · retries · checks</text>
-            <text x="570" y="207" text-anchor="middle" class="f-x">tolerate failure after it</text></g>
-          </svg>
-          <div class="figure__caption">
-            <b>Figure 1:</b> The rest of this piece is these two columns. First the right one (tolerate), then the left one (prevent), then how they compose.
-          </div>
-        </div>
-
-        <div class="part-label">Part one · Tolerate the failure you can't prevent</div>
-
-        <h2><span class="num">01</span>Picture a factory, not a brain</h2>
-
-        <p>
-          Stop imagining your agent as a brain you prompt. Imagine a small factory of workers passing notes. The orchestrator hands a note to the model, the model asks for a tool, the tool writes to memory, a sub-agent reports back. Every note between workers can be lost, delayed, duplicated, or arrive out of order, and one worker, the model, can hand back something that is fluent and wrong.
-        </p>
-
-        <p>
-          This is the most useful reframe in agent engineering: <strong>a multi-agent system is a distributed system</strong>, and it inherits every failure mode of one. The defining trait of distributed systems is partial failure, and partial failure is nondeterministic. You often cannot tell whether a step succeeded.
-        </p>
-
-        <div class="figure">
-          <svg viewBox="0 0 720 310" role="img" aria-label="An orchestrator passing notes to a model, a tool, memory, and sub-agents; each link is annotated with a failure mode">
-            <g class="pop"><rect x="250" y="124" width="160" height="60" rx="9" fill="#fff" stroke="#1a1915" stroke-width="1.8"/>
-            <text x="330" y="150" text-anchor="middle" class="f-t">ORCHESTRATOR</text>
-            <text x="330" y="168" text-anchor="middle" class="f-s">the one boss</text></g>
-
-            <g class="pop" style="--d:200ms"><rect x="540" y="20" width="160" height="52" rx="9" fill="#fdf1ec" stroke="#c25e3f" stroke-width="1.6"/>
-            <text x="620" y="42" text-anchor="middle" class="f-t" style="fill:#c25e3f">MODEL</text>
-            <text x="620" y="59" text-anchor="middle" class="f-s" style="fill:#c25e3f">fluent, sometimes wrong</text></g>
-            <path class="draw" pathLength="1" style="--d:300ms" d="M410 138 C 470 96, 500 64, 538 56" fill="none" stroke="#c25e3f" stroke-width="1.4" marker-end="url(#aClay)"/>
-
-            <g class="pop" style="--d:360ms"><rect x="540" y="96" width="160" height="52" rx="9" fill="#fff" stroke="#1a1915" stroke-width="1.4"/>
-            <text x="620" y="118" text-anchor="middle" class="f-t">TOOL CALL</text>
-            <text x="620" y="135" text-anchor="middle" class="f-s">a remote action</text></g>
-            <path class="fade" style="--d:480ms" d="M410 146 C 470 132, 500 120, 538 118" fill="none" stroke="#1a1915" stroke-width="1.3" stroke-dasharray="6 4" marker-end="url(#aInk)"/>
-            <text x="412" y="106" class="f-x fade" style="--d:600ms">times out, still runs</text>
-
-            <g class="pop" style="--d:520ms"><rect x="540" y="172" width="160" height="52" rx="9" fill="#fff" stroke="#1a1915" stroke-width="1.4"/>
-            <text x="620" y="194" text-anchor="middle" class="f-t">MEMORY</text>
-            <text x="620" y="211" text-anchor="middle" class="f-s">a copy of the truth</text></g>
-            <path class="fade" style="--d:640ms" d="M410 168 C 470 186, 500 196, 538 198" fill="none" stroke="#1a1915" stroke-width="1.3" stroke-dasharray="6 4" marker-end="url(#aInk)"/>
-            <text x="486" y="216" class="f-x fade" style="--d:760ms">stale</text>
-
-            <g class="pop" style="--d:680ms"><rect x="540" y="246" width="152" height="46" rx="9" fill="#fff" stroke="#1a1915" stroke-width="1.4"/>
-            <rect x="548" y="254" width="152" height="46" rx="9" fill="#fff" stroke="#1a1915" stroke-width="1.4"/>
-            <text x="624" y="281" text-anchor="middle" class="f-t">SUB-AGENTS</text></g>
-            <path class="draw" pathLength="1" style="--d:780ms" d="M410 172 C 480 232, 510 268, 546 280" fill="none" stroke="#1a1915" stroke-width="1.3" marker-end="url(#aInk)"/>
-            <text x="404" y="298" class="f-x fade" style="--d:920ms">slowest sets the pace</text>
-          </svg>
-          <div class="figure__caption">
-            <b>Figure 2:</b> Every arrow is a place a note can go wrong. A tool call that times out is the canonical example: the request was lost, or it ran and the reply was lost. The absence of an answer tells you nothing.
-          </div>
-        </div>
-
-        <p>
-          The reframe cuts the other way too: do not build the factory before you need it. Architectures get rebuilt at every order of magnitude of load, and the systems crowd has a sharp jab for premature scale, a famous paper asking whether your cluster beats a single laptop. The agent version: <strong>don't fan out to five sub-agents what one context window holds.</strong> Every worker you add buys some parallelism and pays for it in coordination, and coordination is where every bug in this part of the essay lives.
-        </p>
-
-        <h2><span class="num">02</span>The log is the truth; everything else is a cache</h2>
-
-        <p>
-          The simplest database is a file you only append to. Every index on top of it is derived structure that makes reads faster and writes slower. The same holds for an agent's memory: the append-only trace of what happened is the source of truth, and the summaries, the vector index, and the entity graph are <strong>rebuildable caches</strong> sitting on top of it.
-        </p>
-
-        <p>
-          The operational rule that falls out: never edit history in place. When a fact changes, you append a new entry, you do not overwrite the old one. An agent learns the user lives in Berlin; months later they move to Paris. Overwrite the Berlin fact and you have destroyed the history and the reason. Append "as of June, Paris" and you can still replay, debug, and rebuild every cache from scratch.
-        </p>
-
-        <p>
-          Deletion gets the same treatment. If two memory stores merge by keeping whichever record has the newest timestamp, acknowledged facts silently vanish. If they merge by union, deleted facts rise from the dead: Amazon hit exactly this with shopping carts, where removed items kept reappearing because the merge had no record that the removal ever happened. A retraction must be a first-class entry in the log, a <em>tombstone</em>, not merely the absence of a fact.
-        </p>
-
-        <div class="figure">
-          <svg viewBox="0 0 720 230" role="img" aria-label="An append-only log at the bottom feeds three rebuildable caches above it: a summary, a vector index, and an entity graph">
-            <g class="pop" style="--d:450ms"><rect x="60" y="22" width="160" height="48" rx="8" fill="#fff" stroke="#c25e3f" stroke-width="1.4"/>
-            <text x="140" y="43" text-anchor="middle" class="f-t" style="fill:#c25e3f">SUMMARY</text>
-            <text x="140" y="59" text-anchor="middle" class="f-s">cache</text></g>
-            <g class="pop" style="--d:560ms"><rect x="280" y="22" width="160" height="48" rx="8" fill="#fff" stroke="#c25e3f" stroke-width="1.4"/>
-            <text x="360" y="43" text-anchor="middle" class="f-t" style="fill:#c25e3f">VECTOR INDEX</text>
-            <text x="360" y="59" text-anchor="middle" class="f-s">cache</text></g>
-            <g class="pop" style="--d:670ms"><rect x="500" y="22" width="160" height="48" rx="8" fill="#fff" stroke="#c25e3f" stroke-width="1.4"/>
-            <text x="580" y="43" text-anchor="middle" class="f-t" style="fill:#c25e3f">ENTITY GRAPH</text>
-            <text x="580" y="59" text-anchor="middle" class="f-s">cache</text></g>
-
-            <line class="fade" style="--d:300ms" x1="140" y1="150" x2="140" y2="74" stroke="#c25e3f" stroke-width="1.3" stroke-dasharray="5 4" marker-end="url(#aClay)"/>
-            <line class="fade" style="--d:410ms" x1="360" y1="150" x2="360" y2="74" stroke="#c25e3f" stroke-width="1.3" stroke-dasharray="5 4" marker-end="url(#aClay)"/>
-            <line class="fade" style="--d:520ms" x1="580" y1="150" x2="580" y2="74" stroke="#c25e3f" stroke-width="1.3" stroke-dasharray="5 4" marker-end="url(#aClay)"/>
-            <text x="360" y="118" text-anchor="middle" class="f-x fade" style="--d:800ms;fill:#c25e3f">rebuildable any time</text>
-
-            <g class="pop"><rect x="60" y="156" width="600" height="56" rx="8" fill="#1a1915"/>
-            <text x="80" y="180" class="f-t" style="fill:#f2efe7">APPEND-ONLY LOG</text>
-            <text x="80" y="198" class="f-s" style="fill:#a39d8c">the source of truth · never edited</text>
-            <text x="552" y="190" class="f-m" style="fill:#d97757">e1 ▸ e2 ▸ e3 ▸ …</text></g>
-          </svg>
-          <div class="figure__caption">
-            <b>Figure 3:</b> Lose a cache and you rebuild it from the log. Lose the log and you have nothing. So summaries are disposable; the trace is sacred.
-          </div>
-        </div>
-
-        <div class="aside">
-          <div class="aside__label">Three bugs the log rule deletes</div>
-          <ol>
-            <li><strong>The dual write.</strong> The agent updates the memory store and the search index as two separate writes. One succeeds, one fails, and the two views now disagree forever, silently. Append one event; derive both views from it.</li>
-            <li><strong>The missing fact that isn't.</strong> The agent writes a fact, immediately queries the vector index, finds nothing, and concludes the fact is unknown. The index is an asynchronous follower, and its lag has no upper bound. Reads about your own recent writes must go to the source of truth.</li>
-            <li><strong>The diverging replay.</strong> Syncing state by re-running steps fails the moment a step is nondeterministic, and an LLM call is the most nondeterministic operator you will ever ship. Replicate effects, never re-execute the reasoning.</li>
-          </ol>
-        </div>
-
-        <p class="pull-quote">
-          The truth is the log. The database is just a cache of a subset of the log.
-          <cite>Pat Helland, paraphrased</cite>
-        </p>
-
-        <h2><span class="num">03</span>Silence is not failure</h2>
-
-        <p>
-          When a tool call times out, you genuinely cannot tell whether it worked. Maybe the email sent and only the confirmation was lost. So you cannot treat "no response" as "didn't happen." The fix is the most important reliability primitive in agent systems: stamp every action with a unique ID, and have the receiver ignore an ID it has already processed. Now a retry is safe, because doing the thing twice has the same effect as doing it once. That property has a name, <em>idempotency</em>, and it is the difference between a retry that heals and a retry that double-charges the customer.
-        </p>
-
-        <p>
-          Retries are sharp in four specific ways: the success acknowledgement can be the thing that gets lost (the idempotency key covers this), retries pile load onto an already-struggling system (so back off, and budget them), only transient errors are worth retrying at all, and any side effect that escapes your boundary, the email, the trade, the message, fires on <em>every</em> attempt. Underneath all four sits what atomicity actually means, which is not speed but <em>abortability</em>: a failed attempt must discard its partial effects so the retry starts clean. Retry on top of a half-applied step and you are compounding damage, not healing it.
-        </p>
-
-        <h2><span class="num">04</span>One owner, one token</h2>
-
-        <p>
-          The most common coordination bug in multi-agent systems is the <strong>check-then-act race</strong>. An agent checks "is task #5 unclaimed?", sees yes, and claims it. But between the check and the claim, another agent did exactly the same thing. Both now believe they own task #5. Per-action atomicity does not save you, because the two actions touched different records and individually each was fine.
-        </p>
-
-        <p>
-          The fix is a <em>fencing token</em>. The thing that grants ownership also hands out a number that increases on every handover, and the shared resource obeys only the highest number it has seen. An agent that paused mid-task, for a long model call or a slow tool, and now believes it still holds the lease, gets rejected the instant a newer owner exists. The agent's belief is never authoritative. The resource decides.
-        </p>
-
-        <div class="figure">
-          <svg viewBox="0 0 720 210" role="img" aria-label="A resource accepts a write stamped token 34 from the new owner and rejects a late write stamped token 33 from a paused stale owner">
-            <g class="pop"><rect x="500" y="78" width="200" height="64" rx="10" fill="#1a1915"/>
-            <text x="600" y="104" text-anchor="middle" class="f-t" style="fill:#f2efe7">RESOURCE</text>
-            <text x="600" y="124" text-anchor="middle" class="f-s" style="fill:#a39d8c">obeys highest token only</text></g>
-
-            <g class="pop" style="--d:180ms"><rect x="20" y="120" width="190" height="56" rx="9" fill="#f4f6ec" stroke="#69793f" stroke-width="1.5"/>
-            <text x="115" y="144" text-anchor="middle" class="f-t" style="fill:#69793f">NEW OWNER</text>
-            <text x="115" y="162" text-anchor="middle" class="f-s" style="fill:#69793f">token 34</text></g>
-            <line class="draw" pathLength="1" style="--d:400ms" x1="210" y1="148" x2="496" y2="124" stroke="#69793f" stroke-width="1.5" marker-end="url(#aOlive)"/>
-            <text x="345" y="166" text-anchor="middle" class="f-x fade" style="--d:700ms;fill:#69793f">write · token 34 → accepted</text>
-
-            <g class="pop" style="--d:350ms"><rect x="20" y="44" width="190" height="56" rx="9" fill="#fdf1ec" stroke="#c25e3f" stroke-width="1.5"/>
-            <text x="115" y="68" text-anchor="middle" class="f-t" style="fill:#c25e3f">PAUSED AGENT</text>
-            <text x="115" y="86" text-anchor="middle" class="f-s" style="fill:#c25e3f">thinks it owns · token 33</text></g>
-            <line class="fade" style="--d:850ms" x1="210" y1="70" x2="496" y2="96" stroke="#c25e3f" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#aClay)"/>
-            <text x="345" y="72" text-anchor="middle" class="f-x fade" style="--d:1000ms;fill:#c25e3f">late write · token 33 → rejected</text>
-          </svg>
-          <div class="figure__caption">
-            <b>Figure 4:</b> "Exactly one orchestrator owns this task" is a coordination problem, not a prompting problem. You solve it with a token the resource checks, not an instruction the agent is asked to honor.
-          </div>
-        </div>
-
-        <p>
-          There is a subtler race the token does not catch, because the two writers never touch the same record. Two agents each read "budget remaining: $80," each spend $60 on different line items, and the books now show $120 spent against an $80 limit. Every individual write was atomic; the invariant died anyway. Database people call it <em>write skew</em>, and its general form is the most agent-shaped bug there is: <strong>a decision built on an outdated premise</strong>. An agent's plan is a snapshot of the world at observation time, and every second of thinking and tool latency widens the gap between premise and world. The fix is mechanical, not clever: re-validate the precondition immediately before committing the side effect, never at planning time.
-        </p>
-
-        <p>
-          And sometimes the right move is to not coordinate at all. The alternative strategy has a name, <em>memories, guesses and apologies</em>: act optimistically, detect the rare conflict after the fact, and run a compensation flow, the refund, the correction, the apology email. You need that flow anyway, because the physical world violates your invariants regardless of your locks. If a conflict is cheap to apologize for, optimism plus compensation usually beats synchronous coordination on both cost and latency.
-        </p>
-
-        <h2><span class="num">05</span>Grade the end, and watch the tail</h2>
-
-        <p>
-          Every step returning "OK" does not mean the result is correct. Errors compound across ten steps, and a chain of green checkmarks can still produce a wrong answer. This is the same discipline good agent evals enforce: you verify the <strong>final outcome</strong> against what the user actually wanted, not just that each tool returned a 200. Read the transcripts; the per-step status was never the thing you cared about.
-        </p>
-
-        <p>
-          Most of the bugs that decide that final outcome live in code you have never executed: the error-handling paths. They only run on the night they matter, unless you run them on purpose. So <strong>break your own pipeline deliberately</strong>: inject a malformed tool output, a truncated model response, a timeout at the worst moment, and watch whether recovery actually recovers. A failure path you have never exercised is not a failure path, it is a hope.
-        </p>
-
-        <p>
-          And there is a speed trap hiding in fan-out. If you dispatch five sub-agents and wait for all of them, your latency is the <em>slowest</em> one, not the average. The slow case, the 99th percentile, stops being rare: with enough parallel calls it lands on almost every request. Tail latency is not an edge case in an agent system. It is the common case wearing a disguise.
-        </p>
-
-        <div class="figure">
-          <svg viewBox="0 0 720 220" role="img" aria-label="Five parallel sub-agents; four finish quickly but one straggler at 900ms gates the whole response">
-            <text x="120" y="206" class="f-x">0ms</text>
-            <text x="392" y="206" class="f-x">500ms</text>
-            <text x="640" y="206" class="f-x">900ms</text>
-            <line x1="120" y1="190" x2="690" y2="190" stroke="#6e6859" stroke-width="1.1"/>
-            <text x="14" y="48" class="f-s">agent A</text><rect class="bar-grow" x="120" y="36" width="110" height="15" rx="3" fill="#c9c3b2"/>
-            <text x="14" y="76" class="f-s">agent B</text><rect class="bar-grow" style="transition-delay:60ms" x="120" y="64" width="92"  height="15" rx="3" fill="#c9c3b2"/>
-            <text x="14" y="104" class="f-s">agent C</text><rect class="bar-grow" style="transition-delay:120ms" x="120" y="92" width="132" height="15" rx="3" fill="#c9c3b2"/>
-            <text x="14" y="132" class="f-s">agent D</text><rect class="bar-grow" style="transition-delay:180ms" x="120" y="120" width="84"  height="15" rx="3" fill="#c9c3b2"/>
-            <text x="14" y="160" class="f-s">agent E</text><rect class="bar-grow" style="transition-delay:240ms" x="120" y="148" width="520" height="15" rx="3" fill="#c25e3f"/>
-            <text x="648" y="160" class="f-x fade" style="--d:850ms;fill:#c25e3f">straggler</text>
-            <line class="fade" style="--d:1000ms" x1="640" y1="28" x2="640" y2="194" stroke="#c25e3f" stroke-width="1.2" stroke-dasharray="4 4"/>
-            <text x="556" y="24" class="f-s fade" style="--d:1000ms;fill:#c25e3f">your real latency ↓</text>
-          </svg>
-          <div class="figure__caption">
-            <b>Figure 5:</b> Four agents finish fast and wait; one straggler decides everything. With fan-out, the orchestrator's median is roughly the p99 of a single sub-agent. Aggregate histograms, never averages of percentiles.
-          </div>
-        </div>
-
-        <h2><span class="num">06</span>A prompt edit is a config push</h2>
-
-        <p>
-          Replication protects you from <em>independent</em> faults: one worker dies, the others carry on. It does nothing against correlated ones, and almost everything interesting about an agent fleet is correlated. Every agent runs the same prompt, the same model version, the same tool schemas. A bad edit to any of these is not one flaky node. It is a fault in every worker at the same instant, the same shape as the leap-second bug that hit thousands of kernels in one night.
-        </p>
-
-        <div class="figure">
-          <svg viewBox="0 0 720 226" role="img" aria-label="Left: five workers where one fails independently and the fleet absorbs it. Right: a bad prompt version fans out to all five workers, which all fail at once">
-            <text x="180" y="32" text-anchor="middle" class="f-t fade">INDEPENDENT FAULT</text>
-            <g class="pop" style="--d:120ms">
-              <rect x="40" y="98" width="48" height="40" rx="7" fill="#fff" stroke="#1a1915" stroke-width="1.3"/>
-              <rect x="100" y="98" width="48" height="40" rx="7" fill="#fff" stroke="#1a1915" stroke-width="1.3"/>
-              <rect x="160" y="98" width="48" height="40" rx="7" fill="#fdf1ec" stroke="#c25e3f" stroke-width="1.4"/>
-              <rect x="220" y="98" width="48" height="40" rx="7" fill="#fff" stroke="#1a1915" stroke-width="1.3"/>
-              <rect x="280" y="98" width="48" height="40" rx="7" fill="#fff" stroke="#1a1915" stroke-width="1.3"/>
+            <path d="M660 202H720" stroke="url(#fadeR)" stroke-width="1" fill="none"/>
+            <text class="m m--ink" x="518" y="272" text-anchor="middle">tombstone · retracts e41</text>
+        </svg>
+        <svg class="fig__svg--phone" viewBox="0 0 340 292" role="img" aria-label="Five log entries e40 to e44. e41 holds Berlin, e42 is a hatched tombstone that retracts e41, e43 holds Paris, as of June. Above, three caches, summary, vector index and entity graph, derived from the log by an arrow, with a dashed arrow back down labelled rebuild from here.">
+            <defs>
+              <marker id="ah-log-p" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0.5 7 4 0 7.5z" class="head"/></marker>
+              <pattern id="hatch-p" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0v6" stroke="#0b0d10" stroke-width="1"/></pattern>
+              <linearGradient id="fadeR-p" x1="0" x2="1"><stop offset="0" stop-color="#0b0d10" stop-opacity=".42"/><stop offset="1" stop-color="#0b0d10" stop-opacity="0"/></linearGradient>
+              <linearGradient id="fadeL-p" x1="1" x2="0"><stop offset="0" stop-color="#0b0d10" stop-opacity=".42"/><stop offset="1" stop-color="#0b0d10" stop-opacity="0"/></linearGradient>
+            </defs>
+            <!-- caches -->
+            <text class="m" x="12" y="22">caches · rebuildable</text>
+            <rect class="box" x="12" y="36" width="100" height="44" rx="2"/><text class="t" x="62" y="62" text-anchor="middle">Summary</text>
+            <rect class="box" x="120" y="36" width="100" height="44" rx="2"/><text class="t" x="170" y="55" text-anchor="middle">Vector</text><text class="t" x="170" y="71" text-anchor="middle">Index</text>
+            <rect class="box" x="228" y="36" width="100" height="44" rx="2"/><text class="t" x="278" y="55" text-anchor="middle">Entity</text><text class="t" x="278" y="71" text-anchor="middle">Graph</text>
+            <!-- derived / rebuild -->
+            <path class="ln" marker-end="url(#ah-log-p)" d="M110 180 110 86"/>
+            <text class="m" x="120" y="136">derived</text>
+            <path class="ln dash" marker-end="url(#ah-log-p)" d="M230 86 230 180"/>
+            <text class="m" x="240" y="128">rebuild</text>
+            <text class="m" x="240" y="144">from here</text>
+            <!-- log -->
+            <text class="m" x="12" y="172">log · truth</text>
+            <g>
+              <rect class="box" x="36" y="184" width="44" height="44"/><text class="m" x="58" y="250" text-anchor="middle">e40</text>
+              <rect class="box" x="92" y="184" width="44" height="44"/><text class="s" x="114" y="211" text-anchor="middle">Berlin</text><text class="m" x="114" y="250" text-anchor="middle">e41</text>
+              <rect class="tint" x="148" y="184" width="44" height="44"/><rect x="148" y="184" width="44" height="44" style="fill:url(#hatch-p);stroke:var(--line)"/><text class="m" x="170" y="250" text-anchor="middle">e42</text>
+              <rect class="box" x="204" y="184" width="44" height="44"/><text class="s" x="226" y="199" text-anchor="middle">Paris</text><text class="s" x="226" y="212" text-anchor="middle" style="font-size:12px;font-style:italic">as of</text><text class="s" x="226" y="224" text-anchor="middle" style="font-size:12px;font-style:italic">June</text><text class="m" x="226" y="250" text-anchor="middle">e43</text>
+              <rect class="box" x="260" y="184" width="44" height="44"/><text class="m" x="282" y="250" text-anchor="middle">e44</text>
             </g>
-            <text x="184" y="124" text-anchor="middle" class="f-t fade" style="--d:450ms;fill:#c25e3f">×</text>
-            <text x="184" y="170" text-anchor="middle" class="f-s fade" style="--d:600ms">one worker fails · the fleet absorbs it</text>
-            <text x="184" y="188" text-anchor="middle" class="f-x fade" style="--d:680ms;fill:#69793f">retry elsewhere works</text>
-
-            <line class="fade" style="--d:250ms" x1="360" y1="24" x2="360" y2="200" stroke="#e2ddd0" stroke-width="1" stroke-dasharray="4 4"/>
-
-            <text x="540" y="32" text-anchor="middle" class="f-t fade" style="--d:300ms;fill:#c25e3f">CORRELATED FAULT</text>
-            <g class="pop" style="--d:420ms">
-              <rect x="400" y="100" width="48" height="40" rx="7" fill="#fdf1ec" stroke="#c25e3f" stroke-width="1.4"/>
-              <rect x="458" y="100" width="48" height="40" rx="7" fill="#fdf1ec" stroke="#c25e3f" stroke-width="1.4"/>
-              <rect x="516" y="100" width="48" height="40" rx="7" fill="#fdf1ec" stroke="#c25e3f" stroke-width="1.4"/>
-              <rect x="574" y="100" width="48" height="40" rx="7" fill="#fdf1ec" stroke="#c25e3f" stroke-width="1.4"/>
-              <rect x="632" y="100" width="48" height="40" rx="7" fill="#fdf1ec" stroke="#c25e3f" stroke-width="1.4"/>
-            </g>
-            <g class="pop" style="--d:550ms"><rect x="488" y="46" width="104" height="28" rx="7" fill="#fdf1ec" stroke="#c25e3f" stroke-width="1.4"/>
-            <text x="540" y="65" text-anchor="middle" class="f-m" style="fill:#c25e3f">prompt v2</text></g>
-            <g stroke="#c25e3f" stroke-width="1.1">
-              <line class="draw" pathLength="1" style="--d:720ms" x1="540" y1="74" x2="424" y2="96" marker-end="url(#aClay)"/>
-              <line class="draw" pathLength="1" style="--d:720ms" x1="540" y1="74" x2="482" y2="96" marker-end="url(#aClay)"/>
-              <line class="draw" pathLength="1" style="--d:720ms" x1="540" y1="74" x2="540" y2="96" marker-end="url(#aClay)"/>
-              <line class="draw" pathLength="1" style="--d:720ms" x1="540" y1="74" x2="598" y2="96" marker-end="url(#aClay)"/>
-              <line class="draw" pathLength="1" style="--d:720ms" x1="540" y1="74" x2="656" y2="96" marker-end="url(#aClay)"/>
-            </g>
-            <g class="f-t fade" style="--d:1000ms;fill:#c25e3f" text-anchor="middle">
-              <text x="424" y="126">×</text><text x="482" y="126">×</text><text x="540" y="126">×</text><text x="598" y="126">×</text><text x="656" y="126">×</text>
-            </g>
-            <text x="540" y="172" text-anchor="middle" class="f-s fade" style="--d:1150ms;fill:#c25e3f">every worker, the same instant</text>
-            <text x="540" y="190" text-anchor="middle" class="f-x fade" style="--d:1230ms;fill:#c25e3f">replication can't help</text>
-          </svg>
-          <div class="figure__caption">
-            <b>Figure 6:</b> Redundancy averages out independent faults. A shared prompt, model version, or tool schema is a single fault domain spanning the whole fleet.
-          </div>
+            <path d="M0 206H28" stroke="url(#fadeL-p)" stroke-width="1" fill="none"/>
+            <path d="M312 206H340" stroke="url(#fadeR-p)" stroke-width="1" fill="none"/>
+            <text class="m m--ink" x="170" y="278" text-anchor="middle">tombstone · retracts e41</text>
+        </svg>
         </div>
+      </div>
+      <figcaption class="fig__cap" id="cap-log">
+        <span class="fig__t">One log, every view derived from it</span>
+        <span class="fig__meta">Fig. 03 · Schematic</span>
+        <span class="fig__note">Lose a cache and you rebuild it from the log. Lose the log and you have nothing. A deletion is written as entry e42, never as an erasure of e41.</span></figcaption>
+    </figure>
 
-        <p>
-          The outage studies are blunt: hardware causes 10 to 25 percent of incidents, and operator and configuration error leads the list. Your prompts are configuration. So give a prompt edit the discipline any config push gets: <strong>version it, canary it on a slice of traffic, diff the outcome metrics against the old version, and keep a one-command rollback.</strong> Editing the system prompt straight in production is the deployment practice the rest of the industry abandoned twenty years ago.
-        </p>
+    <p>Three bugs the log rule deletes. The dual write: memory store and search index updated as two separate writes, one succeeds, one fails, and the two views disagree forever, silently. Append one event; derive both views from it. The missing fact that isn't: the agent writes a fact, immediately queries the vector index, finds nothing, and concludes the fact is unknown. The index is an asynchronous follower with no upper bound on its lag; reads about your own recent writes go to the source of truth. The diverging replay: syncing state by re-running steps fails the moment a step is nondeterministic, and an LLM call is the most nondeterministic operator you will ever ship. Replicate effects, never re-execute the reasoning.</p>
 
-        <div class="part-label">Part two · Design a world where failure rarely starts</div>
+    <blockquote class="pull">
+      <p>The truth is the log. The database is just a cache of a subset of the log.</p>
+      <cite>Pat Helland, paraphrased</cite>
+    </blockquote>
 
-        <h2><span class="num">07</span>The operator forgets everything</h2>
+    <h3 id="silence-is-not-failure">Silence is not failure</h3>
 
-        <p>
-          The knowledge needed to operate anything lives in two places: <em>in the head</em>, what you remember, and <em>in the world</em>, what the thing itself shows you. Good design pushes knowledge into the world so you do not have to hold it in your head. A light switch laid out like the room it controls needs no manual.
-        </p>
+    <p>Back to the email. When a tool call times out you genuinely cannot tell whether it worked. Maybe it sent and only the confirmation was lost. So "no response" can never be read as "didn't happen".</p>
 
-        <p>
-          An agent takes this to the limit, because its head is erased between every session. Anything it figured out last time is gone unless it was written somewhere durable. So the rule is not an aesthetic preference, it is survival: <strong>if it is not in a file, it does not exist tomorrow.</strong> Externalize every decision, every convention, and above all every <em>why</em>. And prefer one fact per file over one giant file, so that partial knowledge can be retrieved without dragging everything into a finite context window.
-        </p>
+    <p>The fix is the most important reliability primitive in agent systems: stamp every action with a unique ID, and have the receiver ignore an ID it has already processed. Now a retry is safe, because doing the thing twice has the same effect as doing it once. That property is idempotency<sup id="fnref-2"><a href="#fn-2" aria-label="Footnote 2">2</a></sup>, and it is the difference between a retry that heals and a retry that double-charges the customer.</p>
 
-        <div class="figure">
-          <div class="kw">
-            <div class="kw-card">
-              <h4>Session 1</h4>
-              <div class="kw-body">Discovers the deploy needs <code>--prod</code>. Fixes it. <span id="kwWrite">Writes the reason to <code>deploy.md</code>.</span></div>
-            </div>
-            <div class="kw-card">
-              <h4>Session 2 · memory wiped</h4>
-              <div class="kw-body good" id="kwResult">Reads <code>deploy.md</code>, ships correctly on the first try. ✓</div>
+    <p>Retries are sharp in four ways. The success acknowledgement can be the thing that gets lost; the key covers this. Retries pile load onto an already-struggling system, so back off and budget them. Only transient errors are worth retrying. And any side effect that escapes your boundary, the email, the trade, the message, fires on every attempt. Underneath all four sits what atomicity actually means, abortability: a failed attempt must discard its partial effects so the retry starts clean. Retry on top of a half-applied step and you are compounding damage.</p>
+
+    <h3 id="one-owner-one-token">One owner, one token</h3>
+
+    <p>The most common coordination bug in multi-agent systems is the check-then-act race. An agent checks "is task #5 unclaimed?", sees yes, and claims it. Between the check and the claim, another agent did exactly the same thing. Both now believe they own task #5. Per-action atomicity does not save you, because the two actions touched different records and each was individually fine.</p>
+
+    <p>The fix is a fencing token<sup id="fnref-3"><a href="#fn-3" aria-label="Footnote 3">3</a></sup>. Whatever grants ownership also hands out a number that increases on every handover, and the shared resource obeys only the highest number it has seen. An agent that paused mid-task, for a long model call or a slow tool, and now believes it still holds the lease, gets rejected the instant a newer owner exists:</p>
+
+    <figure class="fig fig--wide" id="fig-fencing" data-anim aria-labelledby="cap-fencing">
+      <div class="fig__plate is-scroll">
+        <div class="fig__scroll" data-focus-x="402">
+        <svg class="fig__svg--wide" viewBox="0 0 720 300" role="img" aria-label="Three lanes, agent A, agent B and the resource. A writes with token 33 and is accepted. A pauses for a slow model call; meanwhile B writes with token 34 and is accepted, highest is now 34. A wakes and writes with 33; the resource rejects it, 33 is less than 34.">
+            <defs>
+              <marker id="ah-fencing" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0.5 7 4 0 7.5z" class="head"/></marker>
+            </defs>
+            <!-- lanes -->
+            <text class="m m--ink" x="40" y="64">agent A</text>
+            <text class="m m--ink" x="40" y="144">agent B</text>
+            <text class="m m--ink" x="40" y="234">resource</text>
+            <path class="ln ln--hair" d="M130 60H700M130 140H700M130 230H700"/>
+            <!-- step 1 -->
+            <g class="fade" style="--d:0s">
+              <rect class="box" x="172" y="36" width="64" height="20" rx="2"/><text class="m m--ink" x="204" y="50" text-anchor="middle">token 33</text>
+              <path class="ln" marker-end="url(#ah-fencing)" d="M204 66V224"/>
+              <text class="m" x="212" y="106">write · 33</text>
+              <path class="cross" d="M199 231l3.5 3.5 6-7"/>
+              <text class="m" x="204" y="258" text-anchor="middle">accepted · highest = 33</text>
+            </g>
+            <!-- step 2 -->
+            <g class="fade" style="--d:.7s">
+              <path class="ln ln--2 dash" d="M240 60H580"/>
+              <text class="m" x="410" y="48" text-anchor="middle">paused · slow model call</text>
+              <rect class="box" x="370" y="116" width="64" height="20" rx="2"/><text class="m m--ink" x="402" y="130" text-anchor="middle">token 34</text>
+              <path class="ln" marker-end="url(#ah-fencing)" d="M402 146V224"/>
+              <text class="m" x="410" y="190">write · 34</text>
+              <path class="cross" d="M397 231l3.5 3.5 6-7"/>
+              <text class="m" x="402" y="258" text-anchor="middle">accepted · highest = 34</text>
+            </g>
+            <!-- step 3 -->
+            <g class="fade" style="--d:1.4s">
+              <path class="ln" marker-end="url(#ah-fencing)" d="M600 66V224"/>
+              <text class="m" x="608" y="106">write · 33</text>
+              <rect class="mark" x="595" y="225" width="10" height="10"/>
+              <text class="m m--ink" x="600" y="258" text-anchor="middle">rejected · 33 &lt; 34</text>
+            </g>
+        </svg>
+        <svg class="fig__svg--phone" viewBox="0 0 340 296" role="img" aria-label="Three lifelines, agent A, agent B and the resource, time running down. A writes with token 33 and is accepted. A pauses for a slow model call; meanwhile B writes with token 34 and is accepted, highest is now 34. A wakes and writes with 33; the resource rejects it, 33 is less than 34.">
+            <defs>
+              <marker id="ah-fencing-p" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0.5 7 4 0 7.5z" class="head"/></marker>
+            </defs>
+            <!-- lifelines -->
+            <text class="m m--ink" x="40" y="24" text-anchor="middle">agent A</text>
+            <text class="m m--ink" x="190" y="24" text-anchor="middle">agent B</text>
+            <text class="m m--ink" x="300" y="24" text-anchor="middle">resource</text>
+            <path class="ln ln--hair" d="M40 34V290M190 34V290M300 34V290"/>
+            <!-- step 1 -->
+            <g class="fade" style="--d:0s">
+              <rect class="box" x="8" y="48" width="64" height="20" rx="2"/><text class="m m--ink" x="40" y="62" text-anchor="middle">token 33</text>
+              <path class="ln" marker-end="url(#ah-fencing-p)" d="M46 90H292"/>
+              <text class="m" x="170" y="84" text-anchor="middle">write · 33</text>
+              <path class="cross" d="M307 91l3.5 3.5 6-7"/>
+              <text class="m" x="330" y="110" text-anchor="end">accepted · highest = 33</text>
+            </g>
+            <!-- step 2 -->
+            <g class="fade" style="--d:.7s">
+              <path class="ln ln--2 dash" d="M40 100V236"/>
+              <text class="m" x="48" y="130">paused ·</text>
+              <text class="m" x="48" y="146">slow model call</text>
+              <rect class="box" x="158" y="152" width="64" height="20" rx="2"/><text class="m m--ink" x="190" y="166" text-anchor="middle">token 34</text>
+              <path class="ln" marker-end="url(#ah-fencing-p)" d="M196 194H292"/>
+              <text class="m" x="244" y="188" text-anchor="middle">write · 34</text>
+              <path class="cross" d="M307 195l3.5 3.5 6-7"/>
+              <text class="m" x="330" y="214" text-anchor="end">accepted · highest = 34</text>
+            </g>
+            <!-- step 3 -->
+            <g class="fade" style="--d:1.4s">
+              <path class="ln" marker-end="url(#ah-fencing-p)" d="M46 256H292"/>
+              <text class="m" x="170" y="250" text-anchor="middle">write · 33</text>
+              <rect class="mark" x="307" y="251" width="10" height="10"/>
+              <text class="m m--ink" x="330" y="278" text-anchor="end">rejected · 33 &lt; 34</text>
+            </g>
+        </svg>
+        </div>
+      </div>
+      <figcaption class="fig__cap" id="cap-fencing">
+        <span class="fig__t">The fencing token</span>
+        <span class="fig__meta">Fig. 04 · Animated</span>
+        <span class="fig__note">The agent's belief is never authoritative. The resource decides. "Exactly one orchestrator owns this task" is solved with a token the resource checks, not an instruction the agent is asked to honor.</span></figcaption>
+    </figure>
+
+    <p>There is a subtler race the token does not catch, because the two writers never touch the same record. Two agents each read "budget remaining: $80", each spend $60 on different line items, and the books show $120 spent against an $80 limit. Every write was atomic; the invariant died anyway. Database people call it write skew<sup id="fnref-4"><a href="#fn-4" aria-label="Footnote 4">4</a></sup>, and its general form is the most agent-shaped bug there is: a decision built on an outdated premise. An agent's plan is a snapshot of the world at observation time, and every second of thinking and tool latency widens the gap between premise and world. The fix is mechanical: re-validate the precondition immediately before committing the side effect, never at planning time.</p>
+
+    <p>Sometimes the right move is to not coordinate at all. The strategy has a name, memories, guesses and apologies: act optimistically, detect the rare conflict after the fact, and run a compensation flow, the refund, the correction, the apology email. You need that flow anyway, because the physical world violates your invariants regardless of your locks. If a conflict is cheap to apologize for, optimism plus compensation usually beats synchronous coordination on both cost and latency.</p>
+
+    <h3 id="grade-the-end-watch-the-tail">Grade the end, watch the tail</h3>
+
+    <p>Every step returning OK does not mean the result is correct. Errors compound across ten steps, and a chain of green checkmarks can still produce a wrong answer. This is the same discipline good agent evals enforce: you verify the final outcome against what the user actually wanted, not just that each tool returned a 200. Read the transcripts; the per-step status was never the thing you cared about.</p>
+
+    <p>Most of the bugs that decide that final outcome live in code you have never executed: the error-handling paths. They only run on the night they matter, unless you run them on purpose. So break your own pipeline deliberately. Inject a malformed tool output, a truncated model response, a timeout at the worst moment, and watch whether recovery actually recovers.</p>
+
+    <blockquote class="pull">
+      <p>A failure path you have never exercised is not a failure path. It is a hope.</p>
+    </blockquote>
+
+    <p>And there is a speed trap in fan-out. Dispatch five sub-agents and wait for all of them, and your latency is the slowest one, not the average. The 99th percentile<sup id="fnref-5"><a href="#fn-5" aria-label="Footnote 5">5</a></sup> stops being rare: with enough parallel calls it lands on almost every request.</p>
+
+    <figure class="fig fig--wide" id="fig-tail" aria-labelledby="cap-tail">
+      <div class="fig__plate is-scroll">
+        <div class="fig__scroll">
+        <svg class="fig__svg--wide" viewBox="0 0 720 260" role="img" aria-label="Five horizontal bars for five sub-agents. Four are short and roughly equal; the fifth is almost four times longer and ends at a marked square. A dashed line at the end of the short bars is labelled median sub-agent; another at the end of the long bar is labelled orchestrator returns here; the gap between them is bracketed as time spent waiting. Durations are schematic.">
+            <!-- reference lines -->
+            <path class="ln ln--2 dash" d="M282 26V212"/>
+            <text class="m" x="274" y="18" text-anchor="end">median sub-agent</text>
+            <path class="ln dash" d="M627 26V212"/>
+            <text class="m m--ink" x="627" y="18" text-anchor="end">orchestrator returns here</text>
+            <!-- bars -->
+            <text class="m" x="40" y="44">sub-agent 1</text><rect class="box" x="150" y="30" width="132" height="20"/>
+            <text class="m" x="40" y="80">sub-agent 2</text><rect class="box" x="150" y="66" width="126" height="20"/>
+            <text class="m" x="40" y="116">sub-agent 3</text><rect class="box" x="150" y="102" width="138" height="20"/>
+            <text class="m" x="40" y="152">sub-agent 4</text><rect class="box" x="150" y="138" width="130" height="20"/>
+            <text class="m m--ink" x="40" y="188">sub-agent 5</text><rect class="box" x="150" y="174" width="477" height="20" style="stroke:var(--ink)"/><rect class="mark" x="622" y="179" width="10" height="10"/>
+            <!-- waiting bracket -->
+            <path class="ln" d="M282 222v6h345v-6"/>
+            <text class="m m--ink" x="454" y="246" text-anchor="middle">time spent waiting</text>
+            <text class="m" x="680" y="246" text-anchor="end">time →</text>
+        </svg>
+        <svg class="fig__svg--phone" viewBox="0 0 340 292" role="img" aria-label="Five horizontal bars for five sub-agents. Four are short and roughly equal; the fifth is more than three times longer and ends at a marked square. A dashed line at the end of the short bars is labelled median sub-agent; another at the end of the long bar is labelled orchestrator returns here; the gap between them is bracketed as time spent waiting. Durations are schematic.">
+            <!-- reference lines -->
+            <text class="m m--ink" x="316" y="18" text-anchor="end">orchestrator returns here</text>
+            <path class="ln dash" d="M316 26V222"/>
+            <text class="m" x="176" y="40" text-anchor="end">median sub-agent</text>
+            <path class="ln ln--2 dash" d="M176 48V222"/>
+            <!-- bars -->
+            <text class="m" x="12" y="70">sub-agent 1</text><rect class="box" x="116" y="56" width="60" height="20"/>
+            <text class="m" x="12" y="106">sub-agent 2</text><rect class="box" x="116" y="92" width="56" height="20"/>
+            <text class="m" x="12" y="142">sub-agent 3</text><rect class="box" x="116" y="128" width="64" height="20"/>
+            <text class="m" x="12" y="178">sub-agent 4</text><rect class="box" x="116" y="164" width="58" height="20"/>
+            <text class="m m--ink" x="12" y="214">sub-agent 5</text><rect class="box" x="116" y="200" width="200" height="20" style="stroke:var(--ink)"/><rect class="mark" x="311" y="205" width="10" height="10"/>
+            <!-- waiting bracket -->
+            <path class="ln" d="M176 232v6h140v-6"/>
+            <text class="m m--ink" x="246" y="258" text-anchor="middle">time spent waiting</text>
+            <text class="m" x="316" y="282" text-anchor="end">time →</text>
+        </svg>
+        </div>
+      </div>
+      <figcaption class="fig__cap" id="cap-tail">
+        <span class="fig__t">Fan-out waits for its slowest worker</span>
+        <span class="fig__meta">Fig. 05 · Timeline</span>
+        <span class="fig__note">Four agents finish fast and wait; one straggler decides everything. With fan-out, the orchestrator's median is roughly the p99 of a single sub-agent. Aggregate histograms, never averages of percentiles.</span></figcaption>
+    </figure>
+
+    <p>Tail latency is not an edge case in an agent system. It is the common case wearing a disguise.</p>
+
+    <h3 id="a-prompt-edit-is-a-config-push">A prompt edit is a config push</h3>
+
+    <p>Replication protects you from independent faults: one worker dies, the others carry on. It does nothing against correlated ones, and almost everything interesting about an agent fleet is correlated. Every agent runs the same prompt, the same model version, the same tool schemas. A bad edit to any of these is not one flaky node. It is a fault in every worker at the same instant, the same shape as the leap-second bug that hit thousands of kernels in one night.</p>
+
+    <p>The outage studies are blunt: hardware causes 10 to 25 percent of incidents, and operator and configuration error leads the list. Your prompts are configuration. So give a prompt edit the discipline any config push gets: version it, canary it on a slice of traffic, diff the outcome metrics against the old version, keep a one-command rollback. Editing the system prompt straight in production is the deployment practice the rest of the industry abandoned twenty years ago.</p>
+
+    <h2 id="part-two">Part two · Design a world where failure rarely starts</h2>
+
+    <h3 id="the-operator-forgets-everything">The operator forgets everything</h3>
+
+    <p>The knowledge needed to operate anything lives in two places: in the head, what you remember, and in the world, what the thing itself shows you. Good design pushes knowledge into the world so you do not have to hold it in your head. A light switch laid out like the room it controls needs no manual.</p>
+
+    <p>An agent takes this to the limit, because its head is erased between every session. Anything it figured out last time is gone unless it was written somewhere durable. So the rule is not an aesthetic preference. It is survival.</p>
+
+    <blockquote class="pull">
+      <p>If it is not in a file, it does not exist tomorrow.</p>
+    </blockquote>
+
+    <p>Externalize every decision, every convention, and above all every why. Prefer one fact per file over one giant file, so partial knowledge can be retrieved without dragging everything into a finite context window.</p>
+
+    <figure class="fig" id="fig-world" aria-labelledby="cap-world">
+      <div class="fig__plate is-html">
+        <div class="world" data-world>
+          <div class="world__panel">
+            <span class="world__h">Session 1</span>
+            <p class="world__p">Discovers the deploy needs <code>--prod</code>. Fixes it.</p>
+            <p class="world__p" data-w="written">Writes the reason to <code>deploy.md</code>.</p>
+            <span class="world__file" data-w="file">
+              <svg viewBox="0 0 12 14" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><path d="M1.5 .5h6l3 3v10h-9z"/><path d="M7.5 .5v3h3"/></svg>
+              deploy.md
+            </span>
+            <button class="switch" type="button" role="switch" aria-checked="true" data-w="switch">
+              <span class="switch__pill" aria-hidden="true"></span>
+              <span>Wrote to disk</span>
+            </button>
+          </div>
+          <div class="world__wipe" aria-hidden="true">
+            <svg viewBox="0 0 56 12" aria-hidden="true" focusable="false"><path d="M0 6H50" class="ln"/><path d="M46 2l5 4-5 4" class="ln"/></svg>
+            <span>memory wiped</span>
+          </div>
+          <div class="world__panel">
+            <span class="world__h">Session 2</span>
+            <div class="world__result">
+              <svg viewBox="0 0 12 12" aria-hidden="true" data-w="tick"><rect x=".5" y=".5" width="11" height="11" fill="#c8ff00" stroke="#0b0d10"/><path d="M3 6.2l2.2 2.2L9.2 4" fill="none" stroke="#0b0d10" stroke-width="1.2"/></svg>
+              <svg viewBox="0 0 12 12" aria-hidden="true" data-w="cross" hidden><path d="M2 2l8 8M10 2l-8 8" fill="none" stroke="#0b0d10" stroke-width="1"/></svg>
+              <p class="world__p" data-w="outcome">Reads <code>deploy.md</code>. Ships correctly on the first try.</p>
             </div>
           </div>
-          <div class="kw-disk on" id="kwDisk">THE WORLD · deploy.md present · the fix survives</div>
-          <button class="kw-toggle" id="kwToggle"><span class="dot"></span><span id="kwLabel">WROTE TO DISK</span></button>
-          <div class="figure__caption">
-            <b>Figure 7:</b> Toggle whether session 1 bothered to write the fix down. The model is equally capable both times. The only thing that changed is whether the knowledge was in the world.
-          </div>
         </div>
+        <p class="world__status" data-w="status" aria-live="polite">The world · <b>deploy.md present · the fix survives</b></p>
+      </div>
+      <figcaption class="fig__cap" id="cap-world">
+        <span class="fig__t">Knowledge in the world</span>
+        <span class="fig__meta">Fig. 06 · Interactive</span>
+        <span class="fig__note">Toggle whether session 1 wrote the fix down. The model is equally capable both times. The only thing that changed is whether the knowledge was in the world.</span></figcaption>
+    </figure>
 
-        <h2><span class="num">08</span>The environment is the conceptual model</h2>
+    <h3 id="the-environment-is-the-conceptual-model">The environment is the conceptual model</h3>
 
-        <p>
-          An agent infers how your project works entirely from what the project shows it: directory names, the README, the instruction files. That surface <strong>is</strong> its mental model, so the surface has to carry its weight.
-        </p>
+    <p>An agent infers how your project works entirely from what the project shows it: directory names, the README, the instruction files. That surface is its mental model, so the surface has to carry its weight.</p>
 
-        <p>
-          Two consequences. First, directory layout is not housekeeping, it is documentation: <code>ingest/ transform/ serve/</code> teaches the data flow on sight in a way that <code>utils/ misc/ stuff/</code> never can. Second, and less obvious, <strong>stale docs are worse than no docs.</strong> With no documentation an agent proceeds carefully; with wrong documentation it proceeds confidently in the wrong direction, because it is acting on a false image with full conviction. Fix drift the moment you see it, or delete it.
-        </p>
+    <p>Directory layout is documentation. <code>ingest/ transform/ serve/</code> teaches the data flow on sight in a way <code>utils/ misc/ stuff/</code> never can. And stale docs are worse than no docs. With no documentation an agent proceeds carefully; with wrong documentation it proceeds confidently in the wrong direction, acting on a false image with full conviction. Fix drift the moment you see it, or delete it.</p>
 
-        <p>
-          Distance is the last lever. The stove knob nearest a burner should control that burner, and the file nearest a module should be the one that explains it. Co-locate what changes together: tests beside the code, config beside its service, a skill's reference material inside the skill's own folder. Proximity is the relationship. And keep one name per concept across every layer. When the CLI says <code>deploy</code>, the docs say <code>publish</code>, and the repo says <code>ship</code>, each rename across a boundary is a translation the agent must carry in the one resource it cannot spare: working memory.
-        </p>
+    <p>Distance matters. The stove knob nearest a burner should control that burner, and the file nearest a module should be the one that explains it. Co-locate what changes together: tests beside the code, config beside its service, a skill's reference material inside the skill's own folder. Proximity is the relationship. Keep one name per concept across every layer. When the CLI says deploy, the docs say publish and the repo says ship, each rename across a boundary is a translation the agent must carry in the one resource it cannot spare, working memory.</p>
 
-        <h2><span class="num">09</span>Index everything; put the trigger on the surface</h2>
+    <h3 id="index-everything">Index everything; put the trigger on the surface</h3>
 
-        <p>
-          You cannot use what you cannot find, and an agent will not load fifty files to discover that one of them is relevant. So every collection gets an <strong>index</strong>: one line per item, each with a hook saying <em>when</em> it matters. The index stays loaded; the items are fetched on demand. Names should predict contents before the file is opened, and flat-with-prefixes beats deep nesting, because every directory level is another round trip.
-        </p>
+    <p>You cannot use what you cannot find, and an agent will not load fifty files to discover that one of them is relevant. So every collection gets an index: one line per item, each with a hook saying when it matters. The index stays loaded; the items are fetched on demand. Names should predict contents before the file is opened, and flat-with-prefixes beats deep nesting, because every directory level is another round trip.</p>
 
-        <p>
-          The same logic governs how you describe a tool or a skill. The agent decides whether to open it from its one-line description alone, so that line is a <em>signifier</em>: the visible cue that an action is possible. Write it as a recognition cue, not a summary. <code>use when the deploy fails</code> beats <code>covers deployment</code>, because agents recognize a matching situation far more reliably than they recall a topic.
-        </p>
+    <p>The same logic governs how you describe a tool or a skill. The agent decides whether to open it from its one-line description alone, so that line is a signifier: the visible cue that an action is possible. Write it as a recognition cue, not a summary. <code>use when the deploy fails</code> beats <code>covers deployment</code>, because agents recognize a matching situation far more reliably than they recall a topic.</p>
 
-        <h2><span class="num">10</span>Make wrong states unrepresentable</h2>
+    <h3 id="make-wrong-states-unrepresentable">Make wrong states unrepresentable</h3>
 
-        <p>
-          The strongest prevention is not better instructions. It is making the wrong action impossible. A three-prong plug cannot enter the socket backwards, so nobody documents which way to insert it. The error is not prevented; it is <em>unrepresentable</em>. Four kinds of constraint do this work in an agent's environment.
-        </p>
+    <p>The strongest prevention is making the wrong action impossible. A three-prong plug cannot enter the socket backwards, so nobody documents which way to insert it. The error is not prevented; it is unrepresentable. Four kinds of constraint do this work in an agent's environment.</p>
 
-        <div class="quad">
-          <div class="quad-card">
-            <h4>Physical · schemas</h4>
-            <p>Typed tool arguments and validators bounce a malformed call before it spreads. The strictest constraint, and the cheapest to enforce.</p>
-          </div>
-          <div class="quad-card">
-            <h4>Cultural · conventions</h4>
-            <p>The same layout, naming, and commands across every project. The agent learns the rules once and reuses them everywhere for free.</p>
-          </div>
-          <div class="quad-card">
-            <h4>Semantic · names</h4>
-            <p>A directory called <code>archive/</code> says "do not edit me" with no rule file. The name itself carries the policy.</p>
-          </div>
-          <div class="quad-card">
-            <h4>Logical · invariants</h4>
-            <p>"Every index entry has a file" turns a missing file from a shrug into a detectable error. Absence becomes information.</p>
-          </div>
-        </div>
+    <p>Physical, meaning schemas: typed tool arguments and validators bounce a malformed call before it spreads. The strictest constraint and the cheapest to enforce. Cultural, meaning conventions: the same layout, naming and commands across every project, learned once and reused everywhere for free. Semantic, meaning names: a directory called <code>archive/</code> says "do not edit me" with no rule file. Logical, meaning invariants: "every index entry has a file" turns a missing file from a shrug into a detectable error. Absence becomes information.</p>
 
-        <p>
-          The corollary for instructions: <strong>a template constrains better than prose.</strong> A skeleton with holes to fill is a physical constraint on the output's shape; a paragraph describing the desired output is a polite request. Give a form, not an essay.
-        </p>
+    <p>The corollary for instructions: a template constrains better than prose. A skeleton with holes to fill is a physical constraint on the output's shape; a paragraph describing the desired output is a polite request. Give a form, not an essay.</p>
 
-        <h2><span class="num">11</span>The two gulfs</h2>
+    <h3 id="the-two-gulfs">The two gulfs</h3>
 
-        <p>
-          Between an operator and any system sit two gulfs. The <strong>gulf of execution</strong> is figuring out how to do the thing. The <strong>gulf of evaluation</strong> is figuring out whether it worked. Good design builds a bridge across each, and an agent crosses both on every action.
-        </p>
+    <p>Between an operator and any system sit two gulfs. The gulf of execution<sup id="fnref-6"><a href="#fn-6" aria-label="Footnote 6">6</a></sup> is figuring out how to do the thing. The gulf of evaluation<sup id="fnref-7"><a href="#fn-7" aria-label="Footnote 7">7</a></sup> is figuring out whether it worked. An agent crosses both on every action, so build a bridge across each: document every project verb as a copy-pasteable command, and make every action produce something verifiable.</p>
 
-        <div class="figure">
-          <svg viewBox="0 0 720 302" role="img" aria-label="An agent and a system separated by a gulf of execution, bridged by runnable one-liners, and a gulf of evaluation, bridged by checkable output">
-            <g class="pop"><rect x="34" y="116" width="150" height="62" rx="10" fill="#fff" stroke="#1a1915" stroke-width="1.6"/>
-            <text x="109" y="143" text-anchor="middle" class="f-t">AGENT</text>
-            <text x="109" y="161" text-anchor="middle" class="f-s">intent</text></g>
-            <g class="pop" style="--d:120ms"><rect x="536" y="116" width="150" height="62" rx="10" fill="#1a1915"/>
-            <text x="611" y="143" text-anchor="middle" class="f-t" style="fill:#f2efe7">SYSTEM</text>
-            <text x="611" y="161" text-anchor="middle" class="f-s" style="fill:#a39d8c">the project</text></g>
+    <p>This is where the two halves of the essay meet. The gulf of evaluation is exactly what end-to-end verification bridges. An action with no observable result is a guess, and an agent that gets no signal will march confidently in the wrong direction, the failure mode evals exist to catch. Without that second bridge, silent success and silent failure are indistinguishable.</p>
 
-            <text x="360" y="24" text-anchor="middle" class="f-t fade" style="--d:550ms;fill:#c25e3f">GULF OF EXECUTION</text>
-            <path class="draw" pathLength="1" style="--d:280ms" d="M184 124 C 320 40, 420 40, 536 124" fill="none" stroke="#c25e3f" stroke-width="1.8" marker-end="url(#aClay)"/>
-            <g class="pop" style="--d:640ms"><rect x="230" y="48" width="260" height="26" rx="13" fill="#fff" stroke="#c25e3f"/>
-            <text x="360" y="65" text-anchor="middle" class="f-x" style="fill:#c25e3f">bridge: a runnable one-liner per verb</text></g>
-            <text x="360" y="102" text-anchor="middle" class="f-x fade" style="--d:780ms;fill:#c25e3f">"how do I do this?"</text>
+    <h3 id="slips-and-mistakes">Slips and mistakes</h3>
 
-            <path class="draw" pathLength="1" style="--d:900ms" d="M536 170 C 420 254, 320 254, 184 170" fill="none" stroke="#69793f" stroke-width="1.8" marker-end="url(#aOlive)"/>
-            <g class="pop" style="--d:1260ms"><rect x="215" y="220" width="290" height="26" rx="13" fill="#fff" stroke="#69793f"/>
-            <text x="360" y="237" text-anchor="middle" class="f-x" style="fill:#69793f">bridge: every action emits checkable output</text></g>
-            <text x="360" y="198" text-anchor="middle" class="f-x fade" style="--d:1400ms;fill:#69793f">"did it actually work?"</text>
-            <text x="360" y="280" text-anchor="middle" class="f-t fade" style="--d:1170ms;fill:#69793f">GULF OF EVALUATION</text>
-          </svg>
-          <div class="figure__caption">
-            <b>Figure 8:</b> Document every project verb as a copy-pasteable command, and make every action produce something verifiable. Without the bottom plank, silent success and silent failure are indistinguishable.
-          </div>
-        </div>
+    <p>Two kinds of error look identical in a postmortem and need opposite fixes. A slip is the right intention executed wrong: the agent meant the correct path and fumbled it. A mistake is the wrong intention from a bad mental model: it did the wrong thing with full confidence because it misunderstood the situation.</p>
 
-        <p>
-          This is where the two halves of the essay meet: the gulf of evaluation is exactly what end-to-end verification bridges. <strong>An action with no observable result is a guess</strong>, and an agent that gets no signal will march confidently in the wrong direction, exactly the failure mode evals exist to catch.
-        </p>
+    <p>Slips are mechanical, so automate the catch. Mistakes come from the document that gave the agent the wrong picture, so fix the document, not the one incident. Two corollaries make both kinds cheap. Put forcing functions<sup id="fnref-8"><a href="#fn-8" aria-label="Footnote 8">8</a></sup> on destructive operations and keep everything reversible, git on everything, so undo always exists. And record the why, not just the what, because the reason is the part that generalizes to the next situation; the patch only fixes this one.</p>
 
-        <h2><span class="num">12</span>Slips versus mistakes</h2>
+    <h2 id="part-three">Part three · How they compose</h2>
 
-        <p>
-          Two kinds of error look identical in a postmortem and need opposite fixes. A <strong>slip</strong> is the right intention executed wrong: the agent meant the correct path and fumbled it. A <strong>mistake</strong> is the wrong intention from a bad mental model: it did the wrong thing with full confidence because it misunderstood the situation.
-        </p>
+    <h3 id="prevent-before-tolerate-after">Prevent before, tolerate after</h3>
 
-        <div class="figure">
-          <svg viewBox="0 0 720 240" role="img" aria-label="An error splits into a slip, caught by linters tests and hooks, and a mistake, fixed by repairing the docs and conceptual model">
-            <g class="pop"><rect x="290" y="18" width="140" height="42" rx="9" fill="#1a1915"/>
-            <text x="360" y="44" text-anchor="middle" class="f-t" style="fill:#f2efe7">AN ERROR</text></g>
-            <line class="draw" pathLength="1" style="--d:200ms" x1="330" y1="60" x2="182" y2="102" stroke="#6e6859" stroke-width="1.3" marker-end="url(#aInk)"/>
-            <line class="draw" pathLength="1" style="--d:200ms" x1="390" y1="60" x2="538" y2="102" stroke="#6e6859" stroke-width="1.3" marker-end="url(#aInk)"/>
+    <p>Put the two halves on a single timeline around one agent action and they stop being separate ideas:</p>
 
-            <g class="pop" style="--d:400ms"><rect x="60" y="106" width="244" height="50" rx="9" fill="#f4f6ec" stroke="#69793f" stroke-width="1.5"/>
-            <text x="182" y="129" text-anchor="middle" class="f-t" style="fill:#69793f">SLIP</text>
-            <text x="182" y="146" text-anchor="middle" class="f-s" style="fill:#69793f">right plan, wrong execution</text></g>
-            <line class="draw" pathLength="1" style="--d:600ms" x1="182" y1="156" x2="182" y2="178" stroke="#69793f" stroke-width="1.3" marker-end="url(#aOlive)"/>
-            <g class="pop" style="--d:720ms"><rect x="60" y="180" width="244" height="44" rx="9" fill="#fff" stroke="#69793f" stroke-dasharray="5 4"/>
-            <text x="182" y="201" text-anchor="middle" class="f-s" style="fill:#69793f">fix: linters · tests · hooks</text>
-            <text x="182" y="216" text-anchor="middle" class="f-x" style="fill:#69793f">catch it mechanically</text></g>
-
-            <g class="pop" style="--d:500ms"><rect x="416" y="106" width="244" height="50" rx="9" fill="#fdf1ec" stroke="#c25e3f" stroke-width="1.5"/>
-            <text x="538" y="129" text-anchor="middle" class="f-t" style="fill:#c25e3f">MISTAKE</text>
-            <text x="538" y="146" text-anchor="middle" class="f-s" style="fill:#c25e3f">wrong mental model</text></g>
-            <line class="draw" pathLength="1" style="--d:700ms" x1="538" y1="156" x2="538" y2="178" stroke="#c25e3f" stroke-width="1.3" marker-end="url(#aClay)"/>
-            <g class="pop" style="--d:820ms"><rect x="416" y="180" width="244" height="44" rx="9" fill="#fff" stroke="#c25e3f" stroke-dasharray="5 4"/>
-            <text x="538" y="201" text-anchor="middle" class="f-s" style="fill:#c25e3f">fix: repair the docs / model</text>
-            <text x="538" y="216" text-anchor="middle" class="f-x" style="fill:#c25e3f">not just this incident</text></g>
-          </svg>
-          <div class="figure__caption">
-            <b>Figure 9:</b> When an agent confidently does the wrong thing, that is a mistake, and the fix is the document that gave it the wrong picture, not a patch on the one incident. Slips are mechanical, so automate the catch.
-          </div>
-        </div>
-
-        <p>
-          Two corollaries make errors cheap. Put <em>forcing functions</em> on destructive operations and keep everything reversible, git on everything, so undo always exists. And record the <em>why</em>, not just the what, because the reason is the part that generalizes to the next situation; the patch only fixes this one.
-        </p>
-
-        <div class="part-label">Part three · How they compose</div>
-
-        <h2><span class="num">13</span>Prevent at the boundary, tolerate past it</h2>
-
-        <p>
-          Put the two halves on a single timeline around one agent action and they stop being separate ideas. Everything <em>before</em> the action is prevention: knowledge in the world, constraints that make wrong states unrepresentable, signifiers that point the agent at the right move. Everything <em>after</em> the action is tolerance: idempotency so a retry is safe, a fencing token so a stale agent is rejected, end-to-end verification so you know it worked, an append-only log so nothing is silently lost.
-        </p>
-
-        <div class="figure">
-          <svg viewBox="0 0 720 240" role="img" aria-label="A single agent action in the center; prevention controls sit before it and tolerance controls sit after it">
-            <rect class="fade" x="20" y="40" width="300" height="170" rx="12" fill="rgba(194,94,63,0.05)" stroke="#c25e3f" stroke-dasharray="4 4"/>
-            <rect class="fade" style="--d:100ms" x="400" y="40" width="300" height="170" rx="12" fill="rgba(26,25,21,0.04)" stroke="#1a1915" stroke-dasharray="4 4"/>
-            <text class="f-t fade" style="--d:180ms;fill:#c25e3f" x="40" y="64">BEFORE · PREVENT</text>
-            <text class="f-t fade" style="--d:180ms" x="420" y="64">AFTER · TOLERATE</text>
-
-            <g class="pop" style="--d:280ms"><circle cx="360" cy="125" r="34" fill="#1a1915"/>
-            <text x="360" y="121" text-anchor="middle" class="f-t" style="fill:#f2efe7">AGENT</text>
-            <text x="360" y="137" text-anchor="middle" class="f-t" style="fill:#f2efe7">ACTS</text></g>
-
-            <g class="f-s">
-              <g class="pop" style="--d:420ms"><rect x="40" y="84" width="260" height="24" rx="12" fill="#fff" stroke="#c25e3f"/><text x="52" y="100">knowledge in the world</text></g>
-              <g class="pop" style="--d:510ms"><rect x="40" y="116" width="260" height="24" rx="12" fill="#fff" stroke="#c25e3f"/><text x="52" y="132">constraints · wrong states unrepresentable</text></g>
-              <g class="pop" style="--d:600ms"><rect x="40" y="148" width="260" height="24" rx="12" fill="#fff" stroke="#c25e3f"/><text x="52" y="164">signifiers · "use when X"</text></g>
-              <g class="pop" style="--d:690ms"><rect x="40" y="180" width="260" height="22" rx="11" fill="#fff" stroke="#c25e3f"/><text x="52" y="195">a runnable one-liner for the verb</text></g>
+    <figure class="fig fig--wide" id="fig-timeline" data-anim aria-labelledby="cap-timeline">
+      <div class="fig__plate is-scroll">
+        <div class="fig__scroll" data-focus-x="400">
+        <svg class="fig__svg--wide" viewBox="0 0 760 240" data-min="700" role="img" aria-label="A timeline with the action at its centre. Three prevention slices stand before it: knowledge in the world, unrepresentable states, signifiers. Four tolerance slices stand after it: idempotency key, fencing token, end-to-end check, append-only log. Each slice has holes. One fault path gets through the first slice and is stopped at the second; another passes all three prevention slices, crosses the action, and is stopped at the end-to-end check.">
+            <defs>
+              <mask id="cutL" maskUnits="userSpaceOnUse" x="0" y="0" width="760" height="240">
+                <rect x="0" y="0" width="760" height="240" fill="#fff"/>
+                <circle cx="120" cy="90" r="5" fill="#000"/><circle cx="120" cy="125" r="5" fill="#000"/>
+                <circle cx="200" cy="125" r="5" fill="#000"/>
+                <circle cx="280" cy="80" r="5" fill="#000"/><circle cx="280" cy="135" r="5" fill="#000"/>
+                <circle cx="440" cy="100" r="5" fill="#000"/>
+                <circle cx="520" cy="130" r="5" fill="#000"/>
+                <circle cx="600" cy="85" r="5" fill="#000"/>
+                <circle cx="680" cy="115" r="5" fill="#000"/><circle cx="680" cy="140" r="5" fill="#000"/>
+              </mask>
+              <clipPath id="drawA"><rect class="draw" x="26" y="60" width="180" height="60" style="--d:.2s"/></clipPath>
+              <clipPath id="drawB"><rect class="draw" x="26" y="60" width="584" height="100" style="--d:1.4s"/></clipPath>
+            </defs>
+            <text class="t" x="40" y="40">Prevent · before</text>
+            <text class="t" x="720" y="40" text-anchor="end">Tolerate · after</text>
+            <!-- timeline -->
+            <path class="ln" d="M30 150H730"/>
+            <!-- slices, with holes cut -->
+            <g mask="url(#cutL)" class="slices">
+              <rect x="116" y="70" width="8" height="80"/>
+              <rect x="196" y="70" width="8" height="80"/>
+              <rect x="276" y="70" width="8" height="80"/>
+              <rect x="436" y="70" width="8" height="80"/>
+              <rect x="516" y="70" width="8" height="80"/>
+              <rect x="596" y="70" width="8" height="80"/>
+              <rect x="676" y="70" width="8" height="80"/>
             </g>
-            <g class="f-s">
-              <g class="pop" style="--d:460ms"><rect x="420" y="84" width="260" height="24" rx="12" fill="#fff" stroke="#1a1915"/><text x="432" y="100">idempotency key · safe retry</text></g>
-              <g class="pop" style="--d:550ms"><rect x="420" y="116" width="260" height="24" rx="12" fill="#fff" stroke="#1a1915"/><text x="432" y="132">fencing token · stale owner rejected</text></g>
-              <g class="pop" style="--d:640ms"><rect x="420" y="148" width="260" height="24" rx="12" fill="#fff" stroke="#1a1915"/><text x="432" y="164">end-to-end verification of the outcome</text></g>
-              <g class="pop" style="--d:730ms"><rect x="420" y="180" width="260" height="22" rx="11" fill="#fff" stroke="#1a1915"/><text x="432" y="195">append it to the log · nothing lost</text></g>
+            <g class="ln">
+              <circle cx="120" cy="90" r="5"/><circle cx="120" cy="125" r="5"/>
+              <circle cx="200" cy="125" r="5"/>
+              <circle cx="280" cy="80" r="5"/><circle cx="280" cy="135" r="5"/>
+              <circle cx="440" cy="100" r="5"/>
+              <circle cx="520" cy="130" r="5"/>
+              <circle cx="600" cy="85" r="5"/>
+              <circle cx="680" cy="115" r="5"/><circle cx="680" cy="140" r="5"/>
             </g>
-            <line class="fade" style="--d:820ms" x1="320" y1="125" x2="324" y2="125" stroke="#c25e3f" stroke-width="2" marker-end="url(#aClay)"/>
-            <line class="fade" style="--d:820ms" x1="396" y1="125" x2="400" y2="125" stroke="#1a1915" stroke-width="2" marker-end="url(#aInk)"/>
-          </svg>
-          <div class="figure__caption">
-            <b>Figure 10:</b> Defense in depth, the Swiss-cheese model applied to agents: prevention reduces how often a fault starts, tolerance keeps the faults that slip through from becoming a wrong final answer.
-          </div>
+            <!-- fault paths -->
+            <g clip-path="url(#drawA)">
+              <path class="ln dash" style="stroke:#3b3f45" d="M30 90H120L196 90"/>
+            </g>
+            <g class="fade" style="--d:1.2s"><path class="cross" d="M197 87l6 6M203 87l-6 6"/></g>
+            <g clip-path="url(#drawB)">
+              <path class="ln dash" style="stroke:#3b3f45" d="M30 128 120 125 200 125 280 135 400 150 440 100 520 130 596 115"/>
+            </g>
+            <g class="fade" style="--d:2.4s"><path class="cross" d="M597 112l6 6M603 112l-6 6"/></g>
+            <!-- the action -->
+            <rect class="mark" x="395" y="145" width="10" height="10"/>
+            <text class="m m--ink" x="400" y="178" text-anchor="middle">the action</text>
+            <!-- slice labels -->
+            <text class="m" x="120" y="198" text-anchor="middle">knowledge in the world</text>
+            <text class="m" x="200" y="216" text-anchor="middle">unrepresentable states</text>
+            <text class="m" x="280" y="198" text-anchor="middle">signifiers</text>
+            <text class="m" x="440" y="198" text-anchor="middle">idempotency key</text>
+            <text class="m" x="520" y="216" text-anchor="middle">fencing token</text>
+            <text class="m" x="600" y="198" text-anchor="middle">end-to-end check</text>
+            <text class="m" x="680" y="216" text-anchor="middle">append-only log</text>
+        </svg>
+        <svg class="fig__svg--phone" viewBox="0 0 340 450" role="img" aria-label="A timeline running down the page with the action at its centre. Three prevention slices stand before it: knowledge in the world, unrepresentable states, signifiers. Four tolerance slices stand after it: idempotency key, fencing token, end-to-end check, append-only log. Each slice has holes. One fault path gets through the first slice and is stopped at the second; another passes all three prevention slices, crosses the action, and is stopped at the end-to-end check.">
+            <defs>
+              <mask id="cutL-p" maskUnits="userSpaceOnUse" x="0" y="0" width="340" height="450">
+                <rect x="0" y="0" width="340" height="450" fill="#fff"/>
+                <circle cx="60" cy="54" r="5" fill="#000"/><circle cx="100" cy="54" r="5" fill="#000"/>
+                <circle cx="100" cy="104" r="5" fill="#000"/>
+                <circle cx="50" cy="154" r="5" fill="#000"/><circle cx="110" cy="154" r="5" fill="#000"/>
+                <circle cx="80" cy="274" r="5" fill="#000"/>
+                <circle cx="110" cy="324" r="5" fill="#000"/>
+                <circle cx="55" cy="374" r="5" fill="#000"/>
+                <circle cx="85" cy="424" r="5" fill="#000"/><circle cx="115" cy="424" r="5" fill="#000"/>
+              </mask>
+              <clipPath id="drawA-p"><rect class="draw draw--y" x="40" y="28" width="40" height="76" style="--d:.2s"/></clipPath>
+              <clipPath id="drawB-p"><rect class="draw draw--y" x="20" y="28" width="120" height="346" style="--d:1.4s"/></clipPath>
+            </defs>
+            <text class="t" x="146" y="24">Prevent · before</text>
+            <text class="t" x="146" y="244">Tolerate · after</text>
+            <!-- timeline -->
+            <path class="ln" d="M30 32V440"/>
+            <!-- slices, with holes cut -->
+            <g mask="url(#cutL-p)" class="slices">
+              <rect x="30" y="50" width="100" height="8"/>
+              <rect x="30" y="100" width="100" height="8"/>
+              <rect x="30" y="150" width="100" height="8"/>
+              <rect x="30" y="270" width="100" height="8"/>
+              <rect x="30" y="320" width="100" height="8"/>
+              <rect x="30" y="370" width="100" height="8"/>
+              <rect x="30" y="420" width="100" height="8"/>
+            </g>
+            <g class="ln">
+              <circle cx="60" cy="54" r="5"/><circle cx="100" cy="54" r="5"/>
+              <circle cx="100" cy="104" r="5"/>
+              <circle cx="50" cy="154" r="5"/><circle cx="110" cy="154" r="5"/>
+              <circle cx="80" cy="274" r="5"/>
+              <circle cx="110" cy="324" r="5"/>
+              <circle cx="55" cy="374" r="5"/>
+              <circle cx="85" cy="424" r="5"/><circle cx="115" cy="424" r="5"/>
+            </g>
+            <!-- fault paths -->
+            <g clip-path="url(#drawA-p)">
+              <path class="ln dash" style="stroke:#3b3f45" d="M60 32V96"/>
+            </g>
+            <g class="fade" style="--d:1.2s"><path class="cross" d="M57 96l6 6M63 96l-6 6"/></g>
+            <g clip-path="url(#drawB-p)">
+              <path class="ln dash" style="stroke:#3b3f45" d="M100 32 100 54 100 104 110 154 30 205 80 274 110 324 55 366"/>
+            </g>
+            <g class="fade" style="--d:2.4s"><path class="cross" d="M52 366l6 6M58 366l-6 6"/></g>
+            <!-- the action -->
+            <rect class="mark" x="25" y="200" width="10" height="10"/>
+            <text class="m m--ink" x="146" y="209">the action</text>
+            <!-- slice labels -->
+            <text class="m" x="146" y="58">knowledge in the world</text>
+            <text class="m" x="146" y="108">unrepresentable states</text>
+            <text class="m" x="146" y="158">signifiers</text>
+            <text class="m" x="146" y="278">idempotency key</text>
+            <text class="m" x="146" y="328">fencing token</text>
+            <text class="m" x="146" y="378">end-to-end check</text>
+            <text class="m" x="146" y="428">append-only log</text>
+        </svg>
         </div>
+      </div>
+      <figcaption class="fig__cap" id="cap-timeline">
+        <span class="fig__t">Prevention before the action, tolerance after</span>
+        <span class="fig__meta">Fig. 07 · Animated</span>
+        <span class="fig__note">Defense in depth, the Swiss-cheese model applied to agents: prevention reduces how often a fault starts; tolerance keeps the faults that slip through from becoming a wrong final answer.</span></figcaption>
+    </figure>
 
-        <p>
-          The hinge is the difference between a <em>fault</em> and a <em>failure</em>. A fault is one component deviating from spec; a failure is the user seeing a wrong result. You cannot drive the fault rate to zero, the model will sometimes be wrong, so the entire job is to stop a fault from becoming a failure. Prevention lowers how often faults start. Tolerance stops the ones that do from reaching the user. Neither half alone is enough.
-        </p>
+    <p>The hinge is the difference between a fault and a failure. A fault is one component deviating from spec. A failure is the user seeing a wrong result. You cannot drive the fault rate to zero; the model will sometimes be wrong. So the entire job is to stop a fault from becoming a failure. Prevention lowers how often faults start. Tolerance stops the ones that do from reaching the user. Neither half alone is enough.</p>
 
-        <div class="sheet">
-          <div class="sheet__head">The build sheet</div>
-          <div class="sheet__row"><span class="k">Externalize</span><span>If it is not in a file, it does not exist tomorrow. Write down every decision, convention, and <b>why</b>.</span></div>
-          <div class="sheet__row"><span class="k">Log</span><span>Append-only trace is the truth; memory and indexes are rebuildable caches; corrections and deletions are new entries, never erasures.</span></div>
-          <div class="sheet__row"><span class="k">Idempotency</span><span>Stamp every external action with an ID; dedupe at the receiver. "No response" never means "didn't happen".</span></div>
-          <div class="sheet__row"><span class="k">One owner</span><span>Single orchestrator with a fencing token the resource checks. Check-then-act is always a race.</span></div>
-          <div class="sheet__row"><span class="k">Re-validate</span><span>A plan is a premise captured at observation time. Check the precondition again immediately before the side effect.</span></div>
-          <div class="sheet__row"><span class="k">Verify</span><span>Grade the final outcome, not per-step status. Every action emits checkable output. Watch the p99.</span></div>
-          <div class="sheet__row"><span class="k">Canary</span><span>Prompts, schemas, and model pins are config pushes: versioned, rolled out to a slice, one-command rollback.</span></div>
-          <div class="sheet__row"><span class="k">Signify</span><span>Index every collection; describe each item by its trigger (<b>use when X</b>), on the surface.</span></div>
-          <div class="sheet__row"><span class="k">Constrain</span><span>Make wrong states unrepresentable: schemas, conventions, meaningful names, invariants. A form beats an essay.</span></div>
-          <div class="sheet__row"><span class="k">Make it cheap</span><span>Reversible by default (git everywhere); forcing functions on destructive ops; fix the model behind a mistake.</span></div>
-        </div>
+    <h3 id="the-build-sheet">The build sheet</h3>
 
-        <h2><span class="num">14</span>Memory outlives the agent</h2>
+    <p>Ten rules, on one sheet.</p>
 
-        <p>
-          One more rule only shows up with time: <strong>data outlives code</strong>. The notes your agent writes today will be read by an agent version that does not exist yet, running a model that has not shipped, against formats you have not designed. Two compatibilities follow. Backward: new agents must read old records. Forward, the harder one: old agents must survive records written by newer ones, which means tolerating fields they do not understand.
-        </p>
+    <ol>
+      <li><strong>Externalize.</strong> If it is not in a file, it does not exist tomorrow. Write down every decision, convention and why.</li>
+      <li><strong>Log.</strong> The append-only trace is the truth; memory and indexes are rebuildable caches; corrections and deletions are new entries, never erasures.</li>
+      <li><strong>Idempotency.</strong> Stamp every external action with an ID; dedupe at the receiver. "No response" never means "didn't happen".</li>
+      <li><strong>One owner.</strong> A single orchestrator with a fencing token the resource checks. Check-then-act is always a race.</li>
+      <li><strong>Re-validate.</strong> A plan is a premise captured at observation time. Check the precondition again immediately before the side effect.</li>
+      <li><strong>Verify.</strong> Grade the final outcome, not per-step status. Every action emits checkable output. Watch the p99.</li>
+      <li><strong>Canary.</strong> Prompts, schemas and model pins are config pushes: versioned, rolled out to a slice, one-command rollback.</li>
+      <li><strong>Signify.</strong> Index every collection; describe each item by its trigger (use when X), on the surface.</li>
+      <li><strong>Constrain.</strong> Make wrong states unrepresentable: schemas, conventions, meaningful names, invariants. A form beats an essay.</li>
+      <li><strong>Make it cheap.</strong> Reversible by default, git everywhere; forcing functions on destructive ops; fix the model behind a mistake.</li>
+    </ol>
 
-        <p>
-          The classic trap is the round-trip bug. An agent reads a memory record, understands half the fields, rewrites the record, and silently drops the half it did not parse. Any agent that edits memory it only partially understands has this bug, so preserve unknown fields explicitly. And when the format truly must change, do not migrate in place: replay the log into a new view beside the old one, compare them, then switch. The log makes that a routine operation. In-place migration makes it a heart transplant.
-        </p>
+    <h3 id="memory-outlives-the-agent">Memory outlives the agent</h3>
 
-        <h2><span class="num">15</span>Don't blame the agent</h2>
+    <p>One more rule only shows up with time: data outlives code. The notes your agent writes today will be read by an agent version that does not exist yet, running a model that has not shipped, against formats you have not designed. Two compatibilities follow. Backward: new agents must read old records. Forward, the harder one: old agents must survive records written by newer ones, which means tolerating fields they do not understand.</p>
 
-        <p>
-          "Human error" is usually a design failure wearing a disguise: the door had no handle, the stove had no mapping, the knowledge was trapped in someone's head. The same is true of agents, and it is the most useful instinct to build.
-        </p>
+    <p>The classic trap is the round-trip bug. An agent reads a memory record, understands half the fields, rewrites the record, and silently drops the half it did not parse. Any agent that edits memory it only partially understands has this bug, so preserve unknown fields explicitly. When the format truly must change, do not migrate in place. Replay the log into a new view beside the old one, compare them, then switch. The log makes that a routine operation. In-place migration makes it a heart transplant.</p>
 
-        <p class="pull-quote">
-          When an agent flails, it is almost always the environment failing to put knowledge in the world, or the system failing to tolerate a fault it could have. Design the world, design the system, and the agent gets it right by default.
-        </p>
+    <h3 id="dont-blame-the-agent">Don't blame the agent</h3>
 
-        <p>
-          This is also why the frame matters commercially. The model is commoditizing; capability is converging and getting cheaper every quarter. The durable engineering, the part that compounds and is hard to copy, is the system around the model: the memory substrate, the verification layer, the environment design. The teams that win will not be the ones with a marginally better prompt. They will be the ones who treated the agent as one unreliable, amnesiac component and built the scaffolding for it.
-        </p>
+    <p>"Human error" is usually a design failure wearing a disguise: the door had no handle, the stove had no mapping, the knowledge was trapped in someone's head. The same is true of agents, and it is the most useful instinct to build. When one flails, it is almost always the environment failing to put knowledge in the world, or the system failing to tolerate a fault it could have. Design the world, design the system, and the agent gets it right by default.</p>
 
-        <div class="footer-note">
-          Where this came from: nearly everything above is distilled from two books written before LLMs existed. The tolerance half is Martin Kleppmann's <a href="https://dataintensive.net" target="_blank" rel="noopener"><em>Designing Data-Intensive Applications</em></a> (2017); the prevention half is Don Norman's <em>The Design of Everyday Things</em> (1988). Read them.
-        </div>
-      </article>
-    </main>
+    <p>The frame matters commercially too. The model is commoditizing; capability is converging and getting cheaper every quarter. The durable engineering, the part that compounds and is hard to copy, is the system around the model: the memory substrate, the verification layer, the environment design. The teams that win will be the ones who treated the agent as one unreliable, amnesiac component and built the scaffolding for it.</p>
 
-    <script>
-      // Figure choreography: hidden states only exist once .fig-anim is added,
-      // so no-JS and reduced-motion readers always see the complete diagrams.
-      (function () {
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-        const figs = document.querySelectorAll('.figure, .hero');
-        figs.forEach((f) => f.classList.add('fig-anim'));
-        const io = new IntersectionObserver((entries) => {
-          entries.forEach((e) => {
-            if (e.isIntersecting) { e.target.classList.add('fig-on'); io.unobserve(e.target); }
-          });
-        }, { threshold: 0.25 });
-        figs.forEach((f) => io.observe(f));
-      })();
+    <p>With an idempotency key on the send, the email timeout is boring: retry, and the receiver drops the duplicate. With the attempt in the append-only log, the next session knows it happened. The model never had to be smarter. The system around it just stopped asking it to guess.</p>
 
-      // Knowledge-in-the-world toggle
-      (function () {
-        const btn = document.getElementById('kwToggle');
-        if (!btn) return;
-        const write = document.getElementById('kwWrite');
-        const result = document.getElementById('kwResult');
-        const disk = document.getElementById('kwDisk');
-        const label = document.getElementById('kwLabel');
-        let on = true;
-        function render() {
-          btn.classList.toggle('off', !on);
-          label.textContent = on ? 'WROTE TO DISK' : 'SKIPPED THE WRITE';
-          if (on) {
-            write.innerHTML = 'Writes the reason to <code>deploy.md</code>.';
-            result.className = 'kw-body good';
-            result.innerHTML = 'Reads <code>deploy.md</code>, ships correctly on the first try. ✓';
-            disk.className = 'kw-disk on';
-            disk.textContent = 'THE WORLD · deploy.md present · the fix survives';
-          } else {
-            write.innerHTML = 'Keeps the reason only in this session’s context.';
-            result.className = 'kw-body bad';
-            result.innerHTML = 'Knows nothing. Rediscovers the bug, ships it broken, debugs from zero. ✗';
-            disk.className = 'kw-disk off';
-            disk.textContent = 'THE WORLD · deploy.md absent · the fix is gone';
-          }
-        }
-        btn.addEventListener('click', () => { on = !on; render(); });
-        render();
-      })();
-    </script>
-  </body>
+    <p>Where this came from: nearly everything above is distilled from two books written before LLMs existed. The tolerance half is Martin Kleppmann's <em>Designing Data-Intensive Applications</em> (2017); the prevention half is Don Norman's <em>The Design of Everyday Things</em> (1988). Read them.</p>
+
+  </div>
+
+  <section class="fn" aria-labelledby="fn-h">
+    <h2 id="fn-h" class="vh">Footnotes</h2>
+    <ol>
+      <li id="fn-1">Tombstone: a deletion recorded as its own log entry, so merges and replays know the fact was removed rather than never written.&nbsp;<a href="#fnref-1" aria-label="Back to the text, note 1">↩</a></li>
+      <li id="fn-2">Idempotency: the property that doing an action twice has the same effect as doing it once, which is what makes a blind retry safe.&nbsp;<a href="#fnref-2" aria-label="Back to the text, note 2">↩</a></li>
+      <li id="fn-3">Fencing token: a number that increases on every ownership handover; the shared resource rejects any write stamped with an older number than the highest it has seen.&nbsp;<a href="#fnref-3" aria-label="Back to the text, note 3">↩</a></li>
+      <li id="fn-4">Write skew: two writers each read the same state, make disjoint writes that are individually valid, and jointly break an invariant neither touched alone.&nbsp;<a href="#fnref-4" aria-label="Back to the text, note 4">↩</a></li>
+      <li id="fn-5">99th percentile (p99): the latency of the slowest 1% of calls. Fan out to enough workers in parallel and the odds that at least one call lands in that tail approach certainty.&nbsp;<a href="#fnref-5" aria-label="Back to the text, note 5">↩</a></li>
+      <li id="fn-6">Gulf of execution: Norman's name for the gap between intending an action and knowing how to perform it in the system at hand.&nbsp;<a href="#fnref-6" aria-label="Back to the text, note 6">↩</a></li>
+      <li id="fn-7">Gulf of evaluation: the matching gap on the way back, between having acted and knowing whether the action actually worked.&nbsp;<a href="#fnref-7" aria-label="Back to the text, note 7">↩</a></li>
+      <li id="fn-8">Forcing function: a design that physically interrupts an action until a check is made, like a confirmation gate wired in front of a destructive command.&nbsp;<a href="#fnref-8" aria-label="Back to the text, note 8">↩</a></li>
+    </ol>
+  </section>
+
+  <nav class="pn" aria-label="Previous and next essay">
+    <a class="pn--prev" href="/blog/cad-reward-design"><span class="pn__k">Previous</span><span class="pn__t">1976</span></a>
+    <a class="pn--next" href="/blog/spec-rewards"><span class="pn__k">Next</span><span class="pn__t">Specifications Are Decision Boundaries</span></a>
+  </nav>
+
+</article>
+</div>
+
+<script type="module" data-page>
+  const root = document.querySelector('main[data-page="essay"]');
+  if (root) {
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* animated figures play once, from the start, when they come into view. The markup is already the final frame. */
+    const anim = [...root.querySelectorAll('.fig[data-anim]')];
+    if (!reduced && 'IntersectionObserver' in window && anim.length) {
+      const io = new IntersectionObserver(es => es.forEach(en => {
+        if (en.isIntersecting) { en.target.classList.add('is-play'); io.unobserve(en.target); }
+      }), { threshold: .35 });
+      anim.forEach(el => io.observe(el));
+      window.addEventListener('white:navigate', () => io.disconnect(), { once: true });
+    }
+
+    /* wide figures on a narrow screen: the plate scrolls sideways. Fade the edge where there is more, make the
+       scroller focusable only while it overflows, and open the factory on its centre */
+    const scrollers = [...root.querySelectorAll('.fig__scroll')];
+    const edges = el => {
+      const max = el.scrollWidth - el.clientWidth, can = max > 1;
+      if (can) { el.tabIndex = 0; el.setAttribute('role', 'group'); el.setAttribute('aria-label', 'Diagram, scrolls sideways'); }
+      else { el.removeAttribute('tabindex'); el.removeAttribute('role'); el.removeAttribute('aria-label'); }
+      const side = [el.scrollLeft > 1 && 'left', el.scrollLeft < max - 1 && 'right'].filter(Boolean).join(' ');
+      el.parentElement.dataset.edge = can && side ? side : 'none';
+    };
+    scrollers.forEach(el => {
+      const fx = +el.dataset.focusX, vb = el.firstElementChild?.viewBox?.baseVal?.width;
+      if (fx && vb && el.scrollWidth > el.clientWidth) el.scrollLeft = fx / vb * el.scrollWidth - el.clientWidth / 2;
+      edges(el);
+      el.addEventListener('scroll', () => edges(el), { passive: true });
+    });
+    if (scrollers.length) {
+      const onResize = () => scrollers.forEach(edges);
+      window.addEventListener('resize', onResize, { passive: true });
+      window.addEventListener('white:navigate', () => window.removeEventListener('resize', onResize), { once: true });
+    }
+
+    /* knowledge in the world: one switch, two sessions */
+    const w = root.querySelector('[data-world]');
+    if (w) {
+      const $ = k => w.parentElement.querySelector(`[data-w="${k}"]`);
+      const sw = $('switch'), written = $('written'), file = $('file'), tick = $('tick'), cross = $('cross'), outcome = $('outcome'), status = $('status');
+      const fading = [written, file, outcome.parentElement, status];
+      let busy = false;
+      const copy = {
+        on:  { outcome: 'Reads <code>deploy.md</code>. Ships correctly on the first try.', status: 'The world · <b>deploy.md present · the fix survives</b>' },
+        off: { outcome: 'Rediscovers the failure. Spends the session on it again.',      status: 'The world · <b>empty · the fix is lost</b>' },
+      };
+      const render = on => {
+        sw.setAttribute('aria-checked', String(on));
+        written.hidden = !on; file.hidden = !on;
+        tick.hidden = !on; cross.hidden = on;
+        outcome.innerHTML = copy[on ? 'on' : 'off'].outcome;
+        status.innerHTML = copy[on ? 'on' : 'off'].status;
+      };
+      sw.addEventListener('click', () => {
+        if (busy) return;
+        const on = sw.getAttribute('aria-checked') !== 'true';
+        if (reduced) { render(on); return; }
+        busy = true;
+        fading.forEach(el => el.classList.add('is-fading'));
+        setTimeout(() => {
+          render(on);
+          void status.offsetHeight;                      /* commit the hidden state before fading back in */
+          fading.forEach(el => el.classList.remove('is-fading'));
+          busy = false;
+        }, 200);
+      });
+    }
+  }
+</script>
+</main>
+
+<footer class="foot">
+  <div class="wrap grid">
+    <ul class="foot__links">
+      <li><a href="https://x.com/Pran_Ker" target="_blank" rel="noopener">X</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://github.com/Pran-Ker" target="_blank" rel="noopener">GitHub</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://www.linkedin.com/in/prannay/" target="_blank" rel="noopener">LinkedIn</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://scholar.google.com/citations?user=Y3jw_UgAAAAJ" target="_blank" rel="noopener">Scholar</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://www.goodreads.com/user/show/193930535-prannay-hebbar" target="_blank" rel="noopener">Goodreads</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://medium.com/@Pran-Ker" target="_blank" rel="noopener">Medium</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://huggingface.co/Pran-Ker" target="_blank" rel="noopener">Hugging Face</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://openreview.net/profile?id=%7EPrannay_Hebbar1" target="_blank" rel="noopener">OpenReview</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://calendly.com/prannay/consulting" target="_blank" rel="noopener">Calendly</a><span aria-hidden="true">↗</span></li>
+    </ul>
+    <div class="foot__base">
+      <span>© 2026 Prannay Hebbar</span>
+      <span>San Francisco</span>
+    </div>
+  </div>
+</footer>
+
+</body>
 </html>

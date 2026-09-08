@@ -2,7 +2,6 @@
 
 *November 2024 | AI Research*
 
-![Web Agent Architecture](/content/images/web-agent-demo.png)
 
 ## Prannay ✧
 

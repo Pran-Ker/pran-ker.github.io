@@ -1,0 +1,800 @@
+/* =====================================================================
+   WHITE — design system v2 for prannayh.com
+   White is the ground. Hairlines separate. The cube field is the futurism.
+   Every element earns its place: real names, real numbers, real dates.
+
+   COMPONENT INDEX
+   00  tokens        :root — palette (fixed, all pages), type scale (1.25 modular from 16px,
+                     plus brief-fixed sizes: 11px mono metadata, 18px serif reading, and two
+                     named in-between sizes --t-ui 17px (row titles) and --t-serif-s 15px (decks,
+                     notes, footnotes) so no page invents another),
+                     8px spacing steps --s1…--s9, layout (--gutter --max --cols), motion, --beat
+   01  fonts         Lab Grotesque 300/400/500/700 (+italics), Lab Grotesque Mono 400/700,
+                     Source Serif 4 variable (+italic)
+   02  reset         box-sizing, zeroed margins, media, buttons, focus ring (signal + ink),
+                     .skip (skip link), .vh (visually hidden), [id] scroll-margin (every in-page anchor
+                     lands 24px under the HUD: footnotes, subnav, figure links)
+   03  ground        html/body, canvas#cubes (fixed, z -2), .floor (horizon grid, z -1),
+                     .ice-fallback + .ice (CSS cubes for reduced-motion / no-WebGL; all three sit right of
+                     every reading column, so no page needs its own offsets)
+   04  type          .display .lede .body .mono .mono--as-is (no uppercase: identifiers, math) .small .num
+                     .balance, h1–h3 defaults, .ext (the one external-link mark: a small mono ↗ in --ash after
+                     the word, no break before it — serif and sans copy alike; the footer's span is the same mark)
+   05  layout        .wrap (max-width + gutters), .grid (12 col), .span-*, .haze (one feathered white
+                     ground per text-heavy section; put it on the .section, never on an element that
+                     animates, never a head strip plus a body strip), main#main, .section, .col (720px copy
+                     column), .page-head (every secondary page's head: h1 at the essay-title scale, .lede,
+                     inside .page-head__copy which carries the feathered ground — Writing, Principles,
+                     Gallery, More, Contact, 404 all use it; no page restates it)
+   06  gate          #gate (role=dialog) .gate__name .gate__center .gate__cta .gate__sub
+                     .gate__hint; body[data-state=gate|live|instant] staggered arrival;
+                     html[data-entered] (set by a two-line head script from sessionStorage) hides the
+                     gate before white.js runs, so a reload never flashes "Press to enter"
+   07  hud           header.hud .wordmark .nav (edge-fade on overflow) .transport .tp-track
+                     .tp-title .tp-artist .tp-btn[data-on] .tp-mute .tp-time .tp-time__v .tp-tap (Tap for sound / Retry sound) .beat
+                     (no play/pause button — Prannay: the track just plays; mute is the one control)
+                     .transport.is-lost / .is-idle / .is-blocked
+   08  section head  .sh (hairline top; title left, meta right) .sh__meta — no backdrop of its own
+   09  rows          .rows .row (list-of-things: hairline rows; grid areas via modifiers)
+                     .row--work (year / title+deck / metric / where)   — Selected work
+                     .row--essay (number / title+deck / date · read time · topic) — Writing index
+                     .row--essay.row--nonum (no number column: latest essays on Home)
+                     .row--plain (label / value / note)                 — More, Contact
+                     li.row--featured (signal mark + faint signal ground; one row Prannay wants first)
+                     .row__yr .row__n .row__what .row__deck .row__num .row__unit .row__num--text
+                     .row__where .row__meta .row__meta--stack (several metadata lines: lab / topics)
+                     .sh + .rows shares the head's hairline; the last row has no bottom rule — the next
+                     section's (or the footer's) rule closes the list, so two hairlines never bracket
+                     empty section padding.
+                     Read-time convention: rows say 'Mon YYYY · N min · Topic' (date first: an index is
+                     scanned by date); essay mastheads say 'Topic · Month YYYY · N min read' (topic first:
+                     the reader is already inside the piece). Both are deliberate; do not "fix" one to the other.
+   10  figure        .fig (one hairline frame + caption) .fig__plate .fig__cap .fig__t .fig__note
+                     .fig.is-in (texture resolved; the washed state is only the pre-reveal frame)
+                     .fig__play (pause/play on a looping video) ; .media (two-plate layout,
+                     7fr/5fr, each plate at style="--ar" so both end on the same line)
+                     THE ESSAY FIGURE FAMILY (every essay, every figure):
+                       caption = .fig__t (sans, sentence case, the title) + .fig__meta ('Fig. NN' + source,
+                       mono, right) + .fig__note (serif, the reading). Inside a drawing: node and rung labels
+                       are .f-lab (13px sans, sentence case, ink); .f-m (11px mono, --ash, no uppercase) is
+                       for axes, ticks and annotations only; .f-btn is the hairline control. The one figure
+                       accent is --fig-accent (the signal tint at ~45%) always paired with an ink hairline —
+                       never a stroke on its own (1.2:1) and never a second hue — the one exception is
+                       spec-rewards' --fig-blue, which is the content ("make only the door blue"), not a
+                       style. Dashed --ash = "should have
+                       been here"; --graphite fills = data points. .fig--mid (880px) and .fig--wide (1100px)
+                       centre under the column with the caption kept on the 66ch measure; .fig__plate--scroll
+                       scrolls a min-width drawing sideways with edge fades. Lists inside .fig__plate are plain.
+   10b home hero     .hero .hero__name .hero__lede (name bottom-left, lede at 34ch, feathered ground; the
+                     field lives right)
+   11  trajectory    .trajectory (8/4 grid: plate + itinerary) [data-montage] .montage (width cap so the
+                     4:3 plate fits a laptop screen) .montage__stops[data-montage-stops] (li[aria-current=step]
+                     is the stop the frames are at) ; montage.js owns everything .montage-* inside the plate
+   12  essay         .essay (66ch clean column, no rails) .essay__head .essay__title .essay__deck
+                     .essay__meta (the kicker: rule → meta → title → deck on every reading page, /post included;
+                     items 20px apart, no separator glyphs)
+                     .prose (p h2 h3 h4 ul ol a code pre blockquote img table figure) .prose h2 .h-n (the
+                     section numeral where an essay is an ordered sequence: two digits, --ash, no period)
+                     .prose .fig--wide .fig--mid .pre--wide (verbatim code past 73 columns takes the wide slot)
+                     .pull (pull quote) .fn (footnotes) .pn (prev/next; aria-label "Previous and next essay";
+                     a lone next link keeps the right column)
+   13  principles    .subnav (sticky in-page nav) .principles (nav + content grid; one hairline + ~120px between sections)
+   14  gallery       column masonry on white (the contract gallery.js builds to): .gallery .gallery__head
+                     .gallery__count .gallery__filters .gallery__filter[aria-pressed] (also .pills / .pill:
+                     the same quiet filter for any filtered list) .gallery__cols (4 / 3 / 2 at 1100 / 720, or
+                     --cols from JS) .gallery__col .gallery__item(--ar; .is-loaded fades from white; .is-moving
+                     = FLIP; .is-leaving/.is-entering = filter fade) .gallery__open (fills a video item; the
+                     play button sits beside it, never inside a link) .gallery__play ;
+                     .lightbox (on <body>) .lightbox__bar .lightbox__stage .lightbox__media .lightbox__pic
+                     (sized by gallery.js from the item's w/h) .lightbox__img .lightbox__btn .lightbox__cap
+   15  lists         .covers (Goodreads grid; .covers--wall = five fixed columns, two on phones) .contacts
+                     (profile list: .k label / .v link — no note column, Prannay cut it; .sh + .contacts shares the head's rule)
+   16  void          .void (404)
+   17  foot          footer.foot (rule inside the wrap, like every section rule) .foot__links (full width, 4/3/2 columns)
+                     .foot__base (© · city · 'Map data © OpenStreetMap contributors' — the montage draws OSM
+                     geometry, ODbL; the line is on every page because the footer is one block).
+                     No track credit, no engineering note (Prannay).
+   18  motion        .reveal(.in) .rise, main.is-leaving/.is-entering, .yt-host,
+                     prefers-reduced-motion collapses everything (durations and delays)
+   19  responsive    ≤1200 (artist off) / ≤1000 (two-row HUD) / ≤720 / ≤420 — 360→1920, no horizontal scroll
+   20  print         white ground, no chrome, link hrefs
+   ===================================================================== */
+
+/* 00 tokens ---------------------------------------------------------- */
+:root {
+  /* palette — fixed */
+  --paper:      #ffffff;
+  --paper-2:    #f6f7f9;
+  --ink:        #0b0d10;
+  --graphite:   #3b3f45;              /* 10.6:1 */
+  --ash:        #6b7078;              /* 4.98:1 — the floor for any readable text */
+  --hair:       rgba(11,13,16,.14);
+  --hair-2:     rgba(11,13,16,.07);
+  --signal:     #c8ff00;              /* live state only: beat dot, playing, current nav, focus. never text */
+  --fig-accent: rgba(200,255,0,.38);  /* the one figure accent: signal as a tint, always under an ink hairline */
+  --glass:      #dfe7f2;              /* cube face tint */
+  --glass-rim:  #b9c6d8;
+
+  /* families */
+  --sans:  'Lab Grotesque', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  --mono:  'Lab Grotesque Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+
+  /* type scale — ratio 1.25 from 16px */
+  --t-1:   .8125rem;    /* 13   UI small, nav */
+  --t0:    1rem;        /* 16   UI, row titles, section heads */
+  --t1:    1.25rem;     /* 20   */
+  --t2:    1.5625rem;   /* 25   h2 in prose, pull quotes */
+  --t3:    1.953rem;    /* 31   */
+  --t4:    2.441rem;    /* 39   */
+  --t5:    3.052rem;    /* 49   essay titles */
+  --t6:    3.815rem;    /* 61   */
+  --t-mono: .6875rem;   /* 11   fixed by brief: metadata floor. nothing smaller exists */
+  --t-body: 1.125rem;   /* 18   fixed by brief: serif reading size */
+  --t-ui:   1.0625rem;  /* 17   sans row titles: between --t0 and --t1 so a title reads above its deck */
+  --t-serif-s: .9375rem;/* 15   small serif: decks, figure notes, footnotes */
+  --t-lede: clamp(1.25rem, 1.05rem + .9vw, 1.75rem);
+  --t-name: clamp(3.25rem, 1.5rem + 8.5vw, 8.5rem);
+  --t-num:  clamp(1.5rem, 1rem + 1.4vw, 2.25rem);
+  --lh-body: 1.6;
+  --measure: 66ch;
+
+  /* 8px spacing */
+  --s1: 8px;  --s2: 16px; --s3: 24px; --s4: 32px; --s5: 48px;
+  --s6: 64px; --s7: 96px; --s8: 128px; --s9: 192px;
+
+  /* layout */
+  --gutter: clamp(20px, 5vw, 80px);
+  --max: 1440px;
+  --col-gap: clamp(16px, 2vw, 32px);
+  --hud-h: 56px;
+  --top: var(--hud-h);                /* measured by white.js (syncTop) */
+
+  /* motion */
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+  --ease-io:  cubic-bezier(.65, 0, .35, 1);
+  --fast: .28s;
+  --slow: 1.4s;
+  --beat: 0;                          /* 0..1 envelope, written by white.js once per frame */
+}
+
+/* 01 fonts ----------------------------------------------------------- */
+@font-face { font-family: 'Lab Grotesque'; font-style: normal; font-weight: 300; font-display: swap; src: url('/assets/fonts/LabGrotesque-Light.woff2') format('woff2'); }
+@font-face { font-family: 'Lab Grotesque'; font-style: italic; font-weight: 300; font-display: swap; src: url('/assets/fonts/LabGrotesque-LightItalic.woff2') format('woff2'); }
+@font-face { font-family: 'Lab Grotesque'; font-style: normal; font-weight: 400; font-display: swap; src: url('/assets/fonts/LabGrotesque-Regular.woff2') format('woff2'); }
+@font-face { font-family: 'Lab Grotesque'; font-style: italic; font-weight: 400; font-display: swap; src: url('/assets/fonts/LabGrotesque-Italic.woff2') format('woff2'); }
+@font-face { font-family: 'Lab Grotesque'; font-style: normal; font-weight: 500; font-display: swap; src: url('/assets/fonts/LabGrotesque-Medium.woff2') format('woff2'); }
+@font-face { font-family: 'Lab Grotesque'; font-style: italic; font-weight: 500; font-display: swap; src: url('/assets/fonts/LabGrotesque-MediumItalic.woff2') format('woff2'); }
+@font-face { font-family: 'Lab Grotesque'; font-style: normal; font-weight: 700; font-display: swap; src: url('/assets/fonts/LabGrotesque-Bold.woff2') format('woff2'); }
+@font-face { font-family: 'Lab Grotesque'; font-style: italic; font-weight: 700; font-display: swap; src: url('/assets/fonts/LabGrotesque-BoldItalic.woff2') format('woff2'); }
+@font-face { font-family: 'Lab Grotesque Mono'; font-style: normal; font-weight: 400; font-display: swap; src: url('/assets/fonts/LabGrotesqueMono-Regular.woff2') format('woff2'); }
+@font-face { font-family: 'Lab Grotesque Mono'; font-style: normal; font-weight: 700; font-display: swap; src: url('/assets/fonts/LabGrotesqueMono-Bold.woff2') format('woff2'); }
+@font-face { font-family: 'Source Serif 4'; font-style: normal; font-weight: 200 900; font-display: swap; src: url('/assets/fonts/SourceSerif4-Variable.woff2') format('woff2'); }
+@font-face { font-family: 'Source Serif 4'; font-style: italic; font-weight: 200 900; font-display: swap; src: url('/assets/fonts/SourceSerif4-VariableItalic.woff2') format('woff2'); }
+
+/* 02 reset ----------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body { margin: 0; }
+h1, h2, h3, h4, p, figure, ul, ol, dl, dd, blockquote, pre { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+img, video, svg, canvas { display: block; max-width: 100%; }
+img, video { height: auto; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+button:disabled { cursor: default; }
+:focus { outline: none; }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; box-shadow: 0 0 0 3px var(--signal); border-radius: 1px; }
+::selection { background: var(--ink); color: var(--paper); }
+.skip {
+  position: fixed; left: var(--gutter); top: 8px; z-index: 100;
+  transform: translateY(-200%);
+  background: var(--paper); color: var(--ink); border: 1px solid var(--ink);
+  font-family: var(--sans); font-size: var(--t-1); padding: 8px 12px;
+  transition: transform .2s var(--ease-out);
+}
+.skip:focus-visible { transform: none; }
+.vh { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+[id] { scroll-margin-top: calc(var(--top) + 24px); }             /* every anchor lands under the fixed HUD */
+
+/* 03 ground ---------------------------------------------------------- */
+html { background: var(--paper); color: var(--ink); }
+body {
+  font-family: var(--sans);
+  font-size: var(--t0);
+  line-height: 1.5;
+  background: transparent;            /* the root paints white; body stays clear so the z:-2 canvas shows */
+  color: var(--ink);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: 'kern' 1, 'liga' 1;
+  overflow-x: hidden;
+}
+canvas#cubes { position: fixed; inset: 0; z-index: -2; width: 100%; height: 100%; }
+.floor {
+  position: fixed; left: -20vw; right: -20vw; bottom: 0; z-index: -1;
+  height: 42vh; pointer-events: none;
+  perspective: 560px; perspective-origin: 50% 0%;
+  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,.8) 0, rgba(0,0,0,.25) 55%, transparent 100%);
+          mask-image: linear-gradient(to top, rgba(0,0,0,.8) 0, rgba(0,0,0,.25) 55%, transparent 100%);
+}
+.floor::before {
+  content: ''; position: absolute; inset: 0;
+  transform-origin: 50% 0%; transform: rotateX(62deg) translateY(-6%);
+  background:
+    linear-gradient(to right, var(--hair-2) 1px, transparent 1px) 0 0 / 5.5vw 100% repeat-x,
+    linear-gradient(to bottom, var(--hair-2) 1px, transparent 1px) 0 0 / 100% 5.5vw repeat-y;
+}
+.ice-fallback { display: none; position: fixed; inset: 0; z-index: -2; pointer-events: none; perspective: 1400px; }
+.ice { position: absolute; --s: 180px; --z: 90px; width: var(--s); height: var(--s); transform-style: preserve-3d; transform: rotateX(-24deg) rotateY(34deg); }
+.ice--a { right: 12vw; top: 16vh; }
+.ice--b { right: 1.5vw; top: 58vh; --s: 110px; --z: 55px; transform: rotateX(-18deg) rotateY(-28deg); }   /* in the right gutter: right of the 66ch column and of every row's meta column */
+.ice--c { right: 8vw; bottom: 12vh; --s: 70px; --z: 35px; transform: rotateX(-30deg) rotateY(58deg); }
+.ice i { position: absolute; inset: 0; border: 1px solid rgba(11,13,16,.16); background: rgba(223,231,242,.42); }
+.ice i:nth-child(1) { transform: translateZ(var(--z)); }
+.ice i:nth-child(2) { transform: rotateY(180deg) translateZ(var(--z)); }
+.ice i:nth-child(3) { transform: rotateY(90deg) translateZ(var(--z)); }
+.ice i:nth-child(4) { transform: rotateY(-90deg) translateZ(var(--z)); }
+.ice i:nth-child(5) { transform: rotateX(90deg) translateZ(var(--z)); background: rgba(255,255,255,.7); }
+.ice i:nth-child(6) { transform: rotateX(-90deg) translateZ(var(--z)); background: rgba(185,198,216,.35); }
+html.no-webgl canvas#cubes { display: none; }
+html.no-webgl .ice-fallback { display: block; }
+body[data-state="gate"] .ice--b, body[data-state="gate"] .ice--c { display: none; }   /* the gate shows one cube */
+body[data-state="gate"] .ice--a { right: calc(50% - 90px); top: calc(50% - 150px); }
+
+/* 04 type ------------------------------------------------------------ */
+h1, h2, h3, h4 { font-weight: 400; line-height: 1.2; text-wrap: balance; }
+.balance { text-wrap: balance; }
+.display { font-family: var(--sans); font-weight: 300; letter-spacing: -.045em; line-height: .92; }
+.lede { font-family: var(--serif); font-weight: 380; font-size: var(--t-lede); line-height: 1.42; letter-spacing: -.005em; max-width: 34ch; color: var(--ink); }
+.lede em { font-style: italic; }
+.body { font-family: var(--serif); font-size: var(--t-body); line-height: var(--lh-body); max-width: var(--measure); color: var(--ink); }
+.mono { font-family: var(--mono); font-weight: 400; font-size: var(--t-mono); line-height: 1.6; letter-spacing: .08em; text-transform: uppercase; font-variant-numeric: tabular-nums; color: var(--ash); }
+.mono--ink { color: var(--ink); }
+.mono--as-is { text-transform: none; letter-spacing: .02em; }      /* identifiers and math: recall_at_1, ν, ẏ */
+/* the external-link mark: <a>Word<span class="ext" aria-hidden="true">↗</span></a> — small, mono, ash, glued to the word */
+.ext { font-family: var(--mono); font-size: var(--t-mono); font-weight: 400; color: var(--ash); margin-left: 6px; vertical-align: baseline; white-space: nowrap; letter-spacing: 0; text-transform: none; }
+.small { font-family: var(--sans); font-size: var(--t-1); color: var(--graphite); line-height: 1.5; }
+.num { font-variant-numeric: tabular-nums; }
+.link { border-bottom: 1px solid var(--hair); transition: border-color var(--fast); }
+.link:hover, .link:focus-visible { border-color: var(--ink); }
+.arrow::after { content: ' →'; }
+
+/* 05 layout ---------------------------------------------------------- */
+.wrap { width: 100%; max-width: var(--max); margin: 0 auto; padding-left: var(--gutter); padding-right: var(--gutter); }
+.grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--col-gap); }
+.span-3 { grid-column: span 3; } .span-4 { grid-column: span 4; } .span-5 { grid-column: span 5; }
+.span-6 { grid-column: span 6; } .span-7 { grid-column: span 7; } .span-8 { grid-column: span 8; } .span-12 { grid-column: 1 / -1; }
+main#main { position: relative; z-index: 1; padding-top: var(--top); overflow-x: clip; outline: none; }
+.section { position: relative; padding-bottom: clamp(80px, 12vh, 160px); }
+/* white ground behind text-heavy blocks. One ground per section, never a head strip plus a body strip:
+   solid .94 across the whole text width (the metadata at the row edges needs the same ground as the
+   middle), feathered over 96px at top and bottom and from the text edge outward, so a cube crossing it
+   dims gradually and nobody can see where the ground ends. On a .section it stops at the section's bottom
+   and feathers inside the section padding, so the next block sits on the raw field. */
+.haze { position: relative; --haze-pad: 0px; }
+.haze.wrap { --haze-pad: var(--gutter); }
+.haze::before {
+  content: ''; position: absolute; z-index: -1; pointer-events: none;
+  inset: -96px;
+  background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.94) calc(96px + var(--haze-pad)), rgba(255,255,255,.94) calc(100% - 96px - var(--haze-pad)), rgba(255,255,255,0));
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 96px, #000 calc(100% - 96px), transparent);
+          mask-image: linear-gradient(to bottom, transparent, #000 96px, #000 calc(100% - 96px), transparent);
+}
+.section.haze::before { bottom: 0; }
+.col { max-width: 720px; }                                         /* a copy column narrower than the wrap (Contact) */
+/* the secondary-page head: title at the essay-title scale, the lede under it, one feathered white ground behind the copy
+   (the same ground as the home lede) so the field never crosses the words. Markup:
+   <section class="page-head wrap"><div class="page-head__copy"><h1 class="rise">…</h1><p class="lede rise">…</p></div></section> */
+.page-head { position: relative; z-index: 1; padding-top: clamp(48px, 8vh, 96px); padding-bottom: clamp(64px, 10vh, 128px); }
+.page-head h1 { font-family: var(--sans); font-weight: 300; font-size: clamp(2.25rem, 1.5rem + 2.6vw, var(--t5)); letter-spacing: -.035em; line-height: 1.02; }
+.page-head .lede { margin-top: var(--s3); max-width: 40ch; text-wrap: pretty; }
+.page-head .lede a { border-bottom: 1px solid var(--hair); transition: border-color var(--fast); }
+.page-head .lede a:hover, .page-head .lede a:focus-visible { border-color: var(--ink); }
+.page-head__copy { position: relative; display: inline-block; max-width: 100%; }
+.page-head__copy::before, .void__copy::before {
+  content: ''; position: absolute; z-index: -1; pointer-events: none; inset: -40px -48px;
+  background: rgba(255,255,255,.92);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 40px, #000 calc(100% - 40px), transparent), linear-gradient(to right, transparent, #000 48px, #000 calc(100% - 48px), transparent);
+          mask-image: linear-gradient(to bottom, transparent, #000 40px, #000 calc(100% - 40px), transparent), linear-gradient(to right, transparent, #000 48px, #000 calc(100% - 48px), transparent);
+  -webkit-mask-composite: source-in; mask-composite: intersect;
+}
+/* a page with one section: the list or grid ends, the footer's rule follows, no second breath of white */
+.page-head ~ .section:last-of-type { padding-bottom: clamp(48px, 8vh, 96px); }
+
+/* 06 gate ------------------------------------------------------------ */
+#gate {
+  position: fixed; inset: 0; z-index: 80;
+  display: grid; grid-template-rows: auto 1fr auto;
+  padding: 20px var(--gutter) 24px;
+  background: transparent; color: var(--ink);
+  cursor: pointer;
+  transition: opacity var(--slow) var(--ease-io), filter var(--slow) var(--ease-io), transform var(--slow) var(--ease-io);
+}
+#gate[hidden] { display: none; }
+#gate.is-leaving { opacity: 0; filter: blur(8px); transform: scale(1.02); pointer-events: none; }
+#gate:focus-visible { outline: none; box-shadow: none; }
+.gate__name { font-family: var(--sans); font-size: var(--t-1); color: var(--ink); justify-self: start; }
+.gate__center { display: grid; place-items: center; align-content: end; gap: var(--s2); text-align: center; padding-bottom: 12vh; }
+.gate__cta {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-family: var(--sans); font-size: var(--t-1); letter-spacing: .02em;
+  color: var(--ink); background: var(--paper);
+  border: 1px solid var(--ink); padding: 12px 20px;
+  transition: box-shadow var(--fast);
+}
+.gate__cta:hover { box-shadow: 0 0 0 1px var(--ink); }
+.gate__cta .mark { width: 8px; height: 8px; background: var(--signal); box-shadow: 0 0 0 1px var(--ink); flex: none; }
+.gate__sub { font-family: var(--serif); font-size: var(--t0); color: var(--graphite); max-width: 34ch; line-height: 1.45; }
+.gate__hint { justify-self: center; }
+body[data-state="gate"] { overflow: hidden; }
+body[data-state="gate"] .hud, body[data-state="gate"] main#main, body[data-state="gate"] .foot, body[data-state="gate"] .floor { opacity: 0; }
+body[data-state="live"] .hud, body[data-state="live"] main#main, body[data-state="live"] .foot, body[data-state="live"] .floor { opacity: 1; }
+.hud, main#main, .foot, .floor { transition: opacity 1.6s var(--ease-io); }
+body[data-state="live"] .hud { transition-delay: .2s; }
+body[data-state="live"] main#main { transition-delay: .45s; }
+body[data-state="live"] .foot { transition-delay: .7s; }
+body[data-state="live"] .floor { transition-delay: .9s; }
+body[data-state="instant"] .hud, body[data-state="instant"] main#main, body[data-state="instant"] .foot, body[data-state="instant"] .floor { transition: none; opacity: 1; }
+/* already entered this session (head script): no gate, no fade, before white.js has run */
+html[data-entered] #gate { display: none; }
+html[data-entered] body[data-state="gate"] { overflow: auto; }
+html[data-entered] body[data-state="gate"] .hud, html[data-entered] body[data-state="gate"] main#main, html[data-entered] body[data-state="gate"] .foot, html[data-entered] body[data-state="gate"] .floor { opacity: 1; transition: none; }
+html[data-entered] body[data-state="gate"] .rise { animation-play-state: running; }
+
+/* 07 hud ------------------------------------------------------------- */
+header.hud {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 40;
+  height: var(--hud-h);
+  /* the side columns never shrink below their content, so the nav stays centred while there is room
+     and slides a few px off-centre rather than colliding with the transport when there is not */
+  display: grid; grid-template-columns: minmax(max-content, 1fr) auto minmax(max-content, 1fr);
+  column-gap: var(--s3); align-items: center;
+  padding: 0 var(--gutter);
+  background: rgba(255,255,255,.78);
+  -webkit-backdrop-filter: blur(14px) saturate(1.1); backdrop-filter: blur(14px) saturate(1.1);
+  border-bottom: 1px solid var(--hair);
+}
+.wordmark { display: inline-flex; align-items: center; gap: 10px; font-family: var(--sans); font-weight: 400; font-size: var(--t-1); color: var(--ink); justify-self: start; white-space: nowrap; }
+.wordmark svg { width: 16px; height: 16px; flex: none; }
+.nav { display: flex; gap: clamp(16px, 1.8vw, 28px); justify-content: center; min-width: 0; }
+.nav a {
+  position: relative; display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--sans); font-size: var(--t-1); color: var(--graphite);
+  padding: 6px 0; white-space: nowrap; transition: color var(--fast);
+}
+.nav a::after { content: ''; position: absolute; left: 0; right: 100%; bottom: 2px; height: 1px; background: var(--ink); transition: right .4s var(--ease-out); }
+.nav a:hover, .nav a:focus-visible { color: var(--ink); }
+.nav a:hover::after { right: 0; }
+.nav a[aria-current] { color: var(--ink); }
+/* you are here: the dot's box exists on every item so the labels never move on a route; only its paint travels */
+.nav a::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: transparent; box-shadow: none; flex: none; transition: background var(--fast), box-shadow var(--fast); }
+.nav a[aria-current]::before { background: var(--signal); box-shadow: 0 0 0 1px var(--ink); }
+@media (pointer: coarse) {                    /* phones: no per-frame re-blur over a live canvas */
+  header.hud { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(255,255,255,.94); }
+}
+.transport { justify-self: end; display: inline-flex; align-items: center; gap: 12px; color: var(--graphite); min-width: 0; }
+.tp-track { display: inline-flex; gap: 8px; align-items: baseline; white-space: nowrap; font-family: var(--mono); font-size: var(--t-mono); letter-spacing: .08em; text-transform: uppercase; }
+.tp-title { color: var(--ink); }
+.tp-artist { color: var(--ash); }
+.tp-time { font-family: var(--mono); font-size: var(--t-mono); letter-spacing: .06em; font-variant-numeric: tabular-nums; color: var(--ash); min-width: 5ch; text-align: right; white-space: nowrap; }
+.tp-btn { width: 28px; height: 28px; display: inline-grid; place-items: center; border: 1px solid var(--hair); color: var(--ink); transition: border-color var(--fast), opacity var(--fast); }
+.tp-btn:hover:not(:disabled) { border-color: var(--ink); }
+.tp-btn:disabled { opacity: .4; }
+.tp-btn svg { width: 10px; height: 10px; }
+.tp-btn[data-on="true"] .ico-off, .tp-btn:not([data-on="true"]) .ico-on { display: none; }
+.tp-tap { font-family: var(--sans); font-size: var(--t-1); border: 1px solid var(--ink); color: var(--ink); background: var(--paper); padding: 5px 10px; white-space: nowrap; }
+.tp-tap[hidden] { display: none; }
+.beat {
+  width: 8px; height: 8px; border-radius: 50%; flex: none;
+  background: var(--signal); box-shadow: 0 0 0 1px var(--ink);
+  opacity: calc(.35 + .65 * var(--beat));
+  transform: scale(calc(.8 + .3 * var(--beat)));
+}
+/* signal is live state only: the dot beats while the track plays and is a hollow ring otherwise */
+.transport:not([data-status="playing"]) .beat { background: var(--paper); opacity: 1; transform: none; box-shadow: 0 0 0 1px var(--ash); }
+.transport.is-lost .tp-title { color: var(--ash); }
+
+/* 08 section head ---------------------------------------------------- */
+.sh {
+  position: relative; z-index: 1;
+  display: flex; justify-content: space-between; align-items: baseline; gap: var(--s3);
+  padding-top: 12px; margin-bottom: clamp(32px, 5vh, 56px);
+  border-top: 1px solid var(--hair);
+}
+.sh h2, .sh .sh__title { font-family: var(--sans); font-weight: 400; font-size: var(--t0); letter-spacing: -.01em; color: var(--ink); line-height: 1.3; }
+.sh__meta { font-family: var(--mono); font-size: var(--t-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ash); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.sh__meta a { border-bottom: 1px solid var(--hair); } .sh__meta a:hover { border-color: var(--ink); }
+
+/* 09 rows ------------------------------------------------------------ */
+.rows { position: relative; z-index: 1; border-top: 1px solid var(--hair); }
+.sh + .rows { border-top: 0; }                                     /* the head's rule is the table's rule */
+.row { display: grid; gap: var(--s3); align-items: baseline; padding: 18px 0; border-bottom: 1px solid var(--hair); color: var(--ink); transition: background .4s; }
+.row:hover { background: linear-gradient(to right, transparent, rgba(11,13,16,.025), transparent); }
+.row--work  { grid-template-columns: 6ch minmax(0, 1fr) minmax(0, 1fr) 12ch; }
+.row--essay { grid-template-columns: 4ch minmax(0, 1fr) auto; }
+.row--essay.row--nonum { grid-template-columns: minmax(0, 1fr) auto; }
+.row--plain { grid-template-columns: 12ch minmax(0, 1fr) auto; }
+.row__yr, .row__n, .row__where, .row__meta, .row__unit { font-family: var(--mono); font-size: var(--t-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ash); font-variant-numeric: tabular-nums; }
+.row__where, .row__meta { text-align: right; white-space: nowrap; }
+.row__meta--stack { display: grid; gap: 4px; }                      /* several lines of metadata (lab / topics) */
+/* the last row has no rule of its own: the next section head (or the footer) closes the list */
+.rows > .row:last-child, .rows > li:last-child > .row, .rows > li:last-child.row { border-bottom: 0; }
+.row__what { font-family: var(--sans); font-weight: 400; font-size: var(--t-ui); letter-spacing: -.01em; line-height: 1.35; }
+.row__deck { display: block; font-family: var(--serif); font-size: var(--t-serif-s); color: var(--graphite); margin-top: 4px; line-height: 1.45; max-width: 52ch; text-wrap: pretty; }
+.row--essay .row__deck { max-width: 62ch; }                        /* essay decks are whole sentences */
+.row__num { font-family: var(--sans); font-weight: 300; font-size: var(--t-num); letter-spacing: -.04em; line-height: 1; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.row__num .row__unit { margin-left: 10px; vertical-align: .25em; letter-spacing: .08em; }
+.row__num--text { font-size: var(--t-ui); font-weight: 400; letter-spacing: -.01em; }
+.row a { border-bottom: 1px solid var(--hair); transition: border-color var(--fast); }
+.row a:hover, .row a:focus-visible { border-color: var(--ink); }
+.row__what a { border-bottom-color: var(--hair); }
+a.row { display: grid; }
+a.row .row__what { border-bottom: 0; }
+a.row:hover .row__what { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+/* featured row (Prannay picks one): the signal mark before the title and a faint signal ground; the row otherwise stays the row */
+.row--featured .row { background: linear-gradient(to right, rgba(200,255,0,.16), rgba(200,255,0,.04) 60%, transparent); }
+.row--featured .row:hover { background: linear-gradient(to right, rgba(200,255,0,.22), rgba(200,255,0,.06) 60%, transparent); }
+.row--featured .row__what { position: relative; padding-left: 18px; }
+.row--featured .row__what::before { content: ''; position: absolute; left: 0; top: .55em; width: 8px; height: 8px; background: var(--signal); box-shadow: 0 0 0 1px var(--ink); }
+
+/* 10 figure ---------------------------------------------------------- */
+.fig { display: grid; gap: 12px; position: relative; z-index: 1; }
+.fig__plate { position: relative; overflow: hidden; border: 1px solid var(--hair); background: var(--paper-2); }
+/* the plate arrives washed toward white and resolves fully once in view: the resolved state is the picture itself */
+.fig__plate > img, .fig__plate > video { width: 100%; height: 100%; object-fit: cover; filter: saturate(.3) contrast(.85) brightness(1.1); opacity: .55; transition: opacity 1.2s var(--ease-io), filter 1.2s var(--ease-io); }
+.fig__plate > img { object-fit: contain; }                         /* a still is never cropped; the plate takes its ratio */
+.fig__plate::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to bottom, rgba(255,255,255,.45), rgba(255,255,255,.08) 45%, rgba(255,255,255,.45)); transition: opacity 1.2s var(--ease-io); }
+.fig.is-in .fig__plate > img, .fig.is-in .fig__plate > video { opacity: 1; filter: none; }
+.fig.is-in .fig__plate::after { opacity: 0; }
+.fig__play { position: absolute; right: 8px; bottom: 8px; z-index: 1; width: 28px; height: 28px; display: grid; place-items: center; background: var(--paper); border: 1px solid var(--hair); color: var(--ink); transition: border-color var(--fast); }
+.fig__play svg { width: 10px; height: 10px; }
+.fig__play[data-on="true"] .ico-off, .fig__play:not([data-on="true"]) .ico-on { display: none; }
+.fig__play:hover { border-color: var(--ink); }
+.fig__cap { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 20px; align-items: baseline; }
+.fig__t { font-family: var(--sans); font-weight: 400; font-size: var(--t0); letter-spacing: -.01em; }
+.fig__meta { font-family: var(--mono); font-size: var(--t-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ash); white-space: nowrap; }
+.fig__note { grid-column: 1 / -1; font-family: var(--serif); font-size: var(--t-serif-s); color: var(--graphite); line-height: 1.45; max-width: 60ch; }
+.fig__note a { border-bottom: 1px solid var(--hair); } .fig__note a:hover { border-color: var(--ink); }
+/* the essay figure family's label vocabulary (see the index): node/rung labels, annotations, the hairline control */
+.f-lab { font-family: var(--sans); font-size: var(--t-1); color: var(--ink); letter-spacing: -.01em; line-height: 1.3; }
+.f-lab i { font-style: normal; color: var(--ash); }
+.f-m { font-family: var(--mono); font-size: var(--t-mono); letter-spacing: .02em; color: var(--ash); line-height: 1.6; font-variant-numeric: tabular-nums; }
+.f-btn { font-family: var(--sans); font-size: var(--t-1); color: var(--ink); background: var(--paper); border: 1px solid var(--ink); padding: 8px 14px; transition: box-shadow var(--fast); }
+.f-btn:hover { box-shadow: 0 0 0 1px var(--ink); }
+.f-btn[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+/* lists inside a drawing are structure, not prose */
+.fig__plate ul, .fig__plate ol, .prose .fig__plate ul, .prose .fig__plate ol { list-style: none; padding-left: 0; }
+.prose .fig__plate li + li { margin-top: 0; }
+.prose .fig__plate p { margin: 0; }
+/* a drawing with a minimum width scrolls inside its plate; the edges fade where there is more (data-edge set by the page) */
+.fig__plate--scroll { overflow-x: auto; overflow-y: hidden; scrollbar-width: thin; }
+.fig__plate--scroll:focus-visible { outline-offset: -5px; box-shadow: inset 0 0 0 3px var(--signal); border-radius: 0; }
+.fig__plate--scroll > svg { display: block; width: 100%; height: auto; }
+/* two plates, 7fr / 5fr. Each figure carries style="--ar" (its media's own ratio); 1.6 and 1.143 at
+   these widths give both plates the same height, so the two captions sit on one line. */
+.media { position: relative; z-index: 1; display: grid; grid-template-columns: 7fr 5fr; gap: clamp(24px, 3vw, 48px); align-items: start; }
+.media .fig__plate { aspect-ratio: var(--ar, 16 / 10); }
+
+/* 10b home hero ------------------------------------------------------ */
+.hero { position: relative; min-height: calc(100vh - var(--top)); min-height: calc(100svh - var(--top)); display: grid; align-content: end; padding-bottom: clamp(48px, 8vh, 96px); }
+.hero__name { position: relative; z-index: 1; font-size: var(--t-name); margin-left: -.05em; }
+.hero__name span { display: block; }
+.hero__lede { position: relative; z-index: 1; margin-top: clamp(28px, 4vh, 48px); }
+.hero__lede::before {                                               /* the floor's hairlines stay out of the serif */
+  content: ''; position: absolute; z-index: -1; pointer-events: none; inset: -40px -48px;
+  background: rgba(255,255,255,.92);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 40px, #000 calc(100% - 40px), transparent), linear-gradient(to right, transparent, #000 48px, #000 calc(100% - 48px), transparent);
+          mask-image: linear-gradient(to bottom, transparent, #000 40px, #000 calc(100% - 40px), transparent), linear-gradient(to right, transparent, #000 48px, #000 calc(100% - 48px), transparent);
+  -webkit-mask-composite: source-in; mask-composite: intersect;
+}
+
+/* 11 trajectory ------------------------------------------------------ */
+/* the plate takes 8 of the 12 columns, the itinerary the other 4: the frames cut every 130 ms, the list
+   is the version a reader can read, and the stop the frames are at carries the live mark.
+   The 4:3 plate must be seen whole on a laptop: its width is also capped by the viewport height (plate
+   + bar inside ~80svh) and at 1040px; labels are in cqw, so they scale with it */
+.trajectory { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); column-gap: var(--col-gap); align-items: start; }
+.montage { position: relative; z-index: 1; max-width: min(100%, 1040px, calc((80svh - var(--top) - 40px) * 4 / 3)); }
+/* montage.js loads when the plate nears the fold: until then the plate's outline holds its place (no layout shift) */
+.montage[data-mounted]:not(:has(.montage-plate))::before { content: ''; display: block; aspect-ratio: 4 / 3; border: 1px solid var(--hair); margin-bottom: 38px; }
+.montage__stops { border-top: 1px solid var(--hair); }
+.montage__stops li { display: grid; gap: 4px; padding: 10px 0; border-bottom: 1px solid var(--hair-2); font-family: var(--sans); font-size: var(--t-1); line-height: 1.4; color: var(--graphite); }
+.montage__stops li b { font-weight: 400; color: var(--ink); }
+.montage__stops li span:first-child { display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: var(--t-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ash); font-variant-numeric: tabular-nums; }
+.montage__stops li span:first-child::before { content: ''; width: 6px; height: 6px; border-radius: 50%; flex: none; background: transparent; box-shadow: none; }
+.montage__stops li:last-child { border-bottom: 0; }
+.montage__stops li[aria-current] span:first-child::before { background: var(--signal); box-shadow: 0 0 0 1px var(--ink); }   /* where the frames are */
+
+/* 12 essay ----------------------------------------------------------- */
+.essay { position: relative; z-index: 1; max-width: var(--measure); margin: 0 auto; padding: clamp(48px, 8vh, 96px) 0 clamp(80px, 12vh, 160px); }
+.essay__head { display: grid; gap: var(--s3); margin-bottom: clamp(40px, 6vh, 64px); }
+.essay__title { font-family: var(--sans); font-weight: 300; font-size: clamp(2.25rem, 1.5rem + 2.6vw, var(--t5)); letter-spacing: -.035em; line-height: 1.02; text-wrap: balance; }
+.essay__deck { font-family: var(--serif); font-weight: 380; font-size: var(--t1); line-height: 1.4; color: var(--graphite); max-width: 40ch; }
+.essay__meta { display: flex; flex-wrap: wrap; gap: 6px 20px; font-family: var(--mono); font-size: var(--t-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ash); font-variant-numeric: tabular-nums; padding-top: 12px; border-top: 1px solid var(--hair); }
+.essay__meta a { border-bottom: 1px solid var(--hair); } .essay__meta a:hover { border-color: var(--ink); }
+.prose { font-family: var(--serif); font-size: var(--t-body); line-height: var(--lh-body); color: var(--ink); }
+.prose > * + * { margin-top: 1.25em; }
+.prose h2 { font-family: var(--sans); font-weight: 400; font-size: var(--t2); letter-spacing: -.02em; line-height: 1.15; margin-top: 2.6em; }
+.prose h2 .h-n { color: var(--ash); font-weight: 300; margin-right: .25em; font-variant-numeric: tabular-nums; }   /* "01 Output watermarking" */
+.prose h3 { font-family: var(--sans); font-weight: 400; font-size: var(--t1); letter-spacing: -.015em; line-height: 1.2; margin-top: 2em; }
+.prose h4 { font-family: var(--sans); font-weight: 400; font-size: var(--t0); letter-spacing: -.01em; line-height: 1.3; margin-top: 1.8em; }
+.prose h2 + *, .prose h3 + * { margin-top: .9em; }
+.prose h4 + * { margin-top: .7em; }
+.prose blockquote { padding-left: var(--s3); border-left: 1px solid var(--hair); color: var(--graphite); }
+.prose blockquote > * + * { margin-top: .9em; }
+.prose > img, .prose > p > img { border: 1px solid var(--hair); background: var(--paper-2); }
+.prose em { font-style: italic; }
+.prose a { border-bottom: 1px solid var(--hair); transition: border-color var(--fast); }
+.prose a:hover, .prose a:focus-visible { border-color: var(--ink); }
+.prose strong, .prose b { font-weight: 600; }
+.prose ul, .prose ol { padding-left: 1.4em; }
+.prose ul { list-style: disc; } .prose ol { list-style: decimal; }
+.prose li + li { margin-top: .4em; }
+.prose li::marker { color: var(--ash); }
+.prose code, .prose kbd { font-family: var(--mono); font-size: .82em; background: var(--paper-2); padding: .1em .35em; border: 1px solid var(--hair-2); }
+.prose pre { font-family: var(--mono); font-size: .8125rem; line-height: 1.55; background: var(--paper-2); border: 1px solid var(--hair); padding: var(--s2) var(--s3); overflow-x: auto; }
+.prose pre code { background: none; border: 0; padding: 0; font-size: inherit; }
+.prose hr { border: 0; height: 1px; background: var(--hair); margin: 2.5em 0; }
+.prose sup { font-size: .7em; line-height: 0; vertical-align: .55em; }
+.prose sup a { border-bottom: 0; color: var(--graphite); font-family: var(--mono); }
+.prose table { width: 100%; border-collapse: collapse; font-family: var(--sans); font-size: var(--t-1); }
+.prose th, .prose td { text-align: left; padding: 8px 12px 8px 0; border-bottom: 1px solid var(--hair); vertical-align: top; }
+.prose th { font-weight: 400; color: var(--ash); font-family: var(--mono); font-size: var(--t-mono); letter-spacing: .08em; text-transform: uppercase; }
+.prose td.num, .prose th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.prose .table-wrap { overflow-x: auto; }
+.prose .fig { margin-top: 2.2em; margin-bottom: 2.2em; }
+/* a figure wider than the column: centred under it, at every width (below the column's own width it is simply the column);
+   its caption stays on the 66ch measure so the reading never leaves the column */
+.prose .fig--wide { width: min(100vw - 2 * var(--gutter), 1100px); margin-left: 50%; transform: translateX(-50%); }
+.prose .fig--mid { width: min(100vw - 2 * var(--gutter), 880px); margin-left: 50%; transform: translateX(-50%); }
+.prose .fig--wide .fig__cap, .prose .fig--mid .fig__cap { width: min(100%, var(--measure)); justify-self: center; }
+.prose .pre--wide { width: min(100vw - 2 * var(--gutter), 1100px); margin-left: 50%; transform: translateX(-50%); }
+.prose .fig__plate { background: var(--paper); }
+.prose .fig__plate > img, .prose .fig__plate > svg { filter: none; opacity: 1; }
+.prose .fig__plate::after { display: none; }
+.prose .fig__note { font-size: var(--t-serif-s); }
+.pull { font-family: var(--serif); font-style: italic; font-weight: 380; font-size: var(--t2); line-height: 1.3; letter-spacing: -.01em; color: var(--ink); padding: var(--s3) 0; border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair); margin: 2.4em 0; text-wrap: balance; }
+.pull cite { display: block; font-style: normal; font-family: var(--mono); font-size: var(--t-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ash); margin-top: 12px; }
+.fn { margin-top: clamp(48px, 8vh, 80px); padding-top: var(--s3); border-top: 1px solid var(--hair); font-family: var(--serif); font-size: var(--t-serif-s); line-height: 1.5; color: var(--graphite); }
+.fn ol { padding-left: 1.6em; list-style: decimal; }
+.fn li + li { margin-top: .6em; }
+.fn li::marker { font-family: var(--mono); font-size: .8em; color: var(--ash); }
+.fn a { border-bottom: 1px solid var(--hair); } .fn a:hover { border-color: var(--ink); }
+.pn { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s3); margin-top: clamp(48px, 8vh, 80px); padding-top: var(--s3); border-top: 1px solid var(--hair); }
+.pn a { display: grid; gap: 6px; font-family: var(--sans); font-size: var(--t0); color: var(--ink); }
+.pn a:hover .pn__t { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.pn__k { font-family: var(--mono); font-size: var(--t-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ash); }
+.pn__t { letter-spacing: -.01em; line-height: 1.3; }
+.pn .pn--next { grid-column: 2; text-align: right; justify-self: end; }   /* a lone Next keeps the right column */
+.pn[hidden] { display: none; }
+
+/* 13 principles ------------------------------------------------------ */
+.principles { position: relative; z-index: 1; display: grid; grid-template-columns: 200px minmax(0, 1fr); column-gap: clamp(32px, 6vw, 96px); align-items: start; }
+.subnav { position: sticky; top: calc(var(--top) + 24px); display: grid; gap: 2px; align-content: start; border-top: 1px solid var(--hair); padding-top: 12px; }
+.subnav a { display: inline-flex; align-items: center; gap: 8px; font-family: var(--sans); font-size: var(--t-1); color: var(--graphite); padding: 6px 0; transition: color var(--fast); }
+.subnav a:hover { color: var(--ink); }
+.subnav a[aria-current] { color: var(--ink); }
+.subnav a[aria-current]::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--signal); box-shadow: 0 0 0 1px var(--ink); flex: none; }
+/* three sections in one column: one hairline and ~120px between them, the rule 24–40px above the next title (as .sh does) */
+.principles .essay { margin: 0; padding-top: 0; padding-bottom: 0; }
+.principles .essay:first-of-type { padding-top: 12px; border-top: 1px solid var(--hair); }   /* both columns start on the subnav's hairline */
+.principles .essay + .essay { margin-top: clamp(64px, 8vh, 96px); padding-top: clamp(24px, 4vh, 40px); border-top: 1px solid var(--hair); }
+
+/* 14 gallery --------------------------------------------------------- */
+/* The contract gallery.js builds to: a column masonry on white, nothing on the photos.
+   .gallery
+     .gallery__head   .gallery__count ("All photos · 53", mono) + .gallery__filters > button.gallery__filter[aria-pressed]
+     .gallery__cols   4 / 3 / 2 equal columns (1000px, 720px) > .gallery__col > .gallery__item (button or a; style="--ar";
+                      <img width height loading=lazy>; .is-loaded fades the image in from white; a video item carries
+                      button.gallery__play[data-on]). Items are placed shortest-column-first in chronological order.
+   Filtering re-flows with a FLIP transition: measure, move nodes, add .is-moving, animate transform back to zero.
+   Corners 10px, gutters --gap, no borders, no shadows, hover ≤ 1% scale. */
+.gallery { position: relative; z-index: 1; display: grid; gap: var(--s4); --gap: clamp(20px, 1.7vw, 24px); }
+.gallery__head { display: flex; flex-direction: column; align-items: flex-start; gap: var(--s2); }   /* as in the reference: the label above the pills, both left */
+.gallery__count { font-family: var(--mono); font-size: var(--t-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ash); font-variant-numeric: tabular-nums; }
+.gallery__filters, .pills { display: flex; flex-wrap: wrap; gap: 8px; }
+/* the quiet filter pill: hairline outline, ink outline when pressed; the 13px graphite text is the affordance, the hairline is not */
+.gallery__filter, .pill { font-family: var(--sans); font-size: var(--t-1); color: var(--graphite); padding: 6px 14px; border: 1px solid var(--hair); border-radius: 999px; background: var(--paper); transition: border-color var(--fast), color var(--fast); }
+.gallery__filter:hover, .pill:hover { border-color: var(--graphite); color: var(--ink); }
+.gallery__filter[aria-pressed="true"], .pill[aria-pressed="true"] { border-color: var(--ink); color: var(--ink); }   /* selected: the hairline promoted to ink (dashed is the add/placeholder affordance) */
+.gallery__filter:focus-visible, .pill:focus-visible { border-radius: 999px; }
+.gallery__cols { display: grid; grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr)); gap: var(--gap); align-items: start; }
+.gallery__col { display: grid; gap: var(--gap); align-content: start; min-width: 0; }
+.gallery__item { position: relative; display: block; width: 100%; padding: 0; border: 0; border-radius: 10px; overflow: hidden; aspect-ratio: var(--ar, 1.5); background: var(--paper-2); cursor: zoom-in; transform: translateZ(0); }
+.gallery__item[hidden] { display: none; }
+.gallery__item img, .gallery__item video { width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .9s var(--ease-io), transform .6s var(--ease-out), filter .6s var(--ease-out); }
+.gallery__item.is-loaded img, .gallery__item.is-loaded video { opacity: 1; }
+.gallery__item:hover img, .gallery__item:hover video { transform: scale(1.01); filter: brightness(1.03); }
+.gallery__item.is-moving { transition: transform .45s var(--ease-out), opacity .4s var(--ease-out); }
+.gallery__item.is-leaving { opacity: 0; transition: opacity .16s var(--ease-io); }
+.gallery__item.is-entering { opacity: 0; }
+.gallery__item:focus-visible { outline-offset: 3px; border-radius: 10px; }
+/* a video item is a div: the link fills it and the play button sits beside the link, never inside it */
+.gallery__open { display: block; width: 100%; height: 100%; }
+.gallery__open:focus-visible { outline: none; box-shadow: none; }
+.gallery__item:has(.gallery__open:focus-visible) { outline: 2px solid var(--ink); outline-offset: 3px; box-shadow: 0 0 0 3px var(--signal); }
+.gallery__play { position: absolute; right: 10px; bottom: 10px; z-index: 1; width: 24px; height: 24px; display: grid; place-items: center; border-radius: 50%; background: rgba(255,255,255,.92); color: var(--ink); }
+.gallery__play svg { width: 8px; height: 8px; }
+.gallery__play[hidden] { display: none; }
+.gallery__play[data-on="true"] .ico-off, .gallery__play:not([data-on="true"]) .ico-on { display: none; }
+/* the lightbox lives on <body> (main#main is its own stacking context under the HUD). The media cell fills the stage;
+   gallery.js sizes .lightbox__pic from the item's own w/h so a video with no metadata yet still has a box. */
+.lightbox { position: fixed; inset: 0; z-index: 70; display: grid; grid-template-rows: auto 1fr auto; background: rgba(255,255,255,.97); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); padding: 16px var(--gutter); }
+.lightbox[hidden] { display: none; }
+.lightbox__bar { display: flex; justify-content: space-between; align-items: center; gap: var(--s3); }
+.lightbox__stage { display: grid; place-items: center; min-height: 0; position: relative; padding: 0 56px; }
+.lightbox__media { display: grid; place-items: center; width: 100%; height: 100%; min-height: 0; min-width: 0; }
+.lightbox__pic { position: relative; max-width: 100%; max-height: 100%; }
+.lightbox__img, .lightbox__stage video { width: 100%; height: 100%; object-fit: contain; border-radius: 10px; background: var(--paper-2); opacity: 0; transition: opacity .35s var(--ease-io); }
+.lightbox__media.is-ready .lightbox__img, .lightbox__media.is-ready video { opacity: 1; }
+.lightbox__img[hidden], .lightbox__stage video[hidden] { display: none; }
+.lightbox__pic .gallery__play { right: 12px; bottom: 12px; width: 28px; height: 28px; }
+.lightbox__pic .gallery__play svg { width: 9px; height: 9px; }
+.lightbox__btn { width: 40px; height: 40px; display: grid; place-items: center; border: 1px solid var(--hair); background: var(--paper); color: var(--ink); transition: border-color var(--fast); }
+.lightbox__btn:hover { border-color: var(--ink); }
+.lightbox__btn:disabled { opacity: .35; }
+.lightbox__btn svg { width: 12px; height: 12px; }
+.lightbox__btn--prev, .lightbox__btn--next { position: absolute; top: 50%; transform: translateY(-50%); }
+.lightbox__btn--prev { left: 0; } .lightbox__btn--next { right: 0; }
+.lightbox__cap { display: flex; justify-content: center; gap: var(--s3); font-family: var(--mono); font-size: var(--t-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ash); font-variant-numeric: tabular-nums; padding-top: 12px; }   /* album · year, under the picture */
+body.has-lightbox { overflow: hidden; }
+
+/* 15 lists ----------------------------------------------------------- */
+.covers { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: var(--s3) var(--s2); }
+.covers a { display: grid; gap: 8px; color: var(--ink); }
+.covers img { width: 100%; aspect-ratio: 2 / 3; object-fit: cover; border: 1px solid var(--hair); background: var(--paper-2); filter: saturate(.6) brightness(1.04); transition: filter .6s; }
+.covers a:hover img { filter: none; }
+.covers .t { font-family: var(--sans); font-size: var(--t-1); line-height: 1.3; }
+.covers .a { font-family: var(--mono); font-size: var(--t-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ash); }
+.covers a:focus-visible img { border-color: var(--ink); }
+.covers--wall { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--s4) var(--s3); max-width: 1040px; }   /* ten covers, two rows of five, no ragged edge */
+.contacts { position: relative; z-index: 1; border-top: 1px solid var(--hair); max-width: 720px; }
+.sh + .contacts { border-top: 0; }                                 /* the head's rule is the list's rule */
+.contacts li { display: grid; grid-template-columns: 12ch minmax(0, 1fr); gap: var(--s3); padding: 14px 0; border-bottom: 1px solid var(--hair); align-items: baseline; }
+.contacts li:last-child { border-bottom: 0; }
+.contacts .k { font-family: var(--mono); font-size: var(--t-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ash); }
+.contacts .v { font-family: var(--sans); font-size: var(--t0); }
+.contacts a { border-bottom: 1px solid var(--hair); transition: border-color var(--fast); } .contacts a:hover, .contacts a:focus-visible { border-color: var(--ink); }
+
+/* 16 void ------------------------------------------------------------ */
+.void { position: relative; z-index: 1; min-height: calc(100svh - var(--top)); display: grid; place-items: center; text-align: center; padding: var(--s7) 0; }
+.void h1 { font-family: var(--sans); font-weight: 300; font-size: clamp(1.75rem, 1.2rem + 2vw, var(--t4)); letter-spacing: -.03em; }
+.void p { margin-top: var(--s3); font-family: var(--serif); font-size: var(--t-body); color: var(--graphite); }
+.void a { border-bottom: 1px solid var(--hair); } .void a:hover { border-color: var(--ink); }
+
+/* 17 foot ------------------------------------------------------------ */
+footer.foot { position: relative; z-index: 1; padding: 0 0 40px; background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,.9) 30%); }
+.foot > .wrap { position: relative; padding-top: clamp(48px, 8vh, 96px); }
+.foot > .wrap::before { content: ''; position: absolute; top: 0; left: var(--gutter); right: var(--gutter); height: 1px; background: var(--hair); }   /* the rule spans the content, like every section rule */
+.foot .grid { row-gap: var(--s5); }
+.foot__links { grid-column: 1 / -1; columns: 4; column-gap: var(--col-gap); font-family: var(--sans); font-size: var(--t-1); }
+.foot__links li { padding: 5px 0; border-bottom: 1px solid var(--hair-2); display: flex; justify-content: space-between; break-inside: avoid; }
+.foot__links a { color: var(--graphite); transition: color var(--fast); }
+.foot__links a:hover { color: var(--ink); }
+.foot__links li span { color: var(--ash); font-family: var(--mono); font-size: var(--t-mono); }
+.foot__base { grid-column: 1 / -1; display: flex; justify-content: space-between; gap: var(--s3); padding-top: 12px; border-top: 1px solid var(--hair); flex-wrap: wrap; font-family: var(--mono); font-size: var(--t-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ash); }
+
+/* 18 motion ---------------------------------------------------------- */
+.reveal { opacity: 0; transform: translateY(12px); transition: opacity .7s var(--ease-out), transform .9s var(--ease-out); }
+.reveal.in { opacity: 1; transform: none; }
+.rise { animation: rise 1.1s var(--ease-out) both; animation-delay: calc(var(--i, 0) * 120ms); }
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+body[data-state="gate"] .rise { animation-play-state: paused; }
+main#main.is-leaving { opacity: 0 !important; transform: translateY(6px); filter: blur(2px); transition: opacity var(--fast) var(--ease-io), transform var(--fast) var(--ease-io), filter var(--fast) !important; }
+main#main.is-entering { animation: mainIn .9s var(--ease-out) both; }
+@keyframes mainIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+.yt-host { position: fixed; left: -9999px; top: 0; width: 1px; height: 1px; overflow: hidden; opacity: 0; pointer-events: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; animation-delay: 0s !important; transition-duration: .01ms !important; transition-delay: 0s !important; }
+  canvas#cubes { display: none; }
+  .ice-fallback { display: block; }
+  .reveal, .rise { opacity: 1; transform: none; animation: none; }
+  .beat { opacity: 1; transform: none; }
+  .fig__plate > img, .fig__plate > video { opacity: 1; filter: none; }
+  .fig__plate::after { opacity: 0; }
+  .gallery__item img, .gallery__item video { opacity: 1; }
+}
+
+/* 19 responsive ------------------------------------------------------ */
+@media (max-width: 1200px) {
+  .tp-artist { display: none; }                  /* the transport gives up the artist first */
+}
+@media (max-width: 1100px) {
+  .foot__links { columns: 3; }
+  .gallery__cols { --cols: 3; }
+}
+@media (max-width: 1100px) {
+  .trajectory { grid-template-columns: minmax(0, 1fr); }
+  .montage__stops { margin-top: var(--s4); }
+  .montage__stops li { grid-template-columns: 16ch minmax(0, 1fr); column-gap: var(--s3); }
+}
+@media (max-width: 1000px) {                     /* then the nav takes its own row */
+  :root { --top: calc(var(--hud-h) + 41px); }    /* two rows + rule, before syncTop measures (and with JS off) */
+  header.hud { grid-template-columns: auto minmax(0, 1fr); grid-template-rows: var(--hud-h) 40px; height: auto; }
+  .transport { grid-column: 2; grid-row: 1; }
+  .transport.is-lost .tp-time { display: none; }  /* lost: '--:--' says nothing the Retry button does not */
+  .nav {
+    grid-column: 1 / -1; grid-row: 2; justify-content: flex-start; gap: 20px; align-items: center;
+    overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+    margin: 0 calc(var(--gutter) * -1); padding: 0 var(--gutter); border-top: 1px solid var(--hair-2);
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 56px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 56px), transparent);
+  }
+  .nav::-webkit-scrollbar { display: none; }
+  .nav a { padding: 10px 0; }
+}
+@media (max-width: 900px) {
+  .media { grid-template-columns: 1fr; }
+  /* the organisation stays: it folds under the year */
+  .row--work { grid-template-columns: 12ch minmax(0, 1fr) auto; grid-template-areas: "yr what num" "where what num"; row-gap: 4px; }
+  .row--work .row__yr { grid-area: yr; } .row--work .row__what { grid-area: what; } .row--work .row__num { grid-area: num; }
+  .row--work .row__where { grid-area: where; text-align: left; align-self: start; }
+  .principles { grid-template-columns: 1fr; }
+  .subnav { position: static; display: flex; flex-wrap: wrap; gap: 4px 20px; margin-bottom: var(--s5); }
+}
+@media (max-width: 720px) {
+  :root { --t-num: 1.75rem; }
+  .tp-time { display: none; }                    /* the title stays: elapsed time without a name is noise */
+  .transport { gap: 10px; }
+  /* blocked or lost: the tap / retry button is the one affordance, so the title and time step aside */
+  .transport.is-blocked .tp-time, .transport.is-blocked .tp-track, .transport.is-lost .tp-time, .transport.is-lost .tp-track { display: none; }
+  .hero { min-height: calc(88svh - var(--top)); }  /* the name sits higher; one full cube above it */
+  .essay { padding-top: clamp(64px, 10vh, 96px); }   /* a phone essay opens like every other phone page; the field sits below the text */
+  .principles .essay { padding-top: 0; }
+  .hero__lede::before, .page-head__copy::before, .void__copy::before { inset: -24px -32px; }
+  .fig__cap { grid-template-columns: 1fr; gap: 4px; }   /* a long title is never squeezed beside the nowrap meta */
+  .prose .fig--wide, .prose .fig--mid, .prose .pre--wide { width: 100%; margin-left: 0; transform: none; }
+  .covers--wall { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 440px; }
+  .gallery__cols { --cols: 2; }
+  .gallery { gap: var(--s3); }
+  .row__meta--stack { display: flex; flex-wrap: wrap; gap: 4px 8px; }
+  .row__meta--stack > *:not(:last-child)::after { content: ' ·'; }   /* the separator trails, so a wrapped line never starts with a dot */
+  /* reduced-motion / no-WebGL cubes: away from the name column */
+  .ice--a { right: 16vw; top: 14vh; --s: 130px; --z: 65px; }
+  html[data-page="essay"] .ice-fallback { display: none; }   /* a phone essay is one full-width column: nothing behind the prose */
+  .ice--b { display: none; }
+  .ice--c { right: 6vw; top: 34vh; bottom: auto; }
+  .row--work { grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "yr where" "what what" "num num"; gap: 6px 12px; }
+  .row--essay, .row--essay.row--nonum { grid-template-columns: 1fr; gap: 6px; }
+  .row--essay .row__meta, .row__where { text-align: left; white-space: normal; }
+  .row--plain { grid-template-columns: 1fr; gap: 4px; }
+  .sh { flex-wrap: wrap; }
+  .foot__links { columns: 2; }
+  .gate__center { padding-bottom: 14vh; }
+  .montage__stops li { grid-template-columns: 1fr; gap: 3px; }
+  .pn { grid-template-columns: 1fr; }
+  .pn .pn--next { grid-column: auto; text-align: left; justify-self: start; }
+  .contacts li { grid-template-columns: 1fr; gap: 4px; }
+  /* lightbox: the picture takes the width; previous / next sit under it, above the album line */
+  .lightbox__btn--prev, .lightbox__btn--next { position: static; transform: none; }
+  .lightbox__stage { padding: 0; grid-template-columns: 1fr 1fr; grid-template-rows: minmax(0, 1fr) auto; gap: 12px 8px; align-items: center; }
+  .lightbox__media { grid-column: 1 / -1; grid-row: 1; }
+  .lightbox__btn--prev { grid-row: 2; grid-column: 1; justify-self: start; }
+  .lightbox__btn--next { grid-row: 2; grid-column: 2; justify-self: end; }
+}
+@media (max-width: 420px) {
+  .lede { font-size: 1.1875rem; }
+  .nav { gap: 14px; }                            /* six items fit 360–420 without the edge fade cutting Contact */
+  /* no room for six dot boxes: on a phone the current item is ink with the hover rule drawn, and the labels still never move */
+  .nav a::before { display: none; }
+  .nav a[aria-current]::after { right: 0; }
+}
+
+/* 20 print ----------------------------------------------------------- */
+@media print {
+  canvas#cubes, .floor, #gate, header.hud, .ice-fallback, .skip, .yt-host, .lightbox { display: none !important; }
+  html, body { background: #fff; color: #000; }
+  main#main { padding-top: 0; }
+  .fig__plate { background: #fff; border-color: #999; }
+  .fig__play { display: none; }
+  .fig__plate > img, .fig__plate > video { opacity: 1; filter: none; }
+  .fig__plate::after { display: none; }
+  .reveal, .rise { opacity: 1; transform: none; animation: none; }
+  .haze::before, .hero__lede::before, .page-head__copy::before, .void__copy::before { display: none; }
+  .essay, .prose { max-width: none; }
+  a[href^="http"]::after { content: ' (' attr(href) ')'; font-size: .8em; color: #666; }
+  footer.foot { background: #fff; }
+}

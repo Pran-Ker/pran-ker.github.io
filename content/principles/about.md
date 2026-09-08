@@ -1,16 +1,18 @@
-# About me
+# About
 
-*Personal | Updated regularly*
+*Personal | July 2026*
 
-I turned down my first job offer because the interviews were too easy.
+I am building a company in San Francisco. Before this I was at Hexo Labs building agents that run the research loop themselves: SIA, a self-improving autoresearcher that rewrites its own scaffolds, hit 80.81% on GPQA Diamond with no human touching it between generations and is deployed at Lawrence Livermore National Laboratory. Before that, RL for computer-use agents at AGI Inc. The long bet is program synthesis.
 
-It was the end of college. The Boston job paid exceptionally well and I had no backup, but I told my parents I would find something better. A few months later I joined a boutique consulting firm, and within months I was leading a team and reporting directly to clients like Bread Financial and California Lawyers for the Arts.
+*The path here was not a straight line.*
 
-Then the firm gave me one month to move to Dallas. I was 22, new to the country, with no savings: a hundred dollars from my parents. I figured out housing, cooking, and licenses on my own.
+I turned down my first job offer because the interviews were too easy. It was the end of college (a B.Tech at VIT, 2019 to 2023), the Boston job paid exceptionally well, and I had no backup. I told my parents I would find something better. A few months later I joined a boutique consulting firm, and within months I was leading a team and reporting directly to clients like Bread Financial and California Lawyers for the Arts.
 
-Dallas was fine, and fine wasn't the goal. I picked the day of the Stanford Codex Hackathon as my deadline, packed everything into a Uhaul, and moved to San Francisco. I lived in hostels, worked East Coast hours from 5 AM to 4 PM, then went to every tech and startup event in the city.
+Then the firm gave me one month to move to Dallas. I was 22, new to the country, with no savings: a hundred dollars from my parents. Housing, cooking, licenses, I figured out alone.
 
-I applied to Stanford's semester program; I wasn't going to spend two years on a Masters. I took High Performance Computing and Convex Optimization under Stephen Boyd, ran protein simulations on supercomputers, and solved optimization problems for rocket propulsion. On free days I snuck into MBA and astrophysics classes because they were interesting. My peers there were some of the sharpest and most ambitious people I had met.
+Dallas was fine, and fine was not the goal. I picked the day of the Stanford Codex Hackathon as my deadline, packed everything into a U-Haul, and moved to San Francisco. I lived in hostels, worked East Coast hours, 5 AM to 4 PM, then went to every tech and startup event in the city.
+
+I applied to Stanford's semester program. I was not going to spend two years on a Masters. I took High Performance Computing and Convex Optimization under Stephen Boyd, ran protein simulations on supercomputers, and solved optimization problems for rocket propulsion. On free days I snuck into MBA and astrophysics classes because they were interesting. My peers there were some of the sharpest and most ambitious people I had met.
 
 Meanwhile my company got acquired and the work went stale. I needed to build. The startup route felt crowded and non-contrarian, so I took the other path: Buy then Build. Friends and family cautioned against it. I spent six months on due diligence, talking to franchise owners, local businessmen, and consultants, then signed the FDD on Mister Sparky, a residential electrician business in Palo Alto. I settled the lease, bought the equipment, hired a master electrician, and started the SBA loan.
 
@@ -18,4 +20,6 @@ Two months in, the numbers broke. Bay Area rates and licensing delays blew past 
 
 I contracted for a couple of companies, including YellowPad, built by a Stanford Law graduate. At a hackathon, AGI Inc scouted me. I joined as a founding researcher under a Stanford PhD, implemented GRPO for training agents, and co-authored the REAL benchmark at NeurIPS 2025. Some of the smartest people I have met, and I have met a lot at this point.
 
-Now I work on post-training and agents that run the research loop themselves. The long bet is program synthesis. [What we built at AGI Inc &rarr;](/post#principles/agi-inc)
+Then Hexo Labs, and now this. Two papers from that stretch carry my name first: [SIA](https://arxiv.org/abs/2605.27276), on agents that update their own harness and weights, and [Vector-Bench](https://arxiv.org/abs/2607.19056) (co-first author), on whether models can surgically edit SVG code. The rest are on [Scholar](https://scholar.google.com/citations?user=Y3jw_UgAAAAJ).
+
+[What we built at AGI Inc &rarr;](/post#principles/agi-inc)

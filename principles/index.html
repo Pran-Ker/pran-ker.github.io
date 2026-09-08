@@ -1,238 +1,337 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Prannay</title>
+<!doctype html>
+<html lang="en" data-page="principles">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Principles · Prannay Hebbar</title>
+  <meta name="description" content="Who Prannay Hebbar is, what he believes, and what a small team built at AGI Inc: AGI-0 at 76.26% on OSWorld and the REAL benchmark at NeurIPS 2025.">
+  <link rel="canonical" href="https://prannayh.com/principles">
+  <meta property="og:site_name" content="Prannay Hebbar">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Principles · Prannay Hebbar">
+  <meta property="og:description" content="Who I am, what I believe, and what we built at AGI Inc.">
+  <meta property="og:url" content="https://prannayh.com/principles">
+  <meta property="og:image" content="https://prannayh.com/assets/images/opengraph.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@Pran_Ker">
+  <meta name="twitter:creator" content="@Pran_Ker">
+  <meta name="twitter:title" content="Principles · Prannay Hebbar">
+  <meta name="twitter:description" content="Who I am, what I believe, and what we built at AGI Inc.">
+  <meta name="twitter:image" content="https://prannayh.com/assets/images/opengraph.png">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="color-scheme" content="light">
+  <link rel="icon" href="/assets/images/favicon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+  <link rel="preload" href="/assets/fonts/LabGrotesque-Light.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/LabGrotesque-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/LabGrotesqueMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/SourceSerif4-Variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="modulepreload" href="/assets/vendor/three.module.min.js">
+  <link rel="modulepreload" href="/assets/js/cubes.js">
+  <link rel="stylesheet" href="/assets/css/white.css">
+  <script>try{if(sessionStorage.getItem('white.entered')==='1')document.documentElement.dataset.entered=''}catch(e){}</script>
+  <script type="module" src="/assets/js/white.js"></script>
+  <noscript><style>#gate{display:none}.ice-fallback{display:block}body[data-state="gate"] .ice--b,body[data-state="gate"] .ice--c{display:block}body[data-state="gate"] .ice--a{right:12vw;top:16vh}body[data-state="gate"]{overflow:auto}.hud,#main,.foot,.floor{opacity:1!important}.reveal,.rise{opacity:1;transform:none;animation:none}.fig__plate>img,.fig__plate>video{opacity:1;filter:none}.fig__plate::after{display:none}</style></noscript>
+</head>
+<body data-state="gate">
 
-    <meta charset="utf-8" />
-    <meta content="ie=edge" http-equiv="x-ua-compatible" />
-    <meta name="handheldfriendly" content="true" />
-    <meta name="viewport" content="initial-scale=1, width=device-width" />
-    <meta
-      name="description"
-      content="Core principles and values that guide Prannay Hebbar's work and research"
-    />
-    <meta name="theme-color" content="#000000" />
+<a class="skip" href="#main" data-no-router>Skip to content</a>
 
-    <meta property="og:site_name" content="Prannay Hebbar" />
-    <meta property="og:title" content="Principles by Prannay Hebbar" />
-    <meta
-      property="og:description"
-      content="Core principles and values that guide Prannay Hebbar's work and research"
-    />
-    <meta property="og:url" content="/principles" />
-    <meta property="og:type" content="website" />
+<canvas id="cubes" aria-hidden="true"></canvas>
+<div class="floor" aria-hidden="true"></div>
+<div class="ice-fallback" aria-hidden="true">
+  <div class="ice ice--a"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="ice ice--b"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="ice ice--c"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+</div>
 
-    <link rel="canonical" href="/principles" />
-    <link rel="icon" href="/assets/images/favicon-32.png" />
-    <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png" />
+<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-cta" aria-describedby="gate-sub">
+  <span class="gate__name">Prannay Hebbar</span>
+  <div class="gate__center">
+    <button class="gate__cta" id="gate-cta" type="button"><span class="mark" aria-hidden="true"></span>Press to enter</button>
+    <p class="gate__sub" id="gate-sub">Sound on. One track, on loop. Nothing autoplays without you.</p>
+  </div>
+  <span class="gate__hint mono">Enter · Space · Click</span>
+</div>
 
-    <link rel="preload" href="/assets/fonts/LabGrotesque-Regular.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/assets/fonts/LabGrotesque-Medium.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/assets/fonts/LabGrotesque-Bold.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="/assets/css/style.css" />
-    <link rel="stylesheet" href="/assets/css/print.css" media="print" />
+<header class="hud">
+  <a class="wordmark" href="/" aria-label="Prannay Hebbar, home">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 21 7v10l-9 5-9-5V7z"/><path d="M3 7l9 5 9-5M12 12v10"/></svg>
+    <span>Prannay Hebbar</span>
+  </a>
+  <nav class="nav" aria-label="Primary">
+    <a href="/">Home</a>
+    <a href="/blog">Writing</a>
+    <a href="/principles" aria-current="page">Principles</a>
+    <a href="/gallery">Gallery</a>
+    <a href="/more">More</a>
+    <a href="/contact">Contact</a>
+  </nav>
+  <div class="transport" role="group" aria-label="Music">
+    <span class="tp-track"><span class="tp-title">Little Voices</span><span class="tp-artist">Lane 8</span></span>
+    <button class="tp-tap" type="button" hidden>Tap for sound</button>
+    <button class="tp-btn tp-mute" type="button" data-on="false" aria-label="Mute">
+      <svg class="ico-off" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5h1.8L6 1.5v7L3.3 6.5H1.5z" fill="currentColor"/><path d="M7.2 3.3a2.4 2.4 0 0 1 0 3.4" stroke="currentColor" stroke-width=".9" fill="none"/></svg>
+      <svg class="ico-on" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5h1.8L6 1.5v7L3.3 6.5H1.5z" fill="currentColor"/><path d="M7 3.8l2 2.4M9 3.8l-2 2.4" stroke="currentColor" stroke-width=".9"/></svg>
+    </button>
+    <span class="tp-time"><span class="vh">Elapsed </span><span class="tp-time__v">00:00</span></span>
+    <span class="beat" aria-hidden="true"></span>
+    <span class="tp-status vh" aria-live="polite"></span>
+  </div>
+</header>
 
-    <script defer src="/assets/js/script.js" type="module"></script>
-  </head>
+<main id="main" data-page="principles" tabindex="-1">
+  <style data-page>
+    /* Principles: the page head every secondary page uses (Writing, More, Contact), then the system's sticky
+       in-page nav beside one reading column that holds three sections.
+       The sections are the system's .essay blocks with their titles two steps under the page title,
+       since three of them share a page. Nothing here changes the shell. */
+    main[data-page="principles"] .page-body { padding-bottom: clamp(80px, 12vh, 160px); }
+    main[data-page="principles"] .p-body { max-width: var(--measure); }
+    main[data-page="principles"] .essay__head { gap: var(--s2); }
+    main[data-page="principles"] .essay__title { font-size: clamp(1.5625rem, 1.1rem + 1.2vw, var(--t3)); }
+    main[data-page="principles"] .prose .lead { font-size: var(--t1); line-height: 1.45; font-weight: 380; letter-spacing: -.005em; }
+    main[data-page="principles"] .prose .turn { font-style: italic; color: var(--graphite); }
+    /* beliefs: three groups; each belief is a heading, its corollaries the reading text beside it */
+    main[data-page="principles"] .beliefs { display: grid; gap: clamp(40px, 6vh, 64px); }
+    main[data-page="principles"] .beliefs__group h3 { font-family: var(--mono); font-weight: 400; font-size: var(--t-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ash); padding-top: 12px; border-top: 1px solid var(--hair); }
+    main[data-page="principles"] .belief { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); column-gap: var(--s3); padding: var(--s3) 0; border-bottom: 1px solid var(--hair-2); }
+    main[data-page="principles"] .beliefs__group h3 + .belief { margin-top: var(--s2); border-top: 0; }
+    main[data-page="principles"] .belief h4 { font-family: var(--sans); font-weight: 400; font-size: var(--t1); letter-spacing: -.015em; line-height: 1.25; color: var(--ink); text-wrap: balance; }
+    main[data-page="principles"] .belief ul { font-family: var(--serif); font-size: var(--t-body); line-height: 1.5; color: var(--ink); }
+    main[data-page="principles"] .belief li { position: relative; padding-left: 1.3em; text-wrap: pretty; }
+    main[data-page="principles"] .belief li + li { margin-top: .4em; }
+    main[data-page="principles"] .belief li::before { content: '—' / ''; position: absolute; left: 0; color: var(--ash); }
+    main[data-page="principles"] .belief:last-child { border-bottom: 0; }
+    @media (max-width: 720px) {
+      main[data-page="principles"] .belief { grid-template-columns: 1fr; row-gap: var(--s1); }
+    }
+  </style>
 
-  <body>
-    <input class="nav-active" id="nav-active" type="checkbox" />
+  <section class="page-head wrap" aria-labelledby="principles-h">
+    <div class="page-head__copy">
+      <h1 id="principles-h" class="rise" style="--i:0">Principles</h1>
+      <p class="lede rise" style="--i:2">Where I came from, what I hold to, and what a small team built at AGI Inc.</p>
+    </div>
+  </section>
 
-    <label class="nav-underlay" for="nav-active"></label>
+  <div class="wrap page-body">
+    <div class="principles">
 
-    <nav class="nav">
-      <div class="nav__logo">
-        <a href="/" aria-label="Home"
-          ><img src="/assets/images/logo-black.svg" alt="Prannay Hebbar"
-        /></a>
-      </div>
+      <nav class="subnav" aria-label="On this page">
+        <a href="#about" aria-current="location">About</a>
+        <a href="#beliefs">Things I believe</a>
+        <a href="#agi-inc">AGI Inc</a>
+      </nav>
 
-      <div class="nav__toggle">
-        <label for="nav-active">
-          <span>Menu</span>
-        </label>
-      </div>
+      <div class="p-body haze">
 
-      <div class="nav__options">
-        <ul>
-          <li>
-            <a href="/" class="mobile-menu-text" aria-label="TLDR"
-              >TLDR</a
-            >
-          </li>
-          <li>
-            <a href="/blog" class="mobile-menu-text" aria-label="Blogs"
-              >Blogs</a
-            >
-          </li>
-          <li>
-            <a
-              href="/principles"
-              class="mobile-menu-text"
-              aria-label="Principles"
-              >Principles</a
-            >
-          </li>
-          <li>
-            <a
-              href="/more"
-              class="mobile-menu-text"
-              aria-label="Other Stuff"
-              >Other Stuff</a
-            >
-          </li>
-          <li>
-            <a href="/contact" class="mobile-menu-text" aria-label="Contact"
-              >Contact</a
-            >
-          </li>
-        </ul>
-        <div class="social-bar">
-          <div class="social-icons">
-            <div>
-              <a href="https://x.com/Pran_Ker" target="_blank" rel="noopener"
-                ><svg viewBox="0 0 512 512" width="1em" height="1em" fill="currentColor"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/></svg
-              ></a>
-            </div>
-            <div>
-              <a
-                href="https://github.com/Pran-Ker"
-                target="_blank"
-                rel="noopener"
-                ><svg viewBox="0 0 496 512" width="1em" height="1em" fill="currentColor"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.8-14.9-112.8-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg
-              ></a>
-            </div>
-            <div>
-              <a
-                href="https://www.linkedin.com/in/prannay/"
-                target="_blank"
-                rel="noopener"
-                ><svg viewBox="0 0 448 512" width="1em" height="1em" fill="currentColor"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg
-              ></a>
-            </div>
-            <div>
-              <a
-                href="https://www.instagram.com/prannay.hebbar/"
-                target="_blank"
-                rel="noopener"
-                ><svg viewBox="0 0 448 512" width="1em" height="1em" fill="currentColor"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg
-              ></a>
-            </div>
+        <section class="essay" id="about" aria-labelledby="about-h">
+          <header class="essay__head">
+            <h2 class="essay__title" id="about-h">About</h2>
+          </header>
+          <div class="prose">
+            <p class="lead">I am building a company in San Francisco. Before this I was at Hexo Labs building agents that run the research loop themselves: SIA, a self-improving autoresearcher that rewrites its own scaffolds, hit 80.81% on GPQA Diamond with no human touching it between generations and is deployed at Lawrence Livermore National Laboratory. Before that, RL for computer-use agents at AGI Inc. The long bet is program synthesis.</p>
+            <p class="turn">The path here was not a straight line.</p>
+            <p>I turned down my first job offer because the interviews were too easy. It was the end of college (a B.Tech at VIT, 2019 to 2023), the Boston job paid exceptionally well, and I had no backup. I told my parents I would find something better. A few months later I joined a boutique consulting firm, and within months I was leading a team and reporting directly to clients like Bread Financial and California Lawyers for the Arts.</p>
+            <p>Then the firm gave me one month to move to Dallas. I was 22, new to the country, with no savings: a hundred dollars from my parents. Housing, cooking, licenses, I figured out alone.</p>
+            <p>Dallas was fine, and fine was not the goal. I picked the day of the Stanford Codex Hackathon as my deadline, packed everything into a U-Haul, and moved to San Francisco. I lived in hostels, worked East Coast hours, 5 AM to 4 PM, then went to every tech and startup event in the city.</p>
+            <p>I applied to Stanford's semester program. I was not going to spend two years on a Masters. I took High Performance Computing and Convex Optimization under Stephen Boyd, ran protein simulations on supercomputers, and solved optimization problems for rocket propulsion. On free days I snuck into MBA and astrophysics classes because they were interesting. My peers there were some of the sharpest and most ambitious people I had met.</p>
+            <p>Meanwhile my company got acquired and the work went stale. I needed to build. The startup route felt crowded and non-contrarian, so I took the other path: Buy then Build. Friends and family cautioned against it. I spent six months on due diligence, talking to franchise owners, local businessmen, and consultants, then signed the FDD on Mister Sparky, a residential electrician business in Palo Alto. I settled the lease, bought the equipment, hired a master electrician, and started the SBA loan.</p>
+            <p>Two months in, the numbers broke. Bay Area rates and licensing delays blew past the projected starting capital, and I had already put in 90% of my savings. I refused to cover the gap with borrowed money, so I cancelled the loan and walked away. I don't regret it. Given the same information, I would make the same call again.</p>
+            <p>I contracted for a couple of companies, including YellowPad, built by a Stanford Law graduate. At a hackathon, AGI Inc scouted me. I joined as a founding researcher under a Stanford PhD, implemented GRPO for training agents, and co-authored the REAL benchmark at NeurIPS 2025. Some of the smartest people I have met, and I have met a lot at this point.</p>
+            <p>Then Hexo Labs, and now this. Two papers from that stretch carry my name first: <a href="https://arxiv.org/abs/2605.27276" target="_blank" rel="noopener">SIA<span class="vh"> (opens in a new tab)</span></a>, on agents that update their own harness and weights, and <a href="https://arxiv.org/abs/2607.19056" target="_blank" rel="noopener">Vector-Bench<span class="vh"> (opens in a new tab)</span></a> (co-first author), on whether models can surgically edit SVG code. The rest are on <a href="https://scholar.google.com/citations?user=Y3jw_UgAAAAJ" target="_blank" rel="noopener">Scholar<span class="vh"> (opens in a new tab)</span></a>.</p>
+            <p><a href="#agi-inc">What we built at AGI Inc →</a></p>
           </div>
-        </div>
-      </div>
-    </nav>
+        </section>
 
-    <header class="header">
-      <h1>
-        <a href="/" aria-label="Prannay Hebbar"
-          ><img src="/assets/images/logo.svg" alt="Prannay Hebbar"
-        /></a>
-      </h1>
+        <section class="essay" id="beliefs" aria-labelledby="beliefs-h">
+          <header class="essay__head">
+            <h2 class="essay__title" id="beliefs-h">Things I believe</h2>
+          </header>
 
-      <ul>
-        <li><a href="/" aria-label="TLDR">TLDR</a></li>
-        <li><a href="/blog" aria-label="Blogs">Blogs</a></li>
-        <li>
-          <a href="/principles" aria-label="Principles">Principles</a>
-        </li>
-        <li>
-          <a href="/more" aria-label="Other Stuff">Other Stuff</a>
-        </li>
-        <li><a href="/contact" aria-label="Contact">Contact</a></li>
-      </ul>
-    </header>
+          <div class="beliefs">
 
-    <main>
-      <section class="page">
-        <div class="page__headline">
-          <h4>Principles</h4>
-          <p class="common-description">
-            Core beliefs and values that guide my approach to AI research,
-            development, and collaboration.
-          </p>
-        </div>
+            <section class="beliefs__group" aria-labelledby="b-self">
+              <h3 id="b-self">On yourself</h3>
+              <div class="belief">
+                <h4>You have no career ceiling</h4>
+                <ul role="list">
+                  <li>Grit &gt; talent</li>
+                  <li>There is no substitute for putting in the hours</li>
+                  <li>Get 1% better every day</li>
+                </ul>
+              </div>
+              <div class="belief">
+                <h4>Be ruthlessly truth seeking</h4>
+                <ul role="list">
+                  <li>The truth can be painful</li>
+                  <li>You can just change your mind if you are wrong</li>
+                  <li>Strong opinions, loosely held</li>
+                  <li>Maximize your exposure hours</li>
+                  <li>“Anecdata” &gt; data</li>
+                  <li>Seek the collective truth, not one opinion</li>
+                </ul>
+              </div>
+              <div class="belief">
+                <h4>Work can also be your hobby</h4>
+                <ul role="list">
+                  <li>That does not mean you cannot have other hobbies</li>
+                  <li>Passion + boundaries &gt; the mythical “work-life balance”</li>
+                  <li>Your best work comes from following your curiosity</li>
+                </ul>
+              </div>
+            </section>
 
-        <div class="thoughts">
-          <div class="thoughts__container">
-            <div class="thoughts__thought">
-              <h3><a href="/post#principles/about">About</a></h3>
-              <p class="common-description">
-                Learn more about my background, experience, and what drives my
-                work in AI research.
-              </p>
-              <a class="button button--dim" href="/post#principles/about"
-                >Read more<span>&rarr;</span></a
-              >
-            </div>
-            <div class="thoughts__thought">
-              <h3><a href="/post#principles/beliefs">Things I Believe In</a></h3>
-              <p class="common-description">
-                A running list of beliefs that shape how I work, build, and
-                collaborate.
-              </p>
-              <a class="button button--dim" href="/post#principles/beliefs"
-                >Read more<span>&rarr;</span></a
-              >
-            </div>
-            <div class="thoughts__thought">
-              <h3><a href="/post#principles/agi-inc">AGI Inc.</a></h3>
-              <p class="common-description">
-                We beat OSWorld, the benchmark for computer-use agents;
-                AGI-0 reached 76.26%, #1 in CUA.
-              </p>
-              <a class="button button--dim" href="/post#principles/agi-inc"
-                >Read more<span>&rarr;</span></a
-              >
-            </div>
+            <section class="beliefs__group" aria-labelledby="b-work">
+              <h3 id="b-work">On the work</h3>
+              <div class="belief">
+                <h4>Shipping fast beats the best strategy</h4>
+                <ul role="list">
+                  <li>Speed is a superpower</li>
+                  <li>Create a bias toward shipping</li>
+                  <li>Small teams ship faster</li>
+                  <li>AI-native teams will move 10× faster than those not willing to change</li>
+                  <li>Landings &gt; launches: product adoption over shipped code</li>
+                  <li>Listen, build, ship, tell the customer, then repeat forever</li>
+                </ul>
+              </div>
+              <div class="belief">
+                <h4>Demos &gt; memos</h4>
+                <ul role="list">
+                  <li>You could have built a prototype in v0 during the meeting</li>
+                  <li>Only ship things you are excited about yourself</li>
+                </ul>
+              </div>
+              <div class="belief">
+                <h4>Communication is the job</h4>
+                <ul role="list">
+                  <li>Clear writing is clear thinking</li>
+                  <li>Everyone (yes, you) needs to become a better writer</li>
+                  <li>Leaders step up to provide clarity when it is absent</li>
+                  <li>Be the person taking notes, even if only for yourself</li>
+                  <li>Mismatched expectations lead to sadness</li>
+                  <li>Slack pro tip: anticipate objections before hitting send, then address them</li>
+                </ul>
+              </div>
+            </section>
+
+            <section class="beliefs__group" aria-labelledby="b-people">
+              <h3 id="b-people">On people</h3>
+              <div class="belief">
+                <h4>Leadership means owning outcomes beyond the org chart</h4>
+                <ul role="list">
+                  <li>Influence &gt; titles</li>
+                  <li>Leaders do the work themselves <em>and</em> delegate</li>
+                  <li>You can write your own playbook</li>
+                  <li>Study what worked for others, then take your own path</li>
+                </ul>
+              </div>
+              <div class="belief">
+                <h4>Hiring is what separates good leaders from great</h4>
+                <ul role="list">
+                  <li>There are two hiring answers: hell yes or no</li>
+                  <li>Growth potential &gt; current skill</li>
+                  <li>Hire people you can learn from</li>
+                  <li>Hire people you would someday be happy working for</li>
+                  <li>Favorite interview question: what work are you most proud of?</li>
+                </ul>
+              </div>
+              <div class="belief">
+                <h4>Always try to assume good intent</h4>
+                <ul role="list">
+                  <li>Lead with empathy</li>
+                  <li>They might just be having a bad day</li>
+                  <li>Criticism is good feedback if you listen unemotionally</li>
+                </ul>
+              </div>
+            </section>
+
           </div>
-        </div>
-      </section>
-    </main>
+        </section>
 
-    <footer class="footer">
-      <ul class="social-icons">
-        <li>
-          <a
-            href="https://x.com/Pran_Ker"
-            target="_blank"
-            rel="noopener"
-            aria-label="Twitter"
-          >
-            <svg viewBox="0 0 512 512" width="1em" height="1em" fill="currentColor"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/></svg>
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://github.com/Pran-Ker"
-            target="_blank"
-            rel="noopener"
-            aria-label="GitHub"
-          >
-            <svg viewBox="0 0 496 512" width="1em" height="1em" fill="currentColor"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.8-14.9-112.8-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://www.linkedin.com/in/prannay/"
-            target="_blank"
-            rel="noopener"
-            aria-label="LinkedIn"
-          >
-            <svg viewBox="0 0 448 512" width="1em" height="1em" fill="currentColor"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://www.instagram.com/prannay.hebbar/"
-            target="_blank"
-            rel="noopener"
-            aria-label="Instagram"
-          >
-            <svg viewBox="0 0 448 512" width="1em" height="1em" fill="currentColor"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg>
-          </a>
-        </li>
-      </ul>
-    </footer>
-  </body>
+        <section class="essay" id="agi-inc" aria-labelledby="agi-h">
+          <header class="essay__head">
+            <h2 class="essay__title" id="agi-h">AGI Inc</h2>
+            <p class="essay__deck">Founding researcher, March to December 2025. Two things came out of it that I am proud of.</p>
+          </header>
+          <div class="prose">
+            <h3>AGI-0: #1 on OSWorld</h3>
+            <p>OSWorld is the benchmark for computer-use agents on real desktops. In October 2025 <a href="https://www.theagi.company/blog/osworld" target="_blank" rel="noopener">we beat it<span class="vh"> (opens in a new tab)</span></a>: AGI-0 reached <strong>76.26%</strong> task success across 369 real-world tasks, the top computer-use agent at the time.</p>
+            <p>AGI-0 is an end-to-end trained computer-use policy. It acts directly on real VMs (Ubuntu, Windows, macOS) with low-level control only: clicks, typing, and hotkeys. Pixels in, actions out, no API shortcuts.</p>
+            <p>We trained it with GRPO in an online RL loop. Run the policy on real machines, score by execution with verifiers, update, repeat. The task pool was hundreds of thousands of synthetic and OSWorld tasks plus our internal REAL browser environments. The agent also self-verifies: it checks each outcome and, when a step fails, corrects on the next turn.</p>
+            <p>Built by Diego Caples, Atharva Gundawar, Prannay Hebbar, Greg Tarr, and Joseph Junzhe Zhu. <a href="https://www.theagi.company/blog/osworld" target="_blank" rel="noopener">Read the full write-up<span class="ext" aria-hidden="true">↗</span><span class="vh"> (opens in a new tab)</span></a></p>
+
+            <h3>REAL: the environment underneath it</h3>
+            <p>Before the agent, the environment. <a href="https://arxiv.org/abs/2504.11543" target="_blank" rel="noopener">REAL<span class="vh"> (opens in a new tab)</span></a> (NeurIPS 2025) is a set of deterministic, high-fidelity replicas of 11 real websites with 112 benchmark tasks. Deterministic matters: the same action gets the same result every time, so you grade by execution instead of by rubric, and you can train on it, not just test on it. When we published, frontier models topped out around 41%.</p>
+            <p>The same stack shipped as <a href="https://github.com/agi-inc/agisdk" target="_blank" rel="noopener">agisdk<span class="vh"> (opens in a new tab)</span></a>: the web agent, the harness, sandbox-site access, and the benchmarking, in one Python package. 17k downloads.</p>
+            <p><a href="https://www.theagi.company" target="_blank" rel="noopener">theagi.company<span class="ext" aria-hidden="true">↗</span><span class="vh"> (opens in a new tab)</span></a></p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <script type="module" data-page>
+    /* scroll-spy for the rail: the current section is the one crossing a line a third of the way down
+       the viewport. aria-current="location" on the link; the system draws the marker. The update is
+       rAF-throttled, so the marker moves one frame after the scroll event by design (a probe that reads
+       synchronously after scrolling sees the previous section). Listeners go when the router leaves the page. */
+    const main = document.querySelector('main[data-page="principles"]');
+    if (main) {
+      const links = [...main.querySelectorAll('.subnav a[href^="#"]')];
+      const secs = links.map(a => ({ a, el: main.querySelector(a.getAttribute('href')) })).filter(s => s.el);
+      let raf = 0, cur = null;
+      const mark = s => {
+        if (s === cur) return; cur = s;
+        secs.forEach(x => x === s ? x.a.setAttribute('aria-current', 'location') : x.a.removeAttribute('aria-current'));
+      };
+      const update = () => {
+        raf = 0;
+        if (!main.isConnected) return stop();
+        const hud = document.querySelector('.hud');
+        const top = (hud && hud.offsetHeight) || 56;
+        const line = top + (innerHeight - top) / 3;
+        let pick = secs[0];
+        for (const s of secs) if (s.el.getBoundingClientRect().top <= line) pick = s;
+        if (Math.ceil(innerHeight + scrollY) >= document.documentElement.scrollHeight - 1) pick = secs[secs.length - 1];
+        mark(pick);
+      };
+      const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+      const stop = () => {
+        removeEventListener('scroll', onScroll); removeEventListener('resize', onScroll);
+        removeEventListener('white:navigate', stop); if (raf) cancelAnimationFrame(raf);
+      };
+      addEventListener('scroll', onScroll, { passive: true });
+      addEventListener('resize', onScroll);
+      addEventListener('white:navigate', stop);
+      update();
+    }
+  </script>
+</main>
+
+<footer class="foot">
+  <div class="wrap grid">
+    <ul class="foot__links">
+      <li><a href="https://x.com/Pran_Ker" target="_blank" rel="noopener">X</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://github.com/Pran-Ker" target="_blank" rel="noopener">GitHub</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://www.linkedin.com/in/prannay/" target="_blank" rel="noopener">LinkedIn</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://scholar.google.com/citations?user=Y3jw_UgAAAAJ" target="_blank" rel="noopener">Scholar</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://www.goodreads.com/user/show/193930535-prannay-hebbar" target="_blank" rel="noopener">Goodreads</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://medium.com/@Pran-Ker" target="_blank" rel="noopener">Medium</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://huggingface.co/Pran-Ker" target="_blank" rel="noopener">Hugging Face</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://openreview.net/profile?id=%7EPrannay_Hebbar1" target="_blank" rel="noopener">OpenReview</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://calendly.com/prannay/consulting" target="_blank" rel="noopener">Calendly</a><span aria-hidden="true">↗</span></li>
+    </ul>
+    <div class="foot__base">
+      <span>© 2026 Prannay Hebbar</span>
+      <span>San Francisco</span>
+    </div>
+  </div>
+</footer>
+
+</body>
 </html>

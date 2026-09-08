@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en" data-page="gallery">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gallery · Prannay Hebbar</title>
+  <meta name="description" content="Photos and short clips. Stanford, the Presidio, trips in the US, Halloween, around the Bay. 2024 – 2025.">
+  <link rel="canonical" href="https://prannayh.com/gallery">
+  <meta property="og:site_name" content="Prannay Hebbar">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Gallery · Prannay Hebbar">
+  <meta property="og:description" content="Photos and short clips. Stanford, the Presidio, trips in the US, Halloween, around the Bay. 2024 – 2025.">
+  <meta property="og:url" content="https://prannayh.com/gallery">
+  <meta property="og:image" content="https://prannayh.com/assets/images/opengraph.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@Pran_Ker">
+  <meta name="twitter:creator" content="@Pran_Ker">
+  <meta name="twitter:title" content="Gallery · Prannay Hebbar">
+  <meta name="twitter:description" content="Photos and short clips. Stanford, the Presidio, trips in the US, Halloween, around the Bay. 2024 – 2025.">
+  <meta name="twitter:image" content="https://prannayh.com/assets/images/opengraph.png">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="color-scheme" content="light">
+  <link rel="icon" href="/assets/images/favicon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+  <link rel="preload" href="/assets/fonts/LabGrotesque-Light.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/LabGrotesque-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/LabGrotesqueMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/SourceSerif4-Variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="modulepreload" href="/assets/vendor/three.module.min.js">
+  <link rel="modulepreload" href="/assets/js/cubes.js">
+  <link rel="stylesheet" href="/assets/css/white.css">
+  <script>try{if(sessionStorage.getItem('white.entered')==='1')document.documentElement.dataset.entered=''}catch(e){}</script>
+  <script type="module" src="/assets/js/white.js"></script>
+  <noscript><style>#gate{display:none}.ice-fallback{display:block}body[data-state="gate"] .ice--b,body[data-state="gate"] .ice--c{display:block}body[data-state="gate"] .ice--a{right:12vw;top:16vh}body[data-state="gate"]{overflow:auto}.hud,#main,.foot,.floor{opacity:1!important}.reveal,.rise{opacity:1;transform:none;animation:none}.fig__plate>img,.fig__plate>video{opacity:1;filter:none}.fig__plate::after{display:none}</style></noscript>
+</head>
+<body data-state="gate">
+
+<a class="skip" href="#main" data-no-router>Skip to content</a>
+
+<canvas id="cubes" aria-hidden="true"></canvas>
+<div class="floor" aria-hidden="true"></div>
+<div class="ice-fallback" aria-hidden="true">
+  <div class="ice ice--a"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="ice ice--b"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="ice ice--c"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+</div>
+
+<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-cta" aria-describedby="gate-sub">
+  <span class="gate__name">Prannay Hebbar</span>
+  <div class="gate__center">
+    <button class="gate__cta" id="gate-cta" type="button"><span class="mark" aria-hidden="true"></span>Press to enter</button>
+    <p class="gate__sub" id="gate-sub">Sound on. One track, on loop. Nothing autoplays without you.</p>
+  </div>
+  <span class="gate__hint mono">Enter · Space · Click</span>
+</div>
+
+<header class="hud">
+  <a class="wordmark" href="/" aria-label="Prannay Hebbar, home">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 21 7v10l-9 5-9-5V7z"/><path d="M3 7l9 5 9-5M12 12v10"/></svg>
+    <span>Prannay Hebbar</span>
+  </a>
+  <nav class="nav" aria-label="Primary">
+    <a href="/">Home</a>
+    <a href="/blog">Writing</a>
+    <a href="/principles">Principles</a>
+    <a href="/gallery" aria-current="page">Gallery</a>
+    <a href="/more">More</a>
+    <a href="/contact">Contact</a>
+  </nav>
+  <div class="transport" role="group" aria-label="Music">
+    <span class="tp-track"><span class="tp-title">Little Voices</span><span class="tp-artist">Lane 8</span></span>
+    <button class="tp-tap" type="button" hidden>Tap for sound</button>
+    <button class="tp-btn tp-mute" type="button" data-on="false" aria-label="Mute">
+      <svg class="ico-off" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5h1.8L6 1.5v7L3.3 6.5H1.5z" fill="currentColor"/><path d="M7.2 3.3a2.4 2.4 0 0 1 0 3.4" stroke="currentColor" stroke-width=".9" fill="none"/></svg>
+      <svg class="ico-on" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5h1.8L6 1.5v7L3.3 6.5H1.5z" fill="currentColor"/><path d="M7 3.8l2 2.4M9 3.8l-2 2.4" stroke="currentColor" stroke-width=".9"/></svg>
+    </button>
+    <span class="tp-time"><span class="vh">Elapsed </span><span class="tp-time__v">00:00</span></span>
+    <span class="beat" aria-hidden="true"></span>
+    <span class="tp-status vh" aria-live="polite"></span>
+  </div>
+</header>
+
+<main id="main" data-page="gallery" tabindex="-1">
+  <style data-page>
+    /* Gallery: the system's page head, then one section: the label + album pills, then the grid. Nothing on the photos.
+       The masonry, pills and lightbox are white.css §14; only the JS-off grid is styled here. */
+    main[data-page="gallery"] .gallery__item--video { cursor: zoom-in; }
+    /* JS off: the same pictures in a plain grid */
+    main[data-page="gallery"] .gallery > noscript { display: grid; gap: var(--s4); }
+    main[data-page="gallery"] .gallery__static { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: var(--s3); }
+    main[data-page="gallery"] .gallery__static img { width: 100%; height: auto; border-radius: 10px; background: var(--paper-2); }
+  </style>
+
+  <section class="page-head wrap" aria-labelledby="gallery-h">
+    <div class="page-head__copy">
+      <h1 id="gallery-h" class="rise" style="--i:0">Gallery</h1>
+    </div>
+  </section>
+
+  <section class="section wrap" aria-label="Photos">
+    <!-- gallery.js builds the label, the album pills and the masonry here; white.js mounts it -->
+    <div class="gallery" data-gallery data-src="/assets/gallery/manifest.json">
+      <noscript>
+      <p class="gallery__count">All photos · 53</p>
+      <ul class="gallery__static">
+      <li><a href="/assets/gallery/full/presidio-01.jpg"><img src="/assets/gallery/thumb/presidio-01.jpg" width="1800" height="1438" alt="Presidio, 2024 — photo 1 of 6" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/presidio-02.jpg"><img src="/assets/gallery/thumb/presidio-02.jpg" width="1800" height="1206" alt="Presidio, 2024 — photo 2 of 6" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/presidio-03.jpg"><img src="/assets/gallery/thumb/presidio-03.jpg" width="1800" height="1350" alt="Presidio, 2024 — photo 3 of 6" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/presidio-04.jpg"><img src="/assets/gallery/thumb/presidio-04.jpg" width="1284" height="714" alt="Presidio, 2024 — photo 4 of 6" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/presidio-05.jpg"><img src="/assets/gallery/thumb/presidio-05.jpg" width="1284" height="714" alt="Presidio, 2024 — photo 5 of 6" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/presidio-06.jpg"><img src="/assets/gallery/thumb/presidio-06.jpg" width="1284" height="714" alt="Presidio, 2024 — photo 6 of 6" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/stanford-01.jpg"><img src="/assets/gallery/thumb/stanford-01.jpg" width="1800" height="2400" alt="Stanford, 2024 — photo 1 of 20" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/video/stanford-02.mp4"><img src="/assets/gallery/video/stanford-02.jpg" width="720" height="960" alt="Stanford, 2024 — video 2 of 20" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/stanford-03.jpg"><img src="/assets/gallery/thumb/stanford-03.jpg" width="1800" height="2400" alt="Stanford, 2024 — photo 3 of 20" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/stanford-04.jpg"><img src="/assets/gallery/thumb/stanford-04.jpg" width="1800" height="2400" alt="Stanford, 2024 — photo 4 of 20" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/video/stanford-05.mp4"><img src="/assets/gallery/video/stanford-05.jpg" width="720" height="1280" alt="Stanford, 2024 — video 5 of 20" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/video/stanford-06.mp4"><img src="/assets/gallery/video/stanford-06.jpg" width="720" height="1280" alt="Stanford, 2024 — video 6 of 20" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/stanford-07.jpg"><img src="/assets/gallery/thumb/stanford-07.jpg" width="1800" height="2400" alt="Stanford, 2024 — photo 7 of 20" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/stanford-08.jpg"><img src="/assets/gallery/thumb/stanford-08.jpg" width="1800" height="2400" alt="Stanford, 2024 — photo 8 of 20" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/stanford-09.jpg"><img src="/assets/gallery/thumb/stanford-09.jpg" width="1800" height="2400" alt="Stanford, 2024 — photo 9 of 20" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/stanford-10.jpg"><img src="/assets/gallery/thumb/stanford-10.jpg" width="1800" height="2400" alt="Stanford, 2024 — photo 10 of 20" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/stanford-11.jpg"><img src="/assets/gallery/thumb/stanford-11.jpg" width="1800" height="2400" alt="Stanford, 2024 — photo 11 of 20" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/stanford-12.jpg"><img src="/assets/gallery/thumb/stanford-12.jpg" width="1800" height="1350" alt="Stanford, 2024 — photo 12 of 20" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/video/stanford-13.mp4"><img src="/assets/gallery/video/stanford-13.jpg" width="720" height="1280" alt="Stanford, 2024 — video 13 of 20" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/stanford-14.jpg"><img src="/assets/gallery/thumb/stanford-14.jpg" width="1800" height="2400" alt="Stanford, 2024 — photo 14 of 20" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/stanford-15.jpg"><img src="/assets/gallery/thumb/stanford-15.jpg" width="1800" height="2400" alt="Stanford, 2024 — photo 15 of 20" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/stanford-16.jpg"><img src="/assets/gallery/thumb/stanford-16.jpg" width="1800" height="2400" alt="Stanford, 2024 — photo 16 of 20" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/stanford-17.jpg"><img src="/assets/gallery/thumb/stanford-17.jpg" width="1800" height="2400" alt="Stanford, 2024 — photo 17 of 20" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/stanford-18.jpg"><img src="/assets/gallery/thumb/stanford-18.jpg" width="1800" height="1350" alt="Stanford, 2024 — photo 18 of 20" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/stanford-19.jpg"><img src="/assets/gallery/thumb/stanford-19.jpg" width="1800" height="1350" alt="Stanford, 2024 — photo 19 of 20" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/stanford-20.jpg"><img src="/assets/gallery/thumb/stanford-20.jpg" width="1800" height="2400" alt="Stanford, 2024 — photo 20 of 20" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/video/mc-01.mp4"><img src="/assets/gallery/video/mc-01.jpg" width="720" height="1280" alt="Around the Bay, 2025 — video 1 of 2" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/video/mc-02.mp4"><img src="/assets/gallery/video/mc-02.jpg" width="720" height="1280" alt="Around the Bay, 2025 — video 2 of 2" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/trips-01.jpg"><img src="/assets/gallery/thumb/trips-01.jpg" width="1800" height="2400" alt="Trips in the US, 2025 — photo 1 of 16" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/trips-02.jpg"><img src="/assets/gallery/thumb/trips-02.jpg" width="1800" height="2400" alt="Trips in the US, 2025 — photo 2 of 16" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/trips-03.jpg"><img src="/assets/gallery/thumb/trips-03.jpg" width="1800" height="1350" alt="Trips in the US, 2025 — photo 3 of 16" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/trips-04.jpg"><img src="/assets/gallery/thumb/trips-04.jpg" width="1800" height="1466" alt="Trips in the US, 2025 — photo 4 of 16" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/trips-05.jpg"><img src="/assets/gallery/thumb/trips-05.jpg" width="1800" height="2400" alt="Trips in the US, 2025 — photo 5 of 16" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/video/trips-06.mp4"><img src="/assets/gallery/video/trips-06.jpg" width="720" height="1280" alt="Trips in the US, 2025 — video 6 of 16" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/trips-07.jpg"><img src="/assets/gallery/thumb/trips-07.jpg" width="1800" height="2400" alt="Trips in the US, 2025 — photo 7 of 16" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/trips-08.jpg"><img src="/assets/gallery/thumb/trips-08.jpg" width="1800" height="1350" alt="Trips in the US, 2025 — photo 8 of 16" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/trips-09.jpg"><img src="/assets/gallery/thumb/trips-09.jpg" width="1800" height="2400" alt="Trips in the US, 2025 — photo 9 of 16" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/trips-10.jpg"><img src="/assets/gallery/thumb/trips-10.jpg" width="1800" height="2400" alt="Trips in the US, 2025 — photo 10 of 16" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/trips-11.jpg"><img src="/assets/gallery/thumb/trips-11.jpg" width="1800" height="1350" alt="Trips in the US, 2025 — photo 11 of 16" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/trips-12.jpg"><img src="/assets/gallery/thumb/trips-12.jpg" width="1800" height="2400" alt="Trips in the US, 2025 — photo 12 of 16" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/trips-13.jpg"><img src="/assets/gallery/thumb/trips-13.jpg" width="1800" height="2400" alt="Trips in the US, 2025 — photo 13 of 16" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/trips-14.jpg"><img src="/assets/gallery/thumb/trips-14.jpg" width="1800" height="2400" alt="Trips in the US, 2025 — photo 14 of 16" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/trips-15.jpg"><img src="/assets/gallery/thumb/trips-15.jpg" width="1800" height="2400" alt="Trips in the US, 2025 — photo 15 of 16" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/trips-16.jpg"><img src="/assets/gallery/thumb/trips-16.jpg" width="1800" height="2400" alt="Trips in the US, 2025 — photo 16 of 16" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/halloween-01.jpg"><img src="/assets/gallery/thumb/halloween-01.jpg" width="1800" height="2400" alt="Halloween, 2025 — photo 1 of 6" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/halloween-02.jpg"><img src="/assets/gallery/thumb/halloween-02.jpg" width="1800" height="2400" alt="Halloween, 2025 — photo 2 of 6" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/halloween-03.jpg"><img src="/assets/gallery/thumb/halloween-03.jpg" width="1800" height="1350" alt="Halloween, 2025 — photo 3 of 6" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/halloween-04.jpg"><img src="/assets/gallery/thumb/halloween-04.jpg" width="1800" height="1350" alt="Halloween, 2025 — photo 4 of 6" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/video/halloween-05.mp4"><img src="/assets/gallery/video/halloween-05.jpg" width="720" height="1280" alt="Halloween, 2025 — video 5 of 6" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/halloween-06.jpg"><img src="/assets/gallery/thumb/halloween-06.jpg" width="1800" height="1350" alt="Halloween, 2025 — photo 6 of 6" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/random-01.jpg"><img src="/assets/gallery/thumb/random-01.jpg" width="1800" height="2400" alt="Random, 2025 — photo 1 of 3" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/random-02.jpg"><img src="/assets/gallery/thumb/random-02.jpg" width="1800" height="2400" alt="Random, 2025 — photo 2 of 3" loading="lazy"></a></li>
+      <li><a href="/assets/gallery/full/random-03.jpg"><img src="/assets/gallery/thumb/random-03.jpg" width="1800" height="1350" alt="Random, 2025 — photo 3 of 3" loading="lazy"></a></li>
+      </ul>
+      </noscript>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap grid">
+    <ul class="foot__links">
+      <li><a href="https://x.com/Pran_Ker" target="_blank" rel="noopener">X</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://github.com/Pran-Ker" target="_blank" rel="noopener">GitHub</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://www.linkedin.com/in/prannay/" target="_blank" rel="noopener">LinkedIn</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://scholar.google.com/citations?user=Y3jw_UgAAAAJ" target="_blank" rel="noopener">Scholar</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://www.goodreads.com/user/show/193930535-prannay-hebbar" target="_blank" rel="noopener">Goodreads</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://medium.com/@Pran-Ker" target="_blank" rel="noopener">Medium</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://huggingface.co/Pran-Ker" target="_blank" rel="noopener">Hugging Face</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://openreview.net/profile?id=%7EPrannay_Hebbar1" target="_blank" rel="noopener">OpenReview</a><span aria-hidden="true">↗</span></li>
+      <li><a href="https://calendly.com/prannay/consulting" target="_blank" rel="noopener">Calendly</a><span aria-hidden="true">↗</span></li>
+    </ul>
+    <div class="foot__base">
+      <span>© 2026 Prannay Hebbar</span>
+      <span>San Francisco</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
