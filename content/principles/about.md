@@ -6,7 +6,7 @@ I am building a company in San Francisco. Before this I was at Hexo Labs buildin
 
 *The path here was not a straight line.*
 
-I turned down my first job offer because the interviews were too easy. It was the end of college (a B.Tech at VIT, 2019 to 2023), the Boston job paid exceptionally well, and I had no backup. I told my parents I would find something better. A few months later I joined a boutique consulting firm, and within months I was leading a team and reporting directly to clients like Bread Financial and California Lawyers for the Arts.
+I turned down my first job offer because the interviews were too easy. It was the end of college, the Boston job paid exceptionally well, and I had no backup. I told my parents I would find something better. A few months later I joined a boutique consulting firm, and within months I was leading a team and reporting directly to clients like Bread Financial and California Lawyers for the Arts.
 
 Then the firm gave me one month to move to Dallas. I was 22, new to the country, with no savings: a hundred dollars from my parents. Housing, cooking, licenses, I figured out alone.
 

@@ -10,7 +10,7 @@ AGI-0 is an end-to-end trained computer-use policy. It acts directly on real VMs
 
 We trained it with GRPO in an online RL loop. Run the policy on real machines, score by execution with verifiers, update, repeat. The task pool was hundreds of thousands of synthetic and OSWorld tasks plus our internal REAL browser environments. The agent also self-verifies: it checks each outcome and, when a step fails, corrects on the next turn.
 
-Built by Diego Caples, Atharva Gundawar, Prannay Hebbar, Greg Tarr, and Joseph Junzhe Zhu.
+Built by [Diego Caples](https://www.linkedin.com/in/diegocaples/), [Atharva Gundawar](https://www.linkedin.com/in/atharva-gundawar/), [Prannay Hebbar](https://www.linkedin.com/in/prannay), [Greg Tarr](https://www.linkedin.com/in/greg-tarr/), and [Joseph Junzhe Zhu](https://www.linkedin.com/in/joseph-junzhe-zhu-38023113b/).
 
 [Read the full write-up &rarr;](https://www.theagi.company/blog/osworld)
 
