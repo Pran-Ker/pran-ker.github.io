@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+STYLE="warm off-white paper background, muted charcoal ink linework, a single terracotta-clay accent and a subtle olive-green, matte flat editorial vector illustration, generous negative space, calm and intellectual, subtle paper grain, no text, no neon, no pure white, no cyan, no gradients"
+
+MODEL="fal-ai/nano-banana-2"
+RATIO="16:9"
+RES="2K"
+SLUG=""
+NAME="hero"
+RAW=0
+
+usage() {
+  cat <<'EOF'
+blog-image — generate a prannayh.com-palette image via genmedia
+
+  blog-image "<subject>" [options]
+
+  --slug <post-slug>   save into blog/<slug>/assets/ (else tools/genmedia-out/)
+  --name <filename>    output basename, no extension        (default: hero)
+  --ratio <w:h>        aspect ratio                          (default: 16:9)
+  --res <0.5K|1K|2K|4K>resolution                            (default: 2K)
+  --raw                skip the palette style suffix
+  -h, --help
+
+  blog-image "an essay on autonomous AI agents" --slug designing-agent-systems
+EOF
+}
+
+[ $# -eq 0 ] && { usage; exit 1; }
+SUBJECT=""
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --slug)  SLUG="$2"; shift 2;;
+    --name)  NAME="$2"; shift 2;;
+    --ratio) RATIO="$2"; shift 2;;
+    --res)   RES="$2"; shift 2;;
+    --raw)   RAW=1; shift;;
+    -h|--help) usage; exit 0;;
+    *) SUBJECT="$1"; shift;;
+  esac
+done
+[ -z "$SUBJECT" ] && { usage; exit 1; }
+
+REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+if [ -n "$SLUG" ]; then
+  OUTDIR="$REPO/blog/$SLUG/assets"
+else
+  OUTDIR="$REPO/tools/genmedia-out"
+fi
+mkdir -p "$OUTDIR"
+
+if [ "$RAW" -eq 1 ]; then PROMPT="$SUBJECT"; else PROMPT="$SUBJECT — $STYLE"; fi
+
+echo "→ $MODEL  ${RATIO} ${RES}"
+echo "→ $OUTDIR/$NAME.png"
+genmedia run "$MODEL" \
+  --prompt "$PROMPT" \
+  --aspect_ratio "$RATIO" \
+  --resolution "$RES" \
+  --download "$OUTDIR/$NAME.{ext}"
