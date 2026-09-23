@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url><loc>https://prannayh.com/</loc></url>
   <url><loc>https://prannayh.com/blog</loc></url>
   <url><loc>https://prannayh.com/blog/cad-reward-design</loc></url>
@@ -7,7 +7,53 @@
   <url><loc>https://prannayh.com/blog/spec-rewards</loc></url>
   <url><loc>https://prannayh.com/blog/model-watermarking</loc></url>
   <url><loc>https://prannayh.com/principles</loc></url>
-  <url><loc>https://prannayh.com/gallery</loc></url>
+  <url><loc>https://prannayh.com/gallery</loc>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/presidio-01.jpg</image:loc><image:title>A party seen from a grand staircase under a chandelier, Presidio, San Francisco, 2024</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/presidio-02.jpg</image:loc><image:title>Group photo of the whole party at the top of the stairs, Presidio, 2024</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/presidio-03.jpg</image:loc><image:title>Night sky with thin clouds over the Presidio, San Francisco, 2024</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/presidio-04.jpg</image:loc><image:title>Friends on a lawn at night, Presidio, San Francisco, 2024</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/presidio-05.jpg</image:loc><image:title>A small delivery robot rolling across a tiled floor at a house party, Presidio, 2024</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/presidio-06.jpg</image:loc><image:title>Friends sitting in a circle on the grass at night, Presidio, San Francisco, 2024</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/stanford-01.jpg</image:loc><image:title>Lecture hall at Stanford with slides on two screens, students on laptops, 2024</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/stanford-03.jpg</image:loc><image:title>The dome and altar of Stanford Memorial Church, 2024</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/stanford-04.jpg</image:loc><image:title>Stanford Memorial Church interior from the pews, 2024</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/stanford-07.jpg</image:loc><image:title>A gold mosaic above a carved screen in Stanford Memorial Church, 2024</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/stanford-08.jpg</image:loc><image:title>Stained-glass window in Stanford Memorial Church, 2024</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/stanford-09.jpg</image:loc><image:title>EE 364A convex optimization lecture at Stanford, laptop open in the front row, 2024</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/stanford-10.jpg</image:loc><image:title>Audience in a Stanford hall with chandeliers before a talk, 2024</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/stanford-11.jpg</image:loc><image:title>A Stanford courtyard with a fountain, red brick and arcades under a blue sky, 2024</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/stanford-12.jpg</image:loc><image:title>Stanford lecture hall, the instructor at the board, students on laptops, 2024</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/stanford-14.jpg</image:loc><image:title>Hoover Tower at dusk from Palm Drive, Stanford, 2024</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/stanford-15.jpg</image:loc><image:title>The Oval at Stanford at sunset, 2024</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/stanford-16.jpg</image:loc><image:title>Prannay Hebbar, selfie with a guest badge on a company visit, Stanford, 2024</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/stanford-17.jpg</image:loc><image:title>A guest speaker talking with students after a session at Stanford, 2024</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/stanford-18.jpg</image:loc><image:title>A Stanford group walking the aisle of a data center on a tour, 2024</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/stanford-19.jpg</image:loc><image:title>The Stanford group between server racks on a data center tour, 2024</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/stanford-20.jpg</image:loc><image:title>Prannay Hebbar with a Stanford group outside Intel headquarters in Santa Clara, 2024</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/trips-01.jpg</image:loc><image:title>A Ferrari Daytona SP3 V12 engine on display, 2025</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/trips-02.jpg</image:loc><image:title>Prannay Hebbar in front of the fountain at the Forum Shops, Las Vegas, 2025</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/trips-03.jpg</image:loc><image:title>Prannay Hebbar and a friend beside a Formula 1 car at the Forum Shops, Las Vegas, 2025</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/trips-04.jpg</image:loc><image:title>Prannay Hebbar and a friend between two red Ferraris at a car show, 2025</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/trips-05.jpg</image:loc><image:title>A robot dog walking across an apartment living room, 2025</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/trips-07.jpg</image:loc><image:title>On a San Francisco rooftop with Coit Tower behind, 2025</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/trips-08.jpg</image:loc><image:title>Prannay Hebbar and a friend, sunset selfie by the Pacific, 2025</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/trips-09.jpg</image:loc><image:title>A coastal path and a lone tree at sunset on the California coast, 2025</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/trips-10.jpg</image:loc><image:title>Hiking a trail into the Grand Canyon, 2025</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/trips-11.jpg</image:loc><image:title>The Grand Canyon at dawn with the moon still up, 2025</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/trips-12.jpg</image:loc><image:title>A sleeping bag laid out in the back of a car on a road trip, 2025</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/trips-13.jpg</image:loc><image:title>Prannay Hebbar and a friend at the Grand Canyon, 2025</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/trips-14.jpg</image:loc><image:title>Prannay Hebbar, mirror selfie in a cap beside a rusted car on Route 66, Arizona, 2025</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/trips-15.jpg</image:loc><image:title>Prannay Hebbar taking a photo on Route 66, Arizona, 2025</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/trips-16.jpg</image:loc><image:title>Route 66 roadside kitsch: a mock jail and a Rat Fink figure, Arizona, 2025</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/halloween-01.jpg</image:loc><image:title>Prannay Hebbar and a friend on a San Francisco street on Halloween, 2025</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/halloween-02.jpg</image:loc><image:title>Prannay Hebbar in a cap and denim jacket on Halloween night, San Francisco, 2025</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/halloween-03.jpg</image:loc><image:title>Prannay Hebbar with friends and a breathalyzer costume at a Halloween party, 2025</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/halloween-04.jpg</image:loc><image:title>Prannay Hebbar with friends in costume, one as the Joker, Halloween in San Francisco, 2025</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/halloween-06.jpg</image:loc><image:title>Prannay Hebbar with friends in costume on Halloween night, San Francisco, 2025</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/random-01.jpg</image:loc><image:title>A card reading Vaguely aware of social norms, with a cat drawing, 2025</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/random-02.jpg</image:loc><image:title>Prannay Hebbar, selfie under a tree with the sun behind, 2025</image:title></image:image>
+    <image:image><image:loc>https://prannayh.com/assets/gallery/full/random-03.jpg</image:loc><image:title>Prannay Hebbar in a cap between cypress trees above a pool, 2025</image:title></image:image>
+  </url>
   <url><loc>https://prannayh.com/more</loc></url>
   <url><loc>https://prannayh.com/contact</loc></url>
 </urlset>

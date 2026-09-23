@@ -329,7 +329,12 @@ main#main { position: relative; z-index: 1; padding-top: var(--top); overflow-x:
 .gate__sub { font-family: var(--serif); font-size: var(--t0); color: var(--graphite); max-width: 34ch; line-height: 1.45; }
 .gate__hint { justify-self: center; }
 body[data-state="gate"] { overflow: hidden; }
-body[data-state="gate"] .hud, body[data-state="gate"] main#main, body[data-state="gate"] .foot, body[data-state="gate"] .floor { opacity: 0; }
+/* the gate is an opaque sheet of paper over the page, not a fade of the page: main keeps opacity 1 underneath so
+   crawlers render the content (Google Images devalues opacity-0 images); the cube canvas is lifted above the sheet,
+   click-through, so the gate looks exactly as before: one cube, the name, the CTA */
+body[data-state="gate"] #gate { background: var(--paper); }
+body[data-state="gate"] canvas#cubes, body[data-state="gate"] .ice-fallback { z-index: 81; pointer-events: none; }
+body[data-state="gate"] .hud, body[data-state="gate"] .foot, body[data-state="gate"] .floor { opacity: 0; }
 body[data-state="live"] .hud, body[data-state="live"] main#main, body[data-state="live"] .foot, body[data-state="live"] .floor { opacity: 1; }
 .hud, main#main, .foot, .floor { transition: opacity 1.6s var(--ease-io); }
 body[data-state="live"] .hud { transition-delay: .2s; }
@@ -341,6 +346,7 @@ body[data-state="instant"] .hud, body[data-state="instant"] main#main, body[data
 html[data-entered] #gate { display: none; }
 html[data-entered] body[data-state="gate"] { overflow: auto; }
 html[data-entered] body[data-state="gate"] .hud, html[data-entered] body[data-state="gate"] main#main, html[data-entered] body[data-state="gate"] .foot, html[data-entered] body[data-state="gate"] .floor { opacity: 1; transition: none; }
+html[data-entered] body[data-state="gate"] canvas#cubes, html[data-entered] body[data-state="gate"] .ice-fallback { z-index: -2; pointer-events: auto; }
 html[data-entered] body[data-state="gate"] .rise { animation-play-state: running; }
 
 /* 07 hud ------------------------------------------------------------- */
