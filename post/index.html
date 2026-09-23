@@ -33,11 +33,10 @@
   <link rel="modulepreload" href="/assets/js/cubes.js">
   <link rel="modulepreload" href="/assets/vendor/marked.esm.js">
   <link rel="stylesheet" href="/assets/css/white.css">
-  <script>try{if(sessionStorage.getItem('white.entered')==='1')document.documentElement.dataset.entered=''}catch(e){}</script>
   <script type="module" src="/assets/js/white.js"></script>
-  <noscript><style>#gate{display:none}.ice-fallback{display:block}body[data-state="gate"] .ice--b,body[data-state="gate"] .ice--c{display:block}body[data-state="gate"] .ice--a{right:12vw;top:16vh}body[data-state="gate"]{overflow:auto}.hud,#main,.foot,.floor{opacity:1!important}.reveal,.rise{opacity:1;transform:none;animation:none}.fig__plate>img,.fig__plate>video{opacity:1;filter:none}.fig__plate::after{display:none}</style></noscript>
+  <noscript><style>.ice-fallback{display:block}.hud,#main,.foot,.floor{opacity:1!important}.reveal,.rise{opacity:1;transform:none;animation:none}.fig__plate>img,.fig__plate>video{opacity:1;filter:none}.fig__plate::after{display:none}</style></noscript>
 </head>
-<body data-state="gate">
+<body data-state="instant">
 
 <a class="skip" href="#main" data-no-router>Skip to content</a>
 
@@ -47,14 +46,6 @@
   <div class="ice ice--a"><i></i><i></i><i></i><i></i><i></i><i></i></div>
   <div class="ice ice--b"><i></i><i></i><i></i><i></i><i></i><i></i></div>
   <div class="ice ice--c"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-</div>
-
-<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-cta">
-  <span class="gate__name">Prannay Hebbar</span>
-  <div class="gate__center">
-    <button class="gate__cta" id="gate-cta" type="button"><span class="mark" aria-hidden="true"></span>Press to enter</button>
-  </div>
-  <span class="gate__hint mono">Enter · Space · Click</span>
 </div>
 
 <header class="hud">

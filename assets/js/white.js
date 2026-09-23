@@ -1,4 +1,4 @@
-/* white.js — the shell. gate → music → router → HUD transport → page scripts → reveal → auto-mount.
+/* white.js — the shell. arrival → music → router → HUD transport → page scripts → reveal → auto-mount.
    window.WHITE = { music, router, cubes, bpm: 125, beat(cb), clock }
 
    Boot order. This module is loaded from <head> with <script type="module" src="/assets/js/white.js">.
@@ -13,14 +13,13 @@
 
    One beat clock. It writes --beat (0..1 envelope) to :root once per frame; CSS and cubes read it.
    DEBUG must be false in production: it is the only thing that honours review query flags
-   (?entered=1 skip gate · ?gate=1 force gate · ?nogl=1 CSS fallback · ?debug=1 measurements). */
+   (?nogl=1 CSS fallback · ?debug=1 measurements). */
 
 const DEBUG = false;
 
 const BPM = 125;
 const BEAT_MS = 60000 / BPM;
 const VIDEO_ID = 'DpYfeTNkodQ';
-const ENTERED_KEY = 'white.entered';
 const MUTE_KEY = 'white.mute';
 const VOL_KEY = 'white.volume';
 const MODES = new Set(['home', 'writing', 'essay', 'principles', 'gallery', 'more', 'contact', 'void']);   // the cube formations that exist
@@ -34,10 +33,6 @@ const wait = ms => new Promise(r => setTimeout(r, ms));
 const store = {
   get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch { return d; } },
   set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
-};
-const session = {
-  get(k) { try { return sessionStorage.getItem(k); } catch { return null; } },
-  set(k, v) { try { sessionStorage.setItem(k, v); } catch {} },
 };
 const setText = (el, v) => { if (el && el.textContent !== v) el.textContent = v; };
 const modeOf = page => (MODES.has(page) ? page : 'home');
@@ -101,7 +96,7 @@ const music = {
     return this._api;
   },
   /* Build the enablejsapi iframe ourselves, wait for it to load, then hand it to YT.Player:
-     the widget never posts to a blank window, so the console stays clean. Called during the gate.
+     the widget never posts to a blank window, so the console stays clean. Called on arrival.
      A player whose handshake never completes (ad blocker, blocked postMessage) goes to `lost`. */
   async init() {
     if (this.player || this.status === 'loading') return;
@@ -215,7 +210,7 @@ function syncTop() {
   const h = hud.offsetHeight; if (h) html.style.setProperty('--top', `${h}px`);
 }
 
-/* ------------------------------------------------------------------ cubes (dynamic import: the gate binds first) */
+/* ------------------------------------------------------------------ cubes (dynamic import) */
 let cubes = null;
 let cubesPromise = null;
 function mountField(mode) {
@@ -235,55 +230,16 @@ function mountField(mode) {
   return cubesPromise;
 }
 
-/* ------------------------------------------------------------------ gate */
-const BEHIND_GATE = '.hud, main#main, .foot';
-function mountGate() {
-  const gate = $('#gate');
-  const mode = pageMode();
-  if (q.get('entered') === '1') session.set(ENTERED_KEY, '1');
-  const entered = session.get(ENTERED_KEY) === '1' && q.get('gate') !== '1';
-
-  if (!gate || entered) {
-    gate && gate.remove();
-    html.dataset.entered = '';
-    document.body.dataset.state = 'instant';
-    mountField(mode);
-    requestAnimationFrame(() => { document.body.dataset.state = 'live'; });
-    // a reload inside the session: resume audio; if the browser wants a gesture, the transport says TAP FOR SOUND
-    music.init(); if (entered) music.play();
-    return;
-  }
-
-  delete html.dataset.entered;
-  document.body.dataset.state = 'gate';
-  gate.setAttribute('role', 'dialog'); gate.setAttribute('aria-modal', 'true');
-  $$(BEHIND_GATE).forEach(el => { el.inert = true; });      // the page behind the dialog is out of reach
-  const btn = $('.gate__cta', gate);
-  music.init();                                             // preload the API while the gate is up
-  mountField('gate').then(c => { if (c && document.body.dataset.state !== 'gate') { c.setMode(mode); c.pulse(); } });
-  gate.tabIndex = -1;
-  gate.focus({ preventScroll: true });                      // the dialog takes focus; Tab reaches the one control
-
-  let done = false;
-  const enter = () => {
-    if (done) return; done = true;
-    session.set(ENTERED_KEY, '1');
-    music.play();                                           // synchronous inside the gesture when the player is ready
-    $$(BEHIND_GATE).forEach(el => { el.inert = false; });
-    gate.classList.add('is-leaving');
-    document.body.dataset.state = 'live';
-    html.dataset.entered = '';
-    // focus moves now, before the dialog is hidden, and lands on the wordmark so the next Tab is the nav
-    const wm = $('.wordmark') || $('#main'); wm && wm.focus({ preventScroll: true });
-    gate.setAttribute('aria-hidden', 'true');
-    setTimeout(() => { if (cubes) { cubes.setMode(mode); cubes.pulse(); } }, 200);
-    setTimeout(() => gate.remove(), reduced ? 0 : 1500);
-  };
-  gate.addEventListener('click', enter);
-  gate.addEventListener('keydown', e => {
-    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); enter(); }
-    if (e.key === 'Tab') { e.preventDefault(); (btn || gate).focus(); }         // focus trap: one control
-  });
+/* ------------------------------------------------------------------ arrival
+   No gate: the page is painted at once (body[data-state="instant"] in the HTML), the field mounts in the
+   page's own formation and the state flips to `live` on the next frame. Music is prepared and asked to
+   play; a browser that wants a gesture first refuses and the transport says TAP FOR SOUND, which the next
+   press anywhere on the page lifts. */
+function mountArrival() {
+  document.body.dataset.state = 'instant';
+  mountField(pageMode());
+  requestAnimationFrame(() => { document.body.dataset.state = 'live'; });
+  music.init(); music.play();
 }
 
 /* ------------------------------------------------------------------ page scripts + auto-mount */
@@ -577,7 +533,7 @@ function mountRouter() {
   // a reload keeps its place: scrollRestoration is manual, so the entry's own offset is re-applied here
   // (once the fonts have settled the document's height), unless the URL names an anchor
   const st0 = history.state || {};
-  if (st0.scroll > 0 && !location.hash && html.dataset.entered != null) {
+  if (st0.scroll > 0 && !location.hash) {
     const back = () => settleScroll(st0.scroll);
     document.fonts && document.fonts.ready ? document.fonts.ready.then(back) : back();
   }
@@ -609,7 +565,7 @@ function boot() {
   const main = $('#main'); if (main && !main.hasAttribute('tabindex')) main.tabIndex = -1;
   syncTop();
   mountTransport();
-  mountGate();
+  mountArrival();
   mountRouter();
   mountReveal(document);
   mountMedia(document);

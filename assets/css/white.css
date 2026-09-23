@@ -15,8 +15,8 @@
                      .skip (skip link), .vh (visually hidden), [id] scroll-margin (every in-page anchor
                      lands 24px under the HUD: footnotes, subnav, figure links)
    03  ground        html/body, canvas#cubes (fixed, z -2), .floor (horizon grid, z -1),
-                     .ice-fallback + .ice (CSS cubes for reduced-motion / no-WebGL; all three sit right of
-                     every reading column, so no page needs its own offsets)
+                     .ice-fallback + .ice (CSS cubes for reduced-motion / no-WebGL, tinted lime/ice/violet
+                     via --tint; all three sit right of every reading column, so no page needs its own offsets)
    04  type          .display .lede .body .mono .mono--as-is (no uppercase: identifiers, math) .small .num
                      .balance, h1–h3 defaults, .ext (the one external-link mark: a small mono ↗ in --ash after
                      the word, no break before it — serif and sans copy alike; the footer's span is the same mark)
@@ -26,10 +26,8 @@
                      column), .page-head (every secondary page's head: h1 at the essay-title scale, .lede,
                      inside .page-head__copy which carries the feathered ground — Writing, Principles,
                      Gallery, More, Contact, 404 all use it; no page restates it)
-   06  gate          #gate (role=dialog) .gate__name .gate__center .gate__cta .gate__sub
-                     .gate__hint; body[data-state=gate|live|instant] staggered arrival;
-                     html[data-entered] (set by a two-line head script from sessionStorage) hides the
-                     gate before white.js runs, so a reload never flashes "Press to enter"
+   06  arrival       body[data-state=instant|live]: the HTML ships `instant` (everything painted, no
+                     transition); white.js flips to `live` on the first frame. There is no gate.
    07  hud           header.hud .wordmark .nav (edge-fade on overflow) .transport .tp-track
                      .tp-title .tp-artist .tp-btn[data-on] .tp-mute .tp-time .tp-time__v .tp-tap (Tap for sound / Retry sound) .beat
                      (no play/pause button — Prannay: the track just plays; mute is the one control)
@@ -228,20 +226,19 @@ canvas#cubes { position: fixed; inset: 0; z-index: -2; width: 100%; height: 100%
 }
 .ice-fallback { display: none; position: fixed; inset: 0; z-index: -2; pointer-events: none; perspective: 1400px; }
 .ice { position: absolute; --s: 180px; --z: 90px; width: var(--s); height: var(--s); transform-style: preserve-3d; transform: rotateX(-24deg) rotateY(34deg); }
-.ice--a { right: 12vw; top: 16vh; }
-.ice--b { right: 1.5vw; top: 58vh; --s: 110px; --z: 55px; transform: rotateX(-18deg) rotateY(-28deg); }   /* in the right gutter: right of the 66ch column and of every row's meta column */
-.ice--c { right: 8vw; bottom: 12vh; --s: 70px; --z: 35px; transform: rotateX(-30deg) rotateY(58deg); }
-.ice i { position: absolute; inset: 0; border: 1px solid rgba(11,13,16,.16); background: rgba(223,231,242,.42); }
+/* the three wear the field's tints (lime, ice, violet: --tint is the sRGB triple), as the WebGL cubes do */
+.ice--a { right: 12vw; top: 16vh; --tint: 200 255 0; }
+.ice--b { right: 1.5vw; top: 58vh; --s: 110px; --z: 55px; --tint: 169 216 244; transform: rotateX(-18deg) rotateY(-28deg); }   /* in the right gutter: right of the 66ch column and of every row's meta column */
+.ice--c { right: 8vw; bottom: 12vh; --s: 70px; --z: 35px; --tint: 199 188 242; transform: rotateX(-30deg) rotateY(58deg); }
+.ice i { position: absolute; inset: 0; border: 1px solid rgba(11,13,16,.16); background: rgb(var(--tint, 223 231 242) / .42); }
 .ice i:nth-child(1) { transform: translateZ(var(--z)); }
 .ice i:nth-child(2) { transform: rotateY(180deg) translateZ(var(--z)); }
 .ice i:nth-child(3) { transform: rotateY(90deg) translateZ(var(--z)); }
 .ice i:nth-child(4) { transform: rotateY(-90deg) translateZ(var(--z)); }
-.ice i:nth-child(5) { transform: rotateX(90deg) translateZ(var(--z)); background: rgba(255,255,255,.7); }
-.ice i:nth-child(6) { transform: rotateX(-90deg) translateZ(var(--z)); background: rgba(185,198,216,.35); }
+.ice i:nth-child(5) { transform: rotateX(90deg) translateZ(var(--z)); background: rgb(var(--tint, 255 255 255) / .22); }   /* top: lit */
+.ice i:nth-child(6) { transform: rotateX(-90deg) translateZ(var(--z)); background: rgb(var(--tint, 185 198 216) / .6); }   /* underside: shaded */
 html.no-webgl canvas#cubes { display: none; }
 html.no-webgl .ice-fallback { display: block; }
-body[data-state="gate"] .ice--b, body[data-state="gate"] .ice--c { display: none; }   /* the gate shows one cube */
-body[data-state="gate"] .ice--a { right: calc(50% - 90px); top: calc(50% - 150px); }
 
 /* 04 type ------------------------------------------------------------ */
 h1, h2, h3, h4 { font-weight: 400; line-height: 1.2; text-wrap: balance; }
@@ -303,38 +300,7 @@ main#main { position: relative; z-index: 1; padding-top: var(--top); overflow-x:
 /* a page with one section: the list or grid ends, the footer's rule follows, no second breath of white */
 .page-head ~ .section:last-of-type { padding-bottom: clamp(48px, 8vh, 96px); }
 
-/* 06 gate ------------------------------------------------------------ */
-#gate {
-  position: fixed; inset: 0; z-index: 80;
-  display: grid; grid-template-rows: auto 1fr auto;
-  padding: 20px var(--gutter) 24px;
-  background: transparent; color: var(--ink);
-  cursor: pointer;
-  transition: opacity var(--slow) var(--ease-io), filter var(--slow) var(--ease-io), transform var(--slow) var(--ease-io);
-}
-#gate[hidden] { display: none; }
-#gate.is-leaving { opacity: 0; filter: blur(8px); transform: scale(1.02); pointer-events: none; }
-#gate:focus-visible { outline: none; box-shadow: none; }
-.gate__name { font-family: var(--sans); font-size: var(--t-1); color: var(--ink); justify-self: start; }
-.gate__center { display: grid; place-items: center; align-content: end; gap: var(--s2); text-align: center; padding-bottom: 12vh; }
-.gate__cta {
-  display: inline-flex; align-items: center; gap: 12px;
-  font-family: var(--sans); font-size: var(--t-1); letter-spacing: .02em;
-  color: var(--ink); background: var(--paper);
-  border: 1px solid var(--ink); padding: 12px 20px;
-  transition: box-shadow var(--fast);
-}
-.gate__cta:hover { box-shadow: 0 0 0 1px var(--ink); }
-.gate__cta .mark { width: 8px; height: 8px; background: var(--signal); box-shadow: 0 0 0 1px var(--ink); flex: none; }
-.gate__sub { font-family: var(--serif); font-size: var(--t0); color: var(--graphite); max-width: 34ch; line-height: 1.45; }
-.gate__hint { justify-self: center; }
-body[data-state="gate"] { overflow: hidden; }
-/* the gate is an opaque sheet of paper over the page, not a fade of the page: main keeps opacity 1 underneath so
-   crawlers render the content (Google Images devalues opacity-0 images); the cube canvas is lifted above the sheet,
-   click-through, so the gate looks exactly as before: one cube, the name, the CTA */
-body[data-state="gate"] #gate { background: var(--paper); }
-body[data-state="gate"] canvas#cubes, body[data-state="gate"] .ice-fallback { z-index: 81; pointer-events: none; }
-body[data-state="gate"] .hud, body[data-state="gate"] .foot, body[data-state="gate"] .floor { opacity: 0; }
+/* 06 arrival --------------------------------------------------------- */
 body[data-state="live"] .hud, body[data-state="live"] main#main, body[data-state="live"] .foot, body[data-state="live"] .floor { opacity: 1; }
 .hud, main#main, .foot, .floor { transition: opacity 1.6s var(--ease-io); }
 body[data-state="live"] .hud { transition-delay: .2s; }
@@ -342,12 +308,6 @@ body[data-state="live"] main#main { transition-delay: .45s; }
 body[data-state="live"] .foot { transition-delay: .7s; }
 body[data-state="live"] .floor { transition-delay: .9s; }
 body[data-state="instant"] .hud, body[data-state="instant"] main#main, body[data-state="instant"] .foot, body[data-state="instant"] .floor { transition: none; opacity: 1; }
-/* already entered this session (head script): no gate, no fade, before white.js has run */
-html[data-entered] #gate { display: none; }
-html[data-entered] body[data-state="gate"] { overflow: auto; }
-html[data-entered] body[data-state="gate"] .hud, html[data-entered] body[data-state="gate"] main#main, html[data-entered] body[data-state="gate"] .foot, html[data-entered] body[data-state="gate"] .floor { opacity: 1; transition: none; }
-html[data-entered] body[data-state="gate"] canvas#cubes, html[data-entered] body[data-state="gate"] .ice-fallback { z-index: -2; pointer-events: auto; }
-html[data-entered] body[data-state="gate"] .rise { animation-play-state: running; }
 
 /* 07 hud ------------------------------------------------------------- */
 header.hud {
@@ -687,7 +647,6 @@ footer.foot { position: relative; z-index: 1; padding: 0 0 40px; background: lin
 .reveal.in { opacity: 1; transform: none; }
 .rise { animation: rise 1.1s var(--ease-out) both; animation-delay: calc(var(--i, 0) * 120ms); }
 @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-body[data-state="gate"] .rise { animation-play-state: paused; }
 main#main.is-leaving { opacity: 0 !important; transform: translateY(6px); filter: blur(2px); transition: opacity var(--fast) var(--ease-io), transform var(--fast) var(--ease-io), filter var(--fast) !important; }
 main#main.is-entering { animation: mainIn .9s var(--ease-out) both; }
 @keyframes mainIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
@@ -769,7 +728,6 @@ main#main.is-entering { animation: mainIn .9s var(--ease-out) both; }
   .row--plain { grid-template-columns: 1fr; gap: 4px; }
   .sh { flex-wrap: wrap; }
   .foot__links { columns: 2; }
-  .gate__center { padding-bottom: 14vh; }
   .montage__stops li { grid-template-columns: 1fr; gap: 3px; }
   .pn { grid-template-columns: 1fr; }
   .pn .pn--next { grid-column: auto; text-align: left; justify-self: start; }
@@ -791,7 +749,7 @@ main#main.is-entering { animation: mainIn .9s var(--ease-out) both; }
 
 /* 20 print ----------------------------------------------------------- */
 @media print {
-  canvas#cubes, .floor, #gate, header.hud, .ice-fallback, .skip, .yt-host, .lightbox { display: none !important; }
+  canvas#cubes, .floor, header.hud, .ice-fallback, .skip, .yt-host, .lightbox { display: none !important; }
   html, body { background: #fff; color: #000; }
   main#main { padding-top: 0; }
   .fig__plate { background: #fff; border-color: #999; }

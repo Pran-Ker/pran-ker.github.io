@@ -15,7 +15,8 @@
            depth; heals once it has rested 400 ms or after 2.5 s) · 3 healing (drawn = formation + off, off
            eases to zero over 2.4 s with the field's own ease) · 4 nudged (a passing cube pushed it; a
            critically damped spring brings off back)
-     fill  palette index; 0 is clear. col/colTo are the shader uniform (mutated in place) and its target.
+     fill  palette index; 0 is clear, 1–4 the tints; every cube starts tinted (see attachInteract).
+           col/colTo are the shader uniform (mutated in place) and its target.
    Colour: the frosted shader is a raw ShaderMaterial with no output transform, so uFill holds the token's
    sRGB numbers as they are (setHex with LinearSRGBColorSpace stores them untransformed); the edge
    LineBasicMaterial IS colour-managed, so its tint is converted to linear before the lerp from ink.
@@ -25,7 +26,7 @@ import * as THREE from '/assets/vendor/three.module.min.js';
 
 // clear · lime (the site's one accent) · ice · violet · smoke — one cool family, coloured acrylic sheet, not paint
 export const PALETTE = [null, 0xc8ff00, 0xa9d8f4, 0xc7bcf2, 0x9ca5b3];
-const SKIP = 'a, button, input, textarea, select, label, summary, [role="button"], [contenteditable], img, video, svg, figure, table, pre, .fig, .montage, [data-montage], .gallery, [data-gallery], .lightbox, .transport, .nav, .hud, #gate';
+const SKIP = 'a, button, input, textarea, select, label, summary, [role="button"], [contenteditable], img, video, svg, figure, table, pre, .fig, .montage, [data-montage], .gallery, [data-gallery], .lightbox, .transport, .nav, .hud';
 const TEXT_PAD = 4;                                            // px halo around a glyph box that still counts as text
 
 const HOLD = { none: 0, drag: 1, coast: 2, heal: 3, nudge: 4 };
@@ -73,13 +74,20 @@ export function attachInteract({ camera, cubes, ctx, live, enabled = true, beatM
   const plane = new THREE.Plane();
   const grab = new THREE.Vector3();                            // hit point − cube centre, kept through the drag
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  for (const c of cubes) {
+  // every cube arrives in colour: the four tints dealt round the field in a fixed order, so the same cube
+  // wears the same colour on every visit and neighbours in the list rarely match
+  cubes.forEach((c, i) => {
+    const fill = 1 + ((i * 3 + 1) % (PALETTE.length - 1));
+    const col = new THREE.Color().setHex(PALETTE[fill], LIN);
     c.ix = {
       hold: HOLD.none, pos: new THREE.Vector3(), vel: new THREE.Vector3(), off: new THREE.Vector3(), off0: new THREE.Vector3(), nvel: new THREE.Vector3(),
-      t: 0, rest: 0, t0: 0, fill: 0, fillA: 0, fillTo: 0, col: new THREE.Color().copy(GLASS), colTo: new THREE.Color().copy(GLASS), pulseT0: -1e9, px: 0, s: 0,
+      t: 0, rest: 0, t0: 0, fill, fillA: 1, fillTo: 1, col, colTo: col.clone(), pulseT0: -1e9, px: 0, s: 0,
     };
-    c.mat.uniforms.uFill.value = c.ix.col;
-  }
+    c.mat.uniforms.uFill.value = col;
+    c.mat.uniforms.uFillA.value = 1;
+    _edge.copy(col).convertSRGBToLinear().multiplyScalar(.5);
+    c.lineMat.color.copy(_edge);
+  });
 
   /* ---------------------------------------------------------------- pointer */
   const P = { x: 0, y: 0, on: false, dirty: false, id: -1, type: 'mouse', down: false, downX: 0, downY: 0, downT: 0, moved: false, dragging: false, cube: null, hover: null };

@@ -3,7 +3,7 @@
    two nearest generated targets into the ghost slots, so the ghost is always on a cube close enough to read.
    mountCubes(canvas, opts) → { setMode(name), pulse(), pause(), resume(), destroy(), mode, count, interact } | null
    opts: { count=28, mode='home', phase=()=>beats (float), dpr=2, top=()=>HUD height in px, interact=true, beatMs=480 }
-   modes: home writing essay principles gallery more contact void gate
+   modes: home writing essay principles gallery more contact void
 
    Formations are sampled with rejection: a candidate is refused when its bounding sphere would meet an
    accepted cube (engineered glass never interpenetrates) or when it would sit over the reading column
@@ -17,7 +17,7 @@
 
    Interaction (cubes-interact.js). The cubes can be handled. The canvas has no pointer events of its own,
    so the pointer is read on window and a gesture is "on the field" only when its target is not content
-   (links, controls, text, figures, the HUD, the gate); over a cube the cursor is a hand.
+   (links, controls, text, figures, the HUD); over a cube the cursor is a hand.
    "Content" is an interactive element or figure (a skip list) or the glyphs of the element under the
    pointer, measured geometrically — so the empty half of a block-level heading is live and no text,
    inside a list or not, is ever grabbed.
@@ -27,14 +27,16 @@
      off the frame at its depth, then once it has rested 400 ms (or after 2.5 s at most) it eases back to
      its formation slot with the field's own ease, so the field self-heals and the reading column stays
      clear. A moving cube nudges the cubes it passes (soft radial push, radius 1.2 sizes), which spring back.
-   · Click (< 6 px, < 300 ms): the cube's fill cycles clear → lime → ice → violet → smoke → clear (one
-     cool family: coloured acrylic sheet, not paint; lime is the site's accent). The tint is mixed into
-     the frosted shader (uFill/uFillA) under the glass's own lighting, edges darken to match, and the cube
-     pulses once (1.06 → 1) over one beat. Fills are in memory for the session and stay with the cube
-     through every setMode relayout.
+   · Colour: every cube arrives tinted — lime, ice, violet or smoke, dealt round the field from a fixed
+     seed so the same cube wears the same colour on every visit (one cool family: coloured acrylic sheet,
+     not paint; lime is the site's accent). The tint is mixed into the frosted shader (uFill/uFillA) under
+     the glass's own lighting and the edges darken to match.
+   · Click (< 6 px, < 300 ms): the cube's fill cycles on through the family and clear — lime → ice →
+     violet → smoke → clear → lime — and the cube pulses once (1.06 → 1) over one beat. Fills are in
+     memory for the session and stay with the cube through every setMode relayout.
    · Touch: a tap fills; a drag begins after a 250 ms still press (a swipe scrolls the page as usual);
      touchmove is blocked (non-passive) only for the drag's duration.
-   · Nothing runs during the gate, while paused (hidden tab) or under the CSS fallback; the canvas never
+   · Nothing runs while paused (hidden tab) or under the CSS fallback; the canvas never
      takes focus. Under prefers-reduced-motion a released cube returns without inertia.
    API: interact: { enabled, setEnabled(bool), fills() → ['#c8ff00' | null, …] }. With
    window.WHITE_DEBUG_CUBES === true set before mounting, window.__WHITE_CUBES exposes state for a harness. */
@@ -138,14 +140,10 @@ function phoneSpecks(i, r, ctx, band = [.1, .7]) {
   return { x: -hw + r() * 2 * hw, y, z, s };
 }
 const FORMATIONS = {
-  gate: {
-    fixed: () => [{ x: 0, y: .35, z: 4.5, s: 1.15 }],
-    gen: () => ({ x: 0, y: .35, z: 4.5, s: 0 }),
-  },
   home: {
     column: 1.4,
     fixed(ctx) {
-      // the gate cube settles right of the name; on phones it is the one full cube in the upper third
+      // the hero cube sits right of the name; on phones it is the one full cube in the upper third
       if (ctx.narrow) return [{ x: .85, y: 3.0, z: .8, s: .85, wrap: false }];
       const s = 1.1, sw = ctx.sw(1.0);
       return [{ x: Math.min(3.9, (ctx.halfW(0) * .96 - s * sw * .95) / sw), y: .6, z: 1.0, s }];
@@ -398,8 +396,8 @@ export function mountCubes(canvas, opts = {}) {
   };
   let mode = null, laidAspect = 0, laidZ = 0;
   let running = false;
-  // the hands: drag, throw, click-to-fill (see the header). Off while the gate is up or the loop is paused.
-  const ix = attachInteract({ camera, cubes, ctx, live: () => running && mode !== 'gate', enabled: opts.interact !== false, beatMs: opts.beatMs || 480 });
+  // the hands: drag, throw, click-to-fill (see the header). Off while the loop is paused.
+  const ix = attachInteract({ camera, cubes, ctx, live: () => running, enabled: opts.interact !== false, beatMs: opts.beatMs || 480 });
   function setMode(name) {
     // seeded by the mode name; an essay adds its path, so two essays own two arrangements and an essay → essay route still moves the field
     const seed = name === 'essay' ? name + location.pathname.replace(/\/(index\.html)?$/, '') : name;
@@ -486,7 +484,7 @@ export function mountCubes(canvas, opts = {}) {
       const hh = (camZ - z) * FOV_T;
       const R = hh * 1.25 + s;
       let y = c.cur.y + dy + lift;
-      if (mode !== 'gate' && c.to.wrap !== false) y = ((y + R) % (2 * R) + 2 * R) % (2 * R) - R;
+      if (c.to.wrap !== false) y = ((y + R) % (2 * R) + 2 * R) % (2 * R) - R;
       else if (Math.abs(y) > R && !c.ix.hold) visible = false;
       c.g.visible = visible;
       if (!visible) { c.shadow.visible = false; continue; }
@@ -503,7 +501,7 @@ export function mountCubes(canvas, opts = {}) {
       let fade = clamp(1 - (dist - 11) / 20, .06, 1);             // distance fade to white
       // nothing that reads as an object is ever sliced by the HUD: as scroll parallax (or a throw) carries a cube
       // toward the header band it dissolves, gone before its top edge reaches the line 24px under the HUD
-      if (mode !== 'gate') {
+      {
         const pxz = ctx.px(P.z);
         if (s * 1.73 * pxz >= DISSOLVE_PX) {                          // every visible cube, specks included; only dust is exempt
           const yHud = (camZ - P.z) * FOV_T - (topPx() + 24) / pxz + camera.position.y;
