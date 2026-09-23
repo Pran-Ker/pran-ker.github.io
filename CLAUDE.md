@@ -4,6 +4,7 @@ Personal site for Prannay Hebbar (prannayh.com). Static, hand-written HTML, CSS 
 **Status**: active. Design system "WHITE" (v2, September 2026).
 
 ## Run
+- cache: GitHub Pages and Cloudflare serve `/assets` with a 31-day max-age, so the shell assets (`white.css`, `white.js`, `cubes.js`, `cubes-interact.js`) are referenced with a `?v=` query in every page and in their own imports; bump it in all places (pages, `white.js`'s dynamic import, `cubes.js`'s import) whenever one of them changes, or visitors keep the old files.
 - dev: `python3 -m http.server 8765` from the repo root (every asset path is root-absolute, so the site must be served from `/`).
 - test: none automated. Verify in a browser at 1440, 1024 and 390 with the console open; the site's rule is zero page-originated console errors and no horizontal scroll at any of the three widths. Reduced-motion and no-WebGL both fall back to the CSS cubes (`.ice-fallback`). Headless Chrome floors its window at 500px, so phone widths need a same-origin iframe wrapper (a throwaway HTML file in the repo root, deleted afterwards) that reports `documentElement.scrollWidth` for the overflow check.
 

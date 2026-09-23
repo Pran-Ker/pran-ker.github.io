@@ -42,7 +42,7 @@
    window.WHITE_DEBUG_CUBES === true set before mounting, window.__WHITE_CUBES exposes state for a harness. */
 
 import * as THREE from '/assets/vendor/three.module.min.js';
-import { attachInteract } from '/assets/js/cubes-interact.js';
+import { attachInteract } from '/assets/js/cubes-interact.js?v=20260923b';
 
 const VERT = /* glsl */`
   varying vec3 vN; varying vec3 vW; varying vec3 vL;

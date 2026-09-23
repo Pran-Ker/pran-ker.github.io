@@ -217,7 +217,7 @@ function mountField(mode) {
   const canvas = $('#cubes');
   if (!canvas || reduced || q.get('nogl') === '1') { html.classList.add('no-webgl'); return Promise.resolve(null); }
   if (cubesPromise) return cubesPromise;
-  cubesPromise = import('/assets/js/cubes.js').then(({ mountCubes }) => {
+  cubesPromise = import('/assets/js/cubes.js?v=20260923b').then(({ mountCubes }) => {
     const c = mountCubes(canvas, {
       count: innerWidth < 640 ? 14 : 28, mode,
       dpr: innerWidth < 640 ? 1.5 : 2,                         // a 3× phone does not need a 2× transparent canvas
